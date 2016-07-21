@@ -22,6 +22,8 @@ if(EXTRA_INCDIR)
     include_directories(${EXTRA_INCDIR})
 endif()
 
+add_definitions(-DSDL_MAIN_HANDLED)
+
 # ---
 project(maximilian)
 aux_source_directory(./src/maximilian/src SRC_MAXIMILIAN)
