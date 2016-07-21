@@ -28,7 +28,7 @@ void NEWorld::run()
     infostream << "Initializing...";
 
     Texture::init();
-    PiBlocks = &m_blocks;
+    PluginAPI::Blocks = &m_blocks;
     m_plugins.loadPlugins();
     m_worldLoader.setLoadRange(4);
     //m_worldLoader.sortChunkLoadUnloadList(Vec3i(0, 0, 0));
