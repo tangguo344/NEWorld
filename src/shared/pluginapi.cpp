@@ -18,60 +18,53 @@
 
 #include "pluginapi.h"
 
-BlockManager* PiBlocks;
-
-int NWAPICALL nwRegisterBlock(const NWblocktype* block)
+namespace PluginAPI
 {
-    PiBlocks->registerBlock(convertBlockType(*block));
-    return 0;
+    // See [1] in pluginapi.h
+    BlockManager* Blocks;
+    PluginManager* Plugins;
+    World* CurrWorld;
+
+    BlockData convertBlockData(const NWblockdata& src)
+    {
+        return BlockData(src.id, src.brightness, src.state);
+    }
+
+    NWblockdata convertBlockData(const BlockData& src)
+    {
+        NWblockdata res;
+        res.id = src.getID();
+        res.brightness = src.getBrightness();
+        res.state = src.getState();
+        return res;
+    }
+
+    BlockType convertBlockType(const NWblocktype& src)
+    {
+        return BlockType(src.blockname, src.solid, src.translucent, src.opaque, src.explodePower, src.hardness);
+    }
 }
 
-BlockType convertBlockType(const NWblocktype& src)
-{
-    return BlockType(src.blockname, src.solid, src.translucent, src.opaque, src.explodePower, src.hardness);
-}
-
-/*
+// Export APIs for plugins
 
 extern "C"
 {
+    // Please don't put `using namespace` in header files 2333
+    using namespace PluginAPI;
 
-    // ### Export variables/procedures to plugins ###
-
-    NWAPIEXPORT PluginAPI::PiBlockData getBlock(const PluginAPI::PiVec3i* pos)
+    NWAPIEXPORT NWblockdata NWAPICALL getBlock(const NWvec3i* pos)
     {
-        return PluginAPI::convertBlockData((world->getBlock)(*pos));
-    }
-    NWAPIEXPORT void setBlock(const PluginAPI::PiVec3i* pos, PluginAPI::PiBlockData block)
-    {
-        (world->setBlock)(*pos, PluginAPI::convertBlockData(block));
-    }
-    NWAPIEXPORT void registerBlock(const PluginAPI::PiBlockType* block)
-    {
-        (blocks->registerBlock)(PluginAPI::convertBlockType(*block));
+        return convertBlockData(CurrWorld->getBlock(*pos));
     }
 
-}
+    NWAPIEXPORT void NWAPICALL setBlock(const NWvec3i* pos, NWblockdata block)
+    {
+        CurrWorld->setBlock(*pos, convertBlockData(block));
+    }
 
-// Conversions between plugin structures and NEWorld structures
-// This is used when structure definitions in NEWorld and in Plugin API are different
-BlockData PluginAPI::convertBlockData(const PiBlockData& src)
-{
-    return BlockData(src.id, src.brightness, src.state);
+    NWAPIEXPORT int NWAPICALL nwRegisterBlock(const NWblocktype* block)
+    {
+        Blocks->registerBlock(convertBlockType(*block));
+        return 0;
+    }
 }
-
-PluginAPI::PiBlockData PluginAPI::convertBlockData(const BlockData& src)
-{
-    PiBlockData res;
-    res.id = src.getID();
-    res.brightness = src.getBrightness();
-    res.state = src.getState();
-    return res;
-}
-
-BlockType PluginAPI::convertBlockType(const PiBlockType& src)
-{
-    return BlockType(src.blockname, src.solid, src.translucent, src.opaque, src.explodePower, src.hardness);
-}
-
-*/

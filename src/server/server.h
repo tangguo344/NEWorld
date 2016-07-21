@@ -41,7 +41,7 @@ public:
           m_worlds(m_plugins), m_world(m_worlds.addWorld("TestWorld"))
     {
         // Initialization
-        PiBlocks = &m_blocks;
+        PluginAPI::Blocks = &m_blocks;
         infostream << "Initializing plugins...";
         m_plugins.loadPlugins();
         // Start server

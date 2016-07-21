@@ -27,44 +27,32 @@
 #include "blockmanager.h"
 #include "world.h"
 
-extern BlockManager* PiBlocks;
-
-struct NWblocktype
+namespace PluginAPI
 {
-    char* blockname = nullptr;
-    bool solid;
-    bool translucent;
-    bool opaque;
-    int32_t explodePower;
-    int32_t hardness;
-};
+    /*
+        [1]
+        这里用了几个指针，请不要介意，因为理论上Plugin API是可以直接控制NEWorld和Server的，
+        包括他们中的很多东西比如World、BlockManager啦，然后我就给了个指针让他操作。。。如果
+        不这么弄其实也可以，只是结构会比较奇怪，NEWorld或Server类要组合到Plugin API里。。。
+        这个结构找个时间确定一下，我先暂时这么写吧。。。
+        -- qiaozhanrong
+    */
 
-BlockType convertBlockType(const NWblocktype& src);
-
-extern "C"
-{
-    NWAPIEXPORT int NWAPICALL nwRegisterBlock(const NWblocktype*);
-}
-
-/*
-
-// Plugin interface
-class PluginAPI
-{
-public:
+    extern BlockManager* Blocks;
+    extern PluginManager* Plugins;
+    extern World* CurrWorld;
 
     // Structures for plugin interface
     // Aliases cannot be used when structure definitions in NEWorld and in Plugin API are different
-    using PiVec3i = Vec3i;
 
-    struct PiBlockData
+    using NWvec3i = Vec3i;
+    struct NWblockdata
     {
         uint32_t id : 12;
         uint32_t brightness : 4;
         uint32_t state : 16;
     };
-
-    struct PiBlockType
+    struct NWblocktype
     {
         char* blockname = nullptr;
         bool solid;
@@ -74,26 +62,15 @@ public:
         int32_t hardness;
     };
 
+    using ChunkGenerator = void NWAPICALL(NWvec3i*, NWblockdata*);
+
     // Conversions between plugin structures and NEWorld structures
     // This is used when structure definitions in NEWorld and in Plugin API are different
-    static BlockData convertBlockData(const PiBlockData& src);
-    static PiBlockData convertBlockData(const BlockData& src);
-    static BlockType convertBlockType(const PiBlockType& src);
 
-    void setCurrWorld(World& world)
-    {
-        m_world = &world;
-    }
+    BlockData convertBlockData(const NWblockdata& src);
+    NWblockdata convertBlockData(const BlockData& src);
+    BlockType convertBlockType(const NWblocktype& src);
 
-    World& getCurrWorld()
-    {
-        return *m_world;
-    }
-
-private:
-    World* m_world; // Current world
-};
-
-*/
+}
 
 #endif
