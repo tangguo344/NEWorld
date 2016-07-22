@@ -81,14 +81,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(ProjectDir)..\..\..\..\dependencies\lib\</OutDir>
+    <OutDir>$(ProjectDir)..\..\..\dependencies\lib\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\Maximillian\</IntDir>
     <IncludePath>$(SolutionDir)..\..\src\maximilian\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(ProjectDir)..\..\..\..\dependencies\lib\</OutDir>
+    <OutDir>$(ProjectDir)..\..\..\dependencies\lib\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\Maximillian\</IntDir>
-    <IncludePath>$(ProjectDir)..\..\..\..\src\maximilian\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\..\..\src\maximilian\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>

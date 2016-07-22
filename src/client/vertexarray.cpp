@@ -17,9 +17,12 @@
 */
 
 #include "vertexarray.h"
+#include <iostream>
 
 VertexBuffer::VertexBuffer(const VertexArray& va) :vertexes(va.getVertexCount()), format(va.getFormat())
 {
+    glewInit();
+    std::cout << "funcaddr:" << __glewBindBufferARB << std::endl;
     glGenBuffersARB(1, &id);
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, id);
     glBufferDataARB(GL_ARRAY_BUFFER_ARB, va.getVertexCount() * sizeof(float) *

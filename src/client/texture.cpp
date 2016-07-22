@@ -45,7 +45,7 @@ void Texture::uninit()
 Texture Texture::loadTextureRGB(std::string filename)
 {
     RawTexture image(filename);
-    auto surf = image.getSurface();
+    auto surf = SDL_ConvertSurfaceFormat(image.getSurface(), SDL_PIXELFORMAT_BGR888, 0);
     TextureID ret;
     glGenTextures(1, &ret);
     glBindTexture(GL_TEXTURE_2D, ret);
@@ -58,7 +58,7 @@ Texture Texture::loadTextureRGB(std::string filename)
 Texture Texture::loadTextureRGBA(std::string filename)
 {
     RawTexture image(filename);
-    auto surf = image.getSurface();
+    auto surf = SDL_ConvertSurfaceFormat(image.getSurface(), SDL_PIXELFORMAT_ABGR8888, 0);
     TextureID ret;
     glGenTextures(1, &ret);
     glBindTexture(GL_TEXTURE_2D, ret);

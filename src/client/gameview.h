@@ -26,17 +26,15 @@
 class GameView :public UI::Controls::GLContext
 {
 public:
-    GameView();
-
+    GameView(UI::Core::Window*);
     void doRender();
     void onResize(size_t w, size_t h) override;
-
+    void init();
 private:
     int windowWidth = 852, windowHeight = 480;
     Vec3f trans{ 0.0f, 0.0f, -100.0f };
-    Vec3f transSpeed;
+    Vec3f transSpeed{0.0f, 0.0f, 0.0f};
     VertexBuffer cube;
-
 };
 
 class MainWindow : public UI::Core::Window
@@ -47,7 +45,8 @@ public:
         // Disable v-sync
         UI::GameUtils::setSwapInterval(0);
         // Load the main menu
-        pushPage(std::make_shared<GameView>(), false, false);
+        auto page = std::make_shared<GameView>(this);
+        pushPage(page, false, false);
     }
 };
 
