@@ -21,29 +21,21 @@
 #include <logger.h>
 #include "texture.h"
 
-auto StretchStretch(double LeftPct, double RightPct, double TopPct, double BottomPct, double LeftDis, double RightDis, double TopDis, double BottomDis)
+GameView::GameView() :UI::Controls::GLContext()
 {
-    return UI::Core::Margin(UI::Base::Rect(LeftPct, RightPct, TopPct, BottomPct), UI::Base::Rect(LeftDis, RightDis, TopDis, BottomDis), UI::Core::HorizontalAlignment::Stretch, UI::Core::VerticalAlignment::Stretch);
-}
-
-GameView::GameView() :UI::Core::Page()
-{
-    content = std::make_shared<UI::Core::Grid>();
-    auto view = std::make_shared<UI::Controls::GLContext>("",
-                StretchStretch(0.0, 1.0, 0.0, 1.0, 0, 0, 0, 0));
-    view->onRenderF = [this]()
+    onRenderF = [this]()
     {
         doRender();
     };
-    view->onKeyDownF = [this](int scancode)
+    keyFunc.connect([this](int scancode, UI::Core::ButtonAction)
     {
-        onKeyDown(scancode);
-    };
-    view->onViewResizeF = [this](int w, int h)
-    {
-        onResize(w, h);
-    };
-    content->addChild(view);
+        if (scancode == SDL_SCANCODE_LEFT) transSpeed.y -= 0.1f;
+        else if (scancode == SDL_SCANCODE_RIGHT) transSpeed.y += 0.1f;
+        else if (scancode == SDL_SCANCODE_UP) transSpeed.x -= 0.1f;
+        else if (scancode == SDL_SCANCODE_DOWN) transSpeed.x += 0.1f;
+        else if (scancode == SDL_SCANCODE_W) transSpeed.z += 0.1f;
+        else if (scancode == SDL_SCANCODE_S) transSpeed.z -= 0.1f;
+    });
 
     Renderer::init();
     Renderer::setViewport(0, 0, windowWidth, windowHeight);
@@ -145,18 +137,9 @@ void GameView::doRender()
     transSpeed *= 0.9f;
 }
 
-void GameView::onKeyDown(int scancode)
+void GameView::onResize(size_t w, size_t h)
 {
-    if (scancode == SDL_SCANCODE_LEFT) transSpeed.y -= 0.1f;
-    else if (scancode == SDL_SCANCODE_RIGHT) transSpeed.y += 0.1f;
-    else if (scancode == SDL_SCANCODE_UP) transSpeed.x -= 0.1f;
-    else if (scancode == SDL_SCANCODE_DOWN) transSpeed.x += 0.1f;
-    else if (scancode == SDL_SCANCODE_W) transSpeed.z += 0.1f;
-    else if (scancode == SDL_SCANCODE_S) transSpeed.z -= 0.1f;
-}
-
-void GameView::onResize(int w, int h)
-{
+    Grid::onResize(w, h);
     windowWidth = w;
     windowHeight = h;
     Renderer::setViewport(0, 0, windowWidth, windowHeight);

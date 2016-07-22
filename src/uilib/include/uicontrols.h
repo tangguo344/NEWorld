@@ -62,7 +62,6 @@ namespace UI
 
             Str caption;
             void render();
-            void mouseButtonFunc(MouseButton Button, ButtonAction Action);
 
             Button() = default;
             Button(std::string _xName, Margin _Margin, Str _caption, NotifyFunc _onClick);
@@ -83,16 +82,11 @@ namespace UI
             Str mask;
 
             void render();
-            void focusFunc(FocusOp Stat);
-            void charInputFunc(std::wstring Char);
-            void keyFunc(int Key, ButtonAction Action);
-            void mouseButtonFunc(MouseButton Button, ButtonAction Action);
 
             TextBox() = default;
             TextBox(std::string _xName, Margin _Margin, std::wstring _text, Str _mask, NotifyFunc _onEditDone);
         private:
-            int left;
-            int cursorpxpos = 0;
+            bool imeinp;
             size_t cursorpos = 0;
             size_t cposrdcount = 0;
             std::wstring appendingstr;
@@ -121,53 +115,27 @@ namespace UI
             Str caption;
 
             void render();
-            void mouseButtonFunc(MouseButton Button, ButtonAction Action);
 
             CheckBox() = default;
             CheckBox(std::string _xName, Margin _Margin, Str _caption, bool _threeStat, CheckStat _stat, NotifyFunc _onStatChange);
         };
 
-        class UILIB_API GLContext : public Control
+        class UILIB_API GLContext : public Grid
         {
         public:
-            GLContext() = default;
-            GLContext(std::string _xName, Margin _Margin);
-
+            GLContext();
             NotifyFunc onRenderF;
-            onFocus onFocusF;
-            onViewResize onViewResizeF;
-            onMouseMove onMouseMoveF;
-            onMouseButton onMouseButtonF;
-            onMouseEnter onMouseEnterF;
-            onScroll onScrollF;
-            onKeyPress onKeyPressF;
-            onKeyDown onKeyDownF;
-            onFileDrop onFileDropF;
-            onTouch onTouchF;
-            onTouchMove onTouchMoveF;
-
+            
             void render();
-            void onResize(size_t x, size_t y);
-            void onParentResize(Grid* parent);
-            void focusFunc(FocusOp Stat);
-            void mouseMove(int x, int y, int dx, int dy);
-            void mouseButtonFunc(MouseButton Button, ButtonAction Action);
-            void crusorEnterFunc(CursorOp Stat);
-            void scrollFunc(double dx, double dy);
-            void keyFunc(int Key, ButtonAction Action);
-            void keyDownFunc(int scancode);
-            void dropFunc(const char* Paths);
-            void touchFunc(int x, int y, ButtonAction action);
-            void touchmove(int x, int y, int dx, int dy);
         };
 
         class UILIB_API ImageBox : public Control
         {
         public:
             ImageBox() = default;
-            ImageBox(std::string _xName, Margin _Margin, const Image& image);
-            Image img;
-            void render();
+            std::shared_ptr<Brush> imgbrush;
+            ImageBox(std::string _xName, Margin _Margin, std::shared_ptr<Brush> _imgbrush);
+            void render() override;
         };
     }
 }

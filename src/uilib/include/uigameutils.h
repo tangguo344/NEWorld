@@ -18,38 +18,20 @@ NONINFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR
 DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.*/
 
-#include <string>
-#include <vector>
-#include <boost/spirit/home/support/detail/hold_any.hpp>
+#ifndef UIGAMEUTILS_H_
+#define UIGAMEUTILS_H_
+
+#include "uiplatform.h"
 
 namespace UI
 {
-    namespace Data
+    namespace GameUtils
     {
-        std::vector<std::string> split(const std::string& src, std::string separate_character);
-        void trim(std::string& s);
-        std::string strtolower(const std::string& s);
-
-        //Some Basic Convertions with String
-        bool isDecimal(const std::string& str);
-        bool isInteger(const std::string& str);
-        bool isBoolean(const std::string& str);
-        bool isString(const std::string& str);
-        double getDecimal(const std::string& str);
-        int getInteger(const std::string& str);
-        bool getBoolean(const std::string& str);
-        const std::string getString(const std::string& str);
-
-        namespace Convert
-        {
-            boost::spirit::hold_any StrToAny(const std::string& str);
-            std::string ToString(boost::spirit::hold_any var);
-        }
-
-        enum class SimpleMapFileExceptions : size_t
-        {
-            IOFailureOnRead, IOFailureOnWrite
-        };
-
+        UILIB_API void enableCursor();
+        UILIB_API void disableCursor();
+        UILIB_API void setSwapInterval(int val);
     }
 }
+
+#endif
+

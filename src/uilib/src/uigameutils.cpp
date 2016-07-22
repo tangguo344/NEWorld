@@ -18,22 +18,27 @@ NONINFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR
 DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.*/
 
-#ifndef UIPLATFORM_H_
-#define UIPLATFORM_H_
+#include <uigameutils.h>
+#include <SDL2/SDL.h>
 
-#pragma warning(disable: 4251)
-#pragma warning(disable: 4244)
-#pragma warning(disable: 4996)
-#define UILIB_STATIC
-#ifdef UILIB_EXPORTS
-#define UILIB_API __declspec(dllexport)
-#else
-#define UILIB_API __declspec(dllimport)
-#endif
+namespace UI
+{
+    namespace GameUtils
+    {
+        void enableCursor()
+        {
+            if (SDL_GetRelativeMouseMode() == SDL_TRUE) SDL_SetRelativeMouseMode(SDL_FALSE);
+        }
+        
+        void disableCursor()
+        {
+            if (SDL_GetRelativeMouseMode() == SDL_FALSE) SDL_SetRelativeMouseMode(SDL_TRUE);
+        }
+        
+        void setSwapInterval(int val)
+        {
+            SDL_GL_SetSwapInterval(val);
+        }
+    }
+}
 
-#ifdef UILIB_STATIC
-#undef UILIB_API
-#define UILIB_API
-#endif
-
-#endif

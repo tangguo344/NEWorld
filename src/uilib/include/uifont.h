@@ -37,6 +37,7 @@ namespace UI
             unsigned int tex;
             int xpos, ypos;
             int width, height, advance;
+            double xzero, yzero, twid;
             UnicodeChar();
         };
 
@@ -54,7 +55,7 @@ namespace UI
             FT_GlyphSlot slot;
             std::map<wchar_t, UnicodeChar> chars;
             std::vector<unsigned int> texBuffers;
-            int curBufferID, curBufferPos, maxBufferX, maxBufferY;
+            int curBufferID, curX, curY, maxBufferX, wid;
         };
 
         class UILIB_API FontRenderer
@@ -95,6 +96,7 @@ namespace UI
         };
 
         UILIB_API extern Service service;
+        void flush();
     }
 }
 

@@ -22,7 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #define UIAUDIO_H_
 
 #include "uimath.h"
-#include <float.h>
 #include <map>
 #include <memory>
 #include <vector>
@@ -30,6 +29,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <functional>
 #include <maximilian.h>
 #include <RtAudio.h>
+#include <tuple>
 
 namespace UI
 {
@@ -63,16 +63,14 @@ namespace UI
             bool isPlay, loop;
             std::shared_ptr<maxiSample> sample;
             double sampleValue;
-        public:
-            size_t refcount;
             double freq;//for User
             double realFreq;//for Effects
             double gain;
-
             Math::Vec3 move;
+            size_t refcount;
             vector<shared_ptr<UI::Audio::Effect>> effects;
             vector<shared_ptr<UI::Audio::EffectEx>> effectsExs;
-
+        public:
             Source();
             Source(const Source& source_);
             Source(std::shared_ptr<maxiSample> sample_);
@@ -83,9 +81,18 @@ namespace UI
             double setPos(double Pos_ = 0.0);
             double operator()(size_t channel);
             void Sample();
-            //operator Math::Vec3();
-            //operator Math::Vec3&();
-            Math::Vec3& getPos() { return pos; }
+            Math::Vec3& getPos();
+            Math::Vec3& getMove();
+            double getFreq();
+            void setFreq(double newFreq = 1.0);
+            void setGain(double newGain = 1.0);
+            double getGain();
+            void setRealFreq(double newFreq);
+            void addRef();
+            void releaseRef();
+            bool canRelease();
+            vector<shared_ptr<UI::Audio::Effect>>& getEffects();
+            vector<shared_ptr<UI::Audio::EffectEx>>& getEffectExs();
         };
 
         class UILIB_API SourceHandler
@@ -102,15 +109,17 @@ namespace UI
         {
         private:
             Math::Vec3 pos;
-        public:
-            Math::Vec3 move;
             std::vector<Math::Vec3> pos2;
+            Math::Vec3 move;
+        public:
 
             Listener() = default;
             ~Listener() = default;
             //operator Math::Vec3&();
-            Math::Vec3& getPos() { return pos; }
+            Math::Vec3& getPos();
             Math::Vec3 operator[](size_t channel);
+            Math::Vec3& getChannelPos(size_t channel);
+            Math::Vec3& getMove();
         };
 
         class UILIB_API OutEffect
@@ -131,9 +140,9 @@ namespace UI
 
         UILIB_API extern std::map < std::string, std::function<bool(const std::string&, maxiSample&) >> sourceLoaders;
 
-        UILIB_API extern std::vector <OutEffect*> outEffects;
+        UILIB_API extern std::vector <std::shared_ptr<UI::Audio::OutEffect>> outEffects;
 
-        UILIB_API extern std::vector <OutEffectEx*> outEffectExs;
+        UILIB_API extern std::vector <std::shared_ptr<UI::Audio::OutEffectEx>> outEffectExs;
 
         UILIB_API extern Listener thisListener;
 
@@ -155,41 +164,47 @@ namespace UI
         {
             /*
             Balance
-            åç§°:å£°é“å¹³è¡¡
-            ä½œç”¨:è°ƒèŠ‚å£°é“éŸ³é‡,æˆ–è€…ä½œä¸ºStereoçš„æ›¿ä»£å“.
+            Ãû³Æ:ÉùµÀÆ½ºâ
+            ×÷ÓÃ:µ÷½ÚÉùµÀÒôÁ¿,»òÕß×÷ÎªStereoµÄÌæ´úÆ·.
             */
             class UILIB_API Balance : public OutEffect
             {
-            public:
+            private:
                 std::vector<double> factors;
+            public:
                 Balance() = default;
                 ~Balance() = default;
                 virtual double operator()(double input, size_t channel);
+                void setFactor(size_t channel, double value);
+                double getFactor(size_t channel);
             };
 
             /*
             Damping
-            åç§°:è¡°å‡
-            ä½œç”¨:è®¡ç®—å£°éŸ³è¡°å‡,ä¸å¯ä½œä¸ºå›å£°çš„æ›¿ä»£å“.
+            Ãû³Æ:Ë¥¼õ
+            ×÷ÓÃ:¼ÆËãÉùÒôË¥¼õ,²»¿É×÷Îª»ØÉùµÄÌæ´úÆ·.
             */
             class UILIB_API Damping : public OutEffect
             {
             private:
                 std::vector<double> values;
-            public:
                 std::vector<double> factors;
+            public:
                 Damping() = default;
                 ~Damping() = default;
                 virtual double operator()(double input, size_t channel);
+                void setFactor(size_t channel, double value);
+                double getFactor(size_t channel);
             };
 
             /*
             EQ
-            åç§°:EQå‡è¡¡å™¨
-            ä½œç”¨:ç”¨äºæ’­æ”¾BGMæˆ–ç©ºé—´æ„Ÿæ¸²æŸ“.å‚æ•°ä»¥16bitä¸ºå‡†.
+            Ãû³Æ:EQ¾ùºâÆ÷
+            ×÷ÓÃ:ÓÃÓÚ²¥·ÅBGM»ò¿Õ¼ä¸ĞäÖÈ¾.²ÎÊıÒÔ16bitÎª×¼.
             */
             class UILIB_API EQ : public OutEffect, public Effect
             {
+
             private:
                 struct Point
                 {
@@ -199,66 +214,53 @@ namespace UI
                 };
                 std::vector<Point> samplePoints;
                 std::vector<double> freqs;
-            public:
+                double EQFactor[10];
                 double add = 0.0;
+            public:
                 struct Factors
                 {
                     double facs[10];
-                }
-                EQFactor;
+                };
                 //Preset from http://blog.sina.com.cn/s/blog_4cb5837d01018rax.html
-                //                     31   62    125  250  500  1K   2K   4K   8K   16K
+                //                                 31   62  125 250 500 1K  2K  4K   8K  16K
                 const Factors bass = { { 6.0, 4.0, -5.0, 2.0, 3.0, 4.0, 4.0, 5.0, 5.0, 6.0 } };
                 const Factors rock = { { 6.0, 4.0, 0.0, -2.0, -6.0, 1.0, 4.0, 6.0, 7.0, 9.0 } };
                 const Factors vocal = { { 4.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 4.0, 3.0, 3.0 } };
-                //Interval
-                const double interval[11][2] =
-                {
-                    { DBL_MIN, 31.0 },
-                    { 31.0, 62.0 },
-                    { 125.0, 250.0 },
-                    { 250.0, 500.0 },
-                    { 500.0, 1000.0 },
-                    { 1000.0, 2000.0 },
-                    { 2000.0, 4000.0 },
-                    { 4000.0, 8000.0 },
-                    { 8000.0, 16000.0 },
-                    { 16000.0, DBL_MAX }
-                };
+
 
                 EQ() = default;
                 ~EQ() = default;
                 virtual double operator()(double input, size_t channel);
                 virtual double operator()(double input, Source* thisSource);
+                void setFactors(Factors newFactors, double newAdd = 0.0);
+                std::pair<double, Factors> getFactors();
             };
 
             /*
             Amplifier
-            åç§°:å·®å¼‚æ”¾å¤§å™¨
-            ä½œç”¨:æ”¾å¤§å„å£°é“çš„å·®å¼‚,æé«˜ç«‹ä½“æ„Ÿ,ä½œä¸ºStereoçš„è¡¥å¿.
+            Ãû³Æ:²îÒì·Å´óÆ÷
+            ×÷ÓÃ:·Å´ó¸÷ÉùµÀµÄ²îÒì,Ìá¸ßÁ¢Ìå¸Ğ,×÷ÎªStereoµÄ²¹³¥.
             */
             class UILIB_API Amplifier : public OutEffectEx
             {
-            public:
+            private:
                 double factor = 1.0;
+            public:
                 Amplifier() = default;
                 ~Amplifier() = default;
                 virtual void operator()(double* input, size_t channel);
+                double getFactor();
+                void setFactor(double newFactor = 1.0);
             };
 
             /*
             Stereo
-            åç§°:3Dæ•ˆæœå™¨
-            ä½œç”¨:é€šè¿‡å£°éŸ³è¡°å‡æ¨¡å‹è®¡ç®—éŸ³é‡,æ˜¯ç«‹ä½“æ„Ÿçš„åŸºç¡€,ä¸Listenerçš„pos2æ­é…ä½¿ç”¨.
+            Ãû³Æ:3DĞ§¹ûÆ÷
+            ×÷ÓÃ:Í¨¹ıÉùÒôË¥¼õÄ£ĞÍ¼ÆËãÒôÁ¿,ÊÇÁ¢Ìå¸ĞµÄ»ù´¡,ÓëListenerµÄpos2´îÅäÊ¹ÓÃ.
             */
             class UILIB_API Stereo : public EffectEx
             {
             public:
-                Stereo() = default;
-                ~Stereo() = default;
-                double rolloffFactor = 1.0;
-                double referenceDistance = 1.0;
-                double maxDistance = 100.0;
                 enum Mode
                 {
                     INVERSE_DISTANCE,
@@ -267,14 +269,23 @@ namespace UI
                     LINEAR_DISTANCE_CLAMPED,
                     EXPONENT_DISTANCE,
                     EXPONENT_DISTANCE_CLAMPED
-                } dampMode = EXPONENT_DISTANCE_CLAMPED;
+                };
+                Stereo() = default;
+                ~Stereo() = default;
                 virtual double operator()(double input, size_t channel, Source* thisSource);
+                void getSettings(Mode& newMode, double& newRolloffFactor, double& newReferenceDistance, double& newMaxDistance);
+                void set(Mode newMode = EXPONENT_DISTANCE_CLAMPED, double newRolloffFactor = 1.0, double newReferenceDistance = 1.0, double newMaxDistance = 100.0);
+            private:
+                double rolloffFactor = 1.0;
+                double referenceDistance = 1.0;
+                double maxDistance = 100.0;
+                Mode dampMode = EXPONENT_DISTANCE_CLAMPED;
             };
 
             /*
             Doppler
-            åç§°:å¤šæ™®å‹’æ•ˆåº”
-            ä½œç”¨:é€šè¿‡å¤šæ™®å‹’æ•ˆåº”æ¨¡å‹è®¡ç®—é¢‘ç‡,æé«˜ç«‹ä½“æ„Ÿ.(è¦è·å¾—æ›´å¥½çš„ä½“éªŒè¯·æ›´æ¢speedOfSoundSamplerå‡½æ•°,å¹¶æé«˜é‡‡æ ·æ¬¡æ•°)
+            Ãû³Æ:¶àÆÕÀÕĞ§Ó¦
+            ×÷ÓÃ:Í¨¹ı¶àÆÕÀÕĞ§Ó¦Ä£ĞÍ¼ÆËãÆµÂÊ,Ìá¸ßÁ¢Ìå¸Ğ.(Òª»ñµÃ¸üºÃµÄÌåÑéÇë¸ü»»speedOfSoundSamplerº¯Êı,²¢Ìá¸ß²ÉÑù´ÎÊı)
             */
             class UILIB_API Doppler : public Effect
             {
@@ -286,8 +297,8 @@ namespace UI
 
             /*
             Noise
-            åç§°:å™ªéŸ³ç”Ÿæˆå™¨
-            ä½œç”¨:ç”¨äºç”Ÿæˆå™ªéŸ³å¹¶å åŠ åœ¨åŸæ³¢å½¢ä¸Š,ç”¨äºæ’­æ”¾è‡ªç„¶å£°éŸ³.
+            Ãû³Æ:ÔëÒôÉú³ÉÆ÷
+            ×÷ÓÃ:ÓÃÓÚÉú³ÉÔëÒô²¢µş¼ÓÔÚÔ­²¨ĞÎÉÏ,ÓÃÓÚ²¥·Å×ÔÈ»ÉùÒô.
             */
             class UILIB_API Noise : public Effect
             {
@@ -298,24 +309,132 @@ namespace UI
                 {
                     Add,
                     Factor
-                } noiseMode = Factor;
-                double factor = 0.1;
+                };
                 virtual double operator()(double input, Source* thisSource);
+                void set(NoiseMode newMode = Factor, double newFactor = 0.1);
+            private:
+                NoiseMode noiseMode = Factor;
+                double factor = 0.1;
             };
 
             /*
             Compressor
-            Maxmilianè‡ªå¸¦æ•ˆæœå™¨.
+            Maxmilian×Ô´øĞ§¹ûÆ÷.
             */
             class UILIB_API Compressor : public Effect
             {
+            private:
+                maxiDyn compressor;
             public:
                 Compressor() = default;
                 ~Compressor() = default;
-                maxiDyn compressor;
                 virtual double operator()(double input, Source* thisSource);
+                maxiDyn& getCompressor();
+
             };
         }
+
+        template<typename Base, typename ...ArgTs>
+        class EffectFactory
+        {
+        private:
+            std::tuple<ArgTs...> templates;
+            std::shared_ptr<Base> base;
+            bool _enable[std::tuple_size<std::tuple<ArgTs...>>::value];
+
+            template<typename T>
+            static auto R2V(T& ref)->T
+            {
+                return ref;
+            }
+
+            template <size_t i, typename _Base, typename ..._ArgTs>
+            struct EF
+            {
+                static void make(std::vector<std::shared_ptr<_Base>>& effects,
+                                 std::tuple<_ArgTs...>& _templates,
+                                 std::shared_ptr<_Base>& _base,
+                                 bool __enable[])
+                {
+                    effects[i] = __enable[i] ? static_cast<decltype(R2V(_base))>(std::make_shared<decltype(R2V(std::get<i>(_templates)))>(std::get<i>(_templates))) : _base;
+                    EF < i - 1, _Base, _ArgTs... > ().make(effects, _templates, _base, __enable);
+                }
+            };
+
+            template <typename _Base, typename ..._ArgTs>
+            struct EF<0, _Base, _ArgTs...>
+            {
+                static void make(std::vector<std::shared_ptr<_Base>>& effects,
+                                 std::tuple<_ArgTs...>& _templates,
+                                 std::shared_ptr<_Base>& _base,
+                                 bool __enable[])
+                {
+                    effects[0] = __enable[0] ? static_cast<decltype(R2V(_base))>(std::make_shared <decltype(R2V(std::get<0>(_templates)))>(std::get<0>(_templates))) : _base;
+                }
+            };
+
+            template <class EffectT, class EffectT2, class...EffectTs>
+            void safeCheck()
+            {
+                Base* bptr = (EffectT*)(nullptr);
+                safeCheck<EffectT2, EffectTs...>();
+            }
+            template <class EffectT>
+            void safeCheck()
+            {
+                Base* bptr = (EffectT*)(nullptr);
+            }
+
+            template<size_t i>
+            void makeEffects(std::vector<std::shared_ptr<Base>>& effects)
+            {
+                EF<i, Base, ArgTs...>::make(effects, templates, base, _enable);
+            }
+
+        public:
+
+            EffectFactory()
+            {
+                safeCheck<ArgTs...>();
+
+                for(size_t i = 0; i < std::tuple_size<std::tuple<ArgTs...>>::value; i++)
+                {
+                    _enable[i] = true;
+                }
+
+                base = std::make_shared<Base>();
+            }
+
+            ~EffectFactory() = default;
+
+            template<size_t i>
+            auto& get()
+            {
+                return std::get<i>(templates);
+            }
+
+            auto genEffects()
+            {
+                std::vector<std::shared_ptr<Base>> effects(std::tuple_size<std::tuple<ArgTs...>>::value);
+                makeEffects < std::tuple_size<std::tuple<ArgTs...>>::value - 1 > (effects);
+                return effects;
+            }
+
+            template<size_t i>
+            void enable()
+            {
+                static_assert(i < std::tuple_size<std::tuple<ArgTs...>>::value, "Out of range.");
+                _enable[i] = true;
+            }
+
+            template<size_t i>
+            void disable()
+            {
+                static_assert(i < std::tuple_size<std::tuple<ArgTs...>>::value, "Out of range.");
+                _enable[i] = false;
+            }
+        };
+
     }
 }
 
