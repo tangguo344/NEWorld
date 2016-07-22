@@ -24,6 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <uishapes.h>
 #include <chrono>
 #include <thread>
+#include <iostream>
 #include <GL/glew.h>
 #include <boost/bind.hpp>
 #include <boost/locale/encoding_utf.hpp>
@@ -288,6 +289,7 @@ namespace UI
                 glDisableClientState(GL_COLOR_ARRAY);
                 glDisableClientState(GL_TEXTURE_COORD_ARRAY);
             });
+            SDL_StopTextInput();
             while (!sigExit)
             {
                 processMessages();
@@ -535,7 +537,7 @@ namespace UI
 
         void Application::init()
         {
-            glewInit();
+            std::cout<<glewInit()<<std::endl;
             application = this;
             //Set Up Place Holders
             Theme::Theme _t = {nullptr};

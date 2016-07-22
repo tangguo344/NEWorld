@@ -22,40 +22,27 @@
 #include <common.h>
 #include "network.h"
 #include <thread>
-#include <logger.h>
-#include "gameview.h"
-#include <pluginmanager.h>
+#include <uilib.h>
 #include <world.h>
-#include <worldmanager.h>
-#include "../server/worldloader.h"
+#include <logger.h>
+#include <pluginapi.h>
 #include <blockmanager.h>
+#include <worldmanager.h>
+#include <pluginmanager.h>
+#include "../server/worldloader.h"
 
 class Application :public UI::Core::Application
 {
 public:
-    Application(int width, int height, const string& title): m_width(width), m_height(height), m_title(title)
-    {
-    }
-
-    void afterLaunch() override
-    {
-        addWindow(std::static_pointer_cast<UI::Core::Window>(std::make_shared<MainWindow>(m_width, m_height, m_title)));
-    }
+    Application(int width, int height, const string& title);
+    void beforeLaunch() override;
+    void afterLaunch() override;
+    void onTerminate() override;
 
 private:
     int m_width, m_height;
     string m_title;
-};
 
-class NEWorld
-{
-public:
-    NEWorld() :m_world("", m_plugins), m_cpa(8), m_worldLoader(m_world, m_cpa)
-    {
-        run();
-    }
-
-private:
     // Blocks
     BlockManager m_blocks;
     // Loaded plugins
@@ -70,9 +57,6 @@ private:
     ChunkPointerArray m_cpa;
     // Loading test
     WorldLoader m_worldLoader;
-
-    // Main procedure for client
-    void run();
 };
 
 #endif // !NEWORLD_H_

@@ -21,13 +21,6 @@
 
 #include <common.h>
 #include <GL/glew.h>
-#include <GL/gl.h>
-#include <GL/glext.h>
 using VertexBufferID = GLuint;
-
-#ifdef NEWORLD_COMPILER_MSVC
-    #include <wingdi.h>
-    #include <windef.h>
-#endif
 
 #endif // !OPENGL_H_

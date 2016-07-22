@@ -27,7 +27,9 @@ class orld
 public:
     orld()
     {
-        NEWorld neworld;
+        Application application(852, 480, "NEWorld");
+        // Start to run
+        application.run();
     }
 };
 

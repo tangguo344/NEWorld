@@ -30,11 +30,6 @@ public:
     // Setup rendering
     static void init();
 
-    static void setViewport(int x, int y, int width, int height)
-    {
-        glViewport(x, y, width, height);
-    }
-
     // Reset translations/rotations (Restore transform matrixes)
     static void restoreScale()
     {

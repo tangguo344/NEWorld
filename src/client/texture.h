@@ -33,6 +33,8 @@ public:
         Texture2D = GL_TEXTURE_2D, Texture3D = GL_TEXTURE_3D
     };
 
+    Texture() = default;
+
     static void init();
 
     static void uninit();
@@ -60,7 +62,7 @@ private:
     public:
         ~RawTexture();
         explicit RawTexture(const std::string& filename);
-        const SDL_Surface* getSurface() const { return surface; }
+        SDL_Surface* getSurface() const { return surface; }
 
     private:
         SDL_Surface* surface;

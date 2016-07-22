@@ -19,33 +19,36 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\uilib\src\Audio.cpp" />
-    <ClCompile Include="..\..\..\src\uilib\src\base.cpp" />
-    <ClCompile Include="..\..\..\src\uilib\src\basiccontrols.cpp" />
-    <ClCompile Include="..\..\..\src\uilib\src\brushes.cpp" />
-    <ClCompile Include="..\..\..\src\uilib\src\core.cpp" />
-    <ClCompile Include="..\..\..\src\uilib\src\font.cpp" />
-    <ClCompile Include="..\..\..\src\uilib\src\globalization.cpp" />
-    <ClCompile Include="..\..\..\src\uilib\src\logger.cpp" />
-    <ClCompile Include="..\..\..\src\uilib\src\math.cpp" />
-    <ClCompile Include="..\..\..\src\uilib\src\sysdata.cpp" />
-    <ClCompile Include="..\..\..\src\uilib\src\uishapes.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\..\..\src\uilib\include\uiaudio.h" />
     <ClInclude Include="..\..\..\src\uilib\include\uibase.h" />
     <ClInclude Include="..\..\..\src\uilib\include\uibrushes.h" />
     <ClInclude Include="..\..\..\src\uilib\include\uicontrols.h" />
     <ClInclude Include="..\..\..\src\uilib\include\uicore.h" />
     <ClInclude Include="..\..\..\src\uilib\include\uidata.h" />
-    <ClInclude Include="..\..\..\src\uilib\include\uidataint.h" />
     <ClInclude Include="..\..\..\src\uilib\include\uifont.h" />
-    <ClInclude Include="..\..\..\src\uilib\include\UILIb.h" />
+    <ClInclude Include="..\..\..\src\uilib\include\uigameutils.h" />
+    <ClInclude Include="..\..\..\src\uilib\include\uilib.h" />
     <ClInclude Include="..\..\..\src\uilib\include\uilocale.h" />
     <ClInclude Include="..\..\..\src\uilib\include\uilogger.h" />
     <ClInclude Include="..\..\..\src\uilib\include\uimath.h" />
     <ClInclude Include="..\..\..\src\uilib\include\uiplatform.h" />
     <ClInclude Include="..\..\..\src\uilib\include\uishapes.h" />
+    <ClInclude Include="..\..\..\src\uilib\src\uidataint.h" />
+    <ClInclude Include="..\..\..\src\uilib\src\uishader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\uilib\src\uiaudio.cpp" />
+    <ClCompile Include="..\..\..\src\uilib\src\uibase.cpp" />
+    <ClCompile Include="..\..\..\src\uilib\src\uibrushes.cpp" />
+    <ClCompile Include="..\..\..\src\uilib\src\uicontrols.cpp" />
+    <ClCompile Include="..\..\..\src\uilib\src\uicore.cpp" />
+    <ClCompile Include="..\..\..\src\uilib\src\uidata.cpp" />
+    <ClCompile Include="..\..\..\src\uilib\src\uifont.cpp" />
+    <ClCompile Include="..\..\..\src\uilib\src\uigameutils.cpp" />
+    <ClCompile Include="..\..\..\src\uilib\src\uilocale.cpp" />
+    <ClCompile Include="..\..\..\src\uilib\src\uilogger.cpp" />
+    <ClCompile Include="..\..\..\src\uilib\src\uimath.cpp" />
+    <ClCompile Include="..\..\..\src\uilib\src\uishapes.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0F79EBC2-B8E4-4291-8610-C43F7983AA4B}</ProjectGuid>
@@ -56,13 +59,13 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>

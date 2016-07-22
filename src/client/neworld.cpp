@@ -21,7 +21,12 @@
 #include "texture.h"
 #include <pluginapi.h>
 
-void NEWorld::run()
+Application::Application(int width, int height, const string& title) :
+    m_width(width), m_height(height), m_title(title), m_world("", m_plugins), m_cpa(8), m_worldLoader(m_world, m_cpa)
+{
+}
+
+void Application::beforeLaunch()
 {
     // Initialize here
     loggerInit("NEWorld");
@@ -34,18 +39,21 @@ void NEWorld::run()
     //m_worldLoader.sortChunkLoadUnloadList(Vec3i(0, 0, 0));
 
     UI::Logger::init("./Logs");
-    UI::Font::service.addSearchPaths({"./Fonts"});
+    UI::Font::service.addSearchPaths({ "./Fonts" });
     UI::Globalization::Service::getInstance().setBasePath("./Langs/");
-    UI::Globalization::Service::getInstance().attachLangFiles({"chinese", "english"});
+    UI::Globalization::Service::getInstance().attachLangFiles({ "chinese", "english" });
     UI::Globalization::Service::getInstance().setLang("chinese");
-
     //std::thread serverThread(networkThread);
-    Application application(852, 480, "NEWorld");
+}
 
-    // Start to run
+void Application::afterLaunch()
+{
+    addWindow(std::static_pointer_cast<UI::Core::Window>(std::make_shared<MainWindow>(m_width, m_height, m_title)));
     infostream << "Game start!";
-    application.run();
+}
 
+void Application::onTerminate()
+{
     // Destroy here
     infostream << "Terminating...";
     UI::Logger::service.dump();

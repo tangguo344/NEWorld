@@ -21,7 +21,7 @@
 #include <logger.h>
 #include "texture.h"
 
-GameView::GameView() :UI::Controls::GLContext()
+GameView::GameView(UI::Core::Window* win) :UI::Controls::GLContext()
 {
     onRenderF = [this]()
     {
@@ -29,21 +29,24 @@ GameView::GameView() :UI::Controls::GLContext()
     };
     keyFunc.connect([this](int scancode, UI::Core::ButtonAction)
     {
-        if (scancode == SDL_SCANCODE_LEFT) transSpeed.y -= 0.1f;
-        else if (scancode == SDL_SCANCODE_RIGHT) transSpeed.y += 0.1f;
-        else if (scancode == SDL_SCANCODE_UP) transSpeed.x -= 0.1f;
-        else if (scancode == SDL_SCANCODE_DOWN) transSpeed.x += 0.1f;
-        else if (scancode == SDL_SCANCODE_W) transSpeed.z += 0.1f;
-        else if (scancode == SDL_SCANCODE_S) transSpeed.z -= 0.1f;
+        if (scancode == SDLK_LEFT) transSpeed.y -= 0.1f;
+        else if (scancode == SDLK_RIGHT) transSpeed.y += 0.1f;
+        else if (scancode == SDLK_UP) transSpeed.x -= 0.1f;
+        else if (scancode == SDLK_DOWN) transSpeed.x += 0.1f;
+        else if (scancode == SDLK_w) transSpeed.z += 0.1f;
+        else if (scancode == SDLK_s) transSpeed.z -= 0.1f;
     });
+    win->renderdelegate.push_back([this]() { init(); });
+}
 
-    Renderer::init();
-    Renderer::setViewport(0, 0, windowWidth, windowHeight);
+Texture texture;
 
+void GameView::init()
+{
+    glewInit();
     // Example for Texture
-    Texture text = Texture::loadTextureRGBA("./../Res/test.png");
-    text.bind(Texture::Texture2D);
-
+    texture = Texture::loadTextureRGBA("./../Res/test.bmp");
+    UI::GameUtils::setSwapInterval(0);
     VertexArray cubeArray(3000000, VertexFormat(2, 3, 0, 3));
 
     for (int x = -25; x < 25; x++)
@@ -124,6 +127,15 @@ GameView::GameView() :UI::Controls::GLContext()
 
 void GameView::doRender()
 {
+    glShadeModel(GL_SMOOTH);
+    glDisable(GL_DITHER);
+    glClearColor(0.6f, 0.9f, 1.0f, 1.0f);
+    glClearDepth(1.0f);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_DEPTH_TEST);
+    texture.bind(Texture::Texture2D);
     Renderer::clear();
     Renderer::restoreProj();
     Renderer::applyPerspective(60.0f, float(windowWidth) / windowHeight, 1.0f, 1000.0f);
@@ -142,5 +154,4 @@ void GameView::onResize(size_t w, size_t h)
     Grid::onResize(w, h);
     windowWidth = w;
     windowHeight = h;
-    Renderer::setViewport(0, 0, windowWidth, windowHeight);
 }

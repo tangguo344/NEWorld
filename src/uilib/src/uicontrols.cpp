@@ -225,7 +225,12 @@ namespace UI
                 onRenderF();
                 glPopMatrix();
                 glClear(GL_DEPTH_BUFFER_BIT);
+                glViewport(0, 0, (GLint)cMargin.absrect.xmax, (GLint)cMargin.absrect.ymax);
+                glMatrixMode(GL_PROJECTION);
+                glLoadIdentity();
+                glOrtho(0, cMargin.absrect.xmax, cMargin.absrect.ymax, 0, -100, 10000);
             }
+
             Grid::render();
         }
 

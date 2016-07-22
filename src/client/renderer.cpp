@@ -22,9 +22,6 @@ int Renderer::matrixMode = 0;
 
 void Renderer::init()
 {
-    glewInit();
-    restoreProj();
-    restoreScale();
     glShadeModel(GL_SMOOTH);
     glDisable(GL_DITHER);
     glClearColor(0.6f, 0.9f, 1.0f, 1.0f);
@@ -33,17 +30,4 @@ void Renderer::init()
     glCullFace(GL_BACK);
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_DEPTH_TEST);
-//    glEnable(GL_ALPHA_TEST);
-//    glEnable(GL_BLEND);
-//    glEnable(GL_LINE_SMOOTH);
-    glDepthFunc(GL_LEQUAL);
-//    glAlphaFunc(GL_GREATER, 0.0f);
-//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST);
-    glHint(GL_FOG_HINT, GL_FASTEST);
-    glHint(GL_LINE_SMOOTH_HINT, GL_FASTEST);
-
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    glEnableClientState(GL_COLOR_ARRAY);
-    glEnableClientState(GL_VERTEX_ARRAY);
 }
