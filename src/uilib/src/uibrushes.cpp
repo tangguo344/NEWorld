@@ -19,7 +19,9 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.*/
 
 #include <uibrushes.h>
-
+#include <uilogger.h>
+#include <iostream>
+#include <GL/glew.h>
 namespace UI
 {
     namespace Graphics
@@ -46,7 +48,7 @@ namespace UI
             {
             }
 
-            void GradientBrush::parpare()
+            void GradientBrush::perpare()
             {
             }
 
@@ -58,6 +60,29 @@ namespace UI
                 Base::Color col = (colright - colleft) * ((x + 1.0) / 2) + colleft;
                 glColor4f(col.x, col.y, col.z, col.t);
                 glVertex2d(pt.x, pt.y);
+            }
+            
+            ImageBrush::ImageBrush(std::shared_ptr<Base::Image> _tex):
+                tex(_tex)
+            {
+            }
+
+            void ImageBrush::perpare()
+            {
+                glColor4f(1.0, 1.0, 1.0, 1.0);
+                glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, tex->tex->gettex());
+            }
+
+            void ImageBrush::sample(double x, double y, const Math::Vec2 & pt)
+            {
+                glTexCoord2d((tex->rect.xmax - tex->rect.xmin) * ((x + 1.0) / 2.0) + tex->rect.xmin, (tex->rect.ymax - tex->rect.ymin) * ((y + 1.0) / 2.0) + tex->rect.ymin);
+                glVertex2d(pt.x, pt.y);
+            }
+            
+            void ImageBrush::done()
+            {
+                glDisable(GL_TEXTURE_2D);
             }
         }
     }

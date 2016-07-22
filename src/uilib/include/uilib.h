@@ -31,5 +31,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "uilogger.h"
 #include "uibrushes.h"
 #include "uicontrols.h"
+#include "uigameutils.h"
 
 #endif

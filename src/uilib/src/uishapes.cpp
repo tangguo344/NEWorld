@@ -35,6 +35,7 @@ namespace UI
                 _brush->sample(0.0, 0.0, _p1);
                 _brush->sample(0.0, 0.0, _p2);
                 glEnd();
+                _brush->done();
             }
 
             Line::Line(const Vec2 & p1, Vec2 p2, const std::shared_ptr<Brush> brush) :
@@ -49,6 +50,7 @@ namespace UI
                 brush->sample(0.0, 0.0, p1);
                 brush->sample(0.0, 0.0, p2);
                 glEnd();
+                brush->done();
             }
 
             void Triangle::render()
@@ -58,9 +60,10 @@ namespace UI
                     _fbrush->perpare();
                     glBegin(GL_TRIANGLES);
                     _fbrush->sample(0.0, -1.0, _p1);
-                    _fbrush->sample(-1.0, 1.0 ,_p2);
+                    _fbrush->sample(-1.0, 1.0, _p2);
                     _fbrush->sample(1.0, 1.0, _p3);
                     glEnd();
+                    _fbrush->done();
                 }
                 if (_bbrush)
                 {
@@ -70,6 +73,7 @@ namespace UI
                     _bbrush->sample(-1.0, 1.0, _p2);
                     _bbrush->sample(1.0, 1.0, _p3);
                     glEnd();
+                    _bbrush->done();
                 }
             }
 
@@ -88,6 +92,7 @@ namespace UI
                     fbrush->sample(-1.0, 1.0, p2);
                     fbrush->sample(1.0, 1.0, p3);
                     glEnd();
+                    fbrush->done();
                 }
                 if (bbrush)
                 {
@@ -97,6 +102,7 @@ namespace UI
                     bbrush->sample(-1.0, 1.0, p2);
                     bbrush->sample(1.0, 1.0, p3);
                     glEnd();
+                    bbrush->done();
                 }
             }
 
@@ -107,20 +113,22 @@ namespace UI
                     _fbrush->perpare();
                     glBegin(GL_QUADS);
                     _fbrush->sample(-1.0, -1.0, Vec2(_rect.xmin, _rect.ymin));
-                    _fbrush->sample(-1.0, 1.0, Vec2(_rect.xmax, _rect.ymin));
-                    _fbrush->sample(1.0, 1.0, Vec2(_rect.xmax, _rect.ymax));
-                    _fbrush->sample(-1.0, 1.0, Vec2(_rect.xmin, _rect.ymax));
+                    _fbrush->sample( 1.0, -1.0, Vec2(_rect.xmax, _rect.ymin));
+                    _fbrush->sample( 1.0,  1.0, Vec2(_rect.xmax, _rect.ymax));
+                    _fbrush->sample(-1.0,  1.0, Vec2(_rect.xmin, _rect.ymax));
                     glEnd();
+                    _fbrush->done();
                 }
                 if (_bbrush)
                 {
                     _bbrush->perpare();
                     glBegin(GL_LINE_LOOP);
                     _bbrush->sample(-1.0, -1.0, Vec2(_rect.xmin, _rect.ymin));
-                    _bbrush->sample(-1.0, 1.0, Vec2(_rect.xmax, _rect.ymin));
-                    _bbrush->sample(1.0, 1.0, Vec2(_rect.xmax, _rect.ymax));
-                    _bbrush->sample(-1.0, 1.0, Vec2(_rect.xmin, _rect.ymax));
+                    _bbrush->sample( 1.0, -1.0, Vec2(_rect.xmax, _rect.ymin));
+                    _bbrush->sample( 1.0,  1.0, Vec2(_rect.xmax, _rect.ymax));
+                    _bbrush->sample(-1.0,  1.0, Vec2(_rect.xmin, _rect.ymax));
                     glEnd();
+                    _bbrush->done();
                 }
             }
 
@@ -136,20 +144,22 @@ namespace UI
                     fbrush->perpare();
                     glBegin(GL_QUADS);
                     fbrush->sample(-1.0, -1.0, Vec2(rect.xmin, rect.ymin));
-                    fbrush->sample(-1.0, 1.0, Vec2(rect.xmax, rect.ymin));
-                    fbrush->sample(1.0, 1.0, Vec2(rect.xmax, rect.ymax));
-                    fbrush->sample(-1.0, 1.0, Vec2(rect.xmin, rect.ymax));
+                    fbrush->sample( 1.0, -1.0, Vec2(rect.xmax, rect.ymin));
+                    fbrush->sample( 1.0,  1.0, Vec2(rect.xmax, rect.ymax));
+                    fbrush->sample(-1.0,  1.0, Vec2(rect.xmin, rect.ymax));
                     glEnd();
+                    fbrush->done();
                 }
                 if (bbrush)
                 {
                     bbrush->perpare();
                     glBegin(GL_LINE_LOOP);
                     bbrush->sample(-1.0, -1.0, Vec2(rect.xmin, rect.ymin));
-                    bbrush->sample(-1.0, 1.0, Vec2(rect.xmax, rect.ymin));
-                    bbrush->sample(1.0, 1.0, Vec2(rect.xmax, rect.ymax));
-                    bbrush->sample(-1.0, 1.0, Vec2(rect.xmin, rect.ymax));
+                    bbrush->sample( 1.0, -1.0, Vec2(rect.xmax, rect.ymin));
+                    bbrush->sample( 1.0,  1.0, Vec2(rect.xmax, rect.ymax));
+                    bbrush->sample(-1.0,  1.0, Vec2(rect.xmin, rect.ymax));
                     glEnd();
+                    bbrush->done();
                 }
             }
 

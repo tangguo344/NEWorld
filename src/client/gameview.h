@@ -23,14 +23,13 @@
 #include "vec3.h"
 #include "renderer.h"
 
-class GameView :public UI::Core::Page
+class GameView :public UI::Controls::GLContext
 {
 public:
     GameView();
 
     void doRender();
-    void onKeyDown(int scancode);
-    void onResize(int w, int h);
+    void onResize(size_t w, size_t h) override;
 
 private:
     int windowWidth = 852, windowHeight = 480;
@@ -46,9 +45,9 @@ public:
     MainWindow(int width, int height, const string& title) : UI::Core::Window(title, width, height, 200, 200)
     {
         // Disable v-sync
-        setSwapInterval(0);
+        UI::GameUtils::setSwapInterval(0);
         // Load the main menu
-        pushPage(std::make_shared<GameView>());
+        pushPage(std::make_shared<GameView>(), false, false);
     }
 };
 

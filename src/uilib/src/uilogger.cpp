@@ -19,6 +19,7 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.*/
 
 #include <uilogger.h>
+#include <iostream>
 #include <boost/date_time.hpp>
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
@@ -39,9 +40,9 @@ namespace UI
 
         void Logger::log(Level level, const std::string& message, const char * fileName, int lineNumber)
         {
-            constexpr char* LevelString[] =
+            const std::string LevelString[] =
             {
-                "trace","debug","info", "warning","error","fatal"
+                "trace", "debug", "info", "warning", "error", "fatal"
             };
             m_content << '[' << boost::posix_time::to_iso_string(boost::posix_time::second_clock::local_time()) << ']' << "[" << LevelString[(size_t)level] << "] ";
             if (level >= lineLevel)

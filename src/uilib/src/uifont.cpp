@@ -31,6 +31,14 @@ namespace UI
         FT_Library library;
         double stretch = 1.0;
 
+        struct FNTT
+        {
+            float geo[72]; //vertex, tex, color
+        };
+
+        std::vector<FNTT> vtrary = {};
+        unsigned int tex;
+        size_t layer = 0;
         UnicodeChar::UnicodeChar() : tex(0), xpos(0), ypos(0), width(0), height(0), advance(0)
         {
         }
@@ -38,10 +46,29 @@ namespace UI
 #define MByteToWChar(x) boost::locale::conv::utf_to_utf<wchar_t>(x)
 #define WCharToMByte(x) boost::locale::conv::utf_to_utf<char>(x)
 
+        unsigned int newTex(size_t x)
+        {
+            unsigned int ret;
+            glGenTextures(1, &ret);
+            glBindTexture(GL_TEXTURE_2D, ret);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, x, x, 0, GL_ALPHA, GL_UNSIGNED_BYTE, 0);
+            return ret;
+        }
+
         UnicodeChar FontOfSize::GetChar(const wchar_t uc)
         {
             auto it = chars.find(uc);
-
+            if (texBuffers.empty())
+            {
+                int tsize = 0;
+                glGetIntegerv(GL_MAX_TEXTURE_SIZE, &tsize);
+                if (tsize > 1024) tsize = 1024;
+                maxBufferX = tsize / (int)pow(2, ceil(log2(height)));
+                texBuffers.push_back(tex = curBufferID = newTex(maxBufferX*(int)pow(2, ceil(log2(height)))));
+                curX = 0, curY = 0;
+            }
             if(it != chars.end())
             {
                 return it->second;
@@ -54,27 +81,24 @@ namespace UI
                 FT_Load_Glyph(*fontface, index, FT_LOAD_DEFAULT);
                 FT_Render_Glyph(slot, FT_RENDER_MODE_NORMAL);
                 FT_Bitmap* bitmap = &(slot->bitmap);
-                int wid = (int)pow(2, ceil(log2(height)));
-                ubyte *Texsrc = bitmap->buffer, *Tex = new ubyte[wid * wid * 4];
-                memset(Tex, 0, wid * wid * 4 * sizeof(ubyte));
+                ubyte *Texsrc = bitmap->buffer, *Tex = new ubyte[wid * wid];
 
                 for(size_t i = 0; i < bitmap->rows; i++)
-                {
                     for(size_t j = 0; j < bitmap->width; j++)
-                    {
-                        size_t tmp = (i * wid + j) << 2;
-                        Tex[tmp] = Tex[tmp ^ 1] = Tex[tmp ^ 2] = 255U;
-                        Tex[tmp ^ 3] = *Texsrc;
-                        Texsrc++;
-                    }
-                }
+                        Tex[i * wid + j] = *(Texsrc++);
 
-                glGenTextures(1, &c.tex);
-                glBindTexture(GL_TEXTURE_2D, c.tex);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, wid, wid, 0, GL_RGBA, GL_UNSIGNED_BYTE, Tex);
-                //glTexSubImage2D(GL_TEXTURE_2D, 0, xoffset, yoffset, wid, wid, GL_RGBA, GL_UNSIGNED_BYTE, Tex);
+                glBindTexture(GL_TEXTURE_2D, c.tex = curBufferID);
+                glTexSubImage2D(GL_TEXTURE_2D, 0, curX * wid, curY * wid, wid, wid, GL_ALPHA, GL_UNSIGNED_BYTE, Tex);
+                c.twid = 1.0 / maxBufferX;
+                c.xzero = (1.0 / maxBufferX)*curX;
+                c.yzero = (1.0 / maxBufferX)*curY;
+                curX++;
+                if (curX >= maxBufferX)
+                {
+                    curX = 0;
+                    curY++;
+                }
+ 
                 delete[] Tex;
                 c.width = bitmap->width;
                 c.height = bitmap->rows;
@@ -93,6 +117,7 @@ namespace UI
             FT_Activate_Size(size);
             FT_Set_Pixel_Sizes(*fontface, static_cast<FT_UInt>(height), static_cast<FT_UInt>(height));
             slot = (*fontface)->glyph;
+            wid = (int)pow(2, ceil(log2(height)));
         }
 
         FontRenderer::FontRenderer(FontOfSize & _fos, Color col)
@@ -104,22 +129,20 @@ namespace UI
         {
             UnicodeChar c;
             int span = 0, tpos = fos.height - 1;
-            double wid = pow(2, ceil(log2(fos.height)));
-            glEnable(GL_TEXTURE_2D);
 
             for(wchar_t wc : str)
             {
                 c = fos.GetChar(wc);
-                int p1x = x + span + c.xpos, p1y = y + tpos - c.ypos,
+                float wid = pow(2, ceil(log2(fos.height)));
+                float p1x = x + span + c.xpos, p1y = y + tpos - c.ypos,
                     p2x = x + span + c.xpos + c.width, p2y = y + tpos + c.height - c.ypos;
-                double t1x = 0.0, t1y = 0.0,
-                       t2x = c.width / wid, t2y = c.height / wid;
+                float t1x = 0.0, t1y = 0.0,
+                       t2x = c.width / wid * c.twid, t2y = c.height / wid * c.twid;
                 span += c.advance;
 
                 //Apply Clipping
-                if(p1x > r.xmax) continue;   //already exceeds max size
-
-                if(p2x < r.xmin) continue;  //before the rect, clipped
+                if (p1x > r.xmax) return;
+                if (p2x < r.xmin) continue;   //already exceeds max or before the rect, clipped
 
                 if(p1x < r.xmin)
                 {
@@ -132,31 +155,27 @@ namespace UI
                     t2x *= (1 - (p2x - r.xmax) / c.width);
                     p2x = r.xmax;
                 }
+               
+                t1x += c.xzero; t2x += c.xzero;
+                t1y += c.yzero; t2y += c.yzero;
 
-                glBindTexture(GL_TEXTURE_2D, c.tex);
-                glBegin(GL_QUADS);
-                glColor4f(0.5, 0.5, 0.5, color.t);
-                glTexCoord2d(t1x, t1y);
-                glVertex2i(p1x + 1, p1y + 1);
-                glTexCoord2d(t2x, t1y);
-                glVertex2i(p2x + 1, p1y + 1);
-                glTexCoord2d(t2x, t2y);
-                glVertex2i(p2x + 1, p2y + 1);
-                glTexCoord2d(t1x, t2y);
-                glVertex2i(p1x + 1, p2y + 1);
-                glColor4f(color.x, color.y, color.z, color.t);
-                glTexCoord2d(t1x, t1y);
-                glVertex2i(p1x, p1y);
-                glTexCoord2d(t2x, t1y);
-                glVertex2i(p2x, p1y);
-                glTexCoord2d(t2x, t2y);
-                glVertex2i(p2x, p2y);
-                glTexCoord2d(t1x, t2y);
-                glVertex2i(p1x, p2y);
-                glEnd();
+                //tex:2 color:4, vtx:2
+                vtrary.push_back(
+                {
+                t1x, t1y, 0.5, 0.5, 0.5, (float)color.t, p1x + 1.0f, p1y + 1.0f, (float)layer,
+                t2x, t1y, 0.5, 0.5, 0.5, (float)color.t, p2x + 1.0f, p1y + 1.0f, (float)layer,
+                t2x, t2y, 0.5, 0.5, 0.5, (float)color.t, p2x + 1.0f, p2y + 1.0f, (float)layer,
+                t1x, t2y, 0.5, 0.5, 0.5, (float)color.t, p1x + 1.0f, p2y + 1.0f, (float)layer,
+
+                t1x, t1y, (float)color.x, (float)color.y, (float)color.z, (float)color.t, p1x, p1y, (float)layer + 0.5f,
+                t2x, t1y, (float)color.x, (float)color.y, (float)color.z, (float)color.t, p2x, p1y, (float)layer + 0.5f,
+                t2x, t2y, (float)color.x, (float)color.y, (float)color.z, (float)color.t, p2x, p2y, (float)layer + 0.5f,
+                t1x, t2y, (float)color.x, (float)color.y, (float)color.z, (float)color.t, p1x, p2y, (float)layer + 0.5f
+                }
+                );
+                //layer += 1;
+                tex = c.tex;
             }
-
-            glDisable(GL_TEXTURE_2D);
         }
 
         void FontRenderer::renderStr(int x, int y, const Rect& r, const std::string & str) const
@@ -207,7 +226,7 @@ namespace UI
                 searchpaths.push_back(c);
         }
 
-        inline std::shared_ptr<FontRenderer> Service::getRenderer(const std::string & font, int height, Color col)
+        std::shared_ptr<FontRenderer> Service::getRenderer(const std::string & font, int height, Color col)
         {
             if(fonts.find(font) == fonts.end())
             {
@@ -235,5 +254,19 @@ namespace UI
         }
 
         Service service;
+
+        void flush()
+        {
+            layer = 1;
+            glEnable(GL_TEXTURE_2D);
+            glColor4f(0.0, 0.0, 0.0, 1.0);
+            glBindTexture(GL_TEXTURE_2D, tex);
+            glVertexPointer(3, GL_FLOAT, 9 * sizeof(float), reinterpret_cast<float*>(vtrary.data()) + 6 );
+            glColorPointer(4, GL_FLOAT, 9 * sizeof(float), reinterpret_cast<float*>(vtrary.data()) + 2);
+            glTexCoordPointer(2, GL_FLOAT, 9 * sizeof(float), reinterpret_cast<float*>(vtrary.data()));
+            glDrawArrays(GL_QUADS, 0, vtrary.size() * 8);
+            glDisable(GL_TEXTURE_2D);
+            vtrary.clear();
+        }
     }
 }

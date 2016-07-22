@@ -48,19 +48,20 @@ namespace UI
             Texture() = default;
             Texture(std::string path);
             ~Texture();
+            SDL_Surface *image;
+            unsigned int gettex();
         private:
+            bool flushed;
             unsigned int texture;
         };
 
         class UILIB_API Image
         {
         public:
-            Image();
-            Image(const Image& img);
+            Image() = default;
             Image(std::string path);
             Image Sub(Rect range);
-            ~Image();
-        private:
+            Rect rect;
             std::shared_ptr<Texture> tex;
         };
 
@@ -68,6 +69,7 @@ namespace UI
         {
         public:
             virtual void perpare();
+            virtual void done();
             virtual void sample(double x, double y, const Math::Vec2& pt) = 0;
             virtual ~Brush() = default;
         };

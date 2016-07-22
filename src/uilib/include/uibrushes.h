@@ -22,7 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #define UIBRUSHED_H_
 
 #include "uibase.h"
-#include <GL/glew.h>
 
 namespace UI
 {
@@ -45,10 +44,21 @@ namespace UI
             {
             public:
                 GradientBrush(const Base::Color& _col0, const Base::Color& _col1, const Base::Color& _col2, const Base::Color& _col3);
-                void parpare();
+                void perpare();
                 void sample(double x, double y, const Math::Vec2& pt);
             private:
                 Base::Color col0, col1, col2, col3;
+            };
+            
+            class UILIB_API ImageBrush : public Base::Brush
+            {
+            public:
+                ImageBrush(std::shared_ptr<Base::Image> _tex);
+                void perpare();
+                void done();
+                void sample(double x, double y, const Math::Vec2& pt);
+            private:
+                std::shared_ptr<Base::Image> tex;
             };
         }
     }

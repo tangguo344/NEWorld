@@ -26,7 +26,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <stack>
 #include <memory>
 #include <vector>
+#include <thread>
 #include <functional>
+#include <boost/signals2.hpp>
 
 namespace UI
 {
@@ -83,67 +85,67 @@ namespace UI
             void updateAbs(Base::Rect Parent_Rect);
             Base::Rect absrect;
             //Quick Constructors
-            inline static auto TopLeft(double TopPct, double LeftPct, double TopDis, double LeftDis, double Width, double Height)
+            static auto TopLeft(double TopPct, double LeftPct, double TopDis, double LeftDis, double Width, double Height)
             {
                 return Margin(Base::Rect(LeftPct, 0.0, TopPct, 0.0), Base::Rect(LeftDis, Width, TopDis, Height), HorizontalAlignment::Left, VerticalAlignment::Top);
             }
-            inline static auto TopRight(double TopPct, double RightPct, double TopDis, double RightDis, double Width, double Height)
+            static auto TopRight(double TopPct, double RightPct, double TopDis, double RightDis, double Width, double Height)
             {
                 return Margin(Base::Rect(0.0, RightPct, TopPct, 0.0), Base::Rect(Width, RightDis, TopDis, Height), HorizontalAlignment::Right, VerticalAlignment::Top);
             }
-            inline static auto TopCenter(double TopPct, double TopDis, double Height, double CenterLeft, double CenterRight)
+            static auto TopCenter(double TopPct, double TopDis, double Height, double CenterLeft, double CenterRight)
             {
                 return Margin(Base::Rect(0.0, 0.0, TopPct, 0.0), Base::Rect(CenterLeft, CenterRight, TopDis, Height), HorizontalAlignment::Center, VerticalAlignment::Top);
             }
-            inline static auto TopStretch(double TopPct, double LeftPct, double RightPct, double TopDis, double Height, double LeftDis, double RightDis)
+            static auto TopStretch(double TopPct, double LeftPct, double RightPct, double TopDis, double Height, double LeftDis, double RightDis)
             {
                 return Margin(Base::Rect(LeftPct, RightPct, TopPct, 0.0), Base::Rect(LeftDis, RightDis, TopDis, Height), HorizontalAlignment::Stretch, VerticalAlignment::Top);
             }
-            inline static auto BottomLeft(double LeftPct, double BottomPct, double LeftDis, double Width, double BottomDis, double Height)
+            static auto BottomLeft(double LeftPct, double BottomPct, double LeftDis, double Width, double BottomDis, double Height)
             {
                 return Margin(Base::Rect(LeftPct, 0.0, 0.0, BottomPct), Base::Rect(LeftDis, Width, Height, BottomDis), HorizontalAlignment::Left, VerticalAlignment::Bottom);
             }
-            inline static auto BottomRight(double RightPct, double BottomPct, double RightDis, double Width, double BottomDis, double Height)
+            static auto BottomRight(double RightPct, double BottomPct, double RightDis, double Width, double BottomDis, double Height)
             {
                 return Margin(Base::Rect(0.0, RightPct, 0.0, BottomPct), Base::Rect(Width, RightDis, Height, BottomDis), HorizontalAlignment::Right, VerticalAlignment::Bottom);
             }
-            inline static auto BottomCenter(double BottomPct, double CenterLeft, double CenterRight, double BottomDis, double Height)
+            static auto BottomCenter(double BottomPct, double CenterLeft, double CenterRight, double BottomDis, double Height)
             {
                 return Margin(Base::Rect(0.0, 0.0, 0.0, BottomPct), Base::Rect(CenterLeft, CenterRight, Height, BottomDis), HorizontalAlignment::Center, VerticalAlignment::Bottom);
             }
-            inline static auto BottomStretch(double LeftPct, double RightPct, double BottomPct, double  LeftDis, double RightDis, double BottomDis, double Height)
+            static auto BottomStretch(double LeftPct, double RightPct, double BottomPct, double  LeftDis, double RightDis, double BottomDis, double Height)
             {
                 return Margin(Base::Rect(LeftPct, RightPct, 0.0, BottomPct), Base::Rect(LeftDis, RightDis, Height, BottomDis), HorizontalAlignment::Stretch, VerticalAlignment::Bottom);
             }
-            inline static auto CenterLeft(double LeftPct, double LeftDis, double Width, double CenterTop, double CenterBottom)
+            static auto CenterLeft(double LeftPct, double LeftDis, double Width, double CenterTop, double CenterBottom)
             {
                 return Margin(Base::Rect(LeftPct, 0.0, 0.0, 0.0), Base::Rect(LeftDis, Width, CenterTop, CenterBottom), HorizontalAlignment::Left, VerticalAlignment::Center);
             }
-            inline static auto CenterRight(double RightPct, double RightDis, double Width, double CenterTop, double  CenterBottom)
+            static auto CenterRight(double RightPct, double RightDis, double Width, double CenterTop, double  CenterBottom)
             {
                 return Margin(Base::Rect(0.0, RightPct, 0.0, 0.0), Base::Rect(Width, RightDis, CenterTop, CenterBottom), HorizontalAlignment::Right, VerticalAlignment::Center);
             }
-            inline static auto CenterCenter(double CenterLeft, double CenterRight, double CenterTop, double CenterBottom)
+            static auto CenterCenter(double CenterLeft, double CenterRight, double CenterTop, double CenterBottom)
             {
                 return Margin(Base::Rect(0.0, 0.0, 0.0, 0.0), Base::Rect(CenterLeft, CenterRight, CenterTop, CenterBottom), HorizontalAlignment::Center, VerticalAlignment::Center);
             }
-            inline static auto CenterStretch(double LeftPct, double RightPct, double LeftDis, double RightDis, double CenterTop, double CenterBottom)
+            static auto CenterStretch(double LeftPct, double RightPct, double LeftDis, double RightDis, double CenterTop, double CenterBottom)
             {
                 return Margin(Base::Rect(LeftPct, RightPct, 0.0, 0.0), Base::Rect(LeftDis, RightDis, CenterTop, CenterBottom), HorizontalAlignment::Stretch, VerticalAlignment::Center);
             }
-            inline static auto StretchLeft(double LeftPct, double TopPct, double BottomPct, double LeftDis, double Width, double TopDis, double BottomDis)
+            static auto StretchLeft(double LeftPct, double TopPct, double BottomPct, double LeftDis, double Width, double TopDis, double BottomDis)
             {
                 return Margin(Base::Rect(LeftPct, 0.0, TopPct, BottomPct), Base::Rect(LeftDis, Width, TopDis, BottomDis), HorizontalAlignment::Left, VerticalAlignment::Stretch);
             }
-            inline static auto StretchRight(double RightPct, double TopPct, double BottomPct, double RightDis, double Width, double TopDis, double BottomDis)
+            static auto StretchRight(double RightPct, double TopPct, double BottomPct, double RightDis, double Width, double TopDis, double BottomDis)
             {
                 return Margin(Base::Rect(0.0, RightPct, TopPct, BottomPct), Base::Rect(Width, RightDis, TopDis, BottomDis), HorizontalAlignment::Right, VerticalAlignment::Stretch);
             }
-            inline static auto StretchCenter(double TopPct, double BottomPct, double CenterLeft, double CenterRight, double TopDis, double BottomDis)
+            static auto StretchCenter(double TopPct, double BottomPct, double CenterLeft, double CenterRight, double TopDis, double BottomDis)
             {
                 return Margin(Base::Rect(0.0, 0.0, TopPct, BottomPct), Base::Rect(CenterLeft, CenterRight, TopDis, BottomDis), HorizontalAlignment::Center, VerticalAlignment::Stretch);
             }
-            inline static auto StretchStretch(double LeftPct, double RightPct, double TopPct, double BottomPct, double LeftDis, double RightDis, double TopDis, double BottomDis)
+            static auto StretchStretch(double LeftPct, double RightPct, double TopPct, double BottomPct, double LeftDis, double RightDis, double TopDis, double BottomDis)
             {
                 return Margin(Base::Rect(LeftPct, RightPct, TopPct, BottomPct), Base::Rect(LeftDis, RightDis, TopDis, BottomDis), HorizontalAlignment::Stretch, VerticalAlignment::Stretch);
             }
@@ -151,6 +153,12 @@ namespace UI
             HorizontalAlignment ha;
             VerticalAlignment va;
             Base::Rect relativeps, relativepc;
+        };
+        
+        struct CInpArgs
+        {
+            std::wstring str;
+            bool editing;
         };
 
         class Grid;
@@ -172,35 +180,22 @@ namespace UI
             virtual void render();
             virtual void onResize(size_t x, size_t y);
             virtual void onParentResize(Grid* parent);
-            virtual void focusFunc(FocusOp Stat);
-            virtual void mouseMove(int x, int y, int dx, int dy);
-            virtual void mouseButtonFunc(MouseButton Button, ButtonAction Action);
-            virtual void crusorEnterFunc(CursorOp Stat);
-            virtual void scrollFunc(double dx, double dy);
-            virtual void keyFunc(int Key, ButtonAction Action);
-            virtual void keyDownFunc(int scancode);
-            virtual void charInputFunc(std::wstring Char);
-            virtual void dropFunc(const char* Paths);
-            virtual void touchFunc(int x, int y, ButtonAction action);
-            virtual void touchmove(int x, int y, int dx, int dy);
+            boost::signals2::signal<void(FocusOp)> focusFunc;
+            boost::signals2::signal<void(int x, int y, int dx, int dy)>mouseMove;
+            boost::signals2::signal<void(MouseButton, ButtonAction)> mouseButtonFunc;
+            boost::signals2::signal<void(CursorOp)> cursorEnterFunc;
+            boost::signals2::signal<void(double, double)> scrollFunc;
+            boost::signals2::signal<void(int, ButtonAction)> keyFunc;
+            boost::signals2::signal<void(CInpArgs e)> charInputFunc;
+            boost::signals2::signal<void(const char*)> dropFunc;
+            boost::signals2::signal<void(int x, int y, ButtonAction action)> touchFunc;
+            boost::signals2::signal<void(int x, int y, int dx, int dy)> touchmove;
 
             bool enabled, mouseOn, pressed, focused;
         };
 
         //CallBack Functions
         using NotifyFunc = std::function<void()>;
-        using onFocus = std::function<void(FocusOp)>;
-        using onViewResize = std::function<void(int, int)>;
-        using onMouseMove = std::function<void(int, int, int, int)>;
-        using onMouseButton = std::function<void(MouseButton, ButtonAction)>;
-        using onMouseEnter = std::function<void(CursorOp)>;
-        using onScroll = std::function<void(double, double)>;
-        using onKeyPress = std::function<void(int, ButtonAction)>;
-        using onKeyDown = std::function<void(int)>;
-        using onCharInput = std::function<void(wchar_t)>;
-        using onFileDrop = std::function<void(const char*)>;
-        using onTouch = std::function<void(int, int, ButtonAction)>;
-        using onTouchMove = std::function<void(int, int, int, int)>;
 
         struct Definition
         {
@@ -214,79 +209,74 @@ namespace UI
             std::vector<Definition> rowDefinitions;
             std::map<std::string, std::shared_ptr<Control>> childern;
             Grid();
-            void recalGrid();
             void addChild(std::shared_ptr<Control> child);
             void render();
             void setSize(size_t x, size_t y);
             void parentResize(Grid* parent);
-            void focusFunc(FocusOp Stat);
             void onResize(size_t x, size_t y);
-            void mouseMove(int x, int y, int dx, int dy);
-            void mouseButtonFunc(MouseButton Button, ButtonAction Action);
-            void crusorEnterFunc(CursorOp Stat);
-            void scrollFunc(double dx, double dy);
-            void keyFunc(int Key, ButtonAction Action);
-            void keyDownFunc(int scancode);
-            void charInputFunc(std::wstring Char);
-            void dropFunc(const char* Paths);
-            void touchFunc(int x, int y, ButtonAction action);
-            void touchmove(int x, int y, int dx, int dy);
         private:
+            void recalGrid();
             void recal(std::vector<Definition>& definitions, bool col);
             std::vector<std::shared_ptr<Control>> mold, told;
             std::shared_ptr<Control> focused;
             std::shared_ptr<Control> pressed;
         };
-
-        class UILIB_API Page
+        
+        struct _Page
         {
-        public:
-            std::shared_ptr<Grid> content;
-            virtual ~Page() = default;
+            std::shared_ptr<Grid> c;
+            bool et, rt;
         };
-
+        
+        struct _Connections
+        {
+            boost::signals2::connection _c[10];
+        };
+        
         class UILIB_API Window
         {
         public:
-            Window(const std::string& name, const int width, const int height, const int _xpos, const int _ypos);
-            virtual ~Window() = default;
+            Window(const std::string& name, int width, int height, int _xpos, int _ypos);
+            virtual ~Window();
 
             void close();
+            void dorender();
             void resize(size_t x, size_t y);
-            void setCurrentDraw();
-            void setSwapInterval(int i);
-
             virtual void onShow();
             virtual void onHide();
             virtual void onClose();
             virtual void onStatChange(StatChange stat);
             virtual void onResize(size_t x, size_t y);
             //Event Handler
-            void render();
-            void focusFunc(FocusOp Stat);
-            void mouseMove(int x, int y, int dx, int dy);
-            void mouseButtonFunc(MouseButton Button, ButtonAction Action);
-            void crusorEnterFunc(CursorOp Stat);
-            void scrollFunc(double dx, double dy);
-            void keyFunc(int Key, ButtonAction Action);
-            void keyDownFunc(int scancode);
-            void charInputFunc(std::wstring Char);
-            void dropFunc(const char* Paths);
-            void touchFunc(int x, int y, ButtonAction action);
-            void touchmove(int x, int y, int dx, int dy);
+            boost::signals2::signal<void(FocusOp Stat)> focusFunc;
+            boost::signals2::signal<void(int x, int y, int dx, int dy)> mouseMove;
+            boost::signals2::signal<void(MouseButton Button, ButtonAction Action)> mouseButtonFunc;
+            boost::signals2::signal<void(CursorOp Stat)> cursorEnterFunc;
+            boost::signals2::signal<void(double dx, double dy)> scrollFunc;
+            boost::signals2::signal<void(int Key, ButtonAction Action)> keyFunc;
+            boost::signals2::signal<void(CInpArgs e)> charInputFunc;
+            boost::signals2::signal<void(const char* Paths)> dropFunc;
+            boost::signals2::signal<void(int x, int y, ButtonAction action)> touchFunc;
+            boost::signals2::signal<void(int x, int y, int dx, int dy)> touchmove;
 
-            void pushPage(std::shared_ptr<Page> page);
+            void pushPage(std::shared_ptr<Grid> page, bool event_trans, bool render_trans);
             void popPage();
             void clearPages();
             void pageZero();
-
+            
+            std::vector<std::function<void()>> renderdelegate;
+            std::shared_ptr<Base::Brush> background;
             //SDL ONLY
             Uint32 windowID();
-        private:
-            std::stack<std::shared_ptr<Page>> pages;
-            size_t _x, _y;
             SDL_Window* window;
-            SDL_GLContext context;
+            bool terminated;
+        private:
+            _Connections doconnect(std::shared_ptr<Grid>);
+            std::deque<_Page> pages;
+            std::deque<_Connections> connections;
+            std::deque<std::shared_ptr<Grid>> render;
+            size_t _x, _y;
+            bool resized;
         };
 
         class UILIB_API Application
@@ -295,7 +285,7 @@ namespace UI
             virtual ~Application() = default;
 
             void run();
-            void update();
+            void processMessages();
             void addWindow(std::shared_ptr<Window> win);
             void setMainWindow(std::shared_ptr<Window> win);
             void terminate();
@@ -305,9 +295,9 @@ namespace UI
             virtual void onEnteringBackground();
             virtual void onEnteringForeground();
         private:
-            std::shared_ptr<Window> mainWin, focused;
+            Window* mainWin, *focused;
             std::map<Uint32, std::shared_ptr<Window>> windows;
-            void mainLoop();
+            void init();
             bool winExist(int id);
             bool sigExit;
         };
