@@ -26,7 +26,7 @@ std::string hostIp = "127.0.0.1";
 boost::asio::io_service ioService;
 std::shared_ptr<Session> session;
 const int updateInterval = 10;
-const int Port = 8090; //TODO: read it from a address
+const int Port = 8090; //TODO: read it from an address
 void disconnect()
 {
     ioService.stop();

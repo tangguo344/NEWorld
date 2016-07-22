@@ -76,9 +76,9 @@ namespace UI
             else
             {
                 UnicodeChar c;
-                size_t index = FT_Get_Char_Index(*fontface, static_cast<FT_ULong>(uc));
+                size_t index = FT_Get_Char_Index(fontface, static_cast<FT_ULong>(uc));
                 FT_Activate_Size(size);
-                FT_Load_Glyph(*fontface, index, FT_LOAD_DEFAULT);
+                FT_Load_Glyph(fontface, index, FT_LOAD_DEFAULT);
                 FT_Render_Glyph(slot, FT_RENDER_MODE_NORMAL);
                 FT_Bitmap* bitmap = &(slot->bitmap);
                 ubyte *Texsrc = bitmap->buffer, *Tex = new ubyte[wid * wid];
@@ -110,13 +110,13 @@ namespace UI
             }
         }
 
-        FontOfSize::FontOfSize(const int _height, FT_Face* _face) :
+        FontOfSize::FontOfSize(const int _height, FT_Face _face) :
             height(_height), fontface(_face)
         {
-            FT_New_Size(*fontface, &size);
+            FT_New_Size(fontface, &size);
             FT_Activate_Size(size);
-            FT_Set_Pixel_Sizes(*fontface, static_cast<FT_UInt>(height), static_cast<FT_UInt>(height));
-            slot = (*fontface)->glyph;
+            FT_Set_Pixel_Sizes(fontface, static_cast<FT_UInt>(height), static_cast<FT_UInt>(height));
+            slot = fontface->glyph;
             wid = (int)pow(2, ceil(log2(height)));
         }
 
@@ -207,7 +207,7 @@ namespace UI
         std::shared_ptr<FontRenderer> FontBase::getRenderer(int height, Color col)
         {
             if(sizes.find(height) == sizes.end())
-                sizes.insert({ height, FontOfSize(height, &fontface) });
+                sizes.insert({ height, FontOfSize(height, fontface) });
             return std::shared_ptr<FontRenderer>(new FontRenderer(sizes[height], col));
         }
 

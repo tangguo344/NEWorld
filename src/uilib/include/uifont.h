@@ -46,12 +46,12 @@ namespace UI
         public:
             UnicodeChar GetChar(const wchar_t);
             FontOfSize() = default;
-            FontOfSize(const int _height, FT_Face* _face);
+            FontOfSize(const int _height, FT_Face _face);
             int height;
         private:
             //int refcount;
             FT_Size size;
-            FT_Face* fontface;
+            FT_Face fontface;
             FT_GlyphSlot slot;
             std::map<wchar_t, UnicodeChar> chars;
             std::vector<unsigned int> texBuffers;
