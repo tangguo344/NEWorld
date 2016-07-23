@@ -23,10 +23,6 @@
 
 GameView::GameView(UI::Core::Window* win) :UI::Controls::GLContext()
 {
-    onRenderF = [this]()
-    {
-        doRender();
-    };
     keyFunc.connect([this](int scancode, UI::Core::ButtonAction)
     {
         if (scancode == SDLK_LEFT) transSpeed.y -= 0.1f;
@@ -36,18 +32,24 @@ GameView::GameView(UI::Core::Window* win) :UI::Controls::GLContext()
         else if (scancode == SDLK_w) transSpeed.z += 0.1f;
         else if (scancode == SDLK_s) transSpeed.z -= 0.1f;
     });
-    win->renderdelegate.push_back([this]() { init(); });
+    win->renderdelegate.push_back([this, win]() { init(win); });
 }
 
 Texture texture;
 
-void GameView::init()
+void GameView::init(UI::Core::Window* win)
 {
-    glewInit();
     // Example for Texture
     texture = Texture::loadTextureRGBA("./../Res/test.bmp");
     UI::GameUtils::setSwapInterval(0);
     VertexArray cubeArray(3000000, VertexFormat(2, 3, 0, 3));
+
+    glShadeModel(GL_SMOOTH);
+    glDisable(GL_DITHER);
+    glClearColor(0.6f, 0.9f, 1.0f, 1.0f);
+    glClearDepth(1.0f);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
 
     for (int x = -25; x < 25; x++)
     {
@@ -123,16 +125,18 @@ void GameView::init()
     infostream << "Generating VBO...";
     cube = VertexBuffer(cubeArray);
     infostream << "Complete!";
+
+    onRenderF = [this]()
+    {
+        doRender();
+    };
+    win->background = UI::Theme::SystemTheme.WindowBrush;
 }
 
 void GameView::doRender()
 {
-    glShadeModel(GL_SMOOTH);
-    glDisable(GL_DITHER);
     glClearColor(0.6f, 0.9f, 1.0f, 1.0f);
     glClearDepth(1.0f);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_DEPTH_TEST);
     texture.bind(Texture::Texture2D);
@@ -143,8 +147,11 @@ void GameView::doRender()
     Renderer::translate(Vec3f(0.0f, 0.0f, trans.z));
     Renderer::rotate(trans.x, Vec3f(1.0f, 0.0f, 0.0f));
     Renderer::rotate(trans.y, Vec3f(0.0f, 1.0f, 0.0f));
+
     cube.render();
 
+    glDisable(GL_TEXTURE_2D);
+    glDisable(GL_DEPTH_TEST);
     trans += transSpeed;
     transSpeed *= 0.9f;
 }

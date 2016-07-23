@@ -80,9 +80,6 @@ namespace UI
 
         void Window::dorender()
         {
-            for (auto f : renderdelegate) f();
-            renderdelegate.clear();
-
             glViewport(0, 0, (GLint)_x, (GLint)_y);
             glMatrixMode(GL_PROJECTION);
             glLoadIdentity();
@@ -96,6 +93,8 @@ namespace UI
             if (!render.empty()) for (auto& c : render) c->render();
             UI::Font::flush();
             SDL_GL_SwapWindow(window);
+            for (auto f : renderdelegate) f();
+            renderdelegate.clear();
         }
 
         void Window::close()
@@ -342,7 +341,7 @@ namespace UI
             std::shared_ptr<Window> curWin;
             while(SDL_PollEvent(&event)) //从队列里取出事件
             {
-                switch(event.type)  //根据事件类型分门别类去处理
+                switch(event.type)  //根据事件类型分门别类去处�?
                 {
                     case SDL_APP_TERMINATING:
                         break;
