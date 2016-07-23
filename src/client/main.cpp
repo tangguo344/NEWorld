@@ -21,22 +21,9 @@
 
 extern "C" NWAPIEXPORT int NWAPICALL main(int, char*[]);
 
-// Just a joke :D
-class orld
-{
-public:
-    orld()
-    {
-        Application application(852, 480, "NEWorld");
-        // Start to run
-        application.run();
-    }
-};
-
 int NWAPICALL main(int, char*[])
 {
-    // NOW THE WORLD CONSTRUCTS!
-    new orld;
-    // NOW EVERYTHING COMES TO THE END...
+    Application application(852, 480, "NEWorld");
+    application.run();
     return 0;
 }

@@ -29,7 +29,7 @@ public:
     GameView(UI::Core::Window*);
     void doRender();
     void onResize(size_t w, size_t h) override;
-    void init();
+    void init(UI::Core::Window* win);
 private:
     int windowWidth = 852, windowHeight = 480;
     Vec3f trans{ 0.0f, 0.0f, -100.0f };
@@ -42,6 +42,7 @@ class MainWindow : public UI::Core::Window
 public:
     MainWindow(int width, int height, const string& title) : UI::Core::Window(title, width, height, 200, 200)
     {
+        background = std::make_shared<UI::Graphics::Brushes::ImageBrush>(std::make_shared<UI::Base::Image>("./../Res/ss.bmp"));
         // Disable v-sync
         UI::GameUtils::setSwapInterval(0);
         // Load the main menu
