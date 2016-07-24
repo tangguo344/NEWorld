@@ -34,17 +34,17 @@ Texture texture;
 
 void GameView::init(UI::Core::Window* win)
 {
+    Renderer::init();
+
     // Example for Texture
     texture = Texture::loadTextureRGBA("./Res/test.png");
     UI::GameUtils::setSwapInterval(0);
     VertexArray cubeArray(3000000, VertexFormat(2, 3, 0, 3));
 
-    glShadeModel(GL_SMOOTH);
-    glDisable(GL_DITHER);
     glClearColor(0.6f, 0.9f, 1.0f, 1.0f);
-    glClearDepth(1.0f);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
 
     for (int x = -25; x < 25; x++)
     {
