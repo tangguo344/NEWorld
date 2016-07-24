@@ -186,7 +186,7 @@ public:
 class maxiStream
 {
 public:
-    
+
 };
 
 class maxiSample
@@ -264,7 +264,7 @@ public:
     double play(double speed);
     double play(double frequency, double start, double end);
     double play4(double frequency, double start, double end);
-    
+
     bool save()
     {
         return save(myPath);
@@ -298,7 +298,7 @@ public:
     {
         char *summary = new char[250];
         sprintf(summary, " Format: %d\n Channels: %d\n SampleRate: %d\n ByteRate: %d\n BlockAlign: %d\n BitsPerSample: %d\n DataSize: %d\n", myFormat, myChannels, mySampleRate, myByteRate, myBlockAlign, myBitsPerSample, myDataSize);
-        std::cout << myDataSize;
+        //std::cout << myDataSize;
         return summary;
     }
 

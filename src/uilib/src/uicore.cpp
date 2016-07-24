@@ -307,29 +307,29 @@ namespace UI
 
             switch(_button)
             {
-                case SDL_BUTTON_LEFT:
-                    button = MouseButton::Left;
-                    break;
+            case SDL_BUTTON_LEFT:
+                button = MouseButton::Left;
+                break;
 
-                case SDL_BUTTON_MIDDLE:
-                    button = MouseButton::Middle;
-                    break;
+            case SDL_BUTTON_MIDDLE:
+                button = MouseButton::Middle;
+                break;
 
-                case SDL_BUTTON_RIGHT:
-                    button = MouseButton::Right;
-                    break;
+            case SDL_BUTTON_RIGHT:
+                button = MouseButton::Right;
+                break;
 
-                case SDL_BUTTON_X1:
-                    button = MouseButton::Preserved1;
-                    break;
+            case SDL_BUTTON_X1:
+                button = MouseButton::Preserved1;
+                break;
 
-                case SDL_BUTTON_X2:
-                    button = MouseButton::Preserved2;
-                    break;
-                default:
-                    logwarning("Unsupported Mouse Button");
-                    button = MouseButton::Preserved2;
-                    break;
+            case SDL_BUTTON_X2:
+                button = MouseButton::Preserved2;
+                break;
+            default:
+                logwarning("Unsupported Mouse Button");
+                button = MouseButton::Preserved2;
+                break;
             }
 
             return button;
@@ -343,155 +343,155 @@ namespace UI
             {
                 switch(event.type)
                 {
-                    case SDL_APP_TERMINATING:
+                case SDL_APP_TERMINATING:
+                    break;
+
+                case SDL_APP_LOWMEMORY:
+                    break;
+
+                case SDL_APP_WILLENTERBACKGROUND:
+                    this->onEnteringBackground();
+                    break;
+
+                case SDL_APP_WILLENTERFOREGROUND:
+                    this->onEnteringForeground();
+                    break;
+
+                case SDL_WINDOWEVENT:
+                    switch(event.window.event)
+                    {
+                    case SDL_WINDOWEVENT_RESIZED:
+                    case SDL_WINDOWEVENT_SIZE_CHANGED:
+                        if (!winExist(event.window.windowID)) break;
+                        windows[event.window.windowID]->resize(event.window.data1, event.window.data2);
                         break;
 
-                    case SDL_APP_LOWMEMORY:
-                        break;
+                    case SDL_WINDOWEVENT_CLOSE:
+                    {
+                        if (!winExist(event.window.windowID)) break;
+                        windows[event.window.windowID]->close();
 
-                    case SDL_APP_WILLENTERBACKGROUND:
-                        this->onEnteringBackground();
-                        break;
-
-                    case SDL_APP_WILLENTERFOREGROUND:
-                        this->onEnteringForeground();
-                        break;
-
-                    case SDL_WINDOWEVENT:
-                        switch(event.window.event)
+                        if(windows[event.window.windowID].get() == mainWin)
                         {
-                            case SDL_WINDOWEVENT_RESIZED:
-                            case SDL_WINDOWEVENT_SIZE_CHANGED:
-                                if (!winExist(event.window.windowID)) break;
-                                windows[event.window.windowID]->resize(event.window.data1, event.window.data2);
-                                break;
-
-                            case SDL_WINDOWEVENT_CLOSE:
-                            {
-                                if (!winExist(event.window.windowID)) break;
-                                windows[event.window.windowID]->close();
-
-                                if(windows[event.window.windowID].get() == mainWin)
-                                {
-                                    event.type = SDL_QUIT;
-                                    SDL_PushEvent(&event);
-                                }
-
-                                windows.erase(event.window.windowID);
-                                break;
-                            }
-
-                            case SDL_WINDOWEVENT_MINIMIZED:
-                                if (!winExist(event.window.windowID)) break;
-                                windows[event.window.windowID]->onStatChange(StatChange::Minimize);
-                                break;
-
-                            case SDL_WINDOWEVENT_MAXIMIZED:
-                                if (!winExist(event.window.windowID)) break;
-                                windows[event.window.windowID]->onStatChange(StatChange::Maximize);
-                                break;
-
-                            case SDL_WINDOWEVENT_RESTORED:
-                                if (!winExist(event.window.windowID)) break;
-                                windows[event.window.windowID]->onStatChange(StatChange::Restore);
-                                break;
-
-                            case SDL_WINDOWEVENT_SHOWN:
-                                if (!winExist(event.window.windowID)) break;
-                                windows[event.window.windowID]->onShow();
-                                break;
-
-                            case SDL_WINDOWEVENT_HIDDEN:
-                                if (!winExist(event.window.windowID)) break;
-                                windows[event.window.windowID]->onHide();
-                                break;
-
-                            case SDL_WINDOWEVENT_MOVED:
-                                break;
-
-                            case SDL_WINDOWEVENT_FOCUS_GAINED:
-                                if (!winExist(event.window.windowID)) break;
-                                focused = windows[event.window.windowID].get();
-                                break;
-
-                            case SDL_WINDOWEVENT_FOCUS_LOST:
-                                focused = nullptr;
-                                break;
+                            event.type = SDL_QUIT;
+                            SDL_PushEvent(&event);
                         }
 
+                        windows.erase(event.window.windowID);
+                        break;
+                    }
+
+                    case SDL_WINDOWEVENT_MINIMIZED:
+                        if (!winExist(event.window.windowID)) break;
+                        windows[event.window.windowID]->onStatChange(StatChange::Minimize);
                         break;
 
-                    case SDL_KEYDOWN:
-                        if(focused != nullptr) focused->keyFunc(event.key.keysym.sym, ButtonAction::Press);
-
+                    case SDL_WINDOWEVENT_MAXIMIZED:
+                        if (!winExist(event.window.windowID)) break;
+                        windows[event.window.windowID]->onStatChange(StatChange::Maximize);
                         break;
 
-                    case SDL_KEYUP:
-                        if(focused != nullptr) focused->keyFunc(event.key.keysym.sym, ButtonAction::Release);
+                    case SDL_WINDOWEVENT_RESTORED:
+                        if (!winExist(event.window.windowID)) break;
+                        windows[event.window.windowID]->onStatChange(StatChange::Restore);
                         break;
 
-                    case SDL_TEXTEDITING:
-                        if (!winExist(event.edit.windowID)) break;
-                        windows[event.text.windowID]->charInputFunc({ boost::locale::conv::utf_to_utf<wchar_t>(event.edit.text), true});
+                    case SDL_WINDOWEVENT_SHOWN:
+                        if (!winExist(event.window.windowID)) break;
+                        windows[event.window.windowID]->onShow();
                         break;
 
-                    case SDL_TEXTINPUT:
-                        if (!winExist(event.text.windowID)) break;
-                        windows[event.text.windowID]->charInputFunc({boost::locale::conv::utf_to_utf<wchar_t>(event.text.text), false});
+                    case SDL_WINDOWEVENT_HIDDEN:
+                        if (!winExist(event.window.windowID)) break;
+                        windows[event.window.windowID]->onHide();
                         break;
 
-                    case SDL_MOUSEMOTION:
-                        if (!winExist(event.motion.windowID)) break;
-                        windows[event.motion.windowID]->mouseMove(event.motion.x, event.motion.y, event.motion.xrel, event.motion.yrel);
+                    case SDL_WINDOWEVENT_MOVED:
                         break;
 
-                    case SDL_MOUSEBUTTONDOWN:
-                        if (!winExist(event.button.windowID)) break;
-                        windows[event.button.windowID]->mouseButtonFunc(buttonTrans(event.button.button), ButtonAction::Press);
+                    case SDL_WINDOWEVENT_FOCUS_GAINED:
+                        if (!winExist(event.window.windowID)) break;
+                        focused = windows[event.window.windowID].get();
                         break;
 
-                    case SDL_MOUSEBUTTONUP:
-                        if (!winExist(event.button.windowID)) break;
-                        windows[event.button.windowID]->mouseButtonFunc(buttonTrans(event.button.button), ButtonAction::Release);
+                    case SDL_WINDOWEVENT_FOCUS_LOST:
+                        focused = nullptr;
                         break;
+                    }
 
-                    case SDL_MOUSEWHEEL:
-                        if (!winExist(event.wheel.windowID)) break;
-                        windows[event.button.windowID]->scrollFunc(event.wheel.x, event.wheel.y);
-                        break;
+                    break;
 
-                    case SDL_FINGERDOWN:
-                        break;
+                case SDL_KEYDOWN:
+                    if(focused != nullptr) focused->keyFunc(event.key.keysym.sym, ButtonAction::Press);
 
-                    case SDL_FINGERUP:
-                        break;
+                    break;
 
-                    case SDL_FINGERMOTION:
-                        break;
+                case SDL_KEYUP:
+                    if(focused != nullptr) focused->keyFunc(event.key.keysym.sym, ButtonAction::Release);
+                    break;
 
-                    case SDL_DOLLARGESTURE:
-                        break;
+                case SDL_TEXTEDITING:
+                    if (!winExist(event.edit.windowID)) break;
+                    windows[event.text.windowID]->charInputFunc({ boost::locale::conv::utf_to_utf<wchar_t>(event.edit.text), true});
+                    break;
 
-                    case SDL_DOLLARRECORD:
-                        break;
+                case SDL_TEXTINPUT:
+                    if (!winExist(event.text.windowID)) break;
+                    windows[event.text.windowID]->charInputFunc({boost::locale::conv::utf_to_utf<wchar_t>(event.text.text), false});
+                    break;
 
-                    case SDL_MULTIGESTURE:
-                        break;
+                case SDL_MOUSEMOTION:
+                    if (!winExist(event.motion.windowID)) break;
+                    windows[event.motion.windowID]->mouseMove(event.motion.x, event.motion.y, event.motion.xrel, event.motion.yrel);
+                    break;
 
-                    case SDL_CLIPBOARDUPDATE:
-                        break;
+                case SDL_MOUSEBUTTONDOWN:
+                    if (!winExist(event.button.windowID)) break;
+                    windows[event.button.windowID]->mouseButtonFunc(buttonTrans(event.button.button), ButtonAction::Press);
+                    break;
 
-                    case SDL_DROPFILE:
-                        if (!winExist(event.button.windowID)) break;
-                        windows[event.button.windowID]->dropFunc(event.drop.file);
-                        break;
+                case SDL_MOUSEBUTTONUP:
+                    if (!winExist(event.button.windowID)) break;
+                    windows[event.button.windowID]->mouseButtonFunc(buttonTrans(event.button.button), ButtonAction::Release);
+                    break;
 
-                    case SDL_QUIT:
-                        sigExit = true;
-                        break;
+                case SDL_MOUSEWHEEL:
+                    if (!winExist(event.wheel.windowID)) break;
+                    windows[event.button.windowID]->scrollFunc(event.wheel.x, event.wheel.y);
+                    break;
 
-                    default:
-                        break;
+                case SDL_FINGERDOWN:
+                    break;
+
+                case SDL_FINGERUP:
+                    break;
+
+                case SDL_FINGERMOTION:
+                    break;
+
+                case SDL_DOLLARGESTURE:
+                    break;
+
+                case SDL_DOLLARRECORD:
+                    break;
+
+                case SDL_MULTIGESTURE:
+                    break;
+
+                case SDL_CLIPBOARDUPDATE:
+                    break;
+
+                case SDL_DROPFILE:
+                    if (!winExist(event.button.windowID)) break;
+                    windows[event.button.windowID]->dropFunc(event.drop.file);
+                    break;
+
+                case SDL_QUIT:
+                    sigExit = true;
+                    break;
+
+                default:
+                    break;
                 }
             }
         }
@@ -536,7 +536,7 @@ namespace UI
 
         void Application::init()
         {
-            std::cout<<glewInit()<<std::endl;
+            glewInit();
             application = this;
             //Set Up Place Holders
             Theme::Theme _t = {nullptr};
@@ -667,44 +667,44 @@ namespace UI
             {
                 switch(Action)
                 {
-                    case ButtonAction::Press:
-                        if(mold.size() > 0)
-                        {
-                            mold.back()->mouseButtonFunc(Button, Action);
+                case ButtonAction::Press:
+                    if(mold.size() > 0)
+                    {
+                        mold.back()->mouseButtonFunc(Button, Action);
 
-                            if(focused != mold.back() && focused)
-                            {
-                                focused->focused = false;
-                                focused->focusFunc(FocusOp::Lose);
-                                focused = nullptr;
-                            }
-
-                            focused = mold.back();
-                            focused->pressed = true;
-                            focused->focused = true;
-                            focused->focusFunc(FocusOp::Gain);
-                        }
-
-                        break;
-
-                    case ButtonAction::Release:
-                        if(focused && focused->pressed)
-                        {
-                            focused->mouseButtonFunc(Button, Action);
-                            focused->pressed = false;
-                        }
-
-                        if(mold.size() == 0 && focused)
+                        if(focused != mold.back() && focused)
                         {
                             focused->focused = false;
                             focused->focusFunc(FocusOp::Lose);
                             focused = nullptr;
                         }
 
-                        break;
+                        focused = mold.back();
+                        focused->pressed = true;
+                        focused->focused = true;
+                        focused->focusFunc(FocusOp::Gain);
+                    }
 
-                    default:
-                        break;
+                    break;
+
+                case ButtonAction::Release:
+                    if(focused && focused->pressed)
+                    {
+                        focused->mouseButtonFunc(Button, Action);
+                        focused->pressed = false;
+                    }
+
+                    if(mold.size() == 0 && focused)
+                    {
+                        focused->focused = false;
+                        focused->focusFunc(FocusOp::Lose);
+                        focused = nullptr;
+                    }
+
+                    break;
+
+                default:
+                    break;
                 }
             });
 
@@ -754,42 +754,42 @@ namespace UI
 
                 switch(action)
                 {
-                    case ButtonAction::Press:
-                        if(told.size() > 0)
-                        {
-                            told.back()->touchFunc(x, y, action);
+                case ButtonAction::Press:
+                    if(told.size() > 0)
+                    {
+                        told.back()->touchFunc(x, y, action);
 
-                            if(focused)
-                            {
-                                focused->focused = false;
-                                focused->focusFunc(FocusOp::Lose);
-                            }
-
-                            focused = told.back();
-                            focused->focused = true;
-                            focused->pressed = true;
-                            focused->focusFunc(FocusOp::Gain);
-                        }
-
-                        break;
-
-                    case ButtonAction::Release:
                         if(focused)
-                        {
-                            focused->touchFunc(x, y, action);
-                            focused->pressed = false;
-                        }
-
-                        if (mold.size() == 0 && focused)
                         {
                             focused->focused = false;
                             focused->focusFunc(FocusOp::Lose);
                         }
 
-                        break;
+                        focused = told.back();
+                        focused->focused = true;
+                        focused->pressed = true;
+                        focused->focusFunc(FocusOp::Gain);
+                    }
 
-                    default:
-                        break;
+                    break;
+
+                case ButtonAction::Release:
+                    if(focused)
+                    {
+                        focused->touchFunc(x, y, action);
+                        focused->pressed = false;
+                    }
+
+                    if (mold.size() == 0 && focused)
+                    {
+                        focused->focused = false;
+                        focused->focusFunc(FocusOp::Lose);
+                    }
+
+                    break;
+
+                default:
+                    break;
                 }
             });
 
@@ -916,58 +916,58 @@ namespace UI
 
             switch(ha)
             {
-                case HorizontalAlignment::Left:
-                    p1.x = Parent_Rect.xmin + relativepc.xmin + wid * relativeps.xmin;
-                    p2.x = p1.x + relativepc.xmax;
-                    break;
+            case HorizontalAlignment::Left:
+                p1.x = Parent_Rect.xmin + relativepc.xmin + wid * relativeps.xmin;
+                p2.x = p1.x + relativepc.xmax;
+                break;
 
-                case HorizontalAlignment::Right:
-                    p2.x = Parent_Rect.xmax - relativepc.xmax - wid * relativeps.xmax;
-                    p1.x = p2.x - relativepc.xmin;
-                    break;
+            case HorizontalAlignment::Right:
+                p2.x = Parent_Rect.xmax - relativepc.xmax - wid * relativeps.xmax;
+                p1.x = p2.x - relativepc.xmin;
+                break;
 
-                case HorizontalAlignment::Center:
-                    p1.x = Parent_Rect.xmin + wid / 2 - relativepc.xmin;
-                    p2.x = Parent_Rect.xmin + wid / 2 + relativepc.xmax;
-                    break;
+            case HorizontalAlignment::Center:
+                p1.x = Parent_Rect.xmin + wid / 2 - relativepc.xmin;
+                p2.x = Parent_Rect.xmin + wid / 2 + relativepc.xmax;
+                break;
 
-                case HorizontalAlignment::Stretch:
-                    p1.x = Parent_Rect.xmin + relativepc.xmin + wid * relativeps.xmin;
-                    p2.x = Parent_Rect.xmin - relativepc.xmax + wid * relativeps.xmax;
-                    break;
+            case HorizontalAlignment::Stretch:
+                p1.x = Parent_Rect.xmin + relativepc.xmin + wid * relativeps.xmin;
+                p2.x = Parent_Rect.xmin - relativepc.xmax + wid * relativeps.xmax;
+                break;
 
-                default:
-                    logwarning("Unknown Horizontal Alignment Setting. Aborting...");
-                    return;
-                    break;
+            default:
+                logwarning("Unknown Horizontal Alignment Setting. Aborting...");
+                return;
+                break;
             }
 
             switch(va)
             {
-                case VerticalAlignment::Top:
-                    p1.y = Parent_Rect.ymin + relativepc.ymin + hei * relativeps.ymin;
-                    p2.y = p1.y + relativepc.ymax;
-                    break;
+            case VerticalAlignment::Top:
+                p1.y = Parent_Rect.ymin + relativepc.ymin + hei * relativeps.ymin;
+                p2.y = p1.y + relativepc.ymax;
+                break;
 
-                case VerticalAlignment::Bottom:
-                    p2.y = Parent_Rect.ymax - relativepc.ymax - hei * relativeps.ymax;
-                    p1.y = p2.y - relativepc.ymin;
-                    break;
+            case VerticalAlignment::Bottom:
+                p2.y = Parent_Rect.ymax - relativepc.ymax - hei * relativeps.ymax;
+                p1.y = p2.y - relativepc.ymin;
+                break;
 
-                case VerticalAlignment::Center:
-                    p1.y = Parent_Rect.ymin + hei / 2 - relativepc.ymin;
-                    p2.y = Parent_Rect.ymin + hei / 2 + relativepc.ymax;
-                    break;
+            case VerticalAlignment::Center:
+                p1.y = Parent_Rect.ymin + hei / 2 - relativepc.ymin;
+                p2.y = Parent_Rect.ymin + hei / 2 + relativepc.ymax;
+                break;
 
-                case VerticalAlignment::Stretch:
-                    p1.y = Parent_Rect.ymin + relativepc.ymin + hei * relativeps.ymin;
-                    p2.y = Parent_Rect.ymin - relativepc.ymax + hei * relativeps.ymax;
-                    break;
+            case VerticalAlignment::Stretch:
+                p1.y = Parent_Rect.ymin + relativepc.ymin + hei * relativeps.ymin;
+                p2.y = Parent_Rect.ymin - relativepc.ymax + hei * relativeps.ymax;
+                break;
 
-                default:
-                    logwarning("Unknown Vertical Alignment Setting. Aborting...");
-                    return;
-                    break;
+            default:
+                logwarning("Unknown Vertical Alignment Setting. Aborting...");
+                return;
+                break;
             }
 
             absrect = Base::Rect(p1, p2);
