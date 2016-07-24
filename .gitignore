@@ -244,6 +244,5 @@ NEWorldLauncher
 
 # Windows thumbnail cache
 [Tt]humbs.db
-/build/visualstudio_v14/NEWorld/fonts
-/build/visualstudio_v14/NEWorld/Langs
-/build/visualstudio_v14/Res
+/Plugins
+/Res

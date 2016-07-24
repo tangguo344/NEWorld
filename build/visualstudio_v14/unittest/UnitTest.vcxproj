@@ -72,18 +72,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)..\..\..\src\uilib\include;$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\src\shared;$(ProjectDir)..\..\..\src\client;$(ProjectDir)..\..\..\src\server;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)..\..\..\dependencies\lib\boostlib;$(ProjectDir)..\..\..\dependencies\lib;$(SolutionDir)..\..\;$(SolutionDir)..\..\Bin\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)..\..\..\dependencies\lib\boostlib;$(SolutionDir)bin\$(Platform)\$(Configuration);$(SolutionDir)..\..\;$(SolutionDir)..\..\Bin\;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\Tests\</OutDir>
+    <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\Tests\UnitTest\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\Tests\</OutDir>
+    <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\Tests\UnitTest\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(ProjectDir)..\..\..\src\uilib\include;$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\src\shared;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)..\..\..\dependencies\lib\boostlib;$(ProjectDir)..\..\..\dependencies\lib;$(SolutionDir)..\..\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)..\..\..\dependencies\lib\boostlib;$(SolutionDir)bin\$(Platform)\$(Configuration);$(SolutionDir)..\..\;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\Tests\</OutDir>
+    <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\Tests\UnitTest\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\Tests\</OutDir>
+    <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\Tests\UnitTest\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
