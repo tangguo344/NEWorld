@@ -36,14 +36,14 @@ extern unsigned short globalPort;
 class Server
 {
 public:
-    Server(boost::asio::io_service& ioservice, unsigned short port)
+    Server(boost::asio::io_service& ioservice, unsigned short port, const std::string& base)
         : m_acceptor(ioservice, boost::asio::ip::tcp::endpoint(tcp::v4(), port)), m_socket(ioservice),
           m_worlds(m_plugins), m_world(m_worlds.addWorld("TestWorld"))
     {
         // Initialization
         PluginAPI::Blocks = &m_blocks;
         infostream << "Initializing plugins...";
-        m_plugins.loadPlugins();
+        m_plugins.loadPlugins(base);
         // Start server
         infostream << "Server started!";
         doGlobalUpdate();

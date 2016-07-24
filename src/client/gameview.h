@@ -45,7 +45,7 @@ public:
     std::shared_ptr<UI::Base::Texture> btex[6];
     MainWindow(int width, int height, const string& title) : UI::Core::Window(title, width, height, 200, 200)
     {
-        background = std::make_shared<UI::Graphics::Brushes::ImageBrush>(std::make_shared<UI::Base::Image>("./Res/ss.bmp"));
+        background = std::make_shared<UI::Graphics::Brushes::ImageBrush>(std::make_shared<UI::Base::Image>("./Res/ss.png"));
         loader = std::thread([this]()
         {
             btex[0] = std::make_shared<UI::Base::Texture>("./Res/bkg0.bmp");

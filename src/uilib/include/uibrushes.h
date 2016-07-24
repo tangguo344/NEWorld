@@ -38,7 +38,7 @@ namespace UI
             private:
                 Base::Color col;
             };
-#define UIMakeSolidColorBrush(x) std::shared_ptr<Base::Brush>(new Graphics::Brushes::SolidColorBrush(x))
+#define UIMakeSolidColorBrush(x) std::shared_ptr<UI::Base::Brush>(new UI::Graphics::Brushes::SolidColorBrush(x))
 
             class UILIB_API GradientBrush : public Base::Brush
             {

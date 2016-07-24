@@ -38,10 +38,10 @@ void PluginManager::loadPlugin(const string& filename)
                << "], authored by \"" << plugin.getData().authorName << "\"";
 }
 
-void PluginManager::loadPlugins()
+void PluginManager::loadPlugins(const std::string& base)
 {
     using namespace boost::filesystem;
-    string path = "./Plugins/";
+    string path = base + "Plugins/";
     if (exists(path))
     {
         directory_iterator itemEnd;

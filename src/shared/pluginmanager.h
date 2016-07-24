@@ -37,7 +37,7 @@ public:
     // Load single plugin
     void loadPlugin(const string& filename);
     // Load plugins
-    void loadPlugins();
+    void loadPlugins(const std::string& base);
     // Unload plugins
     void unloadPlugins();
 
