@@ -34,6 +34,15 @@ void Application::beforeLaunch()
     loggerInit("NEWorld");
     infostream << "Initializing...";
 
+#define HOOK(lev) UI::Logger::setHook(UI::Logger::Level::##lev, [](std::string msg, const char* filename, int linenumber){Logger(__FUNCTION__, __LINE__, ##lev) << "UILib (" << filename << ":" << linenumber << "): " << msg; })
+    HOOK(trace);
+    HOOK(info);
+    HOOK(debug);
+    HOOK(warning);
+    HOOK(error);
+    HOOK(fatal);
+#undef HOOK
+
     Texture::init();
     //m_worldLoader.sortChunkLoadUnloadList(Vec3i(0, 0, 0));
 

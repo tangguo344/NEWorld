@@ -73,6 +73,8 @@ private:
 
 void loggerInit(const std::string& prefix);
 
+// information for tracing
+#define tracestream Logger(__FUNCTION__, __LINE__, trace)
 // information for developers
 #define debugstream Logger(__FUNCTION__, __LINE__, debug)
 // information for common users
