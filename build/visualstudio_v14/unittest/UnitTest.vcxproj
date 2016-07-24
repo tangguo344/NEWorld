@@ -72,7 +72,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)..\..\..\src\uilib\include;$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\src\shared;$(ProjectDir)..\..\..\src\client;$(ProjectDir)..\..\..\src\server;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)..\..\..\dependencies\lib\boostlib;$(SolutionDir)bin\$(Platform)\$(Configuration);$(SolutionDir)..\..\;$(SolutionDir)..\..\Bin\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)..\..\..\dependencies\lib\boostlib;$(SolutionDir)bin\$(Platform)\$(Configuration);$(SolutionDir)..\..\;$(ProjectDir)..\..\..\dependencies\lib;$(SolutionDir)..\..\Bin\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\Tests\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\Tests\UnitTest\</IntDir>
   </PropertyGroup>
@@ -84,7 +84,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(ProjectDir)..\..\..\src\uilib\include;$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\src\shared;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)..\..\..\dependencies\lib\boostlib;$(SolutionDir)bin\$(Platform)\$(Configuration);$(SolutionDir)..\..\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)..\..\..\dependencies\lib\boostlib;$(SolutionDir)bin\$(Platform)\$(Configuration);$(SolutionDir)..\..\;$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\Tests\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\Tests\UnitTest\</IntDir>
   </PropertyGroup>
