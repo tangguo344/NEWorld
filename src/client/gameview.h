@@ -31,6 +31,7 @@ public:
     void doRender();
     void onResize(size_t w, size_t h) override;
     void init(UI::Core::Window* win);
+    void onKey(int key);
 private:
     int windowWidth = 852, windowHeight = 480;
     Vec3f trans{ 0.0f, 0.0f, -100.0f };
