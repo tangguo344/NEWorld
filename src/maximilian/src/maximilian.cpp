@@ -275,7 +275,8 @@ double maxiOsc::phasor(double frequency)
 double maxiOsc::square(double frequency)
 {
     //This is a square wave
-    if (phase < 0.5) output = -1; else if (phase > 0.5) output = 1;
+    if (phase < 0.5) output = -1;
+    else if (phase > 0.5) output = 1;
     if (phase >= 1.0) phase -= 1.0;
     phase += (1./(maxiSettings::sampleRate/(frequency)));
     return(output);
@@ -284,7 +285,8 @@ double maxiOsc::square(double frequency)
 double maxiOsc::pulse(double frequency, double duty)
 {
     //This is a pulse generator that creates a signal between -1 and 1.
-    if (duty < 0.0) duty = 0.0; else if (duty > 1.0) duty = 1.0;
+    if (duty < 0.0) duty = 0.0;
+    else if (duty > 1.0) duty = 1.0;
     if ( phase >= 1.0 ) phase -= 1.0;
     phase += (1. / (maxiSettings::sampleRate / (frequency)));
     return (phase > duty) ? 1.0 : -1.0;
@@ -319,7 +321,8 @@ double maxiOsc::sawn(double frequency)
     if ( phase >= 0.5 ) phase -= 1.0;
     phase += (1./(maxiSettings::sampleRate/(frequency)));
     double temp = (8820.22 / frequency)*phase;
-    if (temp < -0.5) temp = -0.5; else if (temp > 0.5) temp = 0.5;
+    if (temp < -0.5) temp = -0.5;
+    else if (temp > 0.5) temp = 0.5;
     temp*=1000.0f;
     temp+=500.0f;
     double remainder = temp - floor(temp);
@@ -760,7 +763,7 @@ void maxiSample::getLength()
 
 void maxiSample::setLength(unsigned long numSamples)
 {
-    cout << "Length: " << numSamples << endl;
+    //cout << "Length: " << numSamples << endl;
     short *newData = (short*) malloc(sizeof(short) * numSamples);
     if (NULL!=temp)
     {
@@ -828,7 +831,7 @@ void maxiSample::autoTrim(float alpha, float threshold, bool trimStart, bool tri
         }
     }
 
-    cout << "Autotrim: start: " << startMarker << ", end: " << endMarker << endl;
+    //cout << "Autotrim: start: " << startMarker << ", end: " << endMarker << endl;
 
     int newLength = endMarker - startMarker;
     if (newLength > 0)
@@ -1307,7 +1310,7 @@ double maxiSnare::play()
 
     if (useDistortion)
         output=distort.fastAtanDist(output, distortion);
-        
+
     if (useFilter)
         output=filter.lores(output, cutoff, resonance);
 
