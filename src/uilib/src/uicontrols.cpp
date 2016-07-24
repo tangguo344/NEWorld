@@ -89,7 +89,7 @@ namespace UI
                     r.xmax = r.xmin + 2;
                     r.ymin += 5;
                     r.ymax -= 5;
-                    Rectangle::draw(r, crusorBrush, nullptr);
+                    Rectangle::draw(r, cursorBrush, nullptr);
                     if (cposrdcount > 50) cposrdcount = 0;
                 }
             }
@@ -97,7 +97,7 @@ namespace UI
             {
                 Rectangle::draw(cMargin.absrect, backgroundBrush, borderBrush);
             }
-            
+
             if (!imeinp)
                 Font->renderStr(leftp, cMargin.absrect.ymin + 2, cMargin.absrect, text);
             else
@@ -115,7 +115,7 @@ namespace UI
             backgroundBrush = Theme::SystemTheme.ControlBrush;
             borderHighlightBrush = Theme::SystemTheme.ActiveBorderBrush;
             borderBrush = Theme::SystemTheme.InactiveBorderBrush;
-            crusorBrush = Theme::SystemTheme.ControlDarkDarkBrush;
+            cursorBrush = Theme::SystemTheme.ControlDarkDarkBrush;
             Font = Theme::SystemTheme.DefaultFont;
             charInputFunc.connect([this](CInpArgs e)
             {
@@ -183,21 +183,21 @@ namespace UI
             {
                 switch (Stat)
                 {
-                    case UI::Core::Lose:
-                        SDL_StopTextInput();
-                        imeinp = false;
-                        appendingstr.clear();
-                        break;
-                    case UI::Core::Gain:
-                        inputRect.x = cMargin.absrect.xmin;
-                        inputRect.y = cMargin.absrect.ymax;
-                        inputRect.w = 500;
-                        inputRect.h = 50;
-                        SDL_SetTextInputRect(&inputRect);
-                        SDL_StartTextInput();
-                        break;
-                    default:
-                        break;
+                case UI::Core::Lose:
+                    SDL_StopTextInput();
+                    imeinp = false;
+                    appendingstr.clear();
+                    break;
+                case UI::Core::Gain:
+                    inputRect.x = cMargin.absrect.xmin;
+                    inputRect.y = cMargin.absrect.ymax;
+                    inputRect.w = 500;
+                    inputRect.h = 50;
+                    SDL_SetTextInputRect(&inputRect);
+                    SDL_StartTextInput();
+                    break;
+                default:
+                    break;
                 }
             });
 
