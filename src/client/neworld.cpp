@@ -39,8 +39,8 @@ void Application::beforeLaunch()
     //m_worldLoader.sortChunkLoadUnloadList(Vec3i(0, 0, 0));
 
     UI::Logger::init("./Logs");
-    UI::Font::service.addSearchPaths({ "./Fonts" });
-    UI::Globalization::Service::getInstance().setBasePath("./Langs/");
+    UI::Font::service.addSearchPaths({ "./Res/Fonts" });
+    UI::Globalization::Service::getInstance().setBasePath("./Res/Langs/");
     UI::Globalization::Service::getInstance().attachLangFiles({ "chinese", "english" });
     UI::Globalization::Service::getInstance().setLang("chinese");
     //std::thread serverThread(networkThread);

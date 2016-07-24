@@ -22,6 +22,7 @@
 #include <uilib.h>
 #include "vec3.h"
 #include "renderer.h"
+#include "pages.h"
 
 class GameView :public UI::Controls::GLContext
 {
@@ -39,15 +40,31 @@ private:
 
 class MainWindow : public UI::Core::Window
 {
+    std::thread loader;
 public:
+    std::shared_ptr<UI::Base::Texture> btex[6];
     MainWindow(int width, int height, const string& title) : UI::Core::Window(title, width, height, 200, 200)
     {
-        background = std::make_shared<UI::Graphics::Brushes::ImageBrush>(std::make_shared<UI::Base::Image>("./../Res/ss.bmp"));
-        // Disable v-sync
-        UI::GameUtils::setSwapInterval(0);
-        // Load the main menu
-        auto page = std::make_shared<GameView>(this);
-        pushPage(page, false, false);
+        background = std::make_shared<UI::Graphics::Brushes::ImageBrush>(std::make_shared<UI::Base::Image>("./Res/ss.bmp"));
+        loader = std::thread([this]()
+        {
+            btex[0] = std::make_shared<UI::Base::Texture>("./Res/bkg0.bmp");
+            btex[1] = std::make_shared<UI::Base::Texture>("./Res/bkg3.bmp");
+            btex[2] = std::make_shared<UI::Base::Texture>("./Res/bkg2.bmp");
+            btex[3] = std::make_shared<UI::Base::Texture>("./Res/bkg1.bmp");
+            btex[4] = std::make_shared<UI::Base::Texture>("./Res/bkg4.bmp");
+            btex[5] = std::make_shared<UI::Base::Texture>("./Res/bkg5.bmp");
+            //Load Something
+            std::this_thread::sleep_for(2000ms);
+            renderdelegate.push_back([this]()
+            {
+                background = UI::Theme::SystemTheme.WindowBrush;
+                // Load the main menu
+                pushPage(std::make_shared<BackGround>(this), false, false);
+                pushPage(std::make_shared<MainMenu>(this), false, true);
+                loader.join();
+            });
+        });
     }
 };
 

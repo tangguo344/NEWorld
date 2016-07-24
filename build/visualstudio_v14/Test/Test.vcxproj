@@ -44,13 +44,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)..\..\Plugins\</OutDir>
-    <LibraryPath>$(SolutionDir)..\..\Bin\;$(LibraryPath);</LibraryPath>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\Plugins\</OutDir>
+    <LibraryPath>$(SolutionDir)bin\$(Platform)\$(Configuration);$(LibraryPath);</LibraryPath>
+    <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\Plugins\Test\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)..\..\Plugins\</OutDir>
-    <LibraryPath>$(SolutionDir)..\..\Bin\;$(LibraryPath);</LibraryPath>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\Plugins\</OutDir>
+    <LibraryPath>$(SolutionDir)bin\$(Platform)\$(Configuration);$(LibraryPath);</LibraryPath>
+    <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\Plugins\Test\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

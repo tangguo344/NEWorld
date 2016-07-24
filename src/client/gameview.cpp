@@ -40,7 +40,7 @@ Texture texture;
 void GameView::init(UI::Core::Window* win)
 {
     // Example for Texture
-    texture = Texture::loadTextureRGBA("./../Res/test.bmp");
+    texture = Texture::loadTextureRGBA("./Res/test.bmp");
     UI::GameUtils::setSwapInterval(0);
     VertexArray cubeArray(3000000, VertexFormat(2, 3, 0, 3));
 
@@ -130,7 +130,6 @@ void GameView::init(UI::Core::Window* win)
     {
         doRender();
     };
-    win->background = UI::Theme::SystemTheme.WindowBrush;
 }
 
 void GameView::doRender()
@@ -142,7 +141,7 @@ void GameView::doRender()
     texture.bind(Texture::Texture2D);
     Renderer::clear();
     Renderer::restoreProj();
-    Renderer::applyPerspective(60.0f, float(windowWidth) / windowHeight, 1.0f, 1000.0f);
+    Renderer::applyPerspective(60.0f, cMargin.absrect.xmax / cMargin.absrect.ymax, 1.0f, 1000.0f);
     Renderer::restoreScale();
     Renderer::translate(Vec3f(0.0f, 0.0f, trans.z));
     Renderer::rotate(trans.x, Vec3f(1.0f, 0.0f, 0.0f));

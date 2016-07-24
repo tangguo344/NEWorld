@@ -17,6 +17,9 @@
     <Filter Include="Source\Scene">
       <UniqueIdentifier>{6a35d50b-1155-4a7c-8af2-fce5c29ea559}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\UI">
+      <UniqueIdentifier>{2a5d303a-cdec-429b-84b2-57b38695f45d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\client\renderer.h">
@@ -46,6 +49,9 @@
     <ClInclude Include="..\..\..\src\client\texture.h">
       <Filter>Source\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\client\pages.h">
+      <Filter>Source\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\client\renderer.cpp">
@@ -74,6 +80,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\client\texture.cpp">
       <Filter>Source\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\pages.cpp">
+      <Filter>Source\UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
