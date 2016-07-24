@@ -40,7 +40,7 @@ Texture texture;
 void GameView::init(UI::Core::Window* win)
 {
     // Example for Texture
-    texture = Texture::loadTextureRGBA("./Res/test.bmp");
+    texture = Texture::loadTextureRGBA("./Res/test.png");
     UI::GameUtils::setSwapInterval(0);
     VertexArray cubeArray(3000000, VertexFormat(2, 3, 0, 3));
 

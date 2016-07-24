@@ -48,12 +48,12 @@ public:
         background = std::make_shared<UI::Graphics::Brushes::ImageBrush>(std::make_shared<UI::Base::Image>("./Res/ss.png"));
         loader = std::thread([this]()
         {
-            btex[0] = std::make_shared<UI::Base::Texture>("./Res/bkg0.bmp");
-            btex[1] = std::make_shared<UI::Base::Texture>("./Res/bkg3.bmp");
-            btex[2] = std::make_shared<UI::Base::Texture>("./Res/bkg2.bmp");
-            btex[3] = std::make_shared<UI::Base::Texture>("./Res/bkg1.bmp");
-            btex[4] = std::make_shared<UI::Base::Texture>("./Res/bkg4.bmp");
-            btex[5] = std::make_shared<UI::Base::Texture>("./Res/bkg5.bmp");
+            btex[0] = std::make_shared<UI::Base::Texture>("./Res/bkg0.png");
+            btex[1] = std::make_shared<UI::Base::Texture>("./Res/bkg3.png");
+            btex[2] = std::make_shared<UI::Base::Texture>("./Res/bkg2.png");
+            btex[3] = std::make_shared<UI::Base::Texture>("./Res/bkg1.png");
+            btex[4] = std::make_shared<UI::Base::Texture>("./Res/bkg4.png");
+            btex[5] = std::make_shared<UI::Base::Texture>("./Res/bkg5.png");
             //Load Something
             std::this_thread::sleep_for(2000ms);
             renderdelegate.push_back([this]()

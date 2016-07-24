@@ -45,6 +45,8 @@ void Application::beforeLaunch()
     UI::Globalization::Service::getInstance().setLang("zh_CN");
 
     UI::Theme::SystemTheme.ControlDarkBrush = UIMakeSolidColorBrush(UI::Base::Color(0.2, 0.2, 0.2, 0.6));
+    UI::Theme::SystemTheme.ControlHeightLightBrush = UIMakeSolidColorBrush(UI::Base::Color(1.2 * 0.2, 1.2 * 0.2, 1.2 * 0.2, 0.8 * 0.6));
+    UI::Theme::SystemTheme.ControlOnPressBrush = UIMakeSolidColorBrush(UI::Base::Color(0.2 * 0.8, 0.2 * 0.8, 0.2 * 0.8, 0.9));
     UI::Theme::SystemTheme.DefaultFont = UI::Font::service.getRenderer("SourceHanSansCN-Normal", 17, UI::Base::Color(1.0, 1.0, 1.0, 1.0));
     //std::thread serverThread(networkThread);
 }
