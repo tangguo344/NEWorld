@@ -25,12 +25,7 @@ GameView::GameView(UI::Core::Window* win) :UI::Controls::GLContext()
 {
     keyFunc.connect([this](int scancode, UI::Core::ButtonAction)
     {
-        if (scancode == SDLK_LEFT) transSpeed.y -= 0.1f;
-        else if (scancode == SDLK_RIGHT) transSpeed.y += 0.1f;
-        else if (scancode == SDLK_UP) transSpeed.x -= 0.1f;
-        else if (scancode == SDLK_DOWN) transSpeed.x += 0.1f;
-        else if (scancode == SDLK_w) transSpeed.z += 0.1f;
-        else if (scancode == SDLK_s) transSpeed.z -= 0.1f;
+        onKey(scancode);
     });
     win->renderdelegate.push_back([this, win]() { init(win); });
 }
@@ -160,4 +155,14 @@ void GameView::onResize(size_t w, size_t h)
     Grid::onResize(w, h);
     windowWidth = w;
     windowHeight = h;
+}
+
+void GameView::onKey(int key)
+{
+    if (key == SDLK_LEFT) transSpeed.y -= 0.1f;
+    else if (key == SDLK_RIGHT) transSpeed.y += 0.1f;
+    else if (key == SDLK_UP) transSpeed.x -= 0.1f;
+    else if (key == SDLK_DOWN) transSpeed.x += 0.1f;
+    else if (key == SDLK_w) transSpeed.z += 0.1f;
+    else if (key == SDLK_s) transSpeed.z -= 0.1f;
 }
