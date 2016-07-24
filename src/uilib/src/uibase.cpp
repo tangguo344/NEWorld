@@ -42,8 +42,8 @@ namespace UI
             int initted = IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
             if (!initted)
             {
-                //logwarning("IMG_Init: Failed to init required jpg and png support!\n");
-                //logwarning("IMG_Init:" + std::string(IMG_GetError());
+                logerror("IMG_Init: Failed to init required jpg and png support!\n");
+                logerror("IMG_Init:" + std::string(IMG_GetError()));
             }
         }
 

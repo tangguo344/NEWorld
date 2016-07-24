@@ -339,9 +339,9 @@ namespace UI
         {
             SDL_Event event;//事件
             std::shared_ptr<Window> curWin;
-            while(SDL_PollEvent(&event)) //从队列里取出事件
+            while(SDL_PollEvent(&event))
             {
-                switch(event.type)  //根据事件类型分门别类去处�?
+                switch(event.type)
                 {
                     case SDL_APP_TERMINATING:
                         break;

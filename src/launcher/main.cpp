@@ -21,7 +21,7 @@
 #include <boost/dll/shared_library.hpp>
 #include <common.h> // For NWAPICALL
 
-const std::string Path = "./";
+std::string Path = "./";
 typedef void NWAPICALL MainFunction(int, char**);
 
 int main(int argc, char** argv)
@@ -38,6 +38,11 @@ int main(int argc, char** argv)
     }
     else
     {
+        std::string searchpath;
+        if (argc == 3)
+        {
+            Path = std::string(argv[2]);
+        }
         bool filespec = false;
         for(int i = 1;i < argc;i++)
         {

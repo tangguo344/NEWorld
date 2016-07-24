@@ -24,9 +24,9 @@
 #include "servercommand.h"
 #include <pluginapi.h>
 
-extern "C" NWAPIEXPORT int NWAPICALL main(int, char*[]);
+extern "C" NWAPIEXPORT int NWAPICALL main(int, char**);
 
-int NWAPICALL main(int, char*[])
+int NWAPICALL main(int argc, char** argv)
 {
     loadSettings();
     loggerInit("NEWorld_Server");
@@ -38,7 +38,7 @@ int NWAPICALL main(int, char*[])
     std::thread inputThread(inputThreadFunc);
     try
     {
-        Server s(ioService, globalPort);
+        Server s(ioService, globalPort, (argc == 3) ? argv[2] : "./");
         ioService.run();
     }
     catch (std::exception& e)

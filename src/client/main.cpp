@@ -19,11 +19,11 @@
 #include "neworld.h"
 #include <logger.h>
 
-extern "C" NWAPIEXPORT int NWAPICALL main(int, char*[]);
+extern "C" NWAPIEXPORT int NWAPICALL main(int argc, char**);
 
-int NWAPICALL main(int, char*[])
+int NWAPICALL main(int argc, char** argv)
 {
-    Application application(852, 480, "NEWorld");
+    Application application(852, 480, "NEWorld", (argc == 3) ? argv[2] : "./");
     application.run();
     return 0;
 }

@@ -34,7 +34,7 @@
 class Application :public UI::Core::Application
 {
 public:
-    Application(int width, int height, const string& title);
+    Application(int width, int height, const string& title, const string& path);
     void beforeLaunch() override;
     void afterLaunch() override;
     void onTerminate() override;
