@@ -74,7 +74,7 @@ namespace UI
             std::shared_ptr<Brush> borderBrush;
             std::shared_ptr<Brush> backgroundHighlightBrush;
             std::shared_ptr<Brush> borderHighlightBrush;
-            std::shared_ptr<Brush> crusorBrush;
+            std::shared_ptr<Brush> cursorBrush;
             std::shared_ptr<FontRenderer> Font;
 
             NotifyFunc onEditDone;
@@ -125,7 +125,7 @@ namespace UI
         public:
             GLContext();
             NotifyFunc onRenderF;
-            
+
             void render();
         };
 
