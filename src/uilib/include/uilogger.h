@@ -24,6 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include "uiplatform.h"
 #include <string>
 #include <sstream>
+#include <functional>
 
 namespace UI
 {
@@ -51,6 +52,8 @@ namespace UI
 
         UILIB_API extern Logger service;
         UILIB_API void init(const std::string& path);
+        using HookFunc = std::function<void(std::string, const char*, int)>;
+        UILIB_API void setHook(Level lev, HookFunc func);
 
 #define logdebug(x)    UI::Logger::service.log(UI::Logger::Level::debug  , x, __FUNCTION__, __LINE__)
 #define loginfo(x)     UI::Logger::service.log(UI::Logger::Level::info   , x, __FUNCTION__, __LINE__)
