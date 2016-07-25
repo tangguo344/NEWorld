@@ -62,6 +62,7 @@ namespace UI
             Vec3& set(const Vec3& to);
             Vec3& set(const double _x, const double _y, const double _z);
             double length() const;
+            double lengthSqr() const;
             Vec3 unit() const;
             double dot(const Vec3& b) const;
         };
