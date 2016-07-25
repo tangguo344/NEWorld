@@ -5,7 +5,7 @@
 
 全新的NEWorld!  
 
-NEWorld采用[GPLv3许可证](http://www.gnu.org/licenses/gpl.html)发布并受其保护。  
+NEWorld采用[LGPLv3许可证](http://www.gnu.org/licenses/lgpl.html)发布并受其保护。  
 
 如果您想加入开发，请在SIGNOFF文件中署名。  
 
