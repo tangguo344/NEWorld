@@ -20,6 +20,7 @@
 #ifndef WINDOW_H_
 #define WINDOW_H_
 
+#include <thread>
 #include <uilib.h>
 #include "vec3.h"
 #include "renderer.h"
@@ -57,7 +58,7 @@ public:
             btex[4] = std::make_shared<UI::Base::Texture>("./Res/bkg4.png");
             btex[5] = std::make_shared<UI::Base::Texture>("./Res/bkg5.png");
             //Load Something
-            std::this_thread::sleep_for(2000ms);
+            //std::this_thread::sleep_for(2000ms);
             renderdelegate.push_back([this]()
             {
                 background = UI::Theme::SystemTheme.WindowBrush;

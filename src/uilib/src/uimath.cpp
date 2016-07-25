@@ -156,6 +156,11 @@ namespace UI
         {
             return (sqrt(x * x + y * y + z * z));
         }
+        
+        double Vec3::lengthSqr() const
+        {
+            return x * x + y * y + z * z;
+        }
 
         Vec3 Vec3::unit() const
         {
