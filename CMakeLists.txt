@@ -11,7 +11,6 @@ endif()
 
 if(UNIX)
     link_libraries(dl)
-    set(AUDIO -D__LINUX_ALSA__)
 endif(UNIX)
 
 if(MS_VC)
@@ -64,5 +63,9 @@ add_dependencies(NEWorld nwshared)
 add_dependencies(NEWorldServer nwshared)
 
 if(CMAKE_SYSTEM_NAME MATCHES "Linux")
-    set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-fPIC")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+endif()
+
+if(EXTRA_FLAGS)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${EXTRA_FLAGS}")
 endif()
