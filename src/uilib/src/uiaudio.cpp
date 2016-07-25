@@ -29,6 +29,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <SDL2/SDL.h>
 #include <float.h>
 #include <limits.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -82,7 +83,7 @@ namespace UI
 
             void loadChunk(size_t chunk)
             {
-                size_t lread = min(length - chunk * 32768, 32768u) * sizeof(short);
+                size_t lread = std::min(length - chunk * 32768, 32768ul) * sizeof(short);
                 inFile.seekg(filePos + chunk * 32768 * sizeof(short), ios::beg); 
                 if (isStreaming)
                 {
