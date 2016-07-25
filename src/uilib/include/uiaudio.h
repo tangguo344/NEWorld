@@ -27,8 +27,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #include <vector>
 #include <chrono>
 #include <functional>
-#include <maximilian.h>
-#include <RtAudio.h>
 #include <tuple>
 
 namespace UI
@@ -43,7 +41,7 @@ namespace UI
         public:
             Effect() = default;
             virtual ~Effect() = default;
-            virtual double operator()(double input, Source* thisSource);
+            virtual void operator()(int32_t& input, Source* thisSource) {};
         };
 
         class UILIB_API EffectEx
@@ -52,52 +50,63 @@ namespace UI
 
             EffectEx() = default;
             virtual ~EffectEx() = default;
-            virtual double operator()(double input, size_t channel, Source* thisSource);
+            virtual void operator()(int32_t& input, size_t channel, Source* thisSource) {};
+        };
+
+        class UILIB_API Stream
+        {
+        public:
+            bool looping;
+            size_t length, sampleRate, channels;
+            double speed, deviceSampleRate;
+            Stream() = default;
+            virtual ~Stream() = default;
+            virtual double tellp() = 0;
+            virtual void setp(double) = 0;
+            virtual int32_t get() = 0;
+            virtual int32_t peek() = 0;
+            virtual bool eof() = 0;
+        protected:
+            bool isStreaming;
         };
 
         class UILIB_API Source
         {
         private:
             Math::Vec3 pos;
-            double samplePos;
-            bool isPlay, loop;
-            std::shared_ptr<maxiSample> sample;
-            double sampleValue;
-            double freq;//for User
-            double realFreq;//for Effects
-            double gain;
+            bool isPlay;
+            std::shared_ptr<Stream> sample;
             Math::Vec3 move;
             size_t refcount;
-            vector<shared_ptr<UI::Audio::Effect>> effects;
-            vector<shared_ptr<UI::Audio::EffectEx>> effectsExs;
+            std::vector<std::shared_ptr<UI::Audio::Effect>> effects;
+            std::vector<std::shared_ptr<UI::Audio::EffectEx>> effectsExs;
         public:
             Source();
             Source(const Source& source_);
-            Source(std::shared_ptr<maxiSample> sample_);
+            Source(std::shared_ptr<Stream> sample_);
             ~Source();
             bool isStopped();
             void play(bool loop);
             void stop();
-            double setPos(double Pos_ = 0.0);
-            double operator()(size_t channel);
-            void Sample();
+            void setPos(double Pos_ = 0.0);
+            int32_t operator()(size_t channel);
+            int32_t Sample();
             Math::Vec3& getPos();
             Math::Vec3& getMove();
-            double getFreq();
-            void setFreq(double newFreq = 1.0);
-            void setGain(double newGain = 1.0);
-            double getGain();
-            void setRealFreq(double newFreq);
+            double freq;//for User
+            double realFreq;//for Effects
+            double gain;
             void addRef();
             void releaseRef();
             bool canRelease();
-            vector<shared_ptr<UI::Audio::Effect>>& getEffects();
-            vector<shared_ptr<UI::Audio::EffectEx>>& getEffectExs();
+            std::vector<std::shared_ptr<UI::Audio::Effect>>& getEffects();
+            std::vector<std::shared_ptr<UI::Audio::EffectEx>>& getEffectExs();
         };
 
         class UILIB_API SourceHandler
         {
         public:
+            SourceHandler() = default;
             SourceHandler(Source* src);
             ~SourceHandler();
             Source& get() const;
@@ -127,7 +136,7 @@ namespace UI
         public:
             OutEffect() = default;
             virtual ~OutEffect() = default;
-            virtual double operator()(double input, size_t channel);
+            virtual void operator()(int32_t& input, size_t channel) {};
         };
 
         class UILIB_API OutEffectEx
@@ -135,10 +144,10 @@ namespace UI
         public:
             OutEffectEx() = default;
             virtual ~OutEffectEx() = default;
-            virtual void operator()(double* input, size_t channel);
+            virtual void operator()(int32_t* input, size_t channel) {};
         };
-
-        UILIB_API extern std::map < std::string, std::function<bool(const std::string&, maxiSample&) >> sourceLoaders;
+        
+        UILIB_API extern std::map<std::string, std::function<std::shared_ptr<Stream>(std::string)>> sourceLoaders;
 
         UILIB_API extern std::vector <std::shared_ptr<UI::Audio::OutEffect>> outEffects;
 
@@ -146,7 +155,7 @@ namespace UI
 
         UILIB_API extern Listener thisListener;
 
-        UILIB_API extern double(*speedOfSoundSampler)(const Math::Vec3& pos);
+        UILIB_API extern int32_t(*speedOfSoundSampler)(const Math::Vec3& pos);
 
         UILIB_API extern unsigned char SampleNum;
 
@@ -154,11 +163,8 @@ namespace UI
 
         UILIB_API SourceHandler load(const std::string& fileName);
 
-        UILIB_API bool bind(const std::shared_ptr<maxiSample> & sample, SourceHandler& handler);
-
         UILIB_API void unInit();
 
-        UILIB_API void openStream();
 
         namespace Effects
         {
@@ -174,7 +180,7 @@ namespace UI
             public:
                 Balance() = default;
                 ~Balance() = default;
-                virtual double operator()(double input, size_t channel);
+                virtual void operator()(int32_t& input, size_t channel);
                 void setFactor(size_t channel, double value);
                 double getFactor(size_t channel);
             };
@@ -192,7 +198,7 @@ namespace UI
             public:
                 Damping() = default;
                 ~Damping() = default;
-                virtual double operator()(double input, size_t channel);
+                virtual void operator()(int32_t& input, size_t channel);
                 void setFactor(size_t channel, double value);
                 double getFactor(size_t channel);
             };
@@ -230,8 +236,8 @@ namespace UI
 
                 EQ() = default;
                 ~EQ() = default;
-                virtual double operator()(double input, size_t channel);
-                virtual double operator()(double input, Source* thisSource);
+                virtual void operator()(int32_t& input, size_t channel);
+                virtual void operator()(int32_t& input, Source* thisSource);
                 void setFactors(Factors newFactors, double newAdd = 0.0);
                 std::pair<double, Factors> getFactors();
             };
@@ -248,7 +254,7 @@ namespace UI
             public:
                 Amplifier() = default;
                 ~Amplifier() = default;
-                virtual void operator()(double* input, size_t channel);
+                virtual void operator()(int32_t* input, size_t channel);
                 double getFactor();
                 void setFactor(double newFactor = 1.0);
             };
@@ -272,7 +278,7 @@ namespace UI
                 };
                 Stereo() = default;
                 ~Stereo() = default;
-                virtual double operator()(double input, size_t channel, Source* thisSource);
+                virtual int32_t operator()(int32_t input, size_t channel, Source* thisSource);
                 void getSettings(Mode& newMode, double& newRolloffFactor, double& newReferenceDistance, double& newMaxDistance);
                 void set(Mode newMode = EXPONENT_DISTANCE_CLAMPED, double newRolloffFactor = 1.0, double newReferenceDistance = 1.0, double newMaxDistance = 100.0);
             private:
@@ -292,7 +298,7 @@ namespace UI
             public:
                 Doppler() = default;
                 ~Doppler() = default;
-                virtual double operator()(double input, Source* thisSource);
+                virtual void operator()(int32_t& input, Source* thisSource);
             };
 
             /*
@@ -310,27 +316,11 @@ namespace UI
                     Add,
                     Factor
                 };
-                virtual double operator()(double input, Source* thisSource);
+                virtual void operator()(int32_t& input, Source* thisSource);
                 void set(NoiseMode newMode = Factor, double newFactor = 0.1);
             private:
                 NoiseMode noiseMode = Factor;
                 double factor = 0.1;
-            };
-
-            /*
-            Compressor
-            Maxmilian自带效果器.
-            */
-            class UILIB_API Compressor : public Effect
-            {
-            private:
-                maxiDyn compressor;
-            public:
-                Compressor() = default;
-                ~Compressor() = default;
-                virtual double operator()(double input, Source* thisSource);
-                maxiDyn& getCompressor();
-
             };
         }
 
