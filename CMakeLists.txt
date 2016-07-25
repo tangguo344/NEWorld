@@ -25,17 +25,11 @@ endif()
 add_definitions(-DSDL_MAIN_HANDLED)
 
 # ---
-project(maximilian)
-aux_source_directory(./src/maximilian/src SRC_MAXIMILIAN)
-add_library(maximilian STATIC ${SRC_MAXIMILIAN})
-target_include_directories(maximilian PUBLIC ./src/maximilian/include)
-target_compile_definitions(maximilian PUBLIC ${AUDIO})
-# ---
 project(uilib)
 aux_source_directory(./src/uilib/src SRC_UILIB)
 add_library(uilib STATIC ${SRC_UILIB})
 target_link_libraries(uilib GL GLEW SDL2 SDL2main SDL2_image)
-target_include_directories(uilib PUBLIC ./src/uilib/include PUBLIC ./src/maximilian/include)
+target_include_directories(uilib PUBLIC ./src/uilib/include)
 # ---
 project(nwshared)
 aux_source_directory(./src/shared SRC_SHARED)
@@ -49,7 +43,7 @@ else()
     add_library(NEWorld SHARED ${SRC_CLIENT})
 endif()
 target_link_libraries(NEWorld pthread nwshared uilib freetype)
-target_include_directories(NEWorld PUBLIC ./src/shared PUBLIC ./src/uilib/include PUBLIC ./src/maximilian/include)
+target_include_directories(NEWorld PUBLIC ./src/shared PUBLIC)
 # ---
 project(nwserver)
 aux_source_directory(./src/server SRC_SERVER)
@@ -68,7 +62,6 @@ target_include_directories(launcher PUBLIC ./src/shared)
 
 add_dependencies(NEWorld nwshared)
 add_dependencies(NEWorldServer nwshared)
-add_dependencies(uilib maximilian)
 
 if(CMAKE_SYSTEM_NAME MATCHES "Linux")
     set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-fPIC")

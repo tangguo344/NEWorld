@@ -20,11 +20,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 
 #include <uiaudio.h>
 #include <uilogger.h>
-#include <limits.h>
-#include <float.h>
 #include "uidataint.h"
 #include <map>
+#include <cmath>
 #include <random>
+#include <fstream>
+#include <iostream>
+#include <SDL2/SDL.h>
+#include <float.h>
+#include <limits.h>
+
+using namespace std;
 
 #if defined( __WIN32__ ) || defined( _WIN32 )
 //#include <dsound.h>
@@ -34,129 +40,254 @@ namespace UI
 {
     namespace Audio
     {
-        std::map < std::string, std::function<bool(const std::string&, maxiSample&) >> sourceLoaders;
+        size_t channels = 2;
+
+        std::map<std::string, std::function<std::shared_ptr<Stream>(std::string)>> sourceLoaders;
         Listener thisListener;
         std::vector <std::shared_ptr<OutEffect>> outEffects;
         std::vector <std::shared_ptr<OutEffectEx>> outEffectExs;
-        double speedSampler(const Math::Vec3& pos);
-        double(*speedOfSoundSampler)(const Math::Vec3& pos) = speedSampler;
+        int32_t speedSampler(const Math::Vec3& pos);
+        int32_t(*speedOfSoundSampler)(const Math::Vec3& pos) = speedSampler;
         unsigned char SampleNum = 2;
         std::vector<Source> sources;
-        RtAudio device(RtAudio::WINDOWS_DS);
+        SDL_AudioDeviceID dev;
+        int sampleFormat;
 
         // PlayData
         bool srcreleased = true;
         size_t size;
-        double* vals = nullptr;
         //End PlayData
 
         std::mt19937 rand;
 
-        double speedSampler(const Math::Vec3& pos)
+        //Formats
+        class WAV : public Stream
+        {
+            unsigned int myChunkSize, mySubChunk1Size, length;
+            short myFormat, myChannels, myBlockAlign, myBitsPerSample;
+            double position;
+            struct WAVChunk
+            {
+                int size, pos0, pos1;
+                short data[32768];
+            };
+            int mySampleRate, myByteRate;
+        public:
+            WAVChunk* curChunk;
+            //WAVChunk emptyChunk;
+            ifstream inFile;
+            std::vector<WAVChunk> chunks;
+            int chunkID, count, filePos;
+            double tellp() { return position; }
+
+            void loadChunk(size_t chunk)
+            {
+                size_t lread = min(length - chunk * 32768, 32768u) * sizeof(short);
+                inFile.seekg(filePos + chunk * 32768 * sizeof(short), ios::beg); 
+                if (isStreaming)
+                {
+                    curChunk->pos0 = chunk * 32768;
+                    curChunk->pos1 = chunk * 32768 + 32767;
+                    curChunk->size = 32768;
+                    inFile.read((char*)curChunk->data, lread);
+                }
+                else
+                {
+                    chunks[chunk].pos0 = chunk * 32768;
+                    chunks[chunk].pos1 = chunk * 32768 + 32767;
+                    chunks[chunk].size = 32768;
+
+                    inFile.read((char*)(&chunks[chunk].data[0]), lread);
+                }
+            }
+            
+            void setp(double pos) 
+            {
+                position = pos; 
+                chunkID = pos / 32768;
+                if (isStreaming)
+                {
+                    if (curChunk != nullptr)
+                    {
+                        if (pos > curChunk->pos0 && pos < curChunk->pos1)
+                            return;
+                    }
+                    loadChunk(chunkID);
+                }
+                else
+                    curChunk = &chunks[chunkID];
+            };
+
+            void getNextChunk()
+            {
+                ++chunkID;
+                if (chunkID == count)
+                    if (looping)
+                    {
+                        position = 0;
+                        chunkID = 0;
+                        if (isStreaming)
+                            inFile.clear();
+                    }
+                    else return;
+                if (!isStreaming)
+                    curChunk = &chunks[chunkID];
+                else
+                    loadChunk(chunkID);
+            }
+            int32_t get()
+            {
+                if (position > curChunk->pos1) getNextChunk();
+                return curChunk->data[static_cast<size_t>((position++) - curChunk->pos0)];
+            }
+            int32_t peek()
+            {
+                if (position > curChunk->pos1) getNextChunk();
+                return curChunk->data[static_cast<size_t>(position - curChunk->pos0)];
+            }
+            bool eof()
+            {
+                return (chunkID == count) && looping;
+            }
+
+            WAV() = default;
+            void load(std::string filename, bool streaming)
+            {
+                isStreaming = streaming;
+                int myDataSize;
+                inFile = std::ifstream(filename, ios::binary);
+                if (inFile.good())
+                {
+
+                    bool datafound = false;
+                    inFile.seekg(4, ios::beg);
+                    inFile.read((char*)&myChunkSize, sizeof(int)); // read the ChunkSize
+
+                    inFile.seekg(16, ios::beg);
+                    inFile.read((char*)&mySubChunk1Size, sizeof(int)); // read the SubChunk1Size
+
+                    inFile.read((char*)&myFormat, sizeof(short)); // read the file format.  This should be 1 for PCM
+                    inFile.read((char*)&myChannels, sizeof(short)); // read the # of channels (1 or 2)
+                    inFile.read((char*)&mySampleRate, sizeof(int)); // read the samplerate
+                    inFile.read((char*)&myByteRate, sizeof(int)); // read the byterate
+                    inFile.read((char*)&myBlockAlign, sizeof(short)); // read the blockalign
+                    inFile.read((char*)&myBitsPerSample, sizeof(short)); // read the bitspersample
+
+                                                                         //ignore any extra chunks
+                    char chunkID[5] = "";
+                    chunkID[4] = 0;
+                    filePos = 20 + mySubChunk1Size;
+                    while (!datafound && !inFile.eof())
+                    {
+                        inFile.seekg(filePos, ios::beg);
+                        inFile.read((char*)&chunkID, sizeof(char) * 4);
+                        inFile.seekg(filePos + 4, ios::beg);
+                        inFile.read((char*)&myDataSize, sizeof(int)); // read the size of the data
+                        filePos += 8;
+                        if (strcmp(chunkID, "data") == 0)
+                            datafound = true;
+                        else
+                            filePos += myDataSize;
+                    }
+                    length = myDataSize;
+                    count = (size_t)((double)myDataSize / (sizeof(short) * 32768) + 1.0);
+                    if (!isStreaming)
+                    {
+                        for (size_t c = 0; c < count; ++c)
+                        {
+                            chunks.push_back(WAVChunk());
+                            loadChunk(c);
+                        }
+                        inFile.close();
+                    }
+                    else
+                    {
+                        curChunk = new WAVChunk();
+                    }
+                    setp(0.0);
+                }
+                else
+                    cout<<"Could not load sample."<<endl;
+            }
+            ~WAV() = default;
+        };
+
+        int32_t speedSampler(const Math::Vec3& pos)
         {
             return 343.3;
         }
 
-        inline double mix(double* iter, double* end)
+        //Put Temp Vars Together To Reduce Allocation Costs
+        int32_t *buffer, *end;
+        size_t i;
+        void routing(void *, Uint8 * stream, int)
         {
-            double s = 0.0;
-
-            for(; iter < end; ++iter) s += *iter;
-
-            return s;
-        };
-
-        void play(double* data)
-        {
-            for (auto &s : sources)
-                if (!s.isStopped()) s.Sample();
-
-            for(size_t i = 0; i < maxiSettings::channels; ++i)
-            {
-                for(size_t j = 0; j < size; j++)
-                    vals[j] = sources[j](i);
-
-                data[i] = mix(vals, vals + size);
-
-                for(auto&x : outEffects)
-                    data[i] = (*x)(data[i], i);
-            }
-
-            for(auto&x : outEffectExs)
-                (*x)(data, maxiSettings::channels);
-        }
-
-#ifdef MAXIMILIAN_PORTAUDIO
-        int routing(const void *inputBuffer, void *outputBuffer, unsigned long nBufferFrames,
-                    const PaStreamCallbackTimeInfo* timeInfo, PaStreamCallbackFlags status, void *userData)
-        {
-            float *buffer = (float *)outputBuffer;
-#elif defined(MAXIMILIAN_RT_AUDIO)
-        int routing(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
-                    double streamTime, RtAudioStreamStatus status, void *userData)
-        {
-            double *buffer = (double *)outputBuffer;
-#endif
-            double *lastValues = (double *)userData;
-            unsigned int i;
-            int j;
-
-            //  double currentTime = (double) streamTime; Might come in handy for control
-            if(status) logwarning("Stream underflow detected!");
-
+            buffer = reinterpret_cast<int32_t*>(stream);
+            end = buffer + 8192;
             if(srcreleased)
             {
-                if(vals) delete[]vals;
-
                 size = sources.size();
-                vals = new double[size];
-
                 for(auto iter = sources.begin(); iter < sources.end(); iter++)
                     if(iter->canRelease()) sources.erase(iter);
 
                 srcreleased = false;
             }
 
-            // Write interleaved audio data.
-            for(i = 0; i < nBufferFrames; i++)
+            memset(buffer, 0, 8192 * sizeof(int32_t));
+            for (; buffer < end;)
             {
-                play(lastValues);
-
-                for(j = 0; j < maxiSettings::channels; j++)
-                    *buffer++ = lastValues[j];
+                for (i = 0; i < channels; ++i)
+                {
+                    for (auto& s : sources) *buffer += s(i) * 65536;
+                    for (auto& x : outEffects) (*x)(*buffer, i);
+                    ++buffer;
+                }
+                for (auto&x : outEffectExs)
+                    (*x)(buffer - channels, channels);
             }
-
-            return 0;
         }
+
         void init()
         {
-            if(device.getDeviceCount() < 1)
+            if (SDL_GetNumAudioDrivers() < 1)
             {
                 logerror("No audio devices found!");
             }
 
-            RtAudio::StreamParameters SP;
-            SP.deviceId = device.getDefaultOutputDevice();
-            SP.nChannels = maxiSettings::channels;
-            SP.firstChannel = 0;
-            unsigned int SampleRate = maxiSettings::sampleRate;
-            unsigned int BufferFrames = maxiSettings::bufferSize;
-            vector<double> Data(maxiSettings::channels, 0);
-            device.openStream(&SP, NULL, RTAUDIO_FLOAT64, SampleRate, &BufferFrames, &routing, Data.data());
-            //Push Two Default Loaders
-            sourceLoaders.insert({ "wav", [](const std::string & f, maxiSample & s)->bool { return s.load(f); } });
-            sourceLoaders.insert({ "ogg", [](const std::string & f, maxiSample & s)->bool { return s.loadOgg(f); } });
+            SDL_AudioSpec want, have;
+
+            SDL_memset(&want, 0, sizeof(want));
+            want.freq = 44100;
+            want.format = AUDIO_S32;
+            want.channels = 2;
+            want.samples = 4096;
+            want.callback = routing;  // you wrote this function elsewhere.
+
+            dev = SDL_OpenAudioDevice(NULL, 0, &want, &have, SDL_AUDIO_ALLOW_FORMAT_CHANGE);
+            if (dev == 0) logerror("Failed to open audio:" + std::string(SDL_GetError()));
+            if (have.format != want.format)
+            {
+                printf("We didn't get int32_t audio format, currently the playing will fail");
+            }
+            SDL_PauseAudioDevice(dev, 0); // start audio playing.
+            sourceLoaders.insert({ "wav",[](std::string file)-> std::shared_ptr<Stream>
+            {
+                auto c = std::make_shared<WAV>();
+                c->load(file, true);
+                return c;
+            } });
         }
         SourceHandler load(const std::string & fileName)
         {
-            std::shared_ptr<maxiSample> sample(new maxiSample());
+            std::shared_ptr<Stream> sample;
             auto iter = sourceLoaders.find(UI::Data::strtolower(fileName.substr(fileName.find_last_of('.') + 1)));
 
             if(iter != sourceLoaders.end())
             {
-                if(iter->second(fileName, *sample))
+                if(sample = iter->second(fileName))
                 {
                     sources.push_back(Source(sample));
+                    srcreleased = true;
                     return SourceHandler(&sources.back());
                 }
                 else
@@ -171,7 +302,7 @@ namespace UI
 
             return SourceHandler(nullptr);
         }
-        bool bind(const std::shared_ptr<maxiSample>& sample, SourceHandler & handler)
+        bool bind(const std::shared_ptr<Stream>& sample, SourceHandler & handler)
         {
             if(sample)
             {
@@ -182,70 +313,50 @@ namespace UI
 
             return false;
         }
-        void openStream()
-        {
-            device.startStream();
-        }
         void unInit()
         {
-            device.stopStream();
-            if(device.isStreamOpen())
-                device.closeStream();
+            SDL_PauseAudioDevice(dev, 1); // start audio playing.
+            SDL_CloseAudioDevice(dev);
         }
         void Source::play(bool loop_)
         {
-            if(isPlay)
-            {
-                logwarning("The Source is Playing.");
-            }
-
-            loop = loop_;
+            if(isPlay) logwarning("The Source is Playing.");
+            
+            sample->looping = loop_;
             isPlay = true;
         }
         void Source::stop()
         {
-            if(!isPlay)
-            {
-                logwarning("The Source is Stopped.");
-            }
+            if(!isPlay) logwarning("The Source is Stopped.");
 
             isPlay = false;
         }
-        double Source::setPos(double pos_)
+
+        void Source::setPos(double pos_)
         {
-            double tmp = samplePos / sample->length;
-            samplePos = pos_ * sample->length;
-            return tmp;
+            sample->setp(pos_ * sample->length);
         }
-        double Source::operator()(size_t channel)
+
+        int32_t Source::operator()(size_t channel)
         {
             if(isPlay && sample)
             {
-                double value = sampleValue;
-
+                int32_t value = Sample();
                 for(auto& func : effectsExs)
-                {
-                    value = (*func)(value, channel, this);
-                }
-
+                    (*func)(value, channel, this);
                 return value;
             }
 
             return 0.0;
         }
-        void Source::Sample()
+        int32_t Source::Sample()
         {
-            double lastPos = samplePos;
-            sample->position = samplePos;
-            sampleValue = sample->play(realFreq * freq) * gain;
-            samplePos = sample->position;
-
+            int32_t sampleValue = sample->get() * gain;
             for(auto& func : effects)
-            {
-                sampleValue = (*func)(sampleValue, this);
-            }
+                (*func)(sampleValue, this);
 
-            isPlay = (samplePos >= lastPos) || loop;
+            isPlay = !sample->eof();
+            return sampleValue;
         }
         Math::Vec3& Source::getPos()
         {
@@ -254,26 +365,6 @@ namespace UI
         Math::Vec3& Source::getMove()
         {
             return move;
-        }
-        double Source::getFreq()
-        {
-            return freq;
-        }
-        void Source::setFreq(double newFreq)
-        {
-            freq = newFreq;
-        }
-        void Source::setGain(double newGain)
-        {
-            gain = newGain;
-        }
-        double Source::getGain()
-        {
-            return gain;
-        }
-        void Source::setRealFreq(double newFreq)
-        {
-            realFreq = newFreq;
         }
         void Source::addRef()
         {
@@ -287,11 +378,11 @@ namespace UI
         {
             return refcount <= 0;
         }
-        vector<shared_ptr<UI::Audio::Effect>>& Source::getEffects()
+        std::vector<std::shared_ptr<UI::Audio::Effect>>& Source::getEffects()
         {
             return effects;
         }
-        vector<shared_ptr<UI::Audio::EffectEx>>& Source::getEffectExs()
+        std::vector<std::shared_ptr<UI::Audio::EffectEx>>& Source::getEffectExs()
         {
             return effectsExs;
         }
@@ -303,18 +394,18 @@ namespace UI
         {
         }
         Source::Source() :
-            sample(nullptr), isPlay(false), loop(false), refcount(0), samplePos(0.0),
-            freq(1.0), gain(1.0), realFreq(1.0), sampleValue(0.0)
+            sample(nullptr), isPlay(false), refcount(0),
+            freq(1.0), gain(1.0), realFreq(1.0)
         {
         }
-        Source::Source(std::shared_ptr<maxiSample> sample_) :
-            sample(sample_), isPlay(false), loop(false), refcount(0), samplePos(0.0),
-            freq(1.0), gain(1.0), realFreq(1.0), sampleValue(0.0)
+        Source::Source(std::shared_ptr<Stream> sample_) :
+            sample(sample_), isPlay(false), refcount(0), 
+            freq(1.0), gain(1.0), realFreq(1.0)
         {
         }
         Source::Source(const Source & source_) :
-            sample(source_.sample), isPlay(false), loop(false), refcount(0), samplePos(0.0),
-            effects(source_.effects), effectsExs(source_.effectsExs), freq(1.0), realFreq(1.0), sampleValue(0.0)
+            sample(source_.sample), isPlay(false), refcount(0),
+            effects(source_.effects), effectsExs(source_.effectsExs), freq(1.0), realFreq(1.0)
         {
         }
         Math::Vec3& Listener::getPos()
@@ -343,21 +434,6 @@ namespace UI
         {
             return move;
         }
-        double Effect::operator()(double input, Source * thisSource)
-        {
-            return input;
-        }
-        double EffectEx::operator()(double input, size_t channel, Source * thisSource)
-        {
-            return input;
-        }
-        double OutEffect::operator()(double input, size_t channel)
-        {
-            return input;
-        }
-        void OutEffectEx::operator()(double * input, size_t channel)
-        {
-        }
         SourceHandler::SourceHandler(Source * src) :
             msrc(src)
         {
@@ -377,13 +453,13 @@ namespace UI
         }
         namespace Effects
         {
-            double Balance::operator()(double input, size_t channel)
+            void Balance::operator()(int32_t& input, size_t channel)
             {
-                return input * ((channel < factors.size()) ? factors[channel] : 1.0);
+                input *= ((channel < factors.size()) ? factors[channel] : 1.0);
             }
             void Balance::setFactor(size_t channel, double value)
             {
-                if(channel >= factors.size())
+                if (channel >= factors.size())
                 {
                     factors.resize(channel + 1);
                 }
@@ -392,52 +468,47 @@ namespace UI
             }
             double Balance::getFactor(size_t channel)
             {
-                if(channel >= factors.size())
+                if (channel >= factors.size())
                 {
                     factors.resize(channel + 1);
                 }
 
                 return factors[channel];
             }
-            double Damping::operator()(double input, size_t channel)
+            void Damping::operator()(int32_t& input, size_t channel)
             {
-                if(channel >= values.size())
-                {
+                if (channel >= values.size())
                     values.resize(channel + 1);
-                }
 
-                values[channel] = input + values[channel] * ((channel < factors.size()) ? factors[channel] : 0.5);
-                return values[channel];
+                values[channel] = input += values[channel] * ((channel < factors.size()) ? factors[channel] : 0.5);
             }
             void Damping::setFactor(size_t channel, double value)
             {
-                if(channel >= factors.size())
-                {
+                if (channel >= factors.size())
                     factors.resize(channel + 1);
-                }
 
                 factors[channel] = value;
             }
             double Damping::getFactor(size_t channel)
             {
-                if(channel >= factors.size())
+                if (channel >= factors.size())
                 {
                     factors.resize(channel + 1);
                 }
 
                 return factors[channel];
             }
-            double EQ::operator()(double input, size_t channel)
+            void EQ::operator()(int32_t& input, size_t channel)
             {
-                if(channel >= samplePoints.size())
+                if (channel >= samplePoints.size())
                 {
                     samplePoints.resize(channel + 1);
                     freqs.resize(channel + 1);
                 }
 
-                if(samplePoints[channel].value < 0 && input > 0)
+                if (samplePoints[channel].value < 0 && input > 0)
                 {
-                    if(samplePoints[channel].end)
+                    if (samplePoints[channel].end)
                     {
                         freqs[channel] = 1000000000.0 / (std::chrono::system_clock::now() - samplePoints[channel].time).count();
                         samplePoints[channel].time = std::chrono::system_clock::now();
@@ -451,9 +522,9 @@ namespace UI
                 }
                 else
                 {
-                    if(samplePoints[channel].value < 0 && input > 0)
+                    if (samplePoints[channel].value < 0 && input > 0)
                     {
-                        if(samplePoints[channel].end)
+                        if (samplePoints[channel].end)
                         {
                             freqs[channel] = 1000000000.0 / (std::chrono::system_clock::now() - samplePoints[channel].time).count();
                             samplePoints[channel].time = std::chrono::system_clock::now();
@@ -482,38 +553,40 @@ namespace UI
                     { 16000.0, DBL_MAX }
                 };
 
-                for(size_t i = 0; i < 11; i++)
+                for (size_t i = 0; i < 11; i++)
                 {
-                    if((interval[i][0] < freqs[channel]) && (freqs[channel] <= interval[i][1]))
+                    if ((interval[i][0] < freqs[channel]) && (freqs[channel] <= interval[i][1]))
                     {
-                        if((i == 0) || (i == 10))
+                        if ((i == 0) || (i == 10))
                         {
-                            return input + add + EQFactor[i <= 9 ? i : 9] / 32767.0;
+                            input += add + EQFactor[i <= 9 ? i : 9] / 32767.0;
+                            return;
                         }
                         else
                         {
                             double a = (freqs[channel] - interval[i][0]) / (interval[i][1] - interval[i][0]);
-                            return input + add + EQFactor[i - 1] + a * (EQFactor[i] - EQFactor[i - 1]) / 32767.0;
+                            input += add + EQFactor[i - 1] + a * (EQFactor[i] - EQFactor[i - 1]) / 32767.0;
+                            return;
                         }
                     }
                 }
 
-                return input + add;
+                input += add;
             }
 
-            double EQ::operator()(double input, Source * thisSource)
+            void EQ::operator()(int32_t& input, Source * thisSource)
             {
                 size_t channel = 0;
 
-                if(channel >= samplePoints.size())
+                if (channel >= samplePoints.size())
                 {
                     samplePoints.resize(channel + 1);
                     freqs.resize(channel + 1);
                 }
 
-                if(samplePoints[channel].value < 0 && input > 0)
+                if (samplePoints[channel].value < 0 && input > 0)
                 {
-                    if(samplePoints[channel].end)
+                    if (samplePoints[channel].end)
                     {
                         freqs[channel] = 1000000000.0 / (std::chrono::system_clock::now() - samplePoints[channel].time).count();
                         samplePoints[channel].time = std::chrono::system_clock::now();
@@ -527,9 +600,9 @@ namespace UI
                 }
                 else
                 {
-                    if(samplePoints[channel].value < 0 && input > 0)
+                    if (samplePoints[channel].value < 0 && input > 0)
                     {
-                        if(samplePoints[channel].end)
+                        if (samplePoints[channel].end)
                         {
                             freqs[channel] = 1000000000.0 / (std::chrono::system_clock::now() - samplePoints[channel].time).count();
                             samplePoints[channel].time = std::chrono::system_clock::now();
@@ -558,29 +631,31 @@ namespace UI
                     { 16000.0, DBL_MAX }
                 };
 
-                for(size_t i = 0; i < 11; i++)
+                for (size_t i = 0; i < 11; i++)
                 {
-                    if((interval[i][0] < freqs[channel]) && (freqs[channel] <= interval[i][1]))
+                    if ((interval[i][0] < freqs[channel]) && (freqs[channel] <= interval[i][1]))
                     {
-                        if((i == 0) || (i == 10))
+                        if ((i == 0) || (i == 10))
                         {
-                            return input + add + EQFactor[i <= 9 ? i : 9] / 32767.0;
+                            input += add + EQFactor[i <= 9 ? i : 9] / 32767.0;
+                            return;
                         }
                         else
                         {
                             double a = (freqs[channel] - interval[i][0]) / (interval[i][1] - interval[i][0]);
-                            return input + add + EQFactor[i - 1] + a * (EQFactor[i] - EQFactor[i - 1]) / 32767.0;
+                            input += add + EQFactor[i - 1] + a * (EQFactor[i] - EQFactor[i - 1]) / 32767.0;
+                            return;
                         }
                     }
                 }
 
-                return input + add;
+                input += add;
             }
             void EQ::setFactors(Factors newFactors, double newAdd)
             {
                 add = newAdd;
 
-                for(size_t i = 0; i < 10; i++)
+                for (size_t i = 0; i < 10; i++)
                 {
                     EQFactor[i] = newFactors.facs[i];
                 }
@@ -589,18 +664,18 @@ namespace UI
             {
                 Factors facs;
 
-                for(size_t i = 0; i < 10; i++)
+                for (size_t i = 0; i < 10; i++)
                 {
                     facs.facs[i] = EQFactor[i];
                 }
 
-                return make_pair(add, facs);
+                return std::make_pair(add, facs);
             }
-            void Amplifier::operator()(double* input, size_t channel)
+            void Amplifier::operator()(int32_t* input, size_t channel)
             {
-                double Sum = 0.0;
+                int32_t Sum = 0.0;
 
-                for(size_t i = 0; i < channel; i++)
+                for (size_t i = 0; i < channel; i++)
                 {
                     Sum += input[i];
                 }
@@ -608,7 +683,7 @@ namespace UI
                 Sum /= channel;
                 Sum *= factor;
 
-                for(size_t i = 0; i < channel; i++)
+                for (size_t i = 0; i < channel; i++)
                 {
                     input[i] += input[i] * factor - Sum;
                 }
@@ -621,47 +696,47 @@ namespace UI
             {
                 factor = newFactor;
             }
-            double Stereo::operator()(double input, size_t channel, Source* thisSource)
+            int32_t Stereo::operator()(int32_t input, size_t channel, Source* thisSource)
             {
                 double gain = 1.0;
                 double distance = (thisSource->getPos() - thisListener[channel]).length();
 
                 //formulas from << OpenAL Programmer's Guide >>
-                switch(dampMode)
+                switch (dampMode)
                 {
-                    case INVERSE_DISTANCE:
-                        gain = referenceDistance / (referenceDistance + rolloffFactor * (distance - referenceDistance));
-                        break;
+                case INVERSE_DISTANCE:
+                    gain = referenceDistance / (referenceDistance + rolloffFactor * (distance - referenceDistance));
+                    break;
 
-                    case INVERSE_DISTANCE_CLAMPED:
-                        distance = max(distance, referenceDistance);
-                        distance = min(distance, maxDistance);
-                        gain = referenceDistance / (referenceDistance + rolloffFactor * (distance - referenceDistance));
-                        break;
+                case INVERSE_DISTANCE_CLAMPED:
+                    distance = max(distance, referenceDistance);
+                    distance = min(distance, maxDistance);
+                    gain = referenceDistance / (referenceDistance + rolloffFactor * (distance - referenceDistance));
+                    break;
 
-                    case LINEAR_DISTANCE:
-                        distance = min(distance, maxDistance); // avoid negative gain
-                        gain = (1 - rolloffFactor * (distance - referenceDistance) / (maxDistance - referenceDistance));
-                        break;
+                case LINEAR_DISTANCE:
+                    distance = min(distance, maxDistance); // avoid negative gain
+                    gain = (1 - rolloffFactor * (distance - referenceDistance) / (maxDistance - referenceDistance));
+                    break;
 
-                    case LINEAR_DISTANCE_CLAMPED:
-                        distance = max(distance, referenceDistance);
-                        distance = min(distance, maxDistance); // avoid negative gain
-                        gain = (1 - rolloffFactor * (distance - referenceDistance) / (maxDistance - referenceDistance));
-                        break;
+                case LINEAR_DISTANCE_CLAMPED:
+                    distance = max(distance, referenceDistance);
+                    distance = min(distance, maxDistance); // avoid negative gain
+                    gain = (1 - rolloffFactor * (distance - referenceDistance) / (maxDistance - referenceDistance));
+                    break;
 
-                    case EXPONENT_DISTANCE:
-                        gain = pow(distance / referenceDistance, -rolloffFactor);
-                        break;
+                case EXPONENT_DISTANCE:
+                    gain = pow(distance / referenceDistance, -rolloffFactor);
+                    break;
 
-                    case EXPONENT_DISTANCE_CLAMPED:
-                        distance = max(distance, referenceDistance);
-                        distance = min(distance, maxDistance);
-                        gain = pow(distance / referenceDistance, -rolloffFactor);
-                        break;
+                case EXPONENT_DISTANCE_CLAMPED:
+                    distance = max(distance, referenceDistance);
+                    distance = min(distance, maxDistance);
+                    gain = pow(distance / referenceDistance, -rolloffFactor);
+                    break;
 
-                    default:
-                        break;
+                default:
+                    break;
                 }
 
                 return input * gain;
@@ -680,66 +755,45 @@ namespace UI
                 referenceDistance = newReferenceDistance;
                 maxDistance = newMaxDistance;
             }
-            double Doppler::operator()(double input, Source * thisSource)
+            void Doppler::operator()(int32_t& input, Source * thisSource)
             {
                 double v0 = thisListener.getMove().length();
                 double vs = thisSource->getMove().length();
                 double v = 0.0;
                 double add = 1.0 / SampleNum;
-
-                for(size_t i = 0; i < SampleNum; i++)
-                {
-                    v += speedOfSoundSampler(thisListener.getPos() + (thisSource->getPos() - thisListener.getPos()) * add * i);
-                }
+                Math::Vec3 rpos = thisSource->getPos() - thisListener.getPos();
+                for (size_t i = 0; i < SampleNum; i++)
+                    v += speedOfSoundSampler(thisListener.getPos() + rpos * add * i);
 
                 v /= SampleNum;
 
-                if((thisSource->getPos() - thisListener.getPos()).length() >
-                        ((thisSource->getPos() + thisSource->getMove()) - (thisListener.getPos() + thisListener.getMove())).length()
-                  )
-                {
-                    thisSource->setRealFreq((v + v0) / (v - vs));
-                }
-                else
-                {
-                    thisSource->setRealFreq((v - v0) / (v + vs));
-                }
-
-                return input;
+                thisSource->realFreq = (v + v0) / ((rpos.lengthSqr() >(rpos + thisSource->getMove() - thisListener.getMove()).lengthSqr())
+                    ? (v - vs) : (v + vs));
             }
             Noise::Noise()
             {
                 rand = std::mt19937(std::chrono::system_clock::now().time_since_epoch().count());
             }
-            double Noise::operator()(double input, Source * thisSource)
+            void Noise::operator()(int32_t& input, Source * thisSource)
             {
-                switch(noiseMode)
+                switch (noiseMode)
                 {
-                    case Add:
-                        return input + rand() / double(UINT_MAX) * factor * 2.0 - factor;
-                        break;
+                case Add:
+                    input += rand() / double(UINT_MAX) * factor * 2.0 - factor;
+                    break;
 
-                    case Factor:
-                        return input + rand() / double(UINT_MAX) * input * factor * 2.0 - input * factor;
-                        break;
+                case Factor:
+                    input += rand() / double(UINT_MAX) * input * factor * 2.0 - input * factor;
+                    break;
 
-                    default:
-                        return input;
-                        break;
+                default:
+                    break;
                 }
             }
             void Noise::set(NoiseMode newMode, double newFactor)
             {
                 noiseMode = newMode;
                 factor = newFactor;
-            }
-            double Compressor::operator()(double input, Source * thisSource)
-            {
-                return compressor.compress(input);
-            }
-            maxiDyn & Compressor::getCompressor()
-            {
-                return compressor;
             }
         }
     }
