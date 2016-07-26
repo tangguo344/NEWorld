@@ -19,6 +19,7 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.*/
 
 #include <uifont.h>
+#include <uilogger.h>
 #include <GL/glew.h>
 #include <freetype/ftsizes.h>
 #include <boost/filesystem.hpp>
@@ -228,21 +229,25 @@ namespace UI
 
         std::shared_ptr<FontRenderer> Service::getRenderer(const std::string & font, int height, Color col)
         {
+            using boost::filesystem::exists;
             if(fonts.find(font) == fonts.end())
             {
                 std::string path;
 
                 for(auto c : searchpaths)
                 {
-                    if(boost::filesystem::exists(c + "/" + font + ".ttf")) path = c + "/" + font + ".ttf";
+                    if(exists(c + "/" + font + ".ttf")) path = c + "/" + font + ".ttf";
 
-                    if(boost::filesystem::exists(c + "/" + font + ".TTF")) path = c + "/" + font + ".TTF";
+                    if(exists(c + "/" + font + ".TTF")) path = c + "/" + font + ".TTF";
 
-                    if(boost::filesystem::exists(c + "/" + font + ".otf")) path = c + "/" + font + ".otf";
+                    if(exists(c + "/" + font + ".otf")) path = c + "/" + font + ".otf";
 
-                    if(boost::filesystem::exists(c + "/" + font + ".OTF")) path = c + "/" + font + ".OTF";
+                    if(exists(c + "/" + font + ".OTF")) path = c + "/" + font + ".OTF";
                 }
-
+                if(path.empty())
+                {
+                    logerror("Font: " + font + " not found!");
+                }
                 fonts.insert({ font, FontBase(path) });
             }
 
