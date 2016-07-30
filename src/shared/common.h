@@ -62,8 +62,10 @@
 // NWAPICALL
 #ifdef NEWORLD_COMPILER_MSVC
     #define NWAPICALL __cdecl
-#else
+#elif defined(__i386__) || defined(__i386)
     #define NWAPICALL __attribute__((__cdecl__))
+#else
+    #define NWAPICALL
 #endif
 
 // NWAPIEXPORT
