@@ -83,7 +83,7 @@ namespace UI
 
             void loadChunk(size_t chunk)
             {
-                size_t lread = std::min(length - chunk * 32768, 32768ul) * sizeof(short);
+                size_t lread = std::min(length - chunk * 32768ul, 32768ul) * sizeof(short);
                 inFile.seekg(filePos + chunk * 32768 * sizeof(short), ios::beg);
                 if (isStreaming)
                 {
