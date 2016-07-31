@@ -34,7 +34,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 using namespace std;
 
 #if defined( __WIN32__ ) || defined( _WIN32 )
-//#include <dsound.h>
+    //#include <dsound.h>
 #endif
 
 namespace UI
@@ -84,7 +84,7 @@ namespace UI
             void loadChunk(size_t chunk)
             {
                 size_t lread = std::min(length - chunk * 32768, 32768ul) * sizeof(short);
-                inFile.seekg(filePos + chunk * 32768 * sizeof(short), ios::beg); 
+                inFile.seekg(filePos + chunk * 32768 * sizeof(short), ios::beg);
                 if (isStreaming)
                 {
                     curChunk->pos0 = chunk * 32768;
@@ -101,10 +101,10 @@ namespace UI
                     inFile.read((char*)(&chunks[chunk].data[0]), lread);
                 }
             }
-            
-            void setp(double pos) 
+
+            void setp(double pos)
             {
-                position = pos; 
+                position = pos;
                 chunkID = pos / 32768;
                 if (isStreaming)
                 {
@@ -174,7 +174,7 @@ namespace UI
                     inFile.read((char*)&myBlockAlign, sizeof(short)); // read the blockalign
                     inFile.read((char*)&myBitsPerSample, sizeof(short)); // read the bitspersample
 
-                                                                         //ignore any extra chunks
+                    //ignore any extra chunks
                     char chunkID[5] = "";
                     chunkID[4] = 0;
                     filePos = 20 + mySubChunk1Size;
@@ -272,11 +272,12 @@ namespace UI
             }
             SDL_PauseAudioDevice(dev, 0); // start audio playing.
             sourceLoaders.insert({ "wav",[](std::string file)-> std::shared_ptr<Stream>
-            {
-                auto c = std::make_shared<WAV>();
-                c->load(file, true);
-                return c;
-            } });
+                {
+                    auto c = std::make_shared<WAV>();
+                    c->load(file, true);
+                    return c;
+                }
+            });
         }
         SourceHandler load(const std::string & fileName)
         {
@@ -322,7 +323,7 @@ namespace UI
         void Source::play(bool loop_)
         {
             if(isPlay) logwarning("The Source is Playing.");
-            
+
             sample->looping = loop_;
             isPlay = true;
         }
@@ -400,7 +401,7 @@ namespace UI
         {
         }
         Source::Source(std::shared_ptr<Stream> sample_) :
-            sample(sample_), isPlay(false), refcount(0), 
+            sample(sample_), isPlay(false), refcount(0),
             freq(1.0), gain(1.0), realFreq(1.0)
         {
         }
@@ -769,7 +770,7 @@ namespace UI
                 v /= SampleNum;
 
                 thisSource->realFreq = (v + v0) / ((rpos.lengthSqr() >(rpos + thisSource->getMove() - thisListener.getMove()).lengthSqr())
-                    ? (v - vs) : (v + vs));
+                                                   ? (v - vs) : (v + vs));
             }
             Noise::Noise()
             {
