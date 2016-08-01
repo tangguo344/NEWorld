@@ -25,12 +25,27 @@
     #inclib "../../../Bin/NEWorld"
 #endif
 
+#define NWAPICALL cdecl
+
 type int32_t as long
+type uint32_t as ulong
+
+type NWvec3i
+    x as uint32_t
+    y as uint32_t
+    z as uint32_t
+end type
 
 type NWplugindata
     pluginName as zstring ptr = 0
     authorName as zstring ptr = 0
     internalName as zstring ptr = 0
+end type
+
+type NWblockdata
+    id : 12 as uint32_t
+    brightness : 4 as uint32_t
+    state : 16 as uint32_t
 end type
 
 type NWblocktype
@@ -42,6 +57,8 @@ type NWblocktype
     hardness as int32_t
 end type
 
-declare function nwRegisterBlock cdecl alias "nwRegisterBlock" (byval as const NWblocktype ptr) as int32_t
+declare function nwGetBlock NWAPICALL alias "nwGetBlock" (byval as const NWvec3i ptr) as NWblockdata
+declare sub nwSetBlock NWAPICALL alias "nwSetBlock" (byval as const NWvec3i ptr, byval as NWblockdata)
+declare function nwRegisterBlock NWAPICALL alias "nwRegisterBlock" (byval as const NWblocktype ptr) as int32_t
 
 #endif ' !NWAPI_BI_

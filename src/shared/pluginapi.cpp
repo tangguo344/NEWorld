@@ -50,20 +50,20 @@ namespace PluginAPI
 
 extern "C"
 {
-    // Please don't put `using namespace` in header files 2333
+    // Please don't put `using namespace` in header files (This is a source file 2333)
     using namespace PluginAPI;
 
-    NWAPIEXPORT NWblockdata NWAPICALL getBlock(const NWvec3i* pos)
+    NWAPIEXPORT NWblockdata NWAPICALL nwGetBlock(const NWvec3i* pos)
     {
         return convertBlockData(CurrWorld->getBlock(*pos));
     }
 
-    NWAPIEXPORT void NWAPICALL setBlock(const NWvec3i* pos, NWblockdata block)
+    NWAPIEXPORT void NWAPICALL nwSetBlock(const NWvec3i* pos, NWblockdata block)
     {
         CurrWorld->setBlock(*pos, convertBlockData(block));
     }
 
-    NWAPIEXPORT int NWAPICALL nwRegisterBlock(const NWblocktype* block)
+    NWAPIEXPORT int32_t NWAPICALL nwRegisterBlock(const NWblocktype* block)
     {
         Blocks->registerBlock(convertBlockType(*block));
         return 0;

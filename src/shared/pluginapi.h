@@ -47,12 +47,14 @@ namespace PluginAPI
     // Aliases cannot be used when structure definitions in NEWorld and in Plugin API are different
 
     using NWvec3i = Vec3i;
+
     struct NWblockdata
     {
         uint32_t id : 12;
         uint32_t brightness : 4;
         uint32_t state : 16;
     };
+
     struct NWblocktype
     {
         char* blockname = nullptr;

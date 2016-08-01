@@ -40,11 +40,23 @@
     #define NWAPICALL __attribute__((__cdecl__))
 #endif
 
+struct NWvec3i
+{
+    int32_t x, y, z;
+};
+
 struct NWplugindata
 {
     char* pluginName = nullptr;
     char* authorName = nullptr;
     char* internalName = nullptr;
+};
+
+struct NWblockdata
+{
+    uint32_t id : 12;
+    uint32_t brightness : 4;
+    uint32_t state : 16;
 };
 
 struct NWblocktype
@@ -59,6 +71,8 @@ struct NWblocktype
 
 extern "C"
 {
+    NWAPIENTRY NWblockdata NWAPICALL nwGetBlock(const NWvec3i* pos);
+    NWAPIENTRY void NWAPICALL nwSetBlock(const NWvec3i* pos, NWblockdata block);
     NWAPIENTRY int32_t NWAPICALL nwRegisterBlock(const NWblocktype*);
 }
 
