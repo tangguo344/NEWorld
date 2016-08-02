@@ -27,6 +27,7 @@
 #include "blocktype.h"
 #include "blockmanager.h"
 #include "world.h"
+#include "../server/chunkloader.h"
 
 namespace PluginAPI
 {
@@ -65,7 +66,7 @@ namespace PluginAPI
         int32_t hardness;
     };
 
-    using ChunkGenerator = void NWAPICALL(NWvec3i*, NWblockdata*);
+    using NWchunkgenerator = ChunkGenerator;
 
     // Conversions between plugin structures and NEWorld structures
     // This is used when structure definitions in NEWorld and in Plugin API are different

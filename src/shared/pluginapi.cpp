@@ -58,14 +58,27 @@ extern "C"
         return convertBlockData(CurrWorld->getBlock(*pos));
     }
 
-    NWAPIEXPORT void NWAPICALL nwSetBlock(const NWvec3i* pos, NWblockdata block)
+    NWAPIEXPORT int32_t NWAPICALL nwSetBlock(const NWvec3i* pos, NWblockdata block)
     {
         CurrWorld->setBlock(*pos, convertBlockData(block));
+        return 0;
     }
 
     NWAPIEXPORT int32_t NWAPICALL nwRegisterBlock(const NWblocktype* block)
     {
         Blocks->registerBlock(convertBlockType(*block));
+        return 0;
+    }
+
+    NWAPIEXPORT int32_t NWAPICALL nwRegisterChunkGenerator(const NWchunkgenerator *generator)
+    {
+        if (ChunkGeneratorLoaded)
+        {
+            warningstream << "Ignoring multiple chunk generator";
+            return 1;
+        }
+        ChunkGeneratorLoaded = true;
+        ChunkGen = generator;
         return 0;
     }
 }

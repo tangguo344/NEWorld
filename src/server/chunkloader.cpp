@@ -20,12 +20,19 @@
 #include "chunkloader.h"
 #include "pluginmanager.h"
 
-void ChunkLoader::build(int DaylightBrightness) const
+void NWAPICALL DefaultChunkGen(const Vec3i*, BlockData* blocks, int32_t DaylightBrightness)
 {
-    // TODO: Try to use terrain generators written in plugins
     // This is the default terrain generator. Use this when no generators were loaded from plugins.
     for (int x = 0; x < ChunkSize; x++)
         for (int z = 0; z < ChunkSize; z++)
             for (int y = 0; y < ChunkSize; y++)
-                m_chunk->getBlock(Vec3i(x, y, z)) = BlockData(0, DaylightBrightness, 0);
+                blocks[x*ChunkSize*ChunkSize + y*ChunkSize + z] = BlockData(0, DaylightBrightness, 0);
+}
+
+bool ChunkGeneratorLoaded = false;
+ChunkGenerator *ChunkGen = &DefaultChunkGen;
+
+void ChunkLoader::build(int DaylightBrightness) const
+{
+    (*ChunkGen)(&m_chunk->getPos(), m_chunk->getBlocks(), DaylightBrightness);
 }
