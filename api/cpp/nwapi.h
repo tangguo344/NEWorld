@@ -69,13 +69,14 @@ struct NWblocktype
     int32_t hardness;
 };
 
-typedef void NWAPICALL NWchunkgenerator(NWvec3i*, NWblockdata*);
+typedef void NWAPICALL NWchunkgenerator(const NWvec3i*, NWblockdata*, int32_t);
 
 extern "C"
 {
     NWAPIENTRY NWblockdata NWAPICALL nwGetBlock(const NWvec3i* pos);
-    NWAPIENTRY void NWAPICALL nwSetBlock(const NWvec3i* pos, NWblockdata block);
+    NWAPIENTRY int32_t NWAPICALL nwSetBlock(const NWvec3i* pos, NWblockdata block);
     NWAPIENTRY int32_t NWAPICALL nwRegisterBlock(const NWblocktype*);
+    NWAPIENTRY int32_t NWAPICALL nwRegisterChunkGenerator(const NWchunkgenerator* generator);
 }
 
 #endif // !NWAPI_H_

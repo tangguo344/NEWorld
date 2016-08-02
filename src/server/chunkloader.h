@@ -20,7 +20,13 @@
 #ifndef CHUNKLOADER_H_
 #define CHUNKLOADER_H_
 
+#include <common.h>
 #include <chunk.h>
+
+using ChunkGenerator = void NWAPICALL(const Vec3i*, BlockData*, int32_t);
+
+extern bool ChunkGeneratorLoaded;
+extern ChunkGenerator *ChunkGen;
 
 class ChunkLoader
 {

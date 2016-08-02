@@ -53,6 +53,9 @@ public:
         return m_blocks[pos.x * ChunkSize * ChunkSize + pos.y * ChunkSize + pos.z];
     }
 
+    /// Get block pointer
+    BlockData* getBlocks() { return m_blocks; }
+
     /// Set block data in this chunk
     void setBlock(const Vec3i& pos, BlockData block)
     {

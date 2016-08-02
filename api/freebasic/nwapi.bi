@@ -57,8 +57,11 @@ type NWblocktype
     hardness as int32_t
 end type
 
+type NWchunkgenerator as sub(byval as const NWvec3i ptr, byval as NWblockdata ptr, byval as int32_t)
+
 declare function nwGetBlock NWAPICALL alias "nwGetBlock" (byval as const NWvec3i ptr) as NWblockdata
-declare sub nwSetBlock NWAPICALL alias "nwSetBlock" (byval as const NWvec3i ptr, byval as NWblockdata)
+declare function nwSetBlock NWAPICALL alias "nwSetBlock" (byval as const NWvec3i ptr, byval as NWblockdata) as int32_t
 declare function nwRegisterBlock NWAPICALL alias "nwRegisterBlock" (byval as const NWblocktype ptr) as int32_t
+declare function nwRegisterChunkGenerator NWAPICALL alias "nwRegisterChunkGenerator" (byval as const NWchunkgenerator ptr) as int32_t
 
 #endif ' !NWAPI_BI_
