@@ -47,9 +47,9 @@ struct NWvec3i
 
 struct NWplugindata
 {
-    char* pluginName = nullptr;
-    char* authorName = nullptr;
-    char* internalName = nullptr;
+    const char* pluginName = nullptr;
+    const char* authorName = nullptr;
+    const char* internalName = nullptr;
 };
 
 struct NWblockdata
@@ -61,13 +61,15 @@ struct NWblockdata
 
 struct NWblocktype
 {
-    char* blockname = nullptr;
+    const char* blockname = nullptr;
     bool solid;
     bool translucent;
     bool opaque;
     int32_t explodePower;
     int32_t hardness;
 };
+
+typedef void NWAPICALL NWchunkgenerator(NWvec3i*, NWblockdata*);
 
 extern "C"
 {
@@ -77,3 +79,4 @@ extern "C"
 }
 
 #endif // !NWAPI_H_
+
