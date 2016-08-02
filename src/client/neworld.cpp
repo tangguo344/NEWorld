@@ -46,7 +46,6 @@ void Application::beforeLaunch()
 #undef HOOK
 
     Texture::init();
-    //m_worldLoader.sortChunkLoadUnloadList(Vec3i(0, 0, 0));
 
     UI::Logger::init("./Logs");
     UI::Font::service.addSearchPaths({ "./Res/Fonts" });
@@ -60,7 +59,17 @@ void Application::beforeLaunch()
     UI::Theme::SystemTheme.DefaultFont = UI::Font::service.getRenderer("SourceHanSansCN-Normal", 17, UI::Base::Color(1.0, 1.0, 1.0, 1.0));
     //std::thread serverThread(networkThread);
 
-    m_worldLoader.setLoadRange(4);
+    //m_worldLoader.setLoadRange(4);
+    //m_worldLoader.sortChunkLoadUnloadList(Vec3i(0, 0, 0));
+
+    // Testing chunk
+    Chunk chunk(Vec3i(0, 0, 0));
+    ChunkLoader loader(chunk);
+    loader.build(15);
+    BlockData block = chunk.getBlock(Vec3i(0, 0, 0));
+    infostream << "Block at (0,0,0) = {ID: " << block.getID() << ", brightness: " << block.getBrightness() << ", state: " << block.getState() << "}";
+    debugstream << "Full information:";
+    m_blocks.showInfo(block.getID());
 }
 
 void Application::afterLaunch()

@@ -34,5 +34,5 @@ ChunkGenerator *ChunkGen = &DefaultChunkGen;
 
 void ChunkLoader::build(int daylightBrightness) const
 {
-    (*ChunkGen)(&m_chunk->getPos(), m_chunk->getBlocks(), daylightBrightness);
+    (*ChunkGen)(&m_chunk.getPos(), m_chunk.getBlocks(), daylightBrightness);
 }

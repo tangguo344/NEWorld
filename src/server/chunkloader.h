@@ -31,10 +31,10 @@ extern ChunkGenerator *ChunkGen;
 class ChunkLoader
 {
 private:
-    Chunk* const m_chunk;
+    Chunk &m_chunk;
 
 public:
-    explicit ChunkLoader(Chunk* chunk) : m_chunk(chunk)
+    explicit ChunkLoader(Chunk &chunk) : m_chunk(chunk)
     {
     }
 

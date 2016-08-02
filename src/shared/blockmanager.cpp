@@ -18,3 +18,19 @@
 */
 
 #include "blockmanager.h"
+
+void BlockManager::showInfo(int id)
+{
+    if (id == 0)
+    {
+        debugstream << "Built-in Air Block";
+        return;
+    }
+    BlockType block = m_blocks[id - 1];
+    debugstream << "Block \"" << block.getName() << "\" with ID = " << id << ", attributes:\n"
+                << "Solid: " << block.isSolid() << "\n"
+                << "Translucent: " << block.isTranslucent() << "\n"
+                << "Opaque: " << block.isOpaque() << "\n"
+                << "Explode power: " << block.getExplodePower() << "\n"
+                << "Hardness: " << block.getHardness();
+}
