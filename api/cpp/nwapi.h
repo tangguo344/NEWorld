@@ -76,7 +76,7 @@ extern "C"
     NWAPIENTRY NWblockdata NWAPICALL nwGetBlock(const NWvec3i* pos);
     NWAPIENTRY int32_t NWAPICALL nwSetBlock(const NWvec3i* pos, NWblockdata block);
     NWAPIENTRY int32_t NWAPICALL nwRegisterBlock(const NWblocktype*);
-    NWAPIENTRY int32_t NWAPICALL nwRegisterChunkGenerator(const NWchunkgenerator* generator);
+    NWAPIENTRY int32_t NWAPICALL nwRegisterChunkGenerator(NWchunkgenerator* const generator);
 }
 
 #endif // !NWAPI_H_

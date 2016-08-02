@@ -23,7 +23,7 @@
 #include <common.h>
 #include <chunk.h>
 
-using ChunkGenerator = void NWAPICALL(const Vec3i*, BlockData*, int32_t);
+using ChunkGenerator = void NWAPICALL(const Vec3i*, BlockData*, int);
 
 extern bool ChunkGeneratorLoaded;
 extern ChunkGenerator *ChunkGen;

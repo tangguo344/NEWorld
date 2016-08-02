@@ -32,15 +32,18 @@ private:
     vector<BlockType> blocks;
 
 public:
-    void registerBlock(const BlockType& block)
+    int registerBlock(const BlockType& block)
     {
         blocks.push_back(block);
-        debugstream << "Registered block \"" << block.getName() << "\" with ID = " << blocks.size() - 1 << ", attributes:\n"
+        debugstream << "Registered block \"" << block.getName() << "\" with ID = " << blocks.size() << ", attributes:\n"
                     << "Solid: " << block.isSolid() << "\n"
                     << "Translucent: " << block.isTranslucent() << "\n"
                     << "Opaque: " << block.isOpaque() << "\n"
                     << "Explode power: " << block.getExplodePower() << "\n"
                     << "Hardness: " << block.getHardness() << "\n";
+        // Air Block (ID = 0) is a built-in block and was skipped in this block list
+        // So blocks.size() equals to the last block's ID
+        return blocks.size();
     }
 
 };

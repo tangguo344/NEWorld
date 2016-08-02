@@ -25,9 +25,6 @@
     <ClCompile Include="..\..\..\src\server\networkutils.cpp">
       <Filter>Source\Network</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\server\chunkloader.cpp">
-      <Filter>Source\World</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\server\worldloader.cpp">
       <Filter>Source\World</Filter>
     </ClCompile>
@@ -45,9 +42,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\server\chunkloader.h">
-      <Filter>Source\World</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\server\worldloader.h">
       <Filter>Source\World</Filter>
     </ClInclude>

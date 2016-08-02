@@ -20,11 +20,44 @@
 
 NWplugindata* TestPlugin = nullptr;
 
+// NEWorld constants
+constexpr int ChunkSize = 32;
+
+// Block IDs
+int32_t rockID;
+
 // Export functions
 extern "C"
 {
     NWAPIEXPORT NWplugindata* NWAPICALL init();
     NWAPIEXPORT void NWAPICALL unload();
+}
+
+// Chunk generator
+void NWAPICALL generator(const NWvec3i* pos, NWblockdata* blocks, int daylightBrightness)
+{
+    if (pos->y >= 2)
+    {
+        for (int x = 0; x < ChunkSize; x++)
+            for (int z = 0; z < ChunkSize; z++)
+                for (int y = 0; y < ChunkSize; y++)
+                {
+                    NWblockdata &block = blocks[x*ChunkSize*ChunkSize + y*ChunkSize + z];
+                    block.id = block.state = 0;
+                    block.brightness = daylightBrightness;
+                }
+    }
+    else
+    {
+        for (int x = 0; x < ChunkSize; x++)
+            for (int z = 0; z < ChunkSize; z++)
+                for (int y = 0; y < ChunkSize; y++)
+                {
+                    NWblockdata &block = blocks[x*ChunkSize*ChunkSize + y*ChunkSize + z];
+                    block.id = rockID;
+                    block.brightness = block.state = 0;
+                }
+    }
 }
 
 // Main function
@@ -37,7 +70,10 @@ NWplugindata* NWAPICALL init()
     rock.opaque = 1;
     rock.explodePower = 0;
     rock.hardness = 2;
-    nwRegisterBlock(&rock);
+    rockID = nwRegisterBlock(&rock);
+
+    nwRegisterChunkGenerator(generator);
+
     TestPlugin = new NWplugindata();
     TestPlugin->pluginName = "Test Plugin";
     TestPlugin->authorName = "INFINIDEAS";
@@ -45,6 +81,7 @@ NWplugindata* NWAPICALL init()
     return TestPlugin;
 }
 
+// Unload function
 void NWAPICALL unload()
 {
     if (TestPlugin != nullptr) delete TestPlugin;
