@@ -31,6 +31,32 @@ GameView::GameView(UI::Core::Window* win) :UI::Controls::GLContext()
     win->renderdelegate.push_back([this, win]() { init(win); });
 }
 
+MainWindow::MainWindow(int width, int height, const string& title) : UI::Core::Window(title, width, height, 200, 200)
+{
+    background = std::make_shared<UI::Graphics::Brushes::ImageBrush>(std::make_shared<UI::Base::Image>("./Res/ss.png"));
+    loader = std::thread([this]()
+    {
+        btex[0] = std::make_shared<UI::Base::Texture>("./Res/bkg0.png");
+        btex[1] = std::make_shared<UI::Base::Texture>("./Res/bkg3.png");
+        btex[2] = std::make_shared<UI::Base::Texture>("./Res/bkg2.png");
+        btex[3] = std::make_shared<UI::Base::Texture>("./Res/bkg1.png");
+        btex[4] = std::make_shared<UI::Base::Texture>("./Res/bkg4.png");
+        btex[5] = std::make_shared<UI::Base::Texture>("./Res/bkg5.png");
+
+        // Load Something
+        // std::this_thread::sleep_for(2000ms);
+
+        renderdelegate.push_back([this]()
+        {
+            background = UI::Theme::SystemTheme.WindowBrush;
+            // Load the main menu
+            pushPage(std::make_shared<BackGround>(this), false, false);
+            pushPage(std::make_shared<MainMenu>(this), false, true);
+            loader.join();
+        });
+    });
+}
+
 Texture texture;
 
 void GameView::init(UI::Core::Window*)

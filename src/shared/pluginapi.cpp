@@ -66,11 +66,10 @@ extern "C"
 
     NWAPIEXPORT int32_t NWAPICALL nwRegisterBlock(const NWblocktype* block)
     {
-        Blocks->registerBlock(convertBlockType(*block));
-        return 0;
+        return Blocks->registerBlock(convertBlockType(*block));
     }
 
-    NWAPIEXPORT int32_t NWAPICALL nwRegisterChunkGenerator(const NWchunkgenerator *generator)
+    NWAPIEXPORT int32_t NWAPICALL nwRegisterChunkGenerator(NWchunkgenerator* const generator)
     {
         if (ChunkGeneratorLoaded)
         {
@@ -79,6 +78,7 @@ extern "C"
         }
         ChunkGeneratorLoaded = true;
         ChunkGen = generator;
+        infostream << "Registered chunk generator";
         return 0;
     }
 }

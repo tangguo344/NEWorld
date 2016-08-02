@@ -79,6 +79,9 @@
     <ClInclude Include="..\..\..\src\shared\consolecolor.h">
       <Filter>Source\Common</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\server\chunkloader.h">
+      <Filter>Source\World</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -139,6 +142,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\shared\pluginapi.cpp">
       <Filter>Source\Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\server\chunkloader.cpp">
+      <Filter>Source\World</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
