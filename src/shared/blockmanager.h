@@ -28,23 +28,21 @@ using std::vector;
 
 class BlockManager
 {
-private:
-    vector<BlockType> blocks;
-
 public:
     int registerBlock(const BlockType& block)
     {
-        blocks.push_back(block);
-        debugstream << "Registered block \"" << block.getName() << "\" with ID = " << blocks.size() << ", attributes:\n"
-                    << "Solid: " << block.isSolid() << "\n"
-                    << "Translucent: " << block.isTranslucent() << "\n"
-                    << "Opaque: " << block.isOpaque() << "\n"
-                    << "Explode power: " << block.getExplodePower() << "\n"
-                    << "Hardness: " << block.getHardness() << "\n";
+        m_blocks.push_back(block);
+        debugstream << "Registered block:";
+        showInfo(m_blocks.size());
         // Air Block (ID = 0) is a built-in block and was skipped in this block list
         // So blocks.size() equals to the last block's ID
-        return blocks.size();
+        return m_blocks.size();
     }
+
+    void showInfo(int id);
+
+private:
+    vector<BlockType> m_blocks;
 
 };
 

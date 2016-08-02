@@ -71,9 +71,7 @@ NWplugindata* NWAPICALL init()
     rock.explodePower = 0;
     rock.hardness = 2;
     rockID = nwRegisterBlock(&rock);
-
     nwRegisterChunkGenerator(generator);
-
     TestPlugin = new NWplugindata();
     TestPlugin->pluginName = "Test Plugin";
     TestPlugin->authorName = "INFINIDEAS";
