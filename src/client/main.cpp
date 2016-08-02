@@ -24,7 +24,7 @@ extern "C" NWAPIEXPORT int NWAPICALL main(int argc, char**);
 
 int NWAPICALL main(int argc, char** argv)
 {
-    Application application(852, 480, "NEWorld", (argc == 3) ? argv[2] : "./");
+    Application application(852, 480, "NEWorld", /*argc == 3 ? argv[2] : */"./");
     application.run();
     return 0;
 }
