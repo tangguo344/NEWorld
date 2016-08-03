@@ -26,19 +26,51 @@
 #include "renderer.h"
 #include "pages.h"
 
+#include <world.h>
+#include <logger.h>
+#include <pluginapi.h>
+#include <blockmanager.h>
+#include <worldmanager.h>
+#include <pluginmanager.h>
+#include "../server/worldloader.h"
+#include "chunkrenderer.h"
+
 class GameView : public UI::Controls::GLContext
 {
 public:
     GameView(UI::Core::Window*);
+    ~GameView()
+    {
+        m_plugins.unloadPlugins();
+    }
     void doRender();
     void onResize(size_t w, size_t h) override;
     void init(UI::Core::Window* win);
     void onKey(int key);
+
 private:
     int windowWidth = 852, windowHeight = 480;
     Vec3f trans = {0.0f, 0.0f, -100.0f};
     Vec3f transSpeed = {0.0f, 0.0f, 0.0f};
-    VertexBuffer cube;
+
+    // Blocks
+    BlockManager m_blocks;
+    // Loaded plugins
+    PluginManager m_plugins;
+    /*
+    // Loaded worlds
+    WorldManager m_worlds;
+    */
+    // Current world
+    World m_world;
+    // CPA
+    ChunkPointerArray m_cpa;
+    // Loading test
+    WorldLoader m_worldLoader;
+    // Chunk test
+    Chunk m_chunk;
+    // Rendering test
+    ChunkRenderer m_chunkRenderer;
 };
 
 class MainWindow : public UI::Core::Window

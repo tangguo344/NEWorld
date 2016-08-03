@@ -31,15 +31,105 @@ void ChunkRenderer::buildVertexArray()
     }
     else
     {
-        Vec3i::for_range(0, ChunkSize,[&](const Vec3i& pos)
+        Vec3i::for_range(0, ChunkSize, [&](const Vec3i& pos)
         {
-            Vec3i worldpos = m_chunk.getPos() + pos;
-            if (pos.x == 0 || pos.x == ChunkSize - 1||
-                    pos.x == 0 || pos.x == ChunkSize - 1||
-                    pos.x == 0 || pos.x == ChunkSize - 1)
-            {
+            //Vec3i worldpos = m_chunk.getPos() + pos;
 
+            BlockData curr = m_chunk.getBlock(pos);
+            BlockData neighbors[6] =
+            {
+                pos.x == ChunkSize - 1 ? BlockData(0, 15, 0) : m_chunk.getBlock(Vec3i(pos.x + 1, pos.y, pos.z)),
+                pos.x == 0 ? BlockData(0, 15, 0) : m_chunk.getBlock(Vec3i(pos.x - 1, pos.y, pos.z)),
+                pos.y == ChunkSize - 1 ? BlockData(0, 15, 0) : m_chunk.getBlock(Vec3i(pos.x, pos.y + 1, pos.z)),
+                pos.y == 0 ? BlockData(0, 15, 0) : m_chunk.getBlock(Vec3i(pos.x, pos.y - 1, pos.z)),
+                pos.z == ChunkSize - 1 ? BlockData(0, 15, 0) : m_chunk.getBlock(Vec3i(pos.x, pos.y, pos.z + 1)),
+                pos.z == 0 ? BlockData(0, 15, 0) : m_chunk.getBlock(Vec3i(pos.x, pos.y, pos.z - 1)),
+            };
+
+            // Right
+            if (adjacentTest(curr, neighbors[0]))
+            {
+                va.setColor({ 0.5f, 0.5f, 0.5f });
+                va.setTexture({ 0.0f, 0.0f });
+                va.addVertex({ pos.x + 0.5f, pos.y + 0.5f, pos.z + 0.5f });
+                va.setTexture({ 0.0f, 1.0f });
+                va.addVertex({ pos.x + 0.5f, pos.y - 0.5f, pos.z + 0.5f });
+                va.setTexture({ 1.0f, 1.0f });
+                va.addVertex({ pos.x + 0.5f, pos.y - 0.5f, pos.z - 0.5f });
+                va.setTexture({ 1.0f, 0.0f });
+                va.addVertex({ pos.x + 0.5f, pos.y + 0.5f, pos.z - 0.5f });
+            }
+
+            // Left
+            if (adjacentTest(curr, neighbors[1]))
+            {
+                va.setColor({ 0.5f, 0.5f, 0.5f });
+                va.setTexture({ 0.0f, 0.0f });
+                va.addVertex({ pos.x - 0.5f, pos.y + 0.5f, pos.z - 0.5f });
+                va.setTexture({ 0.0f, 1.0f });
+                va.addVertex({ pos.x - 0.5f, pos.y - 0.5f, pos.z - 0.5f });
+                va.setTexture({ 1.0f, 1.0f });
+                va.addVertex({ pos.x - 0.5f, pos.y - 0.5f, pos.z + 0.5f });
+                va.setTexture({ 1.0f, 0.0f });
+                va.addVertex({ pos.x - 0.5f, pos.y + 0.5f, pos.z + 0.5f });
+            }
+
+            // Top
+            if (adjacentTest(curr, neighbors[2]))
+            {
+                va.setColor({ 1.0f, 1.0f, 1.0f });
+                va.setTexture({ 0.0f, 0.0f });
+                va.addVertex({ pos.x - 0.5f, pos.y + 0.5f, pos.z - 0.5f });
+                va.setTexture({ 0.0f, 1.0f });
+                va.addVertex({ pos.x - 0.5f, pos.y + 0.5f, pos.z + 0.5f });
+                va.setTexture({ 1.0f, 1.0f });
+                va.addVertex({ pos.x + 0.5f, pos.y + 0.5f, pos.z + 0.5f });
+                va.setTexture({ 1.0f, 0.0f });
+                va.addVertex({ pos.x + 0.5f, pos.y + 0.5f, pos.z - 0.5f });
+            }
+
+            // Bottom
+            if (adjacentTest(curr, neighbors[3]))
+            {
+                va.setColor({ 1.0f, 1.0f, 1.0f });
+                va.setTexture({ 0.0f, 0.0f });
+                va.addVertex({ pos.x - 0.5f, pos.y - 0.5f, pos.z + 0.5f });
+                va.setTexture({ 0.0f, 1.0f });
+                va.addVertex({ pos.x - 0.5f, pos.y - 0.5f, pos.z - 0.5f });
+                va.setTexture({ 1.0f, 1.0f });
+                va.addVertex({ pos.x + 0.5f, pos.y - 0.5f, pos.z - 0.5f });
+                va.setTexture({ 1.0f, 0.0f });
+                va.addVertex({ pos.x + 0.5f, pos.y - 0.5f, pos.z + 0.5f });
+            }
+
+            // Front
+            if (adjacentTest(curr, neighbors[4]))
+            {
+                va.setColor({ 0.7f, 0.7f, 0.7f });
+                va.setTexture({ 0.0f, 0.0f });
+                va.addVertex({ pos.x - 0.5f, pos.y + 0.5f, pos.z + 0.5f });
+                va.setTexture({ 0.0f, 1.0f });
+                va.addVertex({ pos.x - 0.5f, pos.y - 0.5f, pos.z + 0.5f });
+                va.setTexture({ 1.0f, 1.0f });
+                va.addVertex({ pos.x + 0.5f, pos.y - 0.5f, pos.z + 0.5f });
+                va.setTexture({ 1.0f, 0.0f });
+                va.addVertex({ pos.x + 0.5f, pos.y + 0.5f, pos.z + 0.5f });
+            }
+
+            // Back
+            if (adjacentTest(curr, neighbors[5]))
+            {
+                va.setColor({ 0.7f, 0.7f, 0.7f });
+                va.setTexture({ 0.0f, 0.0f });
+                va.addVertex({ pos.x + 0.5f, pos.y + 0.5f, pos.z - 0.5f });
+                va.setTexture({ 0.0f, 1.0f });
+                va.addVertex({ pos.x + 0.5f, pos.y - 0.5f, pos.z - 0.5f });
+                va.setTexture({ 1.0f, 1.0f });
+                va.addVertex({ pos.x - 0.5f, pos.y - 0.5f, pos.z - 0.5f });
+                va.setTexture({ 1.0f, 0.0f });
+                va.addVertex({ pos.x - 0.5f, pos.y + 0.5f, pos.z - 0.5f });
             }
         });
     }
+    m_buffer = VertexBuffer(va);
 }

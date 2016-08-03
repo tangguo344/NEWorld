@@ -22,13 +22,28 @@
 #include <logger.h>
 #include "texture.h"
 
-GameView::GameView(UI::Core::Window* win) :UI::Controls::GLContext()
+GameView::GameView(UI::Core::Window* win) :UI::Controls::GLContext(),
+    m_world("", m_plugins, m_blocks), m_cpa(8), m_worldLoader(m_world, m_cpa), m_chunk(Vec3i(0, 0, 0)), m_chunkRenderer(m_world, m_chunk)
 {
+    PluginAPI::Blocks = &m_blocks;
+    PluginAPI::Plugins = &m_plugins;
+    m_plugins.loadPlugins("./");
+
     keyFunc.connect([this](int scancode, UI::Core::ButtonAction)
     {
         onKey(scancode);
     });
     win->renderdelegate.push_back([this, win]() { init(win); });
+
+    //m_worldLoader.setLoadRange(4);
+    //m_worldLoader.sortChunkLoadUnloadList(Vec3i(0, 0, 0));
+
+    // Test chunk build
+    ChunkLoader(m_chunk).build(15);
+    BlockData block = m_chunk.getBlock(Vec3i(0, 0, 0));
+    infostream << "Block at (0,0,0) = {ID: " << block.getID() << ", brightness: " << block.getBrightness() << ", state: " << block.getState() << "}";
+    debugstream << "Full information:";
+    m_blocks.showInfo(block.getID());
 }
 
 MainWindow::MainWindow(int width, int height, const string& title) : UI::Core::Window(title, width, height, 200, 200)
@@ -63,7 +78,6 @@ void GameView::init(UI::Core::Window*)
 {
     Renderer::init();
 
-    // Example for Texture
     texture = Texture::loadTextureRGBA("./Res/test.png");
     UI::GameUtils::setSwapInterval(0);
     VertexArray cubeArray(3000000, VertexFormat(2, 3, 0, 3));
@@ -73,80 +87,8 @@ void GameView::init(UI::Core::Window*)
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
 
-    for (int x = -25; x < 25; x++)
-    {
-        for (int y = -25; y < 25; y++)
-        {
-            for (int z = -25; z < 25; z++)
-            {
-                // Front
-                cubeArray.setColor({ 0.7f, 0.7f, 0.7f });
-                cubeArray.setTexture({ 0.0f, 0.0f });
-                cubeArray.addVertex({ x*2.0f - 0.5f, y*2.0f + 0.5f, z*2.0f + 0.5f });
-                cubeArray.setTexture({ 0.0f, 1.0f });
-                cubeArray.addVertex({ x*2.0f - 0.5f, y*2.0f - 0.5f, z*2.0f + 0.5f });
-                cubeArray.setTexture({ 1.0f, 1.0f });
-                cubeArray.addVertex({ x*2.0f + 0.5f, y*2.0f - 0.5f, z*2.0f + 0.5f });
-                cubeArray.setTexture({ 1.0f, 0.0f });
-                cubeArray.addVertex({ x*2.0f + 0.5f, y*2.0f + 0.5f, z*2.0f + 0.5f });
-                // Back
-                cubeArray.setColor({ 0.7f, 0.7f, 0.7f });
-                cubeArray.setTexture({ 0.0f, 0.0f });
-                cubeArray.addVertex({ x*2.0f + 0.5f, y*2.0f + 0.5f, z*2.0f - 0.5f });
-                cubeArray.setTexture({ 0.0f, 1.0f });
-                cubeArray.addVertex({ x*2.0f + 0.5f, y*2.0f - 0.5f, z*2.0f - 0.5f });
-                cubeArray.setTexture({ 1.0f, 1.0f });
-                cubeArray.addVertex({ x*2.0f - 0.5f, y*2.0f - 0.5f, z*2.0f - 0.5f });
-                cubeArray.setTexture({ 1.0f, 0.0f });
-                cubeArray.addVertex({ x*2.0f - 0.5f, y*2.0f + 0.5f, z*2.0f - 0.5f });
-                // Top
-                cubeArray.setColor({ 1.0f, 1.0f, 1.0f });
-                cubeArray.setTexture({ 0.0f, 0.0f });
-                cubeArray.addVertex({ x*2.0f - 0.5f, y*2.0f + 0.5f, z*2.0f - 0.5f });
-                cubeArray.setTexture({ 0.0f, 1.0f });
-                cubeArray.addVertex({ x*2.0f - 0.5f, y*2.0f + 0.5f, z*2.0f + 0.5f });
-                cubeArray.setTexture({ 1.0f, 1.0f });
-                cubeArray.addVertex({ x*2.0f + 0.5f, y*2.0f + 0.5f, z*2.0f + 0.5f });
-                cubeArray.setTexture({ 1.0f, 0.0f });
-                cubeArray.addVertex({ x*2.0f + 0.5f, y*2.0f + 0.5f, z*2.0f - 0.5f });
-                // Bottom
-                cubeArray.setColor({ 1.0f, 1.0f, 1.0f });
-                cubeArray.setTexture({ 0.0f, 0.0f });
-                cubeArray.addVertex({ x*2.0f - 0.5f, y*2.0f - 0.5f, z*2.0f + 0.5f });
-                cubeArray.setTexture({ 0.0f, 1.0f });
-                cubeArray.addVertex({ x*2.0f - 0.5f, y*2.0f - 0.5f, z*2.0f - 0.5f });
-                cubeArray.setTexture({ 1.0f, 1.0f });
-                cubeArray.addVertex({ x*2.0f + 0.5f, y*2.0f - 0.5f, z*2.0f - 0.5f });
-                cubeArray.setTexture({ 1.0f, 0.0f });
-                cubeArray.addVertex({ x*2.0f + 0.5f, y*2.0f - 0.5f, z*2.0f + 0.5f });
-                // Right
-                cubeArray.setColor({ 0.5f, 0.5f, 0.5f });
-                cubeArray.setTexture({ 0.0f, 0.0f });
-                cubeArray.addVertex({ x*2.0f + 0.5f, y*2.0f + 0.5f, z*2.0f + 0.5f });
-                cubeArray.setTexture({ 0.0f, 1.0f });
-                cubeArray.addVertex({ x*2.0f + 0.5f, y*2.0f - 0.5f, z*2.0f + 0.5f });
-                cubeArray.setTexture({ 1.0f, 1.0f });
-                cubeArray.addVertex({ x*2.0f + 0.5f, y*2.0f - 0.5f, z*2.0f - 0.5f });
-                cubeArray.setTexture({ 1.0f, 0.0f });
-                cubeArray.addVertex({ x*2.0f + 0.5f, y*2.0f + 0.5f, z*2.0f - 0.5f });
-                // Left
-                cubeArray.setColor({ 0.5f, 0.5f, 0.5f });
-                cubeArray.setTexture({ 0.0f, 0.0f });
-                cubeArray.addVertex({ x*2.0f - 0.5f, y*2.0f + 0.5f, z*2.0f - 0.5f });
-                cubeArray.setTexture({ 0.0f, 1.0f });
-                cubeArray.addVertex({ x*2.0f - 0.5f, y*2.0f - 0.5f, z*2.0f - 0.5f });
-                cubeArray.setTexture({ 1.0f, 1.0f });
-                cubeArray.addVertex({ x*2.0f - 0.5f, y*2.0f - 0.5f, z*2.0f + 0.5f });
-                cubeArray.setTexture({ 1.0f, 0.0f });
-                cubeArray.addVertex({ x*2.0f - 0.5f, y*2.0f + 0.5f, z*2.0f + 0.5f });
-            }
-        }
-        if ((x + 26)*2 % 20 == 0) infostream << "Building vertax array: " << (x + 26)*2 << "%";
-    }
-
-    infostream << "Generating VBO...";
-    cube = VertexBuffer(cubeArray);
-    infostream << "Complete!";
+    // Test chunk render
+    m_chunkRenderer.buildVertexArray();
 
     onRenderF = [this]()
     {
@@ -169,7 +111,7 @@ void GameView::doRender()
     Renderer::rotate(trans.x, Vec3f(1.0f, 0.0f, 0.0f));
     Renderer::rotate(trans.y, Vec3f(0.0f, 1.0f, 0.0f));
 
-    cube.render();
+    m_chunkRenderer.render();
 
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_DEPTH_TEST);

@@ -23,11 +23,8 @@
 #include <pluginapi.h>
 
 Application::Application(int width, int height, const string& title, const string& path) :
-    m_width(width), m_height(height), m_title(title), m_world("", m_plugins), m_cpa(8), m_worldLoader(m_world, m_cpa)
+    m_width(width), m_height(height), m_title(title)
 {
-    PluginAPI::Blocks = &m_blocks;
-    PluginAPI::Plugins = &m_plugins;
-    m_plugins.loadPlugins(path);
 }
 
 void Application::beforeLaunch()
@@ -46,7 +43,6 @@ void Application::beforeLaunch()
 #undef HOOK
 
     Texture::init();
-
     UI::Logger::init("./Logs");
     UI::Font::service.addSearchPaths({ "./Res/Fonts" });
     UI::Globalization::Service::getInstance().setBasePath("./Res/Langs/");
@@ -58,18 +54,6 @@ void Application::beforeLaunch()
     UI::Theme::SystemTheme.ControlOnPressBrush = UIMakeSolidColorBrush(UI::Base::Color(0.2 * 0.8, 0.2 * 0.8, 0.2 * 0.8, 0.9));
     UI::Theme::SystemTheme.DefaultFont = UI::Font::service.getRenderer("SourceHanSansCN-Normal", 17, UI::Base::Color(1.0, 1.0, 1.0, 1.0));
     //std::thread serverThread(networkThread);
-
-    //m_worldLoader.setLoadRange(4);
-    //m_worldLoader.sortChunkLoadUnloadList(Vec3i(0, 0, 0));
-
-    // Testing chunk
-    Chunk chunk(Vec3i(0, 0, 0));
-    ChunkLoader loader(chunk);
-    loader.build(15);
-    BlockData block = chunk.getBlock(Vec3i(0, 0, 0));
-    infostream << "Block at (0,0,0) = {ID: " << block.getID() << ", brightness: " << block.getBrightness() << ", state: " << block.getState() << "}";
-    debugstream << "Full information:";
-    m_blocks.showInfo(block.getID());
 }
 
 void Application::afterLaunch()
@@ -84,7 +68,6 @@ void Application::onTerminate()
     infostream << "Terminating...";
     UI::Logger::service.dump();
     Texture::uninit();
-    m_plugins.unloadPlugins();
     //serverThread.join();
     disconnect();
 }

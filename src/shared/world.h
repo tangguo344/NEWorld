@@ -25,6 +25,7 @@
 #include <cstdlib> // malloc, realloc, free
 #include <boost/core/noncopyable.hpp>
 #include "chunk.h"
+#include "blockmanager.h"
 
 using std::abs;
 using std::string;
@@ -38,6 +39,8 @@ private:
     string m_name;
     // Loaded plugins
     PluginManager& m_plugins;
+    // Loaded blocks
+    BlockManager& m_blocks;
     // Loaded chunk count
     size_t m_chunkCount;
     // Size of chunk array
@@ -78,13 +81,16 @@ private:
     size_t getChunkIndex(const Vec3i& chunkPos) const;
 
 public:
-    World(const string& name, PluginManager& plugins) : m_name(name), m_plugins(plugins), m_chunkCount(0), m_chunkArraySize(1024)
+    World(const string& name, PluginManager& plugins, BlockManager& blocks)
+        : m_name(name), m_plugins(plugins), m_blocks(blocks), m_chunkCount(0), m_chunkArraySize(1024), m_daylightBrightness(15)
     {
         //m_chunks = new Chunk*[m_chunkArraySize];
-        m_chunks = static_cast<Chunk**>(malloc(m_chunkArraySize * sizeof(Chunk*)));
+        m_chunks = reinterpret_cast<Chunk**>(malloc(m_chunkArraySize * sizeof(Chunk*)));
     }
 
-    World(World&& rhs) : m_name(std::move(rhs.m_name)), m_plugins(rhs.m_plugins), m_chunkCount(rhs.m_chunkCount), m_chunkArraySize(rhs.m_chunkArraySize), m_chunks(rhs.m_chunks)
+    World(World&& rhs)
+        : m_name(std::move(rhs.m_name)), m_plugins(rhs.m_plugins), m_blocks(rhs.m_blocks),
+          m_chunkCount(rhs.m_chunkCount), m_chunkArraySize(rhs.m_chunkArraySize), m_chunks(rhs.m_chunks), m_daylightBrightness(rhs.m_daylightBrightness)
     {
     }
 
@@ -182,7 +188,7 @@ public:
     }
 
     // Set block data
-    void setBlock(const Vec3i& pos, BlockData block)
+    void setBlock(const Vec3i& pos, BlockData block) const
     {
         Chunk* chunk = getChunkPtr(getChunkPos(pos));
         assert(chunk != nullptr);
@@ -192,6 +198,11 @@ public:
     int getDaylightBrightness() const
     {
         return m_daylightBrightness;
+    }
+
+    const BlockManager& getBlockTypes() const
+    {
+        return m_blocks;
     }
 
     // Main update
