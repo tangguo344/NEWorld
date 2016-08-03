@@ -22,17 +22,11 @@
 
 #include <common.h>
 #include "network.h"
-#include <thread>
+#include <string>
+using std::string;
 #include <uilib.h>
-#include <world.h>
-#include <logger.h>
-#include <pluginapi.h>
-#include <blockmanager.h>
-#include <worldmanager.h>
-#include <pluginmanager.h>
-#include "../server/worldloader.h"
 
-class Application :public UI::Core::Application
+class Application : public UI::Core::Application
 {
 public:
     Application(int width, int height, const string& title, const string& path);
@@ -43,21 +37,6 @@ public:
 private:
     int m_width, m_height;
     string m_title;
-
-    // Blocks
-    BlockManager m_blocks;
-    // Loaded plugins
-    PluginManager m_plugins;
-    /*
-    // Loaded worlds
-    WorldManager m_worlds;
-    */
-    // Current world
-    World m_world;
-    // CPA
-    ChunkPointerArray m_cpa;
-    // Loading test
-    WorldLoader m_worldLoader;
 };
 
 #endif // !NEWORLD_H_

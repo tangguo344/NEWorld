@@ -25,12 +25,13 @@ using std::vector;
 
 #include "world.h"
 #include "pluginmanager.h"
+#include "blockmanager.h"
 
 // Multi-world
 class WorldManager
 {
 public:
-    WorldManager(PluginManager& plugins) : m_plugins(plugins)
+    WorldManager(PluginManager& plugins, BlockManager blocks) : m_plugins(plugins), m_blocks(blocks)
     {
     }
 
@@ -41,13 +42,14 @@ public:
 
     World& addWorld(const string& name)
     {
-        m_worlds.emplace_back(name, m_plugins);
+        m_worlds.emplace_back(name, m_plugins, m_blocks);
         return m_worlds[m_worlds.size() - 1];
     }
 
 private:
     vector<World> m_worlds;
     PluginManager& m_plugins;
+    BlockManager& m_blocks;
 };
 
 #endif

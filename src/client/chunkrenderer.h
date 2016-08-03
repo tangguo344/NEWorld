@@ -53,6 +53,13 @@ private:
     static VertexArray va;
     // Merge face rendering
     static bool mergeFace;
+
+    bool adjacentTest(BlockData a, BlockData b) const
+    {
+        if (a.getID() == 0) return false;
+        if (m_world.getBlockTypes().getType(b.getID()).isOpaque()) return false;
+        return true;
+    }
 };
 
 #endif // !CHUNKRENDERER_H_

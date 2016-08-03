@@ -19,14 +19,9 @@
 
 #include "blockmanager.h"
 
-void BlockManager::showInfo(int id)
+void BlockManager::showInfo(int id) const
 {
-    if (id == 0)
-    {
-        debugstream << "Built-in Air Block";
-        return;
-    }
-    BlockType block = m_blocks[id - 1];
+    BlockType block = m_blocks[id];
     debugstream << "Block \"" << block.getName() << "\" with ID = " << id << ", attributes:\n"
                 << "Solid: " << block.isSolid() << "\n"
                 << "Translucent: " << block.isTranslucent() << "\n"
