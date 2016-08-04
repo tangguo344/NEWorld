@@ -21,6 +21,15 @@
 
 #include <stdint.h>
 
+#ifndef __cplusplus
+#include <stdbool.h>
+#endif
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 #if defined _WIN32 || defined __CYGWIN__
     #ifdef _MSC_VER
         #define NWAPIENTRY __declspec(dllimport)
@@ -47,9 +56,9 @@ struct NWvec3i
 
 struct NWplugindata
 {
-    const char* pluginName = nullptr;
-    const char* authorName = nullptr;
-    const char* internalName = nullptr;
+    const char* pluginName;
+    const char* authorName;
+    const char* internalName;
 };
 
 struct NWblockdata
@@ -61,7 +70,7 @@ struct NWblockdata
 
 struct NWblocktype
 {
-    const char* blockname = nullptr;
+    const char* blockname;
     bool solid;
     bool translucent;
     bool opaque;
@@ -71,13 +80,14 @@ struct NWblocktype
 
 typedef void NWAPICALL NWchunkgenerator(const NWvec3i*, NWblockdata*, int32_t);
 
-extern "C"
-{
     NWAPIENTRY NWblockdata NWAPICALL nwGetBlock(const NWvec3i* pos);
     NWAPIENTRY int32_t NWAPICALL nwSetBlock(const NWvec3i* pos, NWblockdata block);
     NWAPIENTRY int32_t NWAPICALL nwRegisterBlock(const NWblocktype*);
     NWAPIENTRY int32_t NWAPICALL nwRegisterChunkGenerator(NWchunkgenerator* const generator);
+
+#ifdef __cplusplus
 }
+#endif
 
 #endif // !NWAPI_H_
 
