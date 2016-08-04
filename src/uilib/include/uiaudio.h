@@ -146,7 +146,7 @@ namespace UI
             virtual ~OutEffectEx() = default;
             virtual void operator()(int32_t* input, size_t channel) {};
         };
-        
+
         UILIB_API extern std::map<std::string, std::function<std::shared_ptr<Stream>(std::string)>> sourceLoaders;
 
         UILIB_API extern std::vector <std::shared_ptr<UI::Audio::OutEffect>> outEffects;
@@ -170,8 +170,8 @@ namespace UI
         {
             /*
             Balance
-            Ãû³Æ:ÉùµÀÆ½ºâ
-            ×÷ÓÃ:µ÷½ÚÉùµÀÒôÁ¿,»òÕß×÷ÎªStereoµÄÌæ´úÆ·.
+            åç§°:å£°é“å¹³è¡¡
+            ä½œç”¨:è°ƒèŠ‚å£°é“éŸ³é‡,æˆ–è€…ä½œä¸ºStereoçš„æ›¿ä»£å“.
             */
             class UILIB_API Balance : public OutEffect
             {
@@ -187,8 +187,8 @@ namespace UI
 
             /*
             Damping
-            Ãû³Æ:Ë¥¼õ
-            ×÷ÓÃ:¼ÆËãÉùÒôË¥¼õ,²»¿É×÷Îª»ØÉùµÄÌæ´úÆ·.
+            åç§°:è¡°å‡
+            ä½œç”¨:è®¡ç®—å£°éŸ³è¡°å‡,ä¸å¯ä½œä¸ºå›å£°çš„æ›¿ä»£å“.
             */
             class UILIB_API Damping : public OutEffect
             {
@@ -205,8 +205,8 @@ namespace UI
 
             /*
             EQ
-            Ãû³Æ:EQ¾ùºâÆ÷
-            ×÷ÓÃ:ÓÃÓÚ²¥·ÅBGM»ò¿Õ¼ä¸ĞäÖÈ¾.²ÎÊıÒÔ16bitÎª×¼.
+            åç§°:EQå‡è¡¡å™¨
+            ä½œç”¨:ç”¨äºæ’­æ”¾BGMæˆ–ç©ºé—´æ„Ÿæ¸²æŸ“.å‚æ•°ä»¥16bitä¸ºå‡†.
             */
             class UILIB_API EQ : public OutEffect, public Effect
             {
@@ -244,8 +244,8 @@ namespace UI
 
             /*
             Amplifier
-            Ãû³Æ:²îÒì·Å´óÆ÷
-            ×÷ÓÃ:·Å´ó¸÷ÉùµÀµÄ²îÒì,Ìá¸ßÁ¢Ìå¸Ğ,×÷ÎªStereoµÄ²¹³¥.
+            åç§°:å·®å¼‚æ”¾å¤§å™¨
+            ä½œç”¨:æ”¾å¤§å„å£°é“çš„å·®å¼‚,æé«˜ç«‹ä½“æ„Ÿ,ä½œä¸ºStereoçš„è¡¥å¿.
             */
             class UILIB_API Amplifier : public OutEffectEx
             {
@@ -261,8 +261,8 @@ namespace UI
 
             /*
             Stereo
-            Ãû³Æ:3DĞ§¹ûÆ÷
-            ×÷ÓÃ:Í¨¹ıÉùÒôË¥¼õÄ£ĞÍ¼ÆËãÒôÁ¿,ÊÇÁ¢Ìå¸ĞµÄ»ù´¡,ÓëListenerµÄpos2´îÅäÊ¹ÓÃ.
+            åç§°:3Dæ•ˆæœå™¨
+            ä½œç”¨:é€šè¿‡å£°éŸ³è¡°å‡æ¨¡å‹è®¡ç®—éŸ³é‡,æ˜¯ç«‹ä½“æ„Ÿçš„åŸºç¡€,ä¸Listenerçš„pos2æ­é…ä½¿ç”¨.
             */
             class UILIB_API Stereo : public EffectEx
             {
@@ -290,8 +290,8 @@ namespace UI
 
             /*
             Doppler
-            Ãû³Æ:¶àÆÕÀÕĞ§Ó¦
-            ×÷ÓÃ:Í¨¹ı¶àÆÕÀÕĞ§Ó¦Ä£ĞÍ¼ÆËãÆµÂÊ,Ìá¸ßÁ¢Ìå¸Ğ.(Òª»ñµÃ¸üºÃµÄÌåÑéÇë¸ü»»speedOfSoundSamplerº¯Êı,²¢Ìá¸ß²ÉÑù´ÎÊı)
+            åç§°:å¤šæ™®å‹’æ•ˆåº”
+            ä½œç”¨:é€šè¿‡å¤šæ™®å‹’æ•ˆåº”æ¨¡å‹è®¡ç®—é¢‘ç‡,æé«˜ç«‹ä½“æ„Ÿ.(è¦è·å¾—æ›´å¥½çš„ä½“éªŒè¯·æ›´æ¢speedOfSoundSamplerå‡½æ•°,å¹¶æé«˜é‡‡æ ·æ¬¡æ•°)
             */
             class UILIB_API Doppler : public Effect
             {
@@ -303,8 +303,8 @@ namespace UI
 
             /*
             Noise
-            Ãû³Æ:ÔëÒôÉú³ÉÆ÷
-            ×÷ÓÃ:ÓÃÓÚÉú³ÉÔëÒô²¢µş¼ÓÔÚÔ­²¨ĞÎÉÏ,ÓÃÓÚ²¥·Å×ÔÈ»ÉùÒô.
+            åç§°:å™ªéŸ³ç”Ÿæˆå™¨
+            ä½œç”¨:ç”¨äºç”Ÿæˆå™ªéŸ³å¹¶å åŠ åœ¨åŸæ³¢å½¢ä¸Š,ç”¨äºæ’­æ”¾è‡ªç„¶å£°éŸ³.
             */
             class UILIB_API Noise : public Effect
             {

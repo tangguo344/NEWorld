@@ -90,7 +90,9 @@ namespace UI
             glClearColor(0.0, 0.0, 0.0, 1.0);
             glLoadIdentity();
             Graphics::Shapes::Rectangle::draw(Base::Rect(0.0, _x, 0.0, _y), background, nullptr);
-            if (!render.empty()) for (auto& c : render) c->render();
+            if (!render.empty())
+                for (auto& c : render)
+                    c->render();
             UI::Font::flush();
             SDL_GL_SwapWindow(window);
             for (auto f : renderdelegate) f();
@@ -161,7 +163,8 @@ namespace UI
             if (!event_trans)
             {
                 for (auto c : connections)
-                    for (size_t cc = 0; cc < 10; ++cc) c._c[cc].disconnect();
+                    for (size_t cc = 0; cc < 10; ++cc)
+                        c._c[cc].disconnect();
                 connections.clear();
             }
             connections.push_back(doconnect(page));
@@ -196,7 +199,8 @@ namespace UI
         void Window::clearPages()
         {
             for (auto c : connections)
-                for (size_t cc = 0; cc < 10; ++cc) c._c[cc].disconnect();
+                for (size_t cc = 0; cc < 10; ++cc)
+                    c._c[cc].disconnect();
             connections.clear();
             pages.clear();
             render.clear();
@@ -206,7 +210,8 @@ namespace UI
         {
             _Page p = *pages.begin();
             for (auto c : connections)
-                for (size_t cc = 0; cc < 10; ++cc) c._c[cc].disconnect();
+                for (size_t cc = 0; cc < 10; ++cc)
+                    c._c[cc].disconnect();
             connections.clear();
             pages.clear();
             render.clear();

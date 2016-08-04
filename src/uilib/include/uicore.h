@@ -154,7 +154,7 @@ namespace UI
             VerticalAlignment va;
             Base::Rect relativeps, relativepc;
         };
-        
+
         struct CInpArgs
         {
             std::wstring str;
@@ -221,18 +221,18 @@ namespace UI
             std::shared_ptr<Control> focused;
             std::shared_ptr<Control> pressed;
         };
-        
+
         struct _Page
         {
             std::shared_ptr<Grid> c;
             bool et, rt;
         };
-        
+
         struct _Connections
         {
             boost::signals2::connection _c[10];
         };
-        
+
         class UILIB_API Window
         {
         public:
@@ -263,7 +263,7 @@ namespace UI
             void popPage();
             void clearPages();
             void pageZero();
-            
+
             std::vector<std::function<void()>> renderdelegate;
             std::shared_ptr<Base::Brush> background;
             //SDL ONLY
