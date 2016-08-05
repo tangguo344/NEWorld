@@ -22,30 +22,6 @@
 #include <logger.h>
 #include "texture.h"
 
-GameView::GameView(UI::Core::Window* win) :UI::Controls::GLContext(),
-    m_world("", m_plugins, m_blocks), m_cpa(8), m_worldLoader(m_world, m_cpa), m_chunk(Vec3i(0, 0, 0)), m_chunkRenderer(m_world, m_chunk)
-{
-    PluginAPI::Blocks = &m_blocks;
-    PluginAPI::Plugins = &m_plugins;
-    m_plugins.loadPlugins("./");
-
-    keyFunc.connect([this](int scancode, UI::Core::ButtonAction)
-    {
-        onKey(scancode);
-    });
-    win->renderdelegate.push_back([this, win]() { init(win); });
-
-    //m_worldLoader.setLoadRange(4);
-    //m_worldLoader.sortChunkLoadUnloadList(Vec3i(0, 0, 0));
-
-    // Test chunk build
-    ChunkLoader(m_chunk).build(15);
-    BlockData block = m_chunk.getBlock(Vec3i(0, 0, 0));
-    infostream << "Block at (0,0,0) = {ID: " << block.getID() << ", brightness: " << block.getBrightness() << ", state: " << block.getState() << "}";
-    debugstream << "Full information:";
-    m_blocks.showInfo(block.getID());
-}
-
 MainWindow::MainWindow(int width, int height, const string& title) : UI::Core::Window(title, width, height, 200, 200)
 {
     background = std::make_shared<UI::Graphics::Brushes::ImageBrush>(std::make_shared<UI::Base::Image>("./Res/ss.png"));
@@ -72,6 +48,32 @@ MainWindow::MainWindow(int width, int height, const string& title) : UI::Core::W
     });
 }
 
+GameView::GameView(UI::Core::Window* win) :UI::Controls::GLContext(),
+    m_world("", m_plugins, m_blocks), m_cpa(8), m_worldLoader(m_world, m_cpa), m_chunk(Vec3i(0, 0, 0)), m_chunkRenderer(m_world, m_chunk)
+{
+    PluginAPI::Blocks = &m_blocks;
+    PluginAPI::Plugins = &m_plugins;
+    m_plugins.loadPlugins("./");
+
+    keyFunc.connect([this](int scancode, UI::Core::ButtonAction)
+    {
+        onKey(scancode);
+    });
+    win->renderdelegate.push_back([this, win]() { init(win); });
+
+    //m_worldLoader.setLoadRange(4);
+    //m_worldLoader.sortChunkLoadUnloadList(Vec3i(0, 0, 0));
+
+    // Test chunk build
+    ChunkLoader(m_chunk).build(15);
+    /*
+    BlockData block = m_chunk.getBlock(Vec3i(0, 0, 0));
+    infostream << "Block at (0,0,0) = {ID: " << block.getID() << ", brightness: " << block.getBrightness() << ", state: " << block.getState() << "}";
+    debugstream << "Full information:";
+    m_blocks.showInfo(block.getID());
+    */
+}
+
 Texture texture;
 
 void GameView::init(UI::Core::Window*)
@@ -80,9 +82,7 @@ void GameView::init(UI::Core::Window*)
 
     texture = Texture::loadTextureRGBA("./Res/test.png");
     UI::GameUtils::setSwapInterval(0);
-    VertexArray cubeArray(3000000, VertexFormat(2, 3, 0, 3));
 
-    glClearColor(0.6f, 0.9f, 1.0f, 1.0f);
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
@@ -98,14 +98,16 @@ void GameView::init(UI::Core::Window*)
 
 void GameView::doRender()
 {
+    // Overwrite UILib parameters
     glClearColor(0.6f, 0.9f, 1.0f, 1.0f);
     glClearDepth(1.0f);
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_DEPTH_TEST);
+
     texture.bind(Texture::Texture2D);
     Renderer::clear();
     Renderer::restoreProj();
-    Renderer::applyPerspective(60.0f, cMargin.absrect.xmax / cMargin.absrect.ymax, 1.0f, 1000.0f);
+    Renderer::applyPerspective(70.0f, cMargin.absrect.xmax / cMargin.absrect.ymax, 1.0f, 1000.0f);
     Renderer::restoreScale();
     Renderer::translate(Vec3f(0.0f, 0.0f, trans.z));
     Renderer::rotate(trans.x, Vec3f(1.0f, 0.0f, 0.0f));

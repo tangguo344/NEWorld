@@ -206,6 +206,7 @@
     <ClInclude Include="..\..\..\src\client\neworld.h" />
     <ClInclude Include="..\..\..\src\client\opengl.h" />
     <ClInclude Include="..\..\..\src\client\pages.h" />
+    <ClInclude Include="..\..\..\src\client\playercontrol.h" />
     <ClInclude Include="..\..\..\src\client\renderer.h" />
     <ClInclude Include="..\..\..\src\client\texture.h" />
     <ClInclude Include="..\..\..\src\client\vertexarray.h" />
@@ -223,6 +224,7 @@
     <ClCompile Include="..\..\..\src\client\networkstructures.cpp" />
     <ClCompile Include="..\..\..\src\client\neworld.cpp" />
     <ClCompile Include="..\..\..\src\client\pages.cpp" />
+    <ClCompile Include="..\..\..\src\client\playercontrol.cpp" />
     <ClCompile Include="..\..\..\src\client\texture.cpp" />
     <ClCompile Include="..\..\..\src\client\vertexarray.cpp" />
     <ClCompile Include="..\..\..\src\client\renderer.cpp" />

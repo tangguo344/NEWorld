@@ -47,7 +47,12 @@ public:
     {
     }
 
-    /// Get the square of vector length, notice that the result can overflow. TODO: fixit
+    template <typename U>
+    Vec3(const Vec3<U>& rhs) : x(rhs.x), y(rhs.y), z(rhs.z)
+    {
+    }
+
+    /// Get the square of vector length.
     T lengthSqr() const
     {
         return x * x + y * y + z * z;

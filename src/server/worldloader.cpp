@@ -31,7 +31,7 @@ void WorldLoader::sortChunkLoadUnloadList(const Vec3i& centerPos)
 
     for (size_t ci = 0; ci < m_world.getChunkCount(); ci++)
     {
-        Vec3i curPos = m_world.getChunkPtr(ci)->getPos();
+        Vec3i curPos = m_world.getChunkPtr(ci)->getPosition();
         // Get chunk center pos
         curPos.for_each([](int& x)
         {
@@ -128,6 +128,6 @@ void WorldLoader::loadUnloadChunks() const
     for (int i = 0; i < m_chunkUnloadCount; i++)
     {
         // TODO: Save chunk
-        m_world.deleteChunk(m_chunkUnloadList[i].first->getPos());
+        m_world.deleteChunk(m_chunkUnloadList[i].first->getPosition());
     }
 }
