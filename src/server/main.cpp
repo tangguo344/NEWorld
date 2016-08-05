@@ -39,7 +39,7 @@ int NWAPICALL main(int argc, char** argv)
     std::thread inputThread(inputThreadFunc);
     try
     {
-        Server s(ioService, globalPort, (argc == 3) ? argv[2] : "./");
+        Server s(ioService, globalPort, /*(argc == 3) ? argv[2] : */"./");
         ioService.run();
     }
     catch (std::exception& e)

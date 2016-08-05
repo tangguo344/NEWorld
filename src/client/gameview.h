@@ -17,8 +17,8 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef WINDOW_H_
-#define WINDOW_H_
+#ifndef GAMEVIEW_H_
+#define GAMEVIEW_H_
 
 #include <thread>
 #include <uilib.h>
@@ -78,8 +78,9 @@ class MainWindow : public UI::Core::Window
 public:
     std::shared_ptr<UI::Base::Texture> btex[6];
     MainWindow(int width, int height, const string& title);
+
 private:
     std::thread loader;
 };
 
-#endif
+#endif // !GAMEVIEW_H_

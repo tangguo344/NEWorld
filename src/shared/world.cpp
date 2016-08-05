@@ -46,7 +46,7 @@ size_t World::getChunkIndex(const Vec3i& pos) const
     do
     {
         middle = (first + last) / 2;
-        const Vec3i& curr = m_chunks[middle]->getPos();
+        const Vec3i& curr = m_chunks[middle]->getPosition();
         if (curr > pos)
             last = middle - 1;
         else if (curr < pos)
@@ -59,7 +59,7 @@ size_t World::getChunkIndex(const Vec3i& pos) const
 Chunk* World::addChunk(const Vec3i& chunkPos)
 {
     int index = getChunkIndex(chunkPos);
-    if (m_chunkCount && m_chunks[index]->getPos() == chunkPos)
+    if (m_chunkCount && m_chunks[index]->getPosition() == chunkPos)
     {
         assert(false);
         return nullptr;
@@ -75,7 +75,7 @@ Chunk* World::addChunk(const Vec3i& chunkPos)
 int World::deleteChunk(const Vec3i& chunkPos)
 {
     int index = getChunkIndex(chunkPos);
-    if (m_chunkCount == 0 || m_chunks[index]->getPos() != chunkPos)
+    if (m_chunkCount == 0 || m_chunks[index]->getPosition() != chunkPos)
     {
         assert(false);
         return 1;
@@ -84,6 +84,23 @@ int World::deleteChunk(const Vec3i& chunkPos)
     eraseChunkPtr(index);
     // Update chunk pointer array
     return 0;
+}
+
+std::vector<AABB> World::getHitBoxes(const AABB& range) const
+{
+    std::vector<AABB> res;
+    // Naive implemention, needs to be optimized
+    Vec3i curr;
+    for (curr.x = int(floor(range.min.x)); curr.x < int(ceil(range.max.x)); curr.x++)
+        for (curr.y = int(floor(range.min.y)); curr.y < int(ceil(range.max.y)); curr.y++)
+            for (curr.z = int(floor(range.min.z)); curr.z < int(ceil(range.max.z)); curr.z++)
+            {
+                // TODO: BlockType::getAABB
+                if (getBlock(curr).getID() == 0) continue;
+                Vec3d currd = curr;
+                res.push_back(AABB(currd, currd + Vec3d(1.0, 1.0, 1.0)));
+            }
+    return res;
 }
 
 void World::update()

@@ -17,55 +17,60 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef OBJECT_H_
-#define OBJECT_H_
+#ifndef PLAYERCONTROL_H_
+#define PLAYERCONTROL_H_
 
-#include "aabb.h"
-#include "vec3.h"
+#include <object.h>
 
-class Object
+class PlayerControl : public Object
 {
 public:
-    virtual ~Object()
+    PlayerControl() : Object(), m_direction(0.0, 0.0, 0.0)
     {
     }
 
-    const Vec3d& getPosition() const
+    ~PlayerControl()
     {
-        return m_position;
     }
 
-    void setPosition(const Vec3d& val)
+    void accelerate(const Vec3d& acceleration)
     {
-        m_position = val;
+        m_speed += acceleration;
     }
 
-    const Vec3d& getRotation() const
+    void setSpeed(const Vec3d& speed)
     {
-        return m_rotation;
+        m_speed = speed;
     }
 
-    void setRotation(const Vec3d& val)
+    void rotate(const Vec3d& rotate)
     {
-        m_rotation = val;
+        m_direction += rotate;
     }
 
-    const Vec3d& getSize() const
+    void setDirection(const Vec3d& direction)
     {
-        return m_size;
+        m_direction = direction;
     }
 
-    const AABB& getHitbox() const
+    const Vec3d& getDirection() const
     {
-        return m_hitbox;
+        return m_direction;
     }
 
-    virtual void update() = 0;
+    void move()
+    {
 
-protected:
-    Vec3d m_position, m_size, m_rotation;
-    AABB m_hitbox;
+    }
+
+    void update()
+    {
+        move();
+    }
+
+private:
+    Vec3d m_speed, m_direction;
 
 };
 
-#endif // OBJECT_H_
+#endif // !PLAYERCONTROL_H_

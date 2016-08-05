@@ -24,6 +24,7 @@
 #include <string>
 #include <cstdlib> // malloc, realloc, free
 #include <boost/core/noncopyable.hpp>
+#include "aabb.h"
 #include "chunk.h"
 #include "blockmanager.h"
 
@@ -127,10 +128,17 @@ public:
     {
         // TODO: Try chunk pointer cache
         // TODO: Try chunk pointer array
-        Chunk* res = m_chunks[getChunkIndex(chunkPos)];
+        size_t index = getChunkIndex(chunkPos);
+        if (m_chunks[index]->getPosition() != chunkPos) return nullptr;
+        Chunk* res = m_chunks[index];
         // TODO: Update chunk pointer array
         // TODO: Update chunk pointer cache
         return res;
+    }
+
+    bool isChunkLoaded(const Vec3i& chunkPos) const
+    {
+        return m_chunks[getChunkIndex(chunkPos)]->getPosition() == chunkPos;
     }
 
     // Add chunk
@@ -204,6 +212,8 @@ public:
     {
         return m_blocks;
     }
+
+    std::vector<AABB> getHitBoxes(const AABB& range) const;
 
     // Main update
     void update();

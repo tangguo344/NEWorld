@@ -20,6 +20,9 @@
     <Filter Include="Source\UI">
       <UniqueIdentifier>{2a5d303a-cdec-429b-84b2-57b38695f45d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Player">
+      <UniqueIdentifier>{acabc496-b610-4eed-8952-85f6a1c9b2ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\client\renderer.h">
@@ -52,6 +55,9 @@
     <ClInclude Include="..\..\..\src\client\pages.h">
       <Filter>Source\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\client\playercontrol.h">
+      <Filter>Source\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\client\renderer.cpp">
@@ -83,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\client\pages.cpp">
       <Filter>Source\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\playercontrol.cpp">
+      <Filter>Source\Player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -29,14 +29,14 @@ constexpr int ChunkSizeLog2 = 5, ChunkSize = 1 << ChunkSizeLog2; // 2 ^ ChunkSiz
 class Chunk
 {
 public:
-    explicit Chunk(const Vec3i& chunkPos) : m_pos(chunkPos)
+    explicit Chunk(const Vec3i& position) : m_position(position)
     {
     }
 
     /// Get chunk position
-    const Vec3i& getPos() const
+    const Vec3i& getPosition() const
     {
-        return m_pos;
+        return m_position;
     }
 
     /// Get block data in this chunk
@@ -64,7 +64,7 @@ public:
     }
 
 private:
-    Vec3i m_pos;
+    Vec3i m_position;
     BlockData m_blocks[ChunkSize * ChunkSize * ChunkSize];
 };
 
