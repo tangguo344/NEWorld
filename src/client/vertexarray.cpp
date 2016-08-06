@@ -34,36 +34,36 @@ void VertexBuffer::render() const
 {
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, id);
     if (format.textureCount != 0)
+    {
         glTexCoordPointer(
             format.textureCount, GL_FLOAT,
             format.vertexAttributeCount * sizeof(float),
             nullptr
         );
+    }
     if (format.colorCount != 0)
+    {
         glColorPointer(
             format.colorCount, GL_FLOAT,
             format.vertexAttributeCount * sizeof(float),
             reinterpret_cast<float*>(format.textureCount * sizeof(float))
         );
+    }
     if (format.normalCount != 0)
+    {
         glNormalPointer(
             /*format.normalCount,*/ GL_FLOAT,
             format.vertexAttributeCount * sizeof(float),
             reinterpret_cast<float*>((format.textureCount + format.colorCount) * sizeof(float))
         );
+    }
     if (format.coordinateCount != 0)
+    {
         glVertexPointer(
             format.coordinateCount, GL_FLOAT,
             format.vertexAttributeCount * sizeof(float),
             reinterpret_cast<float*>((format.textureCount + format.colorCount + format.normalCount) * sizeof(float))
         );
-
-    // 这个框是不是很装逼2333 --qiaozhanrong
-    //====================================================================================================//
-    /**/                                                                                                /**/
-    /**/                                                                                                /**/
-    /**/                              glDrawArrays(GL_QUADS, 0, vertexes);                              /**/
-    /**/                                                                                                /**/
-    /**/                                                                                                /**/
-    //====================================================================================================//
+    }
+    glDrawArrays(GL_QUADS, 0, vertexes);
 }
