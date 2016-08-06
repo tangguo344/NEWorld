@@ -38,7 +38,6 @@ bool initNetwork(boost::asio::io_service& ioservice, tcp::socket& socket, std::s
     tcp::resolver resolver(ioservice);
     try
     {
-        //Connect to the server
         boost::asio::connect(socket, resolver.resolve({ip, std::to_string(Port)}));
         return true;
     }

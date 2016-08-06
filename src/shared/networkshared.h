@@ -22,7 +22,7 @@
 
 #include <boost/asio.hpp>
 
-using boost::asio::ip::tcp;
+using boost::asio::ip::tcp; // FIXME: do NOT put 'using' in the header file and the global scope!!!
 
 extern boost::asio::io_service ioService;
 

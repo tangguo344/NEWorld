@@ -57,7 +57,7 @@ void Plugin::unload()
         if (unload == nullptr)
         {
             // Warning: entry not found
-            warningstream << "Subroutine unload() not found in plugin " << m_data->internalName << ", skipped unloading but may cause memory leak";
+            warningstream << "Subroutine unload() not found in plugin " << m_data->internalName << ", skipped unloading!";
             return;
         }
         warningstream << "Failed: unhandled exception: " << e.what();
