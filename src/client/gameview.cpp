@@ -106,17 +106,17 @@ void GameView::doRender()
     Renderer::restoreProj();
     Renderer::applyPerspective(70.0f, cMargin.absrect.xmax / cMargin.absrect.ymax, 1.0f, 300.0f);
     Renderer::restoreScale();
-    Renderer::translate(-m_player.getPosition());
     Renderer::rotate(-m_player.getRotation().x, Vec3f(1.0f, 0.0f, 0.0f));
     Renderer::rotate(-m_player.getRotation().y, Vec3f(0.0f, 1.0f, 0.0f));
     Renderer::rotate(-m_player.getRotation().z, Vec3f(0.0f, 0.0f, 1.0f));
+    Renderer::translate(-m_player.getPosition());
 
     m_chunkRenderer.render();
 
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_DEPTH_TEST);
 
-    m_player.move();
+    m_player.update();
 }
 
 void GameView::onResize(size_t w, size_t h)
@@ -134,4 +134,8 @@ void GameView::onKey(int key)
     if (key == SDLK_d) m_player.accelerate(Vec3d( 0.2, 0.0, 0.0));
     if (key == SDLK_LSHIFT || key == SDLK_RSHIFT) m_player.accelerate(Vec3d( 0.0,-0.2, 0.0));
     if (key == SDLK_SPACE) m_player.accelerate(Vec3d( 0.0, 0.2, 0.0));
+    if (key == SDLK_UP) m_player.rotate(Vec3d( 1.0, 0.0, 0.0));
+    if (key == SDLK_DOWN) m_player.rotate(Vec3d(-1.0, 0.0, 0.0));
+    if (key == SDLK_LEFT) m_player.rotate(Vec3d( 0.0, 1.0, 0.0));
+    if (key == SDLK_RIGHT) m_player.rotate(Vec3d( 0.0,-1.0, 0.0));
 }
