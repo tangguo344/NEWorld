@@ -81,4 +81,9 @@ extern "C"
         infostream << "Registered chunk generator";
         return 0;
     }
+
+	NWAPIEXPORT void NWAPICALL nwLog(char* str, Level level)
+	{
+		Logger(__FUNCTION__, __LINE__, level);
+	}
 }
