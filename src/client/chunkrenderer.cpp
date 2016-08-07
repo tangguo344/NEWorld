@@ -51,13 +51,13 @@ void ChunkRenderer::buildVertexArray()
             {
                 va.setColor({ 0.5f, 0.5f, 0.5f });
                 va.setTexture({ 0.0f, 0.0f });
-                va.addVertex({ pos.x + 0.5f, pos.y + 0.5f, pos.z + 0.5f });
+                va.addVertex({ pos.x + 1.0f, pos.y + 1.0f, pos.z + 1.0f });
                 va.setTexture({ 0.0f, 1.0f });
-                va.addVertex({ pos.x + 0.5f, pos.y - 0.5f, pos.z + 0.5f });
+                va.addVertex({ pos.x + 1.0f, pos.y + 0.0f, pos.z + 1.0f });
                 va.setTexture({ 1.0f, 1.0f });
-                va.addVertex({ pos.x + 0.5f, pos.y - 0.5f, pos.z - 0.5f });
+                va.addVertex({ pos.x + 1.0f, pos.y + 0.0f, pos.z + 0.0f });
                 va.setTexture({ 1.0f, 0.0f });
-                va.addVertex({ pos.x + 0.5f, pos.y + 0.5f, pos.z - 0.5f });
+                va.addVertex({ pos.x + 1.0f, pos.y + 1.0f, pos.z + 0.0f });
             }
 
             // Left
@@ -65,13 +65,13 @@ void ChunkRenderer::buildVertexArray()
             {
                 va.setColor({ 0.5f, 0.5f, 0.5f });
                 va.setTexture({ 0.0f, 0.0f });
-                va.addVertex({ pos.x - 0.5f, pos.y + 0.5f, pos.z - 0.5f });
+                va.addVertex({ pos.x + 0.0f, pos.y + 1.0f, pos.z + 0.0f });
                 va.setTexture({ 0.0f, 1.0f });
-                va.addVertex({ pos.x - 0.5f, pos.y - 0.5f, pos.z - 0.5f });
+                va.addVertex({ pos.x + 0.0f, pos.y + 0.0f, pos.z + 0.0f });
                 va.setTexture({ 1.0f, 1.0f });
-                va.addVertex({ pos.x - 0.5f, pos.y - 0.5f, pos.z + 0.5f });
+                va.addVertex({ pos.x + 0.0f, pos.y + 0.0f, pos.z + 1.0f });
                 va.setTexture({ 1.0f, 0.0f });
-                va.addVertex({ pos.x - 0.5f, pos.y + 0.5f, pos.z + 0.5f });
+                va.addVertex({ pos.x + 0.0f, pos.y + 1.0f, pos.z + 1.0f });
             }
 
             // Top
@@ -79,13 +79,13 @@ void ChunkRenderer::buildVertexArray()
             {
                 va.setColor({ 1.0f, 1.0f, 1.0f });
                 va.setTexture({ 0.0f, 0.0f });
-                va.addVertex({ pos.x - 0.5f, pos.y + 0.5f, pos.z - 0.5f });
+                va.addVertex({ pos.x + 0.0f, pos.y + 1.0f, pos.z + 0.0f });
                 va.setTexture({ 0.0f, 1.0f });
-                va.addVertex({ pos.x - 0.5f, pos.y + 0.5f, pos.z + 0.5f });
+                va.addVertex({ pos.x + 0.0f, pos.y + 1.0f, pos.z + 1.0f });
                 va.setTexture({ 1.0f, 1.0f });
-                va.addVertex({ pos.x + 0.5f, pos.y + 0.5f, pos.z + 0.5f });
+                va.addVertex({ pos.x + 1.0f, pos.y + 1.0f, pos.z + 1.0f });
                 va.setTexture({ 1.0f, 0.0f });
-                va.addVertex({ pos.x + 0.5f, pos.y + 0.5f, pos.z - 0.5f });
+                va.addVertex({ pos.x + 1.0f, pos.y + 1.0f, pos.z + 0.0f });
             }
 
             // Bottom
@@ -93,13 +93,13 @@ void ChunkRenderer::buildVertexArray()
             {
                 va.setColor({ 1.0f, 1.0f, 1.0f });
                 va.setTexture({ 0.0f, 0.0f });
-                va.addVertex({ pos.x - 0.5f, pos.y - 0.5f, pos.z + 0.5f });
+                va.addVertex({ pos.x + 0.0f, pos.y + 0.0f, pos.z + 1.0f });
                 va.setTexture({ 0.0f, 1.0f });
-                va.addVertex({ pos.x - 0.5f, pos.y - 0.5f, pos.z - 0.5f });
+                va.addVertex({ pos.x + 0.0f, pos.y + 0.0f, pos.z + 0.0f });
                 va.setTexture({ 1.0f, 1.0f });
-                va.addVertex({ pos.x + 0.5f, pos.y - 0.5f, pos.z - 0.5f });
+                va.addVertex({ pos.x + 1.0f, pos.y + 0.0f, pos.z + 0.0f });
                 va.setTexture({ 1.0f, 0.0f });
-                va.addVertex({ pos.x + 0.5f, pos.y - 0.5f, pos.z + 0.5f });
+                va.addVertex({ pos.x + 1.0f, pos.y + 0.0f, pos.z + 1.0f });
             }
 
             // Front
@@ -107,13 +107,13 @@ void ChunkRenderer::buildVertexArray()
             {
                 va.setColor({ 0.7f, 0.7f, 0.7f });
                 va.setTexture({ 0.0f, 0.0f });
-                va.addVertex({ pos.x - 0.5f, pos.y + 0.5f, pos.z + 0.5f });
+                va.addVertex({ pos.x + 0.0f, pos.y + 1.0f, pos.z + 1.0f });
                 va.setTexture({ 0.0f, 1.0f });
-                va.addVertex({ pos.x - 0.5f, pos.y - 0.5f, pos.z + 0.5f });
+                va.addVertex({ pos.x + 0.0f, pos.y + 0.0f, pos.z + 1.0f });
                 va.setTexture({ 1.0f, 1.0f });
-                va.addVertex({ pos.x + 0.5f, pos.y - 0.5f, pos.z + 0.5f });
+                va.addVertex({ pos.x + 1.0f, pos.y + 0.0f, pos.z + 1.0f });
                 va.setTexture({ 1.0f, 0.0f });
-                va.addVertex({ pos.x + 0.5f, pos.y + 0.5f, pos.z + 0.5f });
+                va.addVertex({ pos.x + 1.0f, pos.y + 1.0f, pos.z + 1.0f });
             }
 
             // Back
@@ -121,13 +121,13 @@ void ChunkRenderer::buildVertexArray()
             {
                 va.setColor({ 0.7f, 0.7f, 0.7f });
                 va.setTexture({ 0.0f, 0.0f });
-                va.addVertex({ pos.x + 0.5f, pos.y + 0.5f, pos.z - 0.5f });
+                va.addVertex({ pos.x + 1.0f, pos.y + 1.0f, pos.z + 0.0f });
                 va.setTexture({ 0.0f, 1.0f });
-                va.addVertex({ pos.x + 0.5f, pos.y - 0.5f, pos.z - 0.5f });
+                va.addVertex({ pos.x + 1.0f, pos.y + 0.0f, pos.z + 0.0f });
                 va.setTexture({ 1.0f, 1.0f });
-                va.addVertex({ pos.x - 0.5f, pos.y - 0.5f, pos.z - 0.5f });
+                va.addVertex({ pos.x + 0.0f, pos.y + 0.0f, pos.z + 0.0f });
                 va.setTexture({ 1.0f, 0.0f });
-                va.addVertex({ pos.x - 0.5f, pos.y + 0.5f, pos.z - 0.5f });
+                va.addVertex({ pos.x + 0.0f, pos.y + 1.0f, pos.z + 0.0f });
             }
         });
     }

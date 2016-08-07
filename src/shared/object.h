@@ -26,6 +26,15 @@
 class Object
 {
 public:
+    Object() : m_scale(1.0)
+    {
+    }
+
+    Object(const Vec3d& position, const Vec3d& rotation, const Vec3d& scale, const AABB& hitbox)
+        : m_position(position), m_rotation(rotation), m_scale(scale), m_hitbox(hitbox)
+    {
+    }
+
     virtual ~Object()
     {
     }
@@ -50,9 +59,14 @@ public:
         m_rotation = val;
     }
 
-    const Vec3d& getSize() const
+    const Vec3d& getScale() const
     {
-        return m_size;
+        return m_scale;
+    }
+
+    void setScale(const Vec3d& val)
+    {
+        m_scale = val;
     }
 
     const AABB& getHitbox() const
@@ -63,7 +77,7 @@ public:
     virtual void update() = 0;
 
 protected:
-    Vec3d m_position, m_size, m_rotation;
+    Vec3d m_position, m_rotation, m_scale;
     AABB m_hitbox;
 
 };

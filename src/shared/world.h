@@ -124,15 +124,24 @@ public:
     }
 
     // Get chunk pointer by chunk coordinates
+    // Optimized for clustered search
     Chunk* getChunkPtr(const Vec3i& chunkPos) const
     {
         // TODO: Try chunk pointer cache
+        Chunk* res = getChunkPtrNonclustered(chunkPos);
+        // TODO: Update chunk pointer array
+        // TODO: Update chunk pointer cache
+        return res;
+    }
+
+    // Non-clustered & thread-safe version of getChunkPtr()
+    // Will not update CPA and CPC
+    Chunk* getChunkPtrNonclustered(const Vec3i& chunkPos) const
+    {
         // TODO: Try chunk pointer array
         size_t index = getChunkIndex(chunkPos);
         if (m_chunks[index]->getPosition() != chunkPos) return nullptr;
         Chunk* res = m_chunks[index];
-        // TODO: Update chunk pointer array
-        // TODO: Update chunk pointer cache
         return res;
     }
 
@@ -213,7 +222,7 @@ public:
         return m_blocks;
     }
 
-    std::vector<AABB> getHitBoxes(const AABB& range) const;
+    std::vector<AABB> getHitboxes(const AABB& range) const;
 
     // Main update
     void update();

@@ -45,7 +45,7 @@ public:
     bool intersectX(const AABB& box) const
     {
         if ((min.x > box.min.x && min.x < box.max.x) || (max.x > box.min.x && max.x < box.max.x) ||
-            (box.min.x > min.x && box.min.x < max.x) || (box.max.x > min.x && box.max.x < max.x))
+                (box.min.x > min.x && box.min.x < max.x) || (box.max.x > min.x && box.max.x < max.x))
             return true;
 
         return false;
@@ -55,7 +55,7 @@ public:
     bool intersectY(const AABB& box) const
     {
         if ((min.y > box.min.y && min.y < box.max.y) || (max.y > box.min.y && max.y < box.max.y) ||
-            (box.min.y > min.y && box.min.y < max.y) || (box.max.y > min.y && box.max.y < max.y))
+                (box.min.y > min.y && box.min.y < max.y) || (box.max.y > min.y && box.max.y < max.y))
             return true;
 
         return false;
@@ -65,7 +65,7 @@ public:
     bool intersectZ(const AABB& box) const
     {
         if ((min.z > box.min.z && min.z < box.max.z) || (max.z > box.min.z && max.z < box.max.z) ||
-            (box.min.z > min.z && box.min.z < max.z) || (box.max.z > min.z && box.max.z < max.z))
+                (box.min.z > min.z && box.min.z < max.z) || (box.max.z > min.z && box.max.z < max.z))
             return true;
 
         return false;
@@ -150,21 +150,6 @@ public:
     {
         min += arg;
         max += arg;
-    }
-
-    /// Move the center of this AABB to target position
-    void moveTo(const Vec3d& target)
-    {
-        double l, w, h;
-        l = (max.x - min.x) / 2;
-        w = (max.y - min.y) / 2;
-        h = (max.z - min.z) / 2;
-        min.x = target.x - l;
-        min.y = target.y - w;
-        min.z = target.z - h;
-        max.x = target.x + l;
-        max.y = target.y + w;
-        max.z = target.z + h;
     }
 };
 

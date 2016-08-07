@@ -27,7 +27,7 @@ void World::expandChunkArray(size_t c)
     if (m_chunkCount > m_chunkArraySize)
     {
         m_chunkArraySize *= 2;
-        auto newchunks = static_cast<Chunk**>(realloc(m_chunks, m_chunkArraySize * sizeof(Chunk*)));
+        Chunk** newchunks = reinterpret_cast<Chunk**>(realloc(m_chunks, m_chunkArraySize * sizeof(Chunk*)));
         assert(newchunks != nullptr);
         if (newchunks == nullptr)
         {
@@ -86,7 +86,7 @@ int World::deleteChunk(const Vec3i& chunkPos)
     return 0;
 }
 
-std::vector<AABB> World::getHitBoxes(const AABB& range) const
+std::vector<AABB> World::getHitboxes(const AABB& range) const
 {
     std::vector<AABB> res;
     // Naive implemention, needs to be optimized
