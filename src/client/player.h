@@ -17,12 +17,12 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PLAYERCONTROL_H_
-#define PLAYERCONTROL_H_
+#ifndef PLAYER_H_
+#define PLAYER_H_
 
 #include <playerobject.h>
 
-class PlayerControl : public PlayerObject
+class Player : public PlayerObject
 {
 public:
     void accelerate(const Vec3d& acceleration)
@@ -38,7 +38,8 @@ public:
     void move()
     {
         // TODO: Hit test
-
+        m_position += m_speed;
+        m_speed *= 0.96;
     }
 
     void update()
@@ -51,4 +52,4 @@ private:
 
 };
 
-#endif // !PLAYERCONTROL_H_
+#endif // !PLAYER_H_

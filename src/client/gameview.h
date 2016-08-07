@@ -34,6 +34,8 @@
 #include <pluginmanager.h>
 #include "../server/worldloader.h"
 #include "chunkrenderer.h"
+#include "texture.h"
+#include "player.h"
 
 class GameView : public UI::Controls::GLContext
 {
@@ -50,9 +52,9 @@ public:
 
 private:
     int windowWidth = 852, windowHeight = 480;
-    Vec3f trans = {0.0f, 0.0f, -100.0f};
-    Vec3f transSpeed = {0.0f, 0.0f, 0.0f};
 
+    // Texture test
+    Texture m_texture;
     // Blocks
     BlockManager m_blocks;
     // Loaded plugins
@@ -71,6 +73,8 @@ private:
     Chunk m_chunk;
     // Rendering test
     ChunkRenderer m_chunkRenderer;
+    // Player test
+    Player m_player;
 };
 
 class MainWindow : public UI::Core::Window
