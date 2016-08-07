@@ -95,7 +95,7 @@ public:
         ((boost::LessThanComparable<T>)),
         (bool)
     )
-    operator<(const Vec3& rhs) const
+    operator< (const Vec3& rhs) const
     {
         if (x != rhs.x)
             return x < rhs.x;
@@ -110,12 +110,12 @@ public:
         ((boost::EqualityComparable<T>)),
         (bool)
     )
-    operator==(const Vec3& rhs) const
+    operator== (const Vec3& rhs) const
     {
         return x == rhs.x && y == rhs.y && z == rhs.z;
     }
 
-    Vec3& operator+=(const Vec3& rhs)
+    Vec3& operator+= (const Vec3& rhs)
     {
         x += rhs.x;
         y += rhs.y;
@@ -123,7 +123,7 @@ public:
         return *this;
     }
 
-    Vec3& operator-=(const Vec3& rhs)
+    Vec3& operator-= (const Vec3& rhs)
     {
         x -= rhs.x;
         y -= rhs.y;
@@ -131,7 +131,7 @@ public:
         return *this;
     }
 
-    Vec3<T>& operator*=(const T& value)
+    Vec3<T>& operator*= (T value)
     {
         x *= value;
         y *= value;
@@ -139,12 +139,22 @@ public:
         return *this;
     }
 
-    Vec3<T>& operator/=(const T& value)
+    Vec3<T>& operator/= (T value)
     {
         x /= value;
         y /= value;
         z /= value;
         return *this;
+    }
+
+    Vec3<T> operator* (T value) const
+    {
+        return Vec3<T>(x * value, y * value, z * value);
+    }
+
+    Vec3<T> operator/ (T value) const
+    {
+        return Vec3<T>(x / value, y / value, z / value);
     }
 
     void swap(Vec3& rhs)
@@ -184,7 +194,7 @@ public:
     }
 
     template <typename Func>
-    static void for_range(const T& begin, const T& end, Func func)
+    static void for_range(T begin, T end, Func func)
     {
         Vec3<T> tmp;
         for (tmp.x = begin; tmp.x != end; ++tmp.x)
@@ -221,6 +231,11 @@ public:
     operator Vec3<U>() const
     {
         return Vec3<U>(x, y, z);
+    }
+
+    friend Vec3<T> operator- (const Vec3<T>& vec)
+    {
+        return Vec3<T>(-vec.x, -vec.y, -vec.z);
     }
 
 private:

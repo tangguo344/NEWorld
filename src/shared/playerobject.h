@@ -17,38 +17,48 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PLAYERCONTROL_H_
-#define PLAYERCONTROL_H_
+#ifndef PLAYEROBJECT_H_
+#define PLAYEROBJECT_H_
 
-#include <playerobject.h>
+#include "object.h"
 
-class PlayerControl : public PlayerObject
+const double PlayerHeight = 1.6;
+const double PlayerWidth = 0.6;
+const Vec3d PlayerHitboxSize = Vec3d(PlayerWidth, PlayerHeight, PlayerWidth);
+
+class PlayerObject : public Object
 {
 public:
-    void accelerate(const Vec3d& acceleration)
+    PlayerObject()
+        : Object(Vec3d(), Vec3d(), Vec3d(1.0), AABB(-PlayerHitboxSize / 2.0, PlayerHitboxSize / 2.0))
     {
-        m_speed += acceleration;
     }
 
-    void setSpeed(const Vec3d& speed)
+    PlayerObject(const Object& obj) : Object(obj)
     {
-        m_speed = speed;
     }
 
-    void move()
+    ~PlayerObject()
     {
-        // TODO: Hit test
-
     }
 
-    void update()
+    void rotate(const Vec3d& rotation)
     {
-        move();
+        m_direction += rotation;
+    }
+
+    void setDirection(const Vec3d& direction)
+    {
+        m_direction = direction;
+    }
+
+    Vec3d getDirection() const
+    {
+        return m_direction;
     }
 
 private:
-    Vec3d m_speed;
-
+    Vec3d m_direction; // Body direction, head direction is `m_rotation` in class Object
 };
 
-#endif // !PLAYERCONTROL_H_
+#endif

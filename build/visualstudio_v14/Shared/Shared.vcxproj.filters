@@ -82,6 +82,9 @@
     <ClInclude Include="..\..\..\src\server\chunkloader.h">
       <Filter>Source\World</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\shared\playerobject.h">
+      <Filter>Source\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -145,6 +148,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\server\chunkloader.cpp">
       <Filter>Source\World</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\shared\playerobject.cpp">
+      <Filter>Source\Object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

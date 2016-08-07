@@ -149,6 +149,7 @@
     <ClInclude Include="..\..\..\src\shared\networkstructures.h" />
     <ClInclude Include="..\..\..\src\shared\object.h" />
     <ClInclude Include="..\..\..\src\shared\packet.h" />
+    <ClInclude Include="..\..\..\src\shared\playerobject.h" />
     <ClInclude Include="..\..\..\src\shared\plugin.h" />
     <ClInclude Include="..\..\..\src\shared\pluginapi.h" />
     <ClInclude Include="..\..\..\src\shared\pluginmanager.h" />
@@ -165,6 +166,7 @@
     <ClCompile Include="..\..\..\src\server\chunkloader.cpp" />
     <ClCompile Include="..\..\..\src\shared\blockmanager.cpp" />
     <ClCompile Include="..\..\..\src\shared\logger.cpp" />
+    <ClCompile Include="..\..\..\src\shared\playerobject.cpp" />
     <ClCompile Include="..\..\..\src\shared\plugin.cpp" />
     <ClCompile Include="..\..\..\src\shared\pluginapi.cpp" />
     <ClCompile Include="..\..\..\src\shared\pluginmanager.cpp" />
