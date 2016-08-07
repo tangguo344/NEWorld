@@ -20,7 +20,6 @@
 #include "gameview.h"
 #include "renderer.h"
 #include <logger.h>
-#include "texture.h"
 
 MainWindow::MainWindow(int width, int height, const string& title) : UI::Core::Window(title, width, height, 200, 200)
 {
@@ -74,13 +73,11 @@ GameView::GameView(UI::Core::Window* win) :UI::Controls::GLContext(),
     */
 }
 
-Texture texture;
-
 void GameView::init(UI::Core::Window*)
 {
     Renderer::init();
 
-    texture = Texture::loadTextureRGBA("./Res/test.png");
+    m_texture = Texture::loadTextureRGBA("./Res/test.png");
     UI::GameUtils::setSwapInterval(0);
 
     glEnable(GL_TEXTURE_2D);
@@ -104,21 +101,22 @@ void GameView::doRender()
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_DEPTH_TEST);
 
-    texture.bind(Texture::Texture2D);
+    m_texture.bind(Texture::Texture2D);
     Renderer::clear();
     Renderer::restoreProj();
-    Renderer::applyPerspective(70.0f, cMargin.absrect.xmax / cMargin.absrect.ymax, 1.0f, 1000.0f);
+    Renderer::applyPerspective(70.0f, cMargin.absrect.xmax / cMargin.absrect.ymax, 1.0f, 300.0f);
     Renderer::restoreScale();
-    Renderer::translate(Vec3f(0.0f, 0.0f, trans.z));
-    Renderer::rotate(trans.x, Vec3f(1.0f, 0.0f, 0.0f));
-    Renderer::rotate(trans.y, Vec3f(0.0f, 1.0f, 0.0f));
+    Renderer::translate(-m_player.getPosition());
+    Renderer::rotate(-m_player.getRotation().x, Vec3f(1.0f, 0.0f, 0.0f));
+    Renderer::rotate(-m_player.getRotation().y, Vec3f(0.0f, 1.0f, 0.0f));
+    Renderer::rotate(-m_player.getRotation().z, Vec3f(0.0f, 0.0f, 1.0f));
 
     m_chunkRenderer.render();
 
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_DEPTH_TEST);
-    trans += transSpeed;
-    transSpeed *= 0.9f;
+
+    m_player.move();
 }
 
 void GameView::onResize(size_t w, size_t h)
@@ -130,10 +128,10 @@ void GameView::onResize(size_t w, size_t h)
 
 void GameView::onKey(int key)
 {
-    if (key == SDLK_LEFT) transSpeed.y -= 0.1f;
-    else if (key == SDLK_RIGHT) transSpeed.y += 0.1f;
-    else if (key == SDLK_UP) transSpeed.x -= 0.1f;
-    else if (key == SDLK_DOWN) transSpeed.x += 0.1f;
-    else if (key == SDLK_w) transSpeed.z += 0.1f;
-    else if (key == SDLK_s) transSpeed.z -= 0.1f;
+    if (key == SDLK_w) m_player.accelerate(Vec3d( 0.0, 0.0,-0.2));
+    if (key == SDLK_s) m_player.accelerate(Vec3d( 0.0, 0.0, 0.2));
+    if (key == SDLK_a) m_player.accelerate(Vec3d(-0.2, 0.0, 0.0));
+    if (key == SDLK_d) m_player.accelerate(Vec3d( 0.2, 0.0, 0.0));
+    if (key == SDLK_LSHIFT || key == SDLK_RSHIFT) m_player.accelerate(Vec3d( 0.0,-0.2, 0.0));
+    if (key == SDLK_SPACE) m_player.accelerate(Vec3d( 0.0, 0.2, 0.0));
 }

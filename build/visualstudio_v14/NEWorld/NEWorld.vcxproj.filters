@@ -55,7 +55,7 @@
     <ClInclude Include="..\..\..\src\client\pages.h">
       <Filter>Source\UI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\client\playercontrol.h">
+    <ClInclude Include="..\..\..\src\client\player.h">
       <Filter>Source\Player</Filter>
     </ClInclude>
   </ItemGroup>
@@ -90,7 +90,7 @@
     <ClCompile Include="..\..\..\src\client\pages.cpp">
       <Filter>Source\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\client\playercontrol.cpp">
+    <ClCompile Include="..\..\..\src\client\player.cpp">
       <Filter>Source\Player</Filter>
     </ClCompile>
   </ItemGroup>

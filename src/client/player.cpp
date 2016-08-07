@@ -17,4 +17,4 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "playercontrol.h"
+#include "player.h"

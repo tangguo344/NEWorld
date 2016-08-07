@@ -47,7 +47,7 @@ public:
     {
     }
 
-    template <typename U>
+    template <typename U, typename = typename std::enable_if<std::is_convertible<T, U>::value>::type>
     Vec3(const Vec3<U>& rhs) : x(rhs.x), y(rhs.y), z(rhs.z)
     {
     }
@@ -225,12 +225,6 @@ public:
         U z = arg % base;
         arg /= base;
         return Vec3<U>(arg / base, arg % base, z);
-    }
-
-    template <typename U, typename = typename std::enable_if<std::is_convertible<T, U>::value>::type>
-    operator Vec3<U>() const
-    {
-        return Vec3<U>(x, y, z);
     }
 
     friend Vec3<T> operator- (const Vec3<T>& vec)
