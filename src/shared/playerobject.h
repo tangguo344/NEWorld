@@ -24,6 +24,7 @@
 
 const double PlayerHeight = 1.6;
 const double PlayerWidth = 0.6;
+const double PlayerSpeed = 0.2;
 const Vec3d PlayerHitboxSize = Vec3d(PlayerWidth, PlayerHeight, PlayerWidth);
 
 class PlayerObject : public Object
@@ -44,17 +45,17 @@ public:
 
     void rotate(const Vec3d& rotation)
     {
-        m_direction += rotation;
+        m_rotation += rotation;
     }
 
     void setDirection(const Vec3d& direction)
     {
-        m_direction = direction;
+        m_rotation = direction;
     }
 
     Vec3d getDirection() const
     {
-        return m_direction;
+        return m_rotation;
     }
 
 private:

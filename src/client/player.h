@@ -21,6 +21,7 @@
 #define PLAYER_H_
 
 #include <playerobject.h>
+#include "mat4.h"
 
 class Player : public PlayerObject
 {
@@ -38,11 +39,19 @@ public:
     void move()
     {
         // TODO: Hit test
-        m_position += m_speed;
+        //m_speed.normalize();
+        //m.speed *= PlayerSpeed;
+        m_position +=
+            (
+                Mat4d::rotation(m_rotation.x, Vec3d(1.0, 0.0, 0.0)) *
+                Mat4d::rotation(m_rotation.y, Vec3d(0.0, 1.0, 0.0)) *
+                Mat4d::rotation(m_rotation.z, Vec3d(0.0, 0.0, 1.0))
+            )
+            .transformVec3(m_speed);
         m_speed *= 0.96;
     }
 
-    void update()
+    void update() override
     {
         move();
     }

@@ -182,10 +182,20 @@ public:
         res[15] = T(1.0);
         return res;
     }
+
+    // Multiply with Vec3 (with homogeneous coords normalized)
+    Vec3<T> transformVec3(const Vec3<T>& vec) const
+    {
+        Vec3<T> res(data[0] * vec.x + data[4] * vec.y + data[8] * vec.z + data[12],
+                    data[1] * vec.x + data[5] * vec.y + data[9] * vec.z + data[13],
+                    data[2] * vec.x + data[6] * vec.y + data[10] * vec.z + data[14]);
+        T homoCoord = data[3] * vec.x + data[7] * vec.y + data[11] * vec.z + data[15];
+        return res / homoCoord;
+    }
 };
 
 using Mat4f = Mat4<float>;
-// Recommended to use Mat4f instead of Mat4d
-// using Mat4d = Mat4<double>;
+// If you are doing rendering, it's recommended to use Mat4f instead of Mat4d
+using Mat4d = Mat4<double>;
 
 #endif // !MAT4_H_
