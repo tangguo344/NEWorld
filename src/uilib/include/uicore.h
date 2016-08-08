@@ -299,7 +299,7 @@ namespace UI
             std::map<Uint32, std::shared_ptr<Window>> windows;
             void init();
             bool winExist(int id);
-            bool sigExit;
+            bool quit;
         };
         UILIB_API extern Application* application;
     }

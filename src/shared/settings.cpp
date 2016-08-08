@@ -23,16 +23,19 @@
 
 void loadSharedSettings(Settings& settings)
 {
+    using Level = Logger::Level;
+    /*
 #ifdef NEWORLD_DEBUG
-    clogLevel = settings.get<int>("shared.logger.clogLevel", trace);
-    cerrLevel = settings.get<int>("shared.logger.cerrLevel", fatal);
-    fileLevel = settings.get<int>("shared.logger.fileLevel", trace);
-    lineLevel = settings.get<int>("shared.logger.lineLevel", warning);
+    Logger::coutLevel = settings.get<Level>("shared.logger.coutLevel", Level::trace);
+    Logger::cerrLevel = settings.get<Level>("shared.logger.cerrLevel", Level::fatal);
+    Logger::fileLevel = settings.get<Level>("shared.logger.fileLevel", Level::trace);
+    Logger::lineLevel = settings.get<Level>("shared.logger.lineLevel", Level::warning);
 #else
-    clogLevel = settings.get<int>("shared.logger.clogLevel", info);
-    cerrLevel = settings.get<int>("shared.logger.cerrLevel", fatal);
-    fileLevel = settings.get<int>("shared.logger.fileLevel", info);
-    lineLevel = settings.get<int>("shared.logger.lineLevel", warning);
+    Logger::coutLevel = settings.get<Level>("shared.logger.coutLevel", Level::info);
+    Logger::cerrLevel = settings.get<Level>("shared.logger.cerrLevel", Level::fatal);
+    Logger::fileLevel = settings.get<Level>("shared.logger.fileLevel", Level::info);
+    Logger::lineLevel = settings.get<Level>("shared.logger.lineLevel", Level::warning);
 #endif
+    */
     settings.setMinimal(settings.get<bool>("shared.settings.minimal", false));
 }

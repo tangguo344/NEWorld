@@ -24,8 +24,7 @@ extern "C" NWAPIEXPORT int NWAPICALL main(int, char**);
 
 int NWAPICALL main(int argc, char** argv)
 {
-    // argv[2] should include "/NEWorld.dll" at its end. Don't set it as a directory.
-    Application application(852, 480, "NEWorld", /*argc == 3 ? argv[2] : */"./");
-    application.run();
+    Application app(852, 480, "NEWorld", "./");
+    app.run();
     return 0;
 }

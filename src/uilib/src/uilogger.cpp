@@ -28,8 +28,6 @@ namespace UI
 {
     namespace Logger
     {
-        std::map<Level, HookFunc> hooks;
-
         Logger::Logger(const std::string& path) :
             logpath(path), clogLevel(Level::trace), cerrLevel(Level::fatal), fileLevel(Level::trace), lineLevel(Level::warning)
         {
@@ -39,15 +37,24 @@ namespace UI
             logpath(path), clogLevel(_clogLevel), cerrLevel(_cerrLevel), fileLevel(_fileLevel), lineLevel(_lineLevel)
         {
         }
-        void setHook(Level lev, HookFunc func)
+
+        static HookFunc hook;
+        static std::map<UI::Logger::Level,size_t> hooks;
+
+        void setHookFunc(HookFunc func)
         {
-            hooks[lev] = func;
+            hook = func;
         }
-        void Logger::log(Level level, const std::string& message, const char * fileName, int lineNumber)
+
+        void setHook(Level src, size_t dest)
+        {
+            hooks[src] = dest;
+        }
+        void Logger::log(Level level, const std::string& message, const char* fileName, const char *funcName, int lineNumber)
         {
             if(hooks[level])
             {
-                hooks[level](message, fileName, lineNumber);
+                hook(hooks[level],message, fileName, funcName, lineNumber);
                 return;
             }
             const std::string LevelString[] =

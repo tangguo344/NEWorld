@@ -80,7 +80,7 @@ private:
 class MainWindow : public UI::Core::Window
 {
 public:
-    std::shared_ptr<UI::Base::Texture> btex[6];
+    std::shared_ptr<UI::Base::Texture> btex[6]; //What is it? --Miigon
     MainWindow(int width, int height, const string& title);
 
 private:

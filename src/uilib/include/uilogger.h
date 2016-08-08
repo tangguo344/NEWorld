@@ -42,7 +42,7 @@ namespace UI
             Logger(const std::string& path);
             Logger(const std::string& path, Level _clogLevel, Level _cerrLevel, Level _fileLevel, Level _lineLevel);
 
-            void log(Level level, const std::string& message, const char* fileName, int lineNumber);
+            void log(Level level, const std::string& message, const char* fileName, const char *funcName, int lineNumber);
             void dump();
         private:
             Level clogLevel, cerrLevel, fileLevel, lineLevel;
@@ -52,14 +52,16 @@ namespace UI
 
         UILIB_API extern Logger service;
         UILIB_API void init(const std::string& path);
-        using HookFunc = std::function<void(std::string, const char*, int)>;
-        UILIB_API void setHook(Level lev, HookFunc func);
+        using HookFunc = std::function<void(size_t level, std::string, const char*, const char*, int)>;
+        UILIB_API void setHookFunc(HookFunc func);
+        UILIB_API void setHook(Level src, size_t dest);
 
-#define logdebug(x)    UI::Logger::service.log(UI::Logger::Level::debug  , x, __FUNCTION__, __LINE__)
-#define loginfo(x)     UI::Logger::service.log(UI::Logger::Level::info   , x, __FUNCTION__, __LINE__)
-#define logwarning(x)  UI::Logger::service.log(UI::Logger::Level::warning, x, __FUNCTION__, __LINE__)
-#define logerror(x)    UI::Logger::service.log(UI::Logger::Level::error  , x, __FUNCTION__, __LINE__)
-#define logfatal(x)    UI::Logger::service.log(UI::Logger::Level::fatal  , x, __FUNCTION__, __LINE__)
+#define logcommon(level,x) UI::Logger::service.log(UI::Logger::Level::level, x, __FILE__, __FUNCTION__, __LINE__)
+#define logdebug(x)    logcommon(debug,x)
+#define loginfo(x)     logcommon(info,x)
+#define logwarning(x)  logcommon(warning,x)
+#define logerror(x)    logcommon(error,x)
+#define logfatal(x)    logcommon(fatal,x)
     }
 }
 

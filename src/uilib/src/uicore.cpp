@@ -42,7 +42,6 @@ namespace UI
     {
         Application* application;
         SDL_GLContext context = nullptr;
-        std::thread rdt;
 
         Window::Window(const std::string & name, int width, int height, int _xpos, int _ypos)
             :terminated(false), resized(false), renderdelegate(), background(Theme::SystemTheme.WindowBrush)
@@ -261,45 +260,43 @@ namespace UI
         {
             init();
 
-            rdt = std::thread([this]()
+            // Main loop
+            SDL_GL_MakeCurrent(mainWin->window, context);
+            glShadeModel(GL_SMOOTH);
+            glEnable(GL_BLEND);
+            glDisable(GL_DEPTH_TEST);
+            glEnable(GL_TEXTURE_2D);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+            glEnableClientState(GL_VERTEX_ARRAY);
+            glEnableClientState(GL_COLOR_ARRAY);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            while (!quit)
             {
-                SDL_GL_MakeCurrent(mainWin->window, context);
-                glShadeModel(GL_SMOOTH);
-                glEnable(GL_BLEND);
-                glDisable(GL_DEPTH_TEST);
-                glEnable(GL_TEXTURE_2D);
-                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-                glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-                glEnableClientState(GL_VERTEX_ARRAY);
-                glEnableClientState(GL_COLOR_ARRAY);
-                glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-                while (!sigExit)
+                if (windows.size() > 1)
                 {
-                    if (windows.size() > 1)
+                    for (auto w:windows)
                     {
-                        for (auto w:windows)
+                        if (!w.second->terminated)
                         {
-                            if (!w.second->terminated)
-                            {
-                                SDL_GL_MakeCurrent(w.second->window, context);
-                                w.second->dorender();
-                            }
+                            SDL_GL_MakeCurrent(w.second->window, context);
+                            w.second->dorender();
                         }
-                        SDL_GL_MakeCurrent(mainWin->window, context);
                     }
-                    else if (!mainWin->terminated) mainWin->dorender();
+                    SDL_GL_MakeCurrent(mainWin->window, context);
                 }
-                glDisableClientState(GL_VERTEX_ARRAY);
-                glDisableClientState(GL_COLOR_ARRAY);
-                glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-            });
-            SDL_StopTextInput();
-            while (!sigExit)
-            {
+                else if(!mainWin->terminated)
+                {
+                     mainWin->dorender();
+                }
+
                 processMessages();
-                std::this_thread::sleep_for(1ms);
             }
-            rdt.join();
+            glDisableClientState(GL_VERTEX_ARRAY);
+            glDisableClientState(GL_COLOR_ARRAY);
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+            SDL_StopTextInput();
+
             for (auto w:windows) w.second->close();
             windows.clear();
             SDL_Quit();
@@ -349,6 +346,7 @@ namespace UI
                 switch(event.type)
                 {
                 case SDL_APP_TERMINATING:
+                    quit = true;
                     break;
 
                 case SDL_APP_LOWMEMORY:
@@ -492,7 +490,7 @@ namespace UI
                     break;
 
                 case SDL_QUIT:
-                    sigExit = true;
+                    quit = true;
                     break;
 
                 default:
@@ -516,7 +514,7 @@ namespace UI
 
         void Application::terminate()
         {
-            sigExit = true;
+            quit = true;
         }
 
         void Application::onTerminate()
@@ -541,6 +539,10 @@ namespace UI
 
         void Application::init()
         {
+            static bool inited = false;
+            if(inited) return;
+            inited = true;
+
             glewInit();
             application = this;
             //Set Up Place Holders
@@ -592,7 +594,7 @@ namespace UI
             }
 
             this->afterLaunch();
-            sigExit = false;
+            quit = false;
         }
 
         bool Application::winExist(int id)

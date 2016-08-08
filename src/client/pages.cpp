@@ -23,10 +23,10 @@
 
 MainMenu::MainMenu(UI::Core::Window * win)
 {
-    addChild(std::make_shared <UI::Controls::ImageBox>("Title", UI::Core::Margin::CenterCenter(256, 256, 212, -20), std::make_shared<UI::Graphics::Brushes::ImageBrush>(std::make_shared<UI::Base::Image>("./Res/title.png"))));
-    addChild(std::make_shared<UI::Controls::Button>("BTPlay", UI::Core::Margin::CenterCenter(200, 200, -32, 64), UI::Globalization::Str("play"), [this, win]() { win->pushPage(std::make_shared<GameView>(win), false, false); }));
-    addChild(std::make_shared<UI::Controls::Button>("optionsbtn", UI::Core::Margin::CenterCenter(200, -3, -70, 102), UI::Globalization::Str("option"), []() {loginfo("This feature not implemented: option!");}));
-    addChild(std::make_shared<UI::Controls::Button>("quitbtn", UI::Core::Margin::CenterCenter(-3, 200, -70, 102), UI::Globalization::Str("exit"), []() { UI::Core::application->terminate(); }));
+    addChild(std::make_shared <UI::Controls::ImageBox>("Title", UI::Core::Margin::CenterCenter(256, 256, 212, -20), std::make_shared<UI::Graphics::Brushes::ImageBrush>(std::make_shared<UI::Base::Image>("./res/title.png"))));
+    addChild(std::make_shared<UI::Controls::Button>("BTPlay", UI::Core::Margin::CenterCenter(200, 200, -32, 64), UI::Locale::Str("play"), [this, win]() { win->pushPage(std::make_shared<GameView>(win), false, false); }));
+    addChild(std::make_shared<UI::Controls::Button>("optionsbtn", UI::Core::Margin::CenterCenter(200, -3, -70, 102), UI::Locale::Str("option"), []() {loginfo("This feature not implemented: option!");}));
+    addChild(std::make_shared<UI::Controls::Button>("quitbtn", UI::Core::Margin::CenterCenter(-3, 200, -70, 102), UI::Locale::Str("exit"), []() { UI::Core::application->terminate(); }));
 }
 
 BackGround::BackGround(UI::Core::Window * win) :elapsed(0)

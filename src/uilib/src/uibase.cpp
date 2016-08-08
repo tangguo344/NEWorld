@@ -68,6 +68,10 @@ namespace UI
         {
             flushed = false;
             image = IMG_Load(path.c_str());
+            if(image == nullptr)
+            {
+                logerror("Load Texture " + path + " Failed:" + IMG_GetError());
+            }
             image = SDL_ConvertSurfaceFormat(image, SDL_PIXELFORMAT_ABGR8888, 0);
         }
 
