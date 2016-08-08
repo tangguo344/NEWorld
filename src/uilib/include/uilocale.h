@@ -26,7 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 
 namespace UI
 {
-    namespace Globalization
+    namespace Locale
     {
         class UILIB_API Str
         {

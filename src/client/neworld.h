@@ -23,20 +23,19 @@
 #include <common.h>
 #include "network.h"
 #include <string>
-using std::string;
 #include <uilib.h>
 
 class Application : public UI::Core::Application
 {
 public:
-    Application(int width, int height, const string& title, const string& path);
+    Application(int width, int height, const std::string& title, const std::string& path);
     void beforeLaunch() override;
     void afterLaunch() override;
     void onTerminate() override;
 
 private:
     int m_width, m_height;
-    string m_title;
+    std::string m_title;
 };
 
 #endif // !NEWORLD_H_

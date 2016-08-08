@@ -27,7 +27,7 @@
 #include "blocktype.h"
 #include "blockmanager.h"
 #include "world.h"
-#include "../server/chunkloader.h"
+#include <chunkloader.h>
 
 namespace PluginAPI
 {

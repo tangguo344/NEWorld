@@ -38,7 +38,7 @@ public:
 
     static void init();
 
-    static void uninit();
+    static void free();
 
     static Texture loadTextureRGB(std::string filename);
 

@@ -31,7 +31,7 @@ int main(int argc, char** argv)
     std::string file;
     if (argc == 1)
     {
-        std::cout << "Welcome to NEWorld Minimal Launcher!" << std::endl;
+        std::cout << "NEWorld Minimal Launcher" << std::endl;
         std::cout << "Enter 'client' to run client" << std::endl;
         std::cout << "Enter 'server' to run server" << std::endl;
         std::cin >> in;
@@ -62,7 +62,7 @@ int main(int argc, char** argv)
     {
         if (in == "server")
         {
-            if(file.size() == 0) file = "NEWorldServer";
+            if(file.size() == 0) file = "nwserver";
             boost::dll::shared_library
             (
                 Path + file,
@@ -72,7 +72,7 @@ int main(int argc, char** argv)
         }
         else
         {
-            if(file.size() == 0) file = "NEWorld";
+            if(file.size() == 0) file = "nwclient";
             boost::dll::shared_library
             (
                 Path + file,
@@ -84,9 +84,6 @@ int main(int argc, char** argv)
     catch (std::exception& e)
     {
         std::cout << e.what() << std::endl;
-#ifdef NEWORLD_TARGET_WINDOWS
-        system("pause");
-#endif
     }
     return 0;
 }

@@ -30,7 +30,7 @@ extern "C" NWAPIEXPORT int NWAPICALL main(int, char**);
 int NWAPICALL main(int argc, char** argv)
 {
     loadSettings();
-    loggerInit("NEWorld_Server");
+    Logger::init("server");
     infostream << "\n----------------------------------------"
                << CopyrightString
                << "----------------------------------------";

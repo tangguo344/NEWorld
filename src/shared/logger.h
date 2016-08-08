@@ -26,37 +26,24 @@
 using std::string;
 #include "common.h"
 
-// Critical levels
-enum Level
-{
-    trace,
-    debug,
-    info,
-    warning,
-    error,
-    fatal
-};
-
-extern int clogLevel; // Minimum critical level using std::clog and output to console
-extern int cerrLevel; // Minumum critical level using std::cerr and output to console
-extern int fileLevel; // Minumum critical level output to file
-extern int lineLevel; // Minumum critical level output the line number of the source file
-
-//specifying if the logger only outputs infomation to files
-extern bool fileOnly;
-
-extern std::vector<std::ofstream> fsink;
-
-string getTimeString(char dateSplit, char midSplit, char timeSplit);
-
-// Add a file sink named with current system time
-inline void addFileSink(const string& path, const string& prefix);
-
 class Logger
 {
 public:
-    Logger(const char* fileName, int lineNumber, Level level);
+    enum class Level
+    {
+        trace,
+        debug,
+        info,
+        warning,
+        error,
+        fatal
+    };
+
+    Logger(const char* fileName, const char* funcName, int lineNumber, Level level);
     ~Logger();
+
+    static void addFileSink(const string& path, const string& prefix);
+    static void init(const string& prefix);
 
     template <typename T>
     Logger& operator<<(const T& rhs)
@@ -65,26 +52,37 @@ public:
         return *this;
     }
 
+    static Level coutLevel;
+    static Level cerrLevel;
+    static Level fileLevel;
+    static Level lineLevel;
+    static bool fileOnly;
+
 private:
     std::stringstream m_content;
+
     Level m_level;
+    const char *m_fileName;
+    const char *m_funcName;
+    int m_lineNumber;
+
+    static std::vector<std::ofstream> fsink;
 
     void writeOstream(std::ostream& ostream, bool noColor = false) const;
 };
 
-void loggerInit(const std::string& prefix);
-
+#define loggerstream(level) Logger(__FILE__, __FUNCTION__, __LINE__, Logger::Level::level)
 // information for tracing
-#define tracestream Logger(__FUNCTION__, __LINE__, trace)
+#define tracestream loggerstream(trace)
 // information for developers
-#define debugstream Logger(__FUNCTION__, __LINE__, debug)
+#define debugstream loggerstream(debug)
 // information for common users
-#define infostream Logger(__FUNCTION__, __LINE__, info)
+#define infostream loggerstream(info)
 // problems that may affect facility, performance or stability but don't lead the game to crash immediately
-#define warningstream Logger(__FUNCTION__, __LINE__, warning)
+#define warningstream loggerstream(warning)
 // the game crashes, but can be resumed by ways such as reloading the world which don't restart the program
-#define errorstream Logger(__FUNCTION__, __LINE__, error)
+#define errorstream loggerstream(error)
 // unrecoverable error and program termination is required
-#define fatalstream Logger(__FUNCTION__, __LINE__, fatal)
+#define fatalstream loggerstream(fatal)
 
 #endif // !LOGGER_H_

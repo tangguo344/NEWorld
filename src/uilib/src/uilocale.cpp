@@ -23,7 +23,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 
 namespace UI
 {
-    namespace Globalization
+    namespace Locale
     {
 
         Str::Str(const std::string& str, bool globalizationNeed)

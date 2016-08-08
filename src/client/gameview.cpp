@@ -19,19 +19,20 @@
 
 #include "gameview.h"
 #include "renderer.h"
+#include "utils.h"
 #include <logger.h>
 
 MainWindow::MainWindow(int width, int height, const string& title) : UI::Core::Window(title, width, height, 200, 200)
 {
-    background = std::make_shared<UI::Graphics::Brushes::ImageBrush>(std::make_shared<UI::Base::Image>("./Res/ss.png"));
+    background = std::make_shared<UI::Graphics::Brushes::ImageBrush>(std::make_shared<UI::Base::Image>("./res/ss.png"));
     loader = std::thread([this]()
     {
-        btex[0] = std::make_shared<UI::Base::Texture>("./Res/bkg0.png");
-        btex[1] = std::make_shared<UI::Base::Texture>("./Res/bkg3.png");
-        btex[2] = std::make_shared<UI::Base::Texture>("./Res/bkg2.png");
-        btex[3] = std::make_shared<UI::Base::Texture>("./Res/bkg1.png");
-        btex[4] = std::make_shared<UI::Base::Texture>("./Res/bkg4.png");
-        btex[5] = std::make_shared<UI::Base::Texture>("./Res/bkg5.png");
+        btex[0] = std::make_shared<UI::Base::Texture>("./res/bkg0.png");
+        btex[1] = std::make_shared<UI::Base::Texture>("./res/bkg3.png");
+        btex[2] = std::make_shared<UI::Base::Texture>("./res/bkg2.png");
+        btex[3] = std::make_shared<UI::Base::Texture>("./res/bkg1.png");
+        btex[4] = std::make_shared<UI::Base::Texture>("./res/bkg4.png");
+        btex[5] = std::make_shared<UI::Base::Texture>("./res/bkg5.png");
 
         // Load Something
         // std::this_thread::sleep_for(2000ms);
@@ -77,7 +78,7 @@ void GameView::init(UI::Core::Window*)
 {
     Renderer::init();
 
-    m_texture = Texture::loadTextureRGBA("./Res/test.png");
+    m_texture = Texture::loadTextureRGBA("./res/test.png");
     UI::GameUtils::setSwapInterval(0);
 
     glEnable(GL_TEXTURE_2D);

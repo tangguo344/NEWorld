@@ -247,6 +247,7 @@ namespace UI
                 if(path.empty())
                 {
                     logerror("Font: " + font + " not found!");
+                    // throw an exception.
                 }
                 fonts.insert({ font, FontBase(path) });
             }

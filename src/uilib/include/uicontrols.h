@@ -31,7 +31,7 @@ namespace UI
         using namespace Base;
         using namespace Core;
         using namespace Font;
-        using namespace Globalization;
+        using namespace Locale;
         ////////////////////////////////////////////////////////////
         //    Basic Control Definitions
         ////////////////////////////////////////////////////////////

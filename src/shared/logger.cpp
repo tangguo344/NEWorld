@@ -21,20 +21,21 @@
 #include "consolecolor.h"
 #include <fstream>
 #include <ctime>
+#include <map>
+#include <array>
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/path.hpp>
-#include <map>
 
-std::vector<std::ofstream> fsink;
+static std::array<std::string,6> LevelTags;
 
-int clogLevel = trace;
-int cerrLevel = fatal;
-int fileLevel = trace;
-int lineLevel = warning;
 
-bool fileOnly = false;
+Logger::Level Logger::coutLevel = Level::trace;
+Logger::Level Logger::cerrLevel = Level::fatal;
+Logger::Level Logger::fileLevel = Level::trace;
+Logger::Level Logger::lineLevel = Level::error;
+bool Logger::fileOnly = false;
 
-static std::string LevelTags[6];
+std::vector<std::ofstream> Logger::fsink;
 
 template <size_t length>
 static string convert(int arg)
@@ -53,7 +54,7 @@ static string convert(int arg)
     return ret;
 }
 
-string getTimeString(char dateSplit, char midSplit, char timeSplit)
+static string getTimeString(char dateSplit, char midSplit, char timeSplit)
 {
     time_t timer = time(nullptr);
     tm* currtime = localtime(&timer); // DO NOT `delete` THIS POINTER!
@@ -61,15 +62,15 @@ string getTimeString(char dateSplit, char midSplit, char timeSplit)
         + midSplit + convert<2u>(currtime->tm_hour) + timeSplit + convert<2u>(currtime->tm_min) + timeSplit + convert<2u>(currtime->tm_sec);
 }
 
-inline void addFileSink(const string& path, const string& prefix)
+void Logger::addFileSink(const string& path, const string& prefix)
 {
     fsink.emplace_back(path + prefix + "_" + getTimeString('-', '_', '-') + ".log");
 }
 
-void loggerInit(const string& prefix)
+void Logger::init(const string& prefix)
 {
     using namespace boost::filesystem;
-    const char* path = "./Logs/";
+    const char* path = "./logs/";
     if (!exists(path))
     {
         create_directories(path);
@@ -105,21 +106,17 @@ void loggerInit(const string& prefix)
     ss << LColor::red << '[' << "fatal" << ']';
     LevelTags[c] = ss.str();
 
-    // File sequence number not finished
-    /*
-    directory_iterator itemEnd;
-    for (directory_iterator item(path); item != itemEnd; item++)
-    if (is_directory(*item))
-    {
-    string filePath = item->path().string() + "/" + item->path().filename().string();
-    }
-    */
 }
 
-Logger::Logger(const char* fileName, int lineNumber, Level level): m_level(level)
+Logger::Logger(const char* fileName, const char *funcName, int lineNumber, Level level)
+    : m_level(level)
 {
-    m_content << LColor::white << '[' << getTimeString('-', ' ', ':') << ']' << LevelTags[level];
-    if (level >= lineLevel) m_content << "(" << fileName << ":" << lineNumber << ") ";
+    if (m_level >= lineLevel){
+        m_fileName = fileName;
+        m_funcName = funcName;
+        m_lineNumber = lineNumber;
+    }
+    m_content << LColor::white << '[' << getTimeString('-', ' ', ':') << ']' << LevelTags[static_cast<size_t>(level)];
 }
 
 void Logger::writeOstream(std::ostream& ostream, bool noColor) const
@@ -164,12 +161,20 @@ void Logger::writeOstream(std::ostream& ostream, bool noColor) const
 
 Logger::~Logger()
 {
+    if (m_level >= lineLevel)
+    {
+        m_content << std::endl
+            << "\tSource :\t" << m_fileName << std::endl
+            << "\tAt Line :\t" << m_lineNumber << std::endl
+            << "\tFunction :\t" << m_funcName << std::endl
+        ;
+    }
     m_content << std::endl;
     if (!fileOnly)
     {
         if (m_level >= cerrLevel)
             writeOstream(std::cerr);
-        else if (m_level >= clogLevel)
+        else if (m_level >= coutLevel)
             writeOstream(std::cout);
     }
     if (m_level >= fileLevel)

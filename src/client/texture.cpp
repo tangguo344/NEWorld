@@ -31,16 +31,18 @@ constexpr int align(int x, int al)
 
 void Texture::init()
 {
-    // We don't need JPEG... --qiaozhanrong
-    if (!IMG_Init(/*IMG_INIT_JPG | */IMG_INIT_PNG))
+    warningstream << "正在进行大重构，Texture类(texture.cpp)将合并到UI::Base::Texture类(uibase.cpp)，请优先使用UI::Base::Texture类！";
+    /*
+    if (!IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG))
     {
         errorstream << "Failed to initialize PNG support! " << IMG_GetError();
     }
+    */
 }
 
-void Texture::uninit()
+void Texture::free()
 {
-    IMG_Quit();
+    //IMG_Quit();
 }
 
 Texture Texture::loadTextureRGB(std::string filename)

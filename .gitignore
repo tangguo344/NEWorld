@@ -244,5 +244,5 @@ NEWorldLauncher
 
 # Windows thumbnail cache
 [Tt]humbs.db
-/Plugins
-/Res/fonts
+/plugins
+/res/fonts
