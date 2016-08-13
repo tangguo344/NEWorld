@@ -163,8 +163,8 @@
     <ClInclude Include="..\..\..\src\shared\worldmanager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\server\chunkloader.cpp" />
     <ClCompile Include="..\..\..\src\shared\blockmanager.cpp" />
+    <ClCompile Include="..\..\..\src\shared\chunkloader.cpp" />
     <ClCompile Include="..\..\..\src\shared\logger.cpp" />
     <ClCompile Include="..\..\..\src\shared\playerobject.cpp" />
     <ClCompile Include="..\..\..\src\shared\plugin.cpp" />

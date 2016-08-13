@@ -26,7 +26,6 @@
     <ClCompile Include="..\..\..\src\server\server.cpp" />
     <ClCompile Include="..\..\..\src\server\servercommand.cpp" />
     <ClCompile Include="..\..\..\src\server\settings.cpp" />
-    <ClCompile Include="..\..\..\src\server\worldloader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\server\server.h" />

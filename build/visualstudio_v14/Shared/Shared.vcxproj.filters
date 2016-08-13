@@ -146,11 +146,11 @@
     <ClCompile Include="..\..\..\src\shared\pluginapi.cpp">
       <Filter>Source\Plugin</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\server\chunkloader.cpp">
-      <Filter>Source\World</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\shared\playerobject.cpp">
       <Filter>Source\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\shared\chunkloader.cpp">
+      <Filter>Source\World</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
