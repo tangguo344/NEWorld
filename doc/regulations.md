@@ -78,11 +78,12 @@ namespace Hashing
 {
     class MyHash
     {
-        public:
+    public:
         MyHash();
-        private:
+    private:
         int mPrivate;
     };
+    
     void initCRC32Table()
     {
         if(CRC32TableInitialized)
