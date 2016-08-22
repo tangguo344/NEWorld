@@ -3,12 +3,11 @@ sudo: required
 cache:
   bundler: true
   directories:
-    - boost_1_61_0
-    - dependencies
+    - /home/travis/bin
 matrix:
   include:
     - os: linux
-      env: COMPILER_NAME=gcc CXX=g++-5 CC=gcc-5
+      env: COMPILER_NAME=gcc
       addons:
         apt:
           sources:
@@ -17,19 +16,30 @@ matrix:
             - llvm-toolchain-precise-3.8
             - ubuntu-toolchain-r-test
           packages:
-            - g++-5
+            - g++-6
+            - gcc-6
             - p7zip
             - cmake
             - cmake-data
-            - libasound2-dev
-            - alsa-base
-            - alsa-utils
+            - libgl1-mesa-dev
+            - libglu1-mesa-dev
+            - freeglut3-dev
+            - libglew-dev
+            - libfreetype6-dev
+before_install:
+  - sudo add-apt-repository ppa:zoogie/sdl2-snapshots -y
+  - sudo apt-get -yq update
 install:
-  - cd ./boost_1_61_0/boost_1_61_0
-  - sudo ./bootstrap.sh --with-libraries=date_time,filesystem,system
+  - sudo apt-get install -y libsdl2-dev libsdl2-image-dev
+  - sudo ln -s /usr/bin/g++-6 /usr/bin/g++ -f
+  - sudo ln -s /usr/include/freetype2/freetype /usr/include/freetype -f
+  - wget http://downloads.sourceforge.net/project/boost/boost/1.61.0/boost_1_61_0.7z
+  - p7zip -d ./boost_1_61_0.7z > 7zlog.txt
+  - cd ./boost_1_61_0
+  - ./bootstrap.sh --with-libraries=date_time,filesystem,system
   - sudo ./b2 install
   - cd ..
 script:
   - mkdir ./bin/ && cd ./bin/
-  - cmake .. -DEXTRA_INCDIR=./dependencies/include
+  - cmake .. -DLINK_BOOST=ON
   - make
