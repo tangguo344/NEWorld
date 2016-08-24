@@ -80,8 +80,8 @@ void Server::doGlobalUpdate()
     boost::asio::deadline_timer(m_socket.get_io_service(), boost::posix_time::microseconds(globalUpdateInterval)).async_wait(
         [this](boost::system::error_code)
     {
-        // Update world
-        m_world.update();
+        // Update worlds
+        for (auto world : m_worlds) world->update();
         doGlobalUpdate();
     });
 }

@@ -17,25 +17,12 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PAGES_H_
-#define PAGES_H_
+#include "worldrenderer.h"
 
-#include <uilib.h>
-
-//Confused by the filename. "pages" mean all pages? Then why is the gamescene not here? --Null
-
-class BackGround : public UI::Controls::GLContext
+void WorldRenderer::update()
 {
-public:
-    BackGround(UI::Core::Window * win);
-private:
-    unsigned long long elapsed;
-};
+    // Build VBO in visible range
 
-class MainMenu : public UI::Core::Grid
-{
-public:
-    MainMenu(UI::Core::Window* win);
-};
+    // Destroy VBO in invisible range
 
-#endif
+}

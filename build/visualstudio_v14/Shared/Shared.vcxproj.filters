@@ -79,11 +79,11 @@
     <ClInclude Include="..\..\..\src\shared\consolecolor.h">
       <Filter>Source\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\server\chunkloader.h">
-      <Filter>Source\World</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\shared\playerobject.h">
       <Filter>Source\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\shared\chunkloader.h">
+      <Filter>Source\World</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

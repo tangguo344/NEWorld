@@ -24,18 +24,38 @@
 #include "network.h"
 #include <string>
 #include <uilib.h>
+#include <pluginmanager.h>
+#include <worldmanager.h>
+#include <blockmanager.h>
 
 class Application : public UI::Core::Application
 {
 public:
-    Application(int width, int height, const std::string& title, const std::string& path);
     void beforeLaunch() override;
     void afterLaunch() override;
     void onTerminate() override;
 
+    // TODO: change it later (or not)
+    static Application& getApplication()
+    {
+        static Application app(852, 480, "NEWorld", "./");
+        return app;
+    }
+    PluginManager& getPlugins() { return m_plugins; }
+    WorldManager& getWorlds() { return m_worlds; }
+    BlockManager& getBlocks() { return m_blocks; }
+
 private:
+
+    Application(int width, int height, const std::string& title, const std::string& path);
     int m_width, m_height;
     std::string m_title;
+
+    PluginManager m_plugins;
+    WorldManager m_worlds;
+    BlockManager m_blocks;
 };
+
+
 
 #endif // !NEWORLD_H_

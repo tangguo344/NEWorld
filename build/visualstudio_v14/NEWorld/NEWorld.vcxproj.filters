@@ -46,9 +46,6 @@
     <ClInclude Include="..\..\..\src\client\neworld.h">
       <Filter>Source\Main</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\client\gameview.h">
-      <Filter>Source\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\client\texture.h">
       <Filter>Source\Renderer</Filter>
     </ClInclude>
@@ -57,6 +54,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\client\player.h">
       <Filter>Source\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\gamescene.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\worldrenderer.h">
+      <Filter>Source\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -81,9 +84,6 @@
     <ClCompile Include="..\..\..\src\client\neworld.cpp">
       <Filter>Source\Main</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\client\gameview.cpp">
-      <Filter>Source\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\client\texture.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
@@ -92,6 +92,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\client\player.cpp">
       <Filter>Source\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\gamescene.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\worldrenderer.cpp">
+      <Filter>Source\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

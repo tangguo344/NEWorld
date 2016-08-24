@@ -82,7 +82,7 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NOMINMAX;_WIN32_WINNT=0x0601;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <DisableSpecificWarnings>4714</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4714;4819</DisableSpecificWarnings>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -102,7 +102,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
-      <DisableSpecificWarnings>4714</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4714;4819</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
@@ -123,7 +123,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
-      <DisableSpecificWarnings>4714</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4714;4819</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
@@ -133,12 +133,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\server\chunkloader.h" />
     <ClInclude Include="..\..\..\src\shared\aabb.h" />
     <ClInclude Include="..\..\..\src\shared\blockdata.h" />
     <ClInclude Include="..\..\..\src\shared\blockmanager.h" />
     <ClInclude Include="..\..\..\src\shared\blocktype.h" />
     <ClInclude Include="..\..\..\src\shared\chunk.h" />
+    <ClInclude Include="..\..\..\src\shared\chunkloader.h" />
     <ClInclude Include="..\..\..\src\shared\chunkpointerarray.h" />
     <ClInclude Include="..\..\..\src\shared\command.h" />
     <ClInclude Include="..\..\..\src\shared\common.h" />

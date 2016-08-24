@@ -98,7 +98,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <UndefinePreprocessorDefinitions>GL_GLEXT_PROTOTYPES</UndefinePreprocessorDefinitions>
-      <DisableSpecificWarnings>4714</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4714;4819</DisableSpecificWarnings>
       <FloatingPointExceptions>true</FloatingPointExceptions>
     </ClCompile>
     <Link>
@@ -139,7 +139,7 @@
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <UndefinePreprocessorDefinitions>GL_GLEXT_PROTOTYPES</UndefinePreprocessorDefinitions>
-      <DisableSpecificWarnings>4714</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4714;4819</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -181,7 +181,7 @@
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <UndefinePreprocessorDefinitions>GL_GLEXT_PROTOTYPES</UndefinePreprocessorDefinitions>
-      <DisableSpecificWarnings>4714</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4714;4819</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -210,7 +210,8 @@
     <ClInclude Include="..\..\..\src\client\renderer.h" />
     <ClInclude Include="..\..\..\src\client\texture.h" />
     <ClInclude Include="..\..\..\src\client\vertexarray.h" />
-    <ClInclude Include="..\..\..\src\client\gameview.h" />
+    <ClInclude Include="..\..\..\src\client\gamescene.h" />
+    <ClInclude Include="..\..\..\src\client\worldrenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared\Shared.vcxproj">
@@ -228,7 +229,8 @@
     <ClCompile Include="..\..\..\src\client\texture.cpp" />
     <ClCompile Include="..\..\..\src\client\vertexarray.cpp" />
     <ClCompile Include="..\..\..\src\client\renderer.cpp" />
-    <ClCompile Include="..\..\..\src\client\gameview.cpp" />
+    <ClCompile Include="..\..\..\src\client\gamescene.cpp" />
+    <ClCompile Include="..\..\..\src\client\worldrenderer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

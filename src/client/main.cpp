@@ -24,7 +24,6 @@ extern "C" NWAPIEXPORT int NWAPICALL main(int, char**);
 
 int NWAPICALL main(int argc, char** argv)
 {
-    Application app(852, 480, "NEWorld", "./");
-    app.run();
+    Application::getApplication().run();
     return 0;
 }
