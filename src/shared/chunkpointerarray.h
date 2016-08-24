@@ -44,7 +44,6 @@ public:
         m_array = new Chunk*[m_size3];
         memset(m_array, 0, m_size3 * sizeof(Chunk*));
     }
-
     ~ChunkPointerArray()
     {
         delete[] m_array;

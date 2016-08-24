@@ -84,8 +84,8 @@ extern "C"
         return 0;
     }
 
-	NWAPIEXPORT void NWAPICALL nwLog(char* str, Logger::Level level)
-	{
-		Logger("","", 0, level);
-	}
+    NWAPIEXPORT void NWAPICALL nwLog(char* str, Logger::Level level)
+    {
+        Logger("", "", 0, level) << str;
+    }
 }

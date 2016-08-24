@@ -27,6 +27,7 @@
 #include "aabb.h"
 #include "chunk.h"
 #include "blockmanager.h"
+#include "chunkpointerarray.h"
 
 using std::abs;
 using std::string;
@@ -35,65 +36,20 @@ class PluginManager;
 
 class World :boost::noncopyable
 {
-private:
-    // World name
-    string m_name;
-    // Loaded plugins
-    PluginManager& m_plugins;
-    // Loaded blocks
-    BlockManager& m_blocks;
-    // Loaded chunk count
-    size_t m_chunkCount;
-    // Size of chunk array
-    size_t m_chunkArraySize;
-    // All chunks (chunk array)
-    Chunk** m_chunks;
-
-    int m_daylightBrightness;
-
-    // Expand chunk array
-    void expandChunkArray(size_t expandCount);
-
-    // Reduce chunk array
-    void reduceChunkArray(size_t reduceCount)
-    {
-        assert(m_chunkCount >= reduceCount);
-        m_chunkCount -= reduceCount;
-    }
-
-    // New pointer at m_chunks[index]
-    void newChunkPtr(size_t index)
-    {
-        expandChunkArray(1);
-        for (size_t i = m_chunkCount - 1; i > index; i--)
-            m_chunks[i] = m_chunks[i - 1];
-        m_chunks[index] = nullptr;
-    }
-
-    // Erase pointer at m_chunks[index]
-    void eraseChunkPtr(size_t index)
-    {
-        for (size_t i = index; i < m_chunkCount - 1; i++)
-            m_chunks[i] = m_chunks[i + 1];
-        reduceChunkArray(1);
-    }
-
-    // Search chunk index, or the index the chunk should insert into
-    size_t getChunkIndex(const Vec3i& chunkPos) const;
-
 public:
     World(const string& name, PluginManager& plugins, BlockManager& blocks)
-        : m_name(name), m_plugins(plugins), m_blocks(blocks), m_chunkCount(0), m_chunkArraySize(1024), m_daylightBrightness(15)
+        : m_name(name), m_plugins(plugins), m_blocks(blocks), m_chunkCount(0), m_chunkArraySize(1024), m_daylightBrightness(15), m_cpa(8)
     {
         //m_chunks = new Chunk*[m_chunkArraySize];
         m_chunks = reinterpret_cast<Chunk**>(malloc(m_chunkArraySize * sizeof(Chunk*)));
     }
 
-    World(World&& rhs)
-        : m_name(std::move(rhs.m_name)), m_plugins(rhs.m_plugins), m_blocks(rhs.m_blocks),
-          m_chunkCount(rhs.m_chunkCount), m_chunkArraySize(rhs.m_chunkArraySize), m_chunks(rhs.m_chunks), m_daylightBrightness(rhs.m_daylightBrightness)
-    {
-    }
+    //fixme: m_cpa
+    //World(World&& rhs)
+    //    : m_name(std::move(rhs.m_name)), m_plugins(rhs.m_plugins), m_blocks(rhs.m_blocks),
+    //      m_chunkCount(rhs.m_chunkCount), m_chunkArraySize(rhs.m_chunkArraySize), m_chunks(rhs.m_chunks), m_daylightBrightness(rhs.m_daylightBrightness), m_cpa(rhs.m_cpa)
+    //{
+    //}
 
     ~World()
     {
@@ -226,6 +182,55 @@ public:
 
     // Main update
     void update();
+
+private:
+    // World name
+    string m_name;
+    // Loaded plugins
+    PluginManager& m_plugins;
+    // Loaded blocks
+    BlockManager& m_blocks;
+    // Loaded chunk count
+    size_t m_chunkCount;
+    // Size of chunk array
+    size_t m_chunkArraySize;
+    // All chunks (chunk array)
+    Chunk** m_chunks;
+    // CPA
+    ChunkPointerArray m_cpa;
+
+    int m_daylightBrightness;
+
+    // Expand chunk array
+    void expandChunkArray(size_t expandCount);
+
+    // Reduce chunk array
+    void reduceChunkArray(size_t reduceCount)
+    {
+        assert(m_chunkCount >= reduceCount);
+        m_chunkCount -= reduceCount;
+    }
+
+    // New pointer at m_chunks[index]
+    void newChunkPtr(size_t index)
+    {
+        expandChunkArray(1);
+        for (size_t i = m_chunkCount - 1; i > index; i--)
+            m_chunks[i] = m_chunks[i - 1];
+        m_chunks[index] = nullptr;
+    }
+
+    // Erase pointer at m_chunks[index]
+    void eraseChunkPtr(size_t index)
+    {
+        for (size_t i = index; i < m_chunkCount - 1; i++)
+            m_chunks[i] = m_chunks[i + 1];
+        reduceChunkArray(1);
+    }
+
+    // Search chunk index, or the index the chunk should insert into
+    size_t getChunkIndex(const Vec3i& chunkPos) const;
+
 };
 
 #endif // !WORLD_H_

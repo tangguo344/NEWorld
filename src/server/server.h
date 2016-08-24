@@ -39,7 +39,7 @@ class Server
 public:
     Server(boost::asio::io_service& ioservice, unsigned short port, const std::string& base)
         : m_acceptor(ioservice, boost::asio::ip::tcp::endpoint(tcp::v4(), port)), m_socket(ioservice),
-          m_worlds(m_plugins, m_blocks), m_world(m_worlds.addWorld("TestWorld"))
+          m_worlds(m_plugins, m_blocks)
     {
         // Initialization
         PluginAPI::Blocks = &m_blocks;
@@ -69,7 +69,6 @@ private:
     WorldManager m_worlds;
     BlockManager m_blocks;
     PluginManager m_plugins; // Loaded plugins
-    World& m_world; // Single world, only for debugging
 };
 
 #endif // SERVER_H__

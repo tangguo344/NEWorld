@@ -21,8 +21,8 @@
 #define CHUNKRENDERER_H_
 
 #include <boost/core/noncopyable.hpp>
-#include "../shared/chunk.h"
-#include "../shared/world.h"
+#include <chunk.h>
+#include <world.h>
 #include "renderer.h"
 
 class ChunkRenderer

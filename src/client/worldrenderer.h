@@ -17,42 +17,33 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef WORLDMANAGER_H_
-#define WORLDMANAGER_H_
+#ifndef WORLDRENDERER_H_
+#define WORLDRENDERER_H_
 
-#include <vector>
-using std::vector;
+#include <world.h>
+#include "chunkrenderer.h"
 
-#include "world.h"
-#include "pluginmanager.h"
-#include "blockmanager.h"
-
-// Multi-world
-class WorldManager
+class WorldRenderer
 {
 public:
-    WorldManager(PluginManager& plugins, BlockManager& blocks) : m_plugins(plugins), m_blocks(blocks)
+    WorldRenderer(World& world) : m_world(world)
     {
     }
 
-    ~WorldManager()
-    {
-        m_worlds.clear();
-    }
+    // Build/Destroy VBO
+    void update();
 
-    World* addWorld(const string& name)
+    // Render all chunks
+    void render() const
     {
-        m_worlds.emplace_back(new World(name, m_plugins, m_blocks));
-        return m_worlds[m_worlds.size() - 1];
+        for(auto& chunkRenderer: m_chunkRenderers)
+            chunkRenderer.render();
     }
-
-    vector<World*>::iterator begin() { return m_worlds.begin(); }
-    vector<World*>::iterator end() { return m_worlds.end(); }
 
 private:
-    vector<World*> m_worlds;
-    PluginManager& m_plugins;
-    BlockManager& m_blocks;
+    // Target world
+    World& m_world;
+    vector<ChunkRenderer> m_chunkRenderers;
 };
 
-#endif
+#endif // !WORLDRENDERER_H_
