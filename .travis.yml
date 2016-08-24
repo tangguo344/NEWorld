@@ -1,9 +1,11 @@
 language: generic
 sudo: required
+dist: trusty
 cache:
-  bundler: true
   directories:
-    - /home/travis/bin
+    - boost_1_61_0/stage
+    - boost_1_61_0/boost
+    - bin/CMakeFiles/
 matrix:
   include:
     - os: linux
@@ -26,20 +28,25 @@ matrix:
             - freeglut3-dev
             - libglew-dev
             - libfreetype6-dev
-before_install:
-  - sudo add-apt-repository ppa:zoogie/sdl2-snapshots -y
-  - sudo apt-get -yq update
+            - libsdl2-dev
+            - libsdl2-image-dev
 install:
-  - sudo apt-get install -y libsdl2-dev libsdl2-image-dev
   - sudo ln -s /usr/bin/g++-6 /usr/bin/g++ -f
-  - sudo ln -s /usr/include/freetype2/freetype /usr/include/freetype -f
-  - wget http://downloads.sourceforge.net/project/boost/boost/1.61.0/boost_1_61_0.7z
-  - p7zip -d ./boost_1_61_0.7z > 7zlog.txt
-  - cd ./boost_1_61_0
-  - ./bootstrap.sh --with-libraries=date_time,filesystem,system
-  - sudo ./b2 install
-  - cd ..
+  - sudo cp -r /usr/include/freetype2/* /usr/include/
+  - sudo cp -r /usr/include/freetype2 /usr/include/freetype
+  - |
+    if [ ! -f ./boost_1_61_0/boost/dll/shared_library.hpp ];
+    then
+    wget http://downloads.sourceforge.net/project/boost/boost/1.61.0/boost_1_61_0.7z
+    p7zip -d ./boost_1_61_0.7z > 7zlog.txt
+    cd ./boost_1_61_0
+    touch cached_mark
+    ./bootstrap.sh --with-libraries=date_time,filesystem,system
+    ./b2
+    cd ..
+    fi
 script:
-  - mkdir ./bin/ && cd ./bin/
-  - cmake .. -DLINK_BOOST=ON
+  - cd ./bin/
+  - cmake .. -DLINK_BOOST=ON -DEXTRA_LIBDIR=../boost_1_61_0/stage/lib/ -DEXTRA_INCDIR=./boost_1_61_0/ -Wno-dev
   - make
+  - cd ..
