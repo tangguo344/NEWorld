@@ -65,9 +65,8 @@ private:
     World* m_worldCurrent;
     // Player test
     Player m_player;
-
     // Renderer
-    // WorldRenderer m_renderer;
+    std::unique_ptr<WorldRenderer> m_renderer;
 };
 
 class MainWindow : public UI::Core::Window
