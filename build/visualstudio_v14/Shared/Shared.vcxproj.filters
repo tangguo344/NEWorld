@@ -85,6 +85,9 @@
     <ClInclude Include="..\..\..\src\shared\chunkloader.h">
       <Filter>Source\World</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\shared\base.h">
+      <Filter>Source\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">

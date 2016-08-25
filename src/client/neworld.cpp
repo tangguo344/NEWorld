@@ -22,7 +22,7 @@
 #include <pluginapi.h>
 #include "window.h"
 
-Application::Application(int width, int height, const string& title, const string& path) :
+Application::Application(int width, int height, const std::string& title, const std::string& path) :
     m_width(width), m_height(height), m_title(title)
 {
 }
@@ -34,7 +34,7 @@ void Application::beforeLaunch()
     infostream << "Initializing...";
 
     // Set up hooks from UI::Logger(UILib) to Logger(NEWorld)
-    UI::Logger::setHookFunc([](size_t level,std::string msg, const char* fileName, const char *funcName, int lineNumber)
+    UI::Logger::setHookFunc([](size_t level, std::string msg, const char* fileName, const char *funcName, int lineNumber)
     {
         Logger(fileName, funcName, lineNumber, static_cast<Logger::Level>(level)) << msg;
     });

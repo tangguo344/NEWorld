@@ -17,32 +17,13 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PLUGINMANAGER_H_
-#define PLUGINMANAGER_H_
+// Functions that do not belong to any existing files
+
+#ifndef UTIL_H_
+#define UTIL_H_
 
 #include <string>
-#include <vector>
-#include <boost/dll/shared_library.hpp>
-#include "plugin.h"
 
-// Plugin system
-class PluginManager
-{
-public:
-    ~PluginManager()
-    {
-        unloadPlugins();
-    }
+void createProcess(std::string filename, std::string args);
 
-    // Load single plugin
-    void loadPlugin(const std::string& filename);
-    // Load plugins
-    void loadPlugins(const std::string& base);
-    // Unload plugins
-    void unloadPlugins();
-
-private:
-    std::vector<Plugin> m_plugins;
-};
-
-#endif // !PLUGINMANAGER_H_
+#endif // !UTIL_H_

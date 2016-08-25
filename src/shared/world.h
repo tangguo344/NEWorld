@@ -29,15 +29,12 @@
 #include "blockmanager.h"
 #include "chunkpointerarray.h"
 
-using std::abs;
-using std::string;
-
 class PluginManager;
 
 class World :boost::noncopyable
 {
 public:
-    World(const string& name, PluginManager& plugins, BlockManager& blocks)
+    World(const std::string& name, PluginManager& plugins, BlockManager& blocks)
         : m_name(name), m_plugins(plugins), m_blocks(blocks), m_chunkCount(0), m_chunkArraySize(1024), m_daylightBrightness(15), m_cpa(8)
     {
         //m_chunks = new Chunk*[m_chunkArraySize];
@@ -61,7 +58,7 @@ public:
     }
 
     // Get world name
-    const string& getWorldName() const
+    const std::string& getWorldName() const
     {
         return m_name;
     }
@@ -185,7 +182,7 @@ public:
 
 private:
     // World name
-    string m_name;
+    std::string m_name;
     // Loaded plugins
     PluginManager& m_plugins;
     // Loaded blocks

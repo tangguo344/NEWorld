@@ -28,7 +28,6 @@
 
 static std::array<std::string,6> LevelTags;
 
-
 Logger::Level Logger::coutLevel = Level::trace;
 Logger::Level Logger::cerrLevel = Level::fatal;
 Logger::Level Logger::fileLevel = Level::trace;
@@ -38,7 +37,7 @@ bool Logger::fileOnly = false;
 std::vector<std::ofstream> Logger::fsink;
 
 template <size_t length>
-static string convert(int arg)
+static std::string convert(int arg)
 {
     char arr[13];
     int siz = 0u;
@@ -47,14 +46,14 @@ static string convert(int arg)
         arr[siz++] = (arg % 10) + '0';
         arg /= 10;
     }
-    string ret(length - siz, '0');
+    std::string ret(length - siz, '0');
     ret.reserve(length);
     for (int i = siz - 1; i >= 0; i--)
         ret += arr[i];
     return ret;
 }
 
-static string getTimeString(char dateSplit, char midSplit, char timeSplit)
+static std::string getTimeString(char dateSplit, char midSplit, char timeSplit)
 {
     time_t timer = time(nullptr);
     tm* currtime = localtime(&timer); // DO NOT `delete` THIS POINTER!
@@ -62,12 +61,12 @@ static string getTimeString(char dateSplit, char midSplit, char timeSplit)
            + midSplit + convert<2u>(currtime->tm_hour) + timeSplit + convert<2u>(currtime->tm_min) + timeSplit + convert<2u>(currtime->tm_sec);
 }
 
-void Logger::addFileSink(const string& path, const string& prefix)
+void Logger::addFileSink(const std::string& path, const std::string& prefix)
 {
     fsink.emplace_back(path + prefix + "_" + getTimeString('-', '_', '-') + ".log");
 }
 
-void Logger::init(const string& prefix)
+void Logger::init(const std::string& prefix)
 {
     using namespace boost::filesystem;
     const char* path = "./logs/";
@@ -132,10 +131,10 @@ void Logger::writeOstream(std::ostream& ostream, bool noColor) const
         {'c',lcyan},{'d',lblue},{'e',lmagenta},{'f',lwhite},
     };
     std::string str = m_content.str();
-    string::size_type pos1 = 0, pos2 = str.find(stylechar);
+    std::string::size_type pos1 = 0, pos2 = str.find(stylechar);
     while (true)
     {
-        if (string::npos == pos2)
+        if (std::string::npos == pos2)
         {
             ostream << str.substr(pos1, str.size());
             return;

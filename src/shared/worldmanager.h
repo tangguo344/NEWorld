@@ -21,7 +21,6 @@
 #define WORLDMANAGER_H_
 
 #include <vector>
-using std::vector;
 
 #include "world.h"
 #include "pluginmanager.h"
@@ -40,17 +39,17 @@ public:
         m_worlds.clear();
     }
 
-    World* addWorld(const string& name)
+    World* addWorld(const std::string& name)
     {
         m_worlds.emplace_back(new World(name, m_plugins, m_blocks));
         return m_worlds[m_worlds.size() - 1];
     }
 
-    vector<World*>::iterator begin() { return m_worlds.begin(); }
-    vector<World*>::iterator end() { return m_worlds.end(); }
+    std::vector<World*>::iterator begin() { return m_worlds.begin(); }
+    std::vector<World*>::iterator end() { return m_worlds.end(); }
 
 private:
-    vector<World*> m_worlds;
+    std::vector<World*> m_worlds;
     PluginManager& m_plugins;
     BlockManager& m_blocks;
 };

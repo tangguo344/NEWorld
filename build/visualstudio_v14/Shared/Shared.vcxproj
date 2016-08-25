@@ -93,6 +93,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\shared\aabb.h" />
+    <ClInclude Include="..\..\..\src\shared\base.h" />
     <ClInclude Include="..\..\..\src\shared\blockdata.h" />
     <ClInclude Include="..\..\..\src\shared\blockmanager.h" />
     <ClInclude Include="..\..\..\src\shared\blocktype.h" />

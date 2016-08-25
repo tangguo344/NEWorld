@@ -21,7 +21,6 @@
 #define WORLDLOADER_H_
 
 #include <utility>
-using std::pair;
 #include <world.h>
 #include <chunkpointerarray.h>
 
@@ -37,9 +36,9 @@ private:
 
     int m_chunkLoadCount, m_chunkUnloadCount, m_loadRange;
     /// Chunk load list [position, distance]
-    pair<Vec3i, int> m_chunkLoadList[MaxChunkLoadCount];
+    std::pair<Vec3i, int> m_chunkLoadList[MaxChunkLoadCount];
     /// Chunk unload list [pointer, distance]
-    pair<Chunk*, int> m_chunkUnloadList[MaxChunkUnloadCount];
+    std::pair<Chunk*, int> m_chunkUnloadList[MaxChunkUnloadCount];
 
 public:
     WorldLoader(World& world, ChunkPointerArray& cpa)
