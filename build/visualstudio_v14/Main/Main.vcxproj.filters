@@ -15,6 +15,5 @@
     <ClInclude Include="..\..\..\api\cpp\nwapi.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="WorldGen.h" />
   </ItemGroup>
 </Project>
