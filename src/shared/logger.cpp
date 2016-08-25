@@ -59,7 +59,7 @@ static string getTimeString(char dateSplit, char midSplit, char timeSplit)
     time_t timer = time(nullptr);
     tm* currtime = localtime(&timer); // DO NOT `delete` THIS POINTER!
     return convert<4u>(currtime->tm_year + 1900) + dateSplit + convert<2u>(currtime->tm_mon) + dateSplit + convert<2u>(currtime->tm_mday)
-        + midSplit + convert<2u>(currtime->tm_hour) + timeSplit + convert<2u>(currtime->tm_min) + timeSplit + convert<2u>(currtime->tm_sec);
+           + midSplit + convert<2u>(currtime->tm_hour) + timeSplit + convert<2u>(currtime->tm_min) + timeSplit + convert<2u>(currtime->tm_sec);
 }
 
 void Logger::addFileSink(const string& path, const string& prefix)
@@ -111,7 +111,8 @@ void Logger::init(const string& prefix)
 Logger::Logger(const char* fileName, const char *funcName, int lineNumber, Level level)
     : m_level(level)
 {
-    if (m_level >= lineLevel){
+    if (m_level >= lineLevel)
+    {
         m_fileName = fileName;
         m_funcName = funcName;
         m_lineNumber = lineNumber;
@@ -124,12 +125,12 @@ void Logger::writeOstream(std::ostream& ostream, bool noColor) const
     using namespace LColorFunc;
     constexpr static char stylechar = '&';
     static std::map<char, colorfunc> cmap =
-        {
-            {'0',black},{'1',red},{'2',yellow},{'3',green},
-            {'4',cyan},{'5',blue},{'6',magenta},{'7',white},
-            {'8',lblack},{'9',lred},{'a',lyellow},{'b',lgreen},
-            {'c',lcyan},{'d',lblue},{'e',lmagenta},{'f',lwhite},
-        };
+    {
+        {'0',black},{'1',red},{'2',yellow},{'3',green},
+        {'4',cyan},{'5',blue},{'6',magenta},{'7',white},
+        {'8',lblack},{'9',lred},{'a',lyellow},{'b',lgreen},
+        {'c',lcyan},{'d',lblue},{'e',lmagenta},{'f',lwhite},
+    };
     std::string str = m_content.str();
     string::size_type pos1 = 0, pos2 = str.find(stylechar);
     while (true)
@@ -164,10 +165,10 @@ Logger::~Logger()
     if (m_level >= lineLevel)
     {
         m_content << std::endl
-            << "\tSource :\t" << m_fileName << std::endl
-            << "\tAt Line :\t" << m_lineNumber << std::endl
-            << "\tFunction :\t" << m_funcName << std::endl
-        ;
+                  << "\tSource :\t" << m_fileName << std::endl
+                  << "\tAt Line :\t" << m_lineNumber << std::endl
+                  << "\tFunction :\t" << m_funcName << std::endl
+                  ;
     }
     m_content << std::endl;
     if (!fileOnly)
@@ -178,6 +179,11 @@ Logger::~Logger()
             writeOstream(std::cout);
     }
     if (m_level >= fileLevel)
+    {
         for (auto& it : fsink)
+        {
             writeOstream(it, true);
+            if (m_level >= cerrLevel) it.flush();
+        }
+    }
 }

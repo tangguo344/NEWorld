@@ -17,12 +17,23 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "neworld.h"
-#include <logger.h>
+#ifndef MAIN_MENU_H_
+#define MAIN_MENU_H_
 
-extern "C" NWAPIEXPORT int NWAPICALL main(int, char**);
+#include <uilib.h>
 
-int NWAPICALL main(int argc, char** argv)
+class BackGround : public UI::Controls::GLContext
 {
-    Application::getApplication().run();
-}
+public:
+    BackGround(UI::Core::Window * win);
+private:
+    unsigned long long elapsed;
+};
+
+class MainMenu : public UI::Core::Grid
+{
+public:
+    MainMenu(UI::Core::Window* win);
+};
+
+#endif

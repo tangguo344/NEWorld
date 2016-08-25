@@ -17,25 +17,20 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PAGES_H_
-#define PAGES_H_
+#ifndef WINDOW_H_
+#define WINDOW_H_
 
 #include <uilib.h>
 
-//Confused by the filename. "pages" mean all pages? Then why is the gamescene not here? --Null
-
-class BackGround : public UI::Controls::GLContext
+class MainWindow : public UI::Core::Window
 {
 public:
-    BackGround(UI::Core::Window * win);
+    std::shared_ptr<UI::Base::Texture> btex[6]; //What is it? --Miigon; May be the background images of the main menu, but it shouldn't be here --Null
+    MainWindow(int width, int height, const std::string& title);
+
 private:
-    unsigned long long elapsed;
+    std::thread loader;
 };
 
-class MainMenu : public UI::Core::Grid
-{
-public:
-    MainMenu(UI::Core::Window* win);
-};
 
 #endif
