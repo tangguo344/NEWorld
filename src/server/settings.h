@@ -19,7 +19,7 @@
 #ifndef _SETTINGS_H__
 #define _SETTINGS_H__
 
-#include "settingsmanager.h"
+#include <settingsmanager.h>
 extern Settings settings;
 void loadSettings();
 void saveSettings();
