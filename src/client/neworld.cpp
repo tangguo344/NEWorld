@@ -33,7 +33,7 @@ void Application::beforeLaunch()
     Logger::init("client");
     infostream << "Initializing...";
 
-    //Set up hooks from UI::Logger(UILib) to Logger(NEWorld)
+    // Set up hooks from UI::Logger(UILib) to Logger(NEWorld)
     UI::Logger::setHookFunc([](size_t level,std::string msg, const char* fileName, const char *funcName, int lineNumber)
     {
         Logger(fileName, funcName, lineNumber, static_cast<Logger::Level>(level)) << msg;
@@ -59,6 +59,12 @@ void Application::beforeLaunch()
     UI::Theme::SystemTheme.ControlHeightLightBrush = UIMakeSolidColorBrush(UI::Base::Color(1.2 * 0.2, 1.2 * 0.2, 1.2 * 0.2, 0.8 * 0.6));
     UI::Theme::SystemTheme.ControlOnPressBrush = UIMakeSolidColorBrush(UI::Base::Color(0.2 * 0.8, 0.2 * 0.8, 0.2 * 0.8, 0.9));
     UI::Theme::SystemTheme.DefaultFont = UI::Font::service.getRenderer("SourceHanSansCN-Normal", 17, UI::Base::Color(1.0, 1.0, 1.0, 1.0));
+
+    // Init plugins
+    PluginAPI::Blocks = &m_blocks;
+    PluginAPI::Plugins = &m_plugins;
+
+    m_plugins.loadPlugins("./");
 }
 
 void Application::afterLaunch()

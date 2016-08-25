@@ -51,10 +51,6 @@ MainWindow::MainWindow(int width, int height, const string& title) : UI::Core::W
 GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm, WorldManager& wm)
     :UI::Controls::GLContext(), m_blocks(bm), m_plugins(pm), m_worlds(wm)
 {
-    PluginAPI::Blocks = &m_blocks;
-    PluginAPI::Plugins = &m_plugins;
-    m_plugins.loadPlugins("./");
-
     keyFunc.connect([this](int scancode, UI::Core::ButtonAction)
     {
         onKey(scancode);

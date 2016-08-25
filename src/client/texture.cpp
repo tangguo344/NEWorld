@@ -31,7 +31,8 @@ constexpr int align(int x, int al)
 
 void Texture::init()
 {
-    warningstream << "正在进行大重构，Texture类(texture.cpp)将合并到UI::Base::Texture类(uibase.cpp)，请优先使用UI::Base::Texture类！";
+    warningstream << "Please use UI::Base::Texture if it is possible!";
+    //正在进行大重构，Texture类(texture.cpp)将合并到UI::Base::Texture类(uibase.cpp)，请优先使用UI::Base::Texture类！
     /*
     if (!IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG))
     {
