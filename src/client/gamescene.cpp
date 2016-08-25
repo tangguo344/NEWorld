@@ -49,7 +49,7 @@ MainWindow::MainWindow(int width, int height, const string& title) : UI::Core::W
 }
 
 GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm, WorldManager& wm)
-    :UI::Controls::GLContext(), m_blocks(bm),m_plugins(pm),m_worlds(wm)
+    :UI::Controls::GLContext(), m_blocks(bm), m_plugins(pm), m_worlds(wm)
 {
     PluginAPI::Blocks = &m_blocks;
     PluginAPI::Plugins = &m_plugins;
@@ -62,7 +62,7 @@ GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm,
     win->renderdelegate.push_back([this, win]() { init(win); });
 
     m_worldCurrent = m_worlds.addWorld("Main World");
-
+    m_renderer=std::unique_ptr<WorldRenderer>(new WorldRenderer(*m_worldCurrent));
     /*
     BlockData block = m_chunk.getBlock(Vec3i(0, 0, 0));
     infostream << "Block at (0,0,0) = {ID: " << block.getID() << ", brightness: " << block.getBrightness() << ", state: " << block.getState() << "}";
@@ -107,14 +107,14 @@ void GameScene::doRender()
     Renderer::translate(-m_player.getPosition());
 
     // Render
-//    m_worldCurrent->getRenderer().render();
+    m_renderer->render();
 
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_DEPTH_TEST);
 
     // Update
     m_player.update();
-//    m_worldCurrent->getRenderer().update();
+    m_renderer->update();
 }
 
 void GameScene::onResize(size_t w, size_t h)
