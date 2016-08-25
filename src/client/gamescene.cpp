@@ -48,8 +48,8 @@ MainWindow::MainWindow(int width, int height, const string& title) : UI::Core::W
     });
 }
 
-GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm, WorldManager& wm)
-    :UI::Controls::GLContext(), m_blocks(bm), m_plugins(pm), m_worlds(wm)
+GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
+    :UI::Controls::GLContext(), m_blocks(bm), m_plugins(pm), m_worlds(pm, bm)
 {
     keyFunc.connect([this](int scancode, UI::Core::ButtonAction)
     {

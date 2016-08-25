@@ -23,7 +23,7 @@
 #include <pluginapi.h>
 
 Application::Application(int width, int height, const string& title, const string& path) :
-    m_width(width), m_height(height), m_title(title), m_worlds(m_plugins,m_blocks)
+    m_width(width), m_height(height), m_title(title)
 {
 }
 
