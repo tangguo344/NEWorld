@@ -21,35 +21,10 @@
 #include "renderer.h"
 #include "utils.h"
 #include <logger.h>
-
-MainWindow::MainWindow(int width, int height, const string& title) : UI::Core::Window(title, width, height, 200, 200)
-{
-    background = std::make_shared<UI::Graphics::Brushes::ImageBrush>(std::make_shared<UI::Base::Image>("./res/ss.png"));
-    loader = std::thread([this]()
-    {
-        btex[0] = std::make_shared<UI::Base::Texture>("./res/bkg0.png");
-        btex[1] = std::make_shared<UI::Base::Texture>("./res/bkg3.png");
-        btex[2] = std::make_shared<UI::Base::Texture>("./res/bkg2.png");
-        btex[3] = std::make_shared<UI::Base::Texture>("./res/bkg1.png");
-        btex[4] = std::make_shared<UI::Base::Texture>("./res/bkg4.png");
-        btex[5] = std::make_shared<UI::Base::Texture>("./res/bkg5.png");
-
-        // Load Something
-        // std::this_thread::sleep_for(2000ms);
-
-        renderdelegate.push_back([this]()
-        {
-            background = UI::Theme::SystemTheme.WindowBrush;
-            // Load the main menu
-            pushPage(std::make_shared<BackGround>(this), false, false);
-            pushPage(std::make_shared<MainMenu>(this), false, true);
-            loader.join();
-        });
-    });
-}
+#include "network.h"
 
 GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
-    :UI::Controls::GLContext(), m_blocks(bm), m_plugins(pm), m_worlds(pm, bm)
+    :UI::Controls::GLContext(), m_blocks(bm), m_plugins(pm), m_worlds(pm, bm), m_networkThread(networkThread)
 {
     keyFunc.connect([this](int scancode, UI::Core::ButtonAction)
     {
@@ -59,12 +34,6 @@ GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
 
     m_worldCurrent = m_worlds.addWorld("Main World");
     m_renderer=std::unique_ptr<WorldRenderer>(new WorldRenderer(*m_worldCurrent));
-    /*
-    BlockData block = m_chunk.getBlock(Vec3i(0, 0, 0));
-    infostream << "Block at (0,0,0) = {ID: " << block.getID() << ", brightness: " << block.getBrightness() << ", state: " << block.getState() << "}";
-    debugstream << "Full information:";
-    m_blocks.showInfo(block.getID());
-    */
 }
 
 void GameScene::init(UI::Core::Window*)

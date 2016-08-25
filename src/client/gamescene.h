@@ -24,7 +24,6 @@
 #include <uilib.h>
 #include "vec3.h"
 #include "renderer.h"
-#include "pages.h"
 
 #include <world.h>
 #include <logger.h>
@@ -44,6 +43,7 @@ public:
     ~GameScene()
     {
         m_plugins.unloadPlugins();
+        m_networkThread.join();
     }
     void doRender();
     void onResize(size_t w, size_t h) override;
@@ -67,16 +67,8 @@ private:
     Player m_player;
     // Renderer
     std::unique_ptr<WorldRenderer> m_renderer;
-};
-
-class MainWindow : public UI::Core::Window
-{
-public:
-    std::shared_ptr<UI::Base::Texture> btex[6]; //What is it? --Miigon; May be the background images of the main menu, but it shouldn't be here --Null
-    MainWindow(int width, int height, const string& title);
-
-private:
-    std::thread loader;
+    // Network thread
+    std::thread m_networkThread;
 };
 
 #endif // !GAMEVIEW_H_

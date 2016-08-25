@@ -36,6 +36,14 @@ public:
         m_speed = speed;
     }
 
+    void update() override
+    {
+        move();
+    }
+
+private:
+    Vec3d m_speed;
+
     void move()
     {
         // TODO: Hit test
@@ -50,15 +58,6 @@ public:
             .transformVec3(m_speed);
         m_speed *= 0.96;
     }
-
-    void update() override
-    {
-        move();
-    }
-
-private:
-    Vec3d m_speed;
-
 };
 
 #endif // !PLAYER_H_

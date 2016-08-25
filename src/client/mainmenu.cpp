@@ -17,14 +17,15 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "pages.h"
+#include "mainmenu.h"
 #include <thread>
 #include "gamescene.h"
 #include "neworld.h"
+#include "window.h"
 
 MainMenu::MainMenu(UI::Core::Window * win)
 {
-    addChild(std::make_shared <UI::Controls::ImageBox>("Title", UI::Core::Margin::CenterCenter(256, 256, 212, -20), std::make_shared<UI::Graphics::Brushes::ImageBrush>(std::make_shared<UI::Base::Image>("./res/title.png"))));
+    addChild(std::make_shared<UI::Controls::ImageBox>("Title", UI::Core::Margin::CenterCenter(256, 256, 212, -20), std::make_shared<UI::Graphics::Brushes::ImageBrush>(std::make_shared<UI::Base::Image>("./res/title.png"))));
     addChild(std::make_shared<UI::Controls::Button>("BTPlay", UI::Core::Margin::CenterCenter(200, 200, -32, 64), UI::Locale::Str("play"), [this, win]() { win->pushPage(std::make_shared<GameScene>(win, Application::getApplication().getBlocks(), Application::getApplication().getPlugins()), false, false); }));
     addChild(std::make_shared<UI::Controls::Button>("optionsbtn", UI::Core::Margin::CenterCenter(200, -3, -70, 102), UI::Locale::Str("option"), []() {loginfo("This feature not implemented: option!");}));
     addChild(std::make_shared<UI::Controls::Button>("quitbtn", UI::Core::Margin::CenterCenter(-3, 200, -70, 102), UI::Locale::Str("exit"), []() { UI::Core::application->terminate(); }));

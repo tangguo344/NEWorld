@@ -18,9 +18,9 @@
 */
 
 #include "neworld.h"
-#include "gamescene.h"
 #include "texture.h"
 #include <pluginapi.h>
+#include "window.h"
 
 Application::Application(int width, int height, const string& title, const string& path) :
     m_width(width), m_height(height), m_title(title)

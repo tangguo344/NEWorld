@@ -17,9 +17,6 @@
     <Filter Include="Source\Scene">
       <UniqueIdentifier>{6a35d50b-1155-4a7c-8af2-fce5c29ea559}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\UI">
-      <UniqueIdentifier>{2a5d303a-cdec-429b-84b2-57b38695f45d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Player">
       <UniqueIdentifier>{acabc496-b610-4eed-8952-85f6a1c9b2ff}</UniqueIdentifier>
     </Filter>
@@ -49,9 +46,6 @@
     <ClInclude Include="..\..\..\src\client\texture.h">
       <Filter>Source\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\client\pages.h">
-      <Filter>Source\UI</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\client\player.h">
       <Filter>Source\Player</Filter>
     </ClInclude>
@@ -60,6 +54,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\client\worldrenderer.h">
       <Filter>Source\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\mainmenu.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\window.h">
+      <Filter>Source\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -87,9 +87,6 @@
     <ClCompile Include="..\..\..\src\client\texture.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\client\pages.cpp">
-      <Filter>Source\UI</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\client\player.cpp">
       <Filter>Source\Player</Filter>
     </ClCompile>
@@ -98,6 +95,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\client\worldrenderer.cpp">
       <Filter>Source\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\mainmenu.cpp">
+      <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\window.cpp">
+      <Filter>Source\Scene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
