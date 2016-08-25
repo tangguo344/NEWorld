@@ -42,7 +42,6 @@ public:
         return app;
     }
     PluginManager& getPlugins() { return m_plugins; }
-    WorldManager& getWorlds() { return m_worlds; }
     BlockManager& getBlocks() { return m_blocks; }
 
 private:
@@ -52,7 +51,6 @@ private:
     std::string m_title;
 
     PluginManager m_plugins;
-    WorldManager m_worlds;
     BlockManager m_blocks;
 };
 

@@ -40,7 +40,7 @@
 class GameScene : public UI::Controls::GLContext
 {
 public:
-    GameScene(UI::Core::Window*, BlockManager& bm, PluginManager& pm, WorldManager& wm);
+    GameScene(UI::Core::Window*, BlockManager& bm, PluginManager& pm);
     ~GameScene()
     {
         m_plugins.unloadPlugins();
@@ -60,7 +60,7 @@ private:
     // Loaded plugins
     PluginManager& m_plugins;
     // Loaded worlds
-    WorldManager& m_worlds;
+    WorldManager m_worlds;
     // Current world
     World* m_worldCurrent;
     // Player test
