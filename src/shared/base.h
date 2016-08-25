@@ -17,32 +17,10 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PLUGINMANAGER_H_
-#define PLUGINMANAGER_H_
+// This file is only used to include standard header file.
+// Do not include any project header file in it!
 
-#include <string>
-#include <vector>
-#include <boost/dll/shared_library.hpp>
-#include "plugin.h"
+#ifndef BASE_H_
+#define BASE_H_
 
-// Plugin system
-class PluginManager
-{
-public:
-    ~PluginManager()
-    {
-        unloadPlugins();
-    }
-
-    // Load single plugin
-    void loadPlugin(const std::string& filename);
-    // Load plugins
-    void loadPlugins(const std::string& base);
-    // Unload plugins
-    void unloadPlugins();
-
-private:
-    std::vector<Plugin> m_plugins;
-};
-
-#endif // !PLUGINMANAGER_H_
+#endif // !BASE_H_

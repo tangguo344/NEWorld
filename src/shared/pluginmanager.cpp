@@ -24,7 +24,7 @@
 #include "pluginmanager.h"
 #include "logger.h"
 
-void PluginManager::loadPlugin(const string& filename)
+void PluginManager::loadPlugin(const std::string& filename)
 {
     m_plugins.emplace_back(Plugin(filename));
     const Plugin& plugin = m_plugins[m_plugins.size() - 1];
@@ -42,15 +42,15 @@ void PluginManager::loadPlugin(const string& filename)
 void PluginManager::loadPlugins(const std::string& base)
 {
     using namespace boost::filesystem;
-    string path = base + "plugins/";
+    std::string path = base + "plugins/";
     if (exists(path))
     {
         directory_iterator itemEnd;
         for (directory_iterator item(path); item != itemEnd; ++item)
             if (!is_directory(*item))
             {
-                string pluginPath = item->path().string();
-                string suffix = pluginPath.substr(pluginPath.size() - string(DLLSuffix).size());
+                std::string pluginPath = item->path().string();
+                std::string suffix = pluginPath.substr(pluginPath.size() - std::string(DLLSuffix).size());
                 strtolower(suffix);
                 if (suffix != DLLSuffix) continue;
                 loadPlugin(pluginPath);

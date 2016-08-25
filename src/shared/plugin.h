@@ -21,7 +21,6 @@
 #define PLUGIN_H_
 
 #include <string>
-using std::string;
 #include <utility>
 #include <boost/dll/shared_library.hpp>
 
@@ -40,7 +39,7 @@ struct PluginData
 class Plugin
 {
 public:
-    explicit Plugin(const string& filename) : m_status(-1)
+    explicit Plugin(const std::string& filename) : m_status(-1)
     {
         loadFrom(filename);
     }
@@ -79,7 +78,7 @@ public:
     }
 
     // Load plugin, return 0 for success
-    int loadFrom(const string& filename);
+    int loadFrom(const std::string& filename);
     // Unload plugin
     void unload();
 

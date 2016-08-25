@@ -23,7 +23,7 @@
 typedef PluginData* NWAPICALL InitFunction();
 typedef void NWAPICALL UnloadFunction();
 
-int Plugin::loadFrom(const string& filename)
+int Plugin::loadFrom(const std::string& filename)
 {
     InitFunction* init = nullptr;
     try

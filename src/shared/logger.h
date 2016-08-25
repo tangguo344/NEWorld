@@ -23,7 +23,6 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
-using std::string;
 #include "common.h"
 
 class Logger
@@ -42,8 +41,8 @@ public:
     Logger(const char* fileName, const char* funcName, int lineNumber, Level level);
     ~Logger();
 
-    static void addFileSink(const string& path, const string& prefix);
-    static void init(const string& prefix);
+    static void addFileSink(const std::string& path, const std::string& prefix);
+    static void init(const std::string& prefix);
 
     template <typename T>
     Logger& operator<<(const T& rhs)

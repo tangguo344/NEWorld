@@ -43,7 +43,7 @@ public:
 private:
     // Target world
     World& m_world;
-    vector<ChunkRenderer> m_chunkRenderers;
+    std::vector<ChunkRenderer> m_chunkRenderers;
 };
 
 #endif // !WORLDRENDERER_H_

@@ -21,7 +21,6 @@
 #define BLOCKMANAGER_H_
 
 #include <vector>
-using std::vector;
 
 #include "blocktype.h"
 #include "logger.h"
@@ -50,7 +49,7 @@ public:
     void showInfo(int id) const;
 
 private:
-    vector<BlockType> m_blocks;
+    std::vector<BlockType> m_blocks;
 
 };
 
