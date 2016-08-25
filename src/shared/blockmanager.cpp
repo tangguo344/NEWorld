@@ -22,10 +22,10 @@
 void BlockManager::showInfo(int id) const
 {
     BlockType block = m_blocks[id];
-    debugstream << "Block \"" << block.getName() << "\" with ID = " << id << ", attributes:\n"
-                << "Solid: " << block.isSolid() << "\n"
-                << "Translucent: " << block.isTranslucent() << "\n"
-                << "Opaque: " << block.isOpaque() << "\n"
-                << "Explode power: " << block.getExplodePower() << "\n"
-                << "Hardness: " << block.getHardness();
+    debugstream << "Block \"" << block.getName() << "\"(ID = " << id << "), attributes:"
+                << " Solid: " << block.isSolid()
+                << " Translucent: " << block.isTranslucent()
+                << " Opaque: " << block.isOpaque()
+                << " Explode power: " << block.getExplodePower()
+                << " Hardness: " << block.getHardness();
 }
