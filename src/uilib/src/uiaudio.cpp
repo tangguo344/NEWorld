@@ -34,7 +34,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 using namespace std;
 
 #if defined( __WIN32__ ) || defined( _WIN32 )
-    //#include <dsound.h>
+//#include <dsound.h>
 #endif
 
 namespace UI
@@ -83,7 +83,7 @@ namespace UI
 
             void loadChunk(size_t chunk)
             {
-                size_t lread = std::min(length - chunk * 32768ul, 32768ul) * sizeof(short);
+                size_t lread = std::min(length - chunk * static_cast<size_t>(32768), static_cast<size_t>(32768)) * sizeof(short);
                 inFile.seekg(filePos + chunk * 32768 * sizeof(short), ios::beg);
                 if (isStreaming)
                 {
