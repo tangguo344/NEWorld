@@ -1,7 +1,12 @@
 version: '{build}'
 cache:
-  - boost\boost.1.61.0.0\lib\native\include\boost
-  - dependencies
+  - boost\boost.1.61.0.0\lib\native\include\boost -> appveyor.yml
+  - dependencies -> appveyor.yml
+platform:
+  - x86
+  - x64
+configuration:
+  - Release
 clone_folder: C:\NEWorld
 clone_depth: 1
 install:
@@ -12,7 +17,7 @@ build:
   verbosity: minimal
 on_success:
   # Create an archive
-  - 7z a "c:\NEWorld_Core.zip" .\res .\licenses > nul
-  - cd .\build\visualstudio_v14\bin\Win32\Debug
-  - 7z a "c:\NEWorld_Core.zip" *.exe *.dll .\Plugins\*.dll > nul
-  - appveyor PushArtifact c:\NEWorld_Core.zip
+  #- 7z a "c:\NEWorld_Core.zip" .\res .\licenses > nul
+  #- cd .\build\visualstudio_v14\bin\Win32\Debug
+  #- 7z a "c:\NEWorld_Core.zip" *.exe *.dll .\Plugins\*.dll > nul
+  #- appveyor PushArtifact c:\NEWorld_Core.zip
