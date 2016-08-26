@@ -1,7 +1,7 @@
 # NEWorld编译指南
 
 ### Windows(Old)
-**  请注意：这是一个过时的版本! 新版本仍在编写中...**
+**请注意：这是一个过时的版本! 新版本仍在编写中...**
 
 1. *请下载所有所需[资源](./Notfinishedyet)，并解压到/res文件夹*
 2. *请自行下载以下所有依赖库（或从[这里](./Notfinishedyet)直接下载Windows版本的整合包），并将头文件复制或链接到/dependencies/include文件夹，将库文件复制或链接到/dependencies/lib文件夹：*
