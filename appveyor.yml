@@ -1,7 +1,9 @@
 version: '{build}'
 cache:
-  - boost\boost.1.61.0.0\lib\native\include\boost -> appveyor.yml
-  - dependencies -> appveyor.yml
+  - boost\boost.1.61.0.0\lib\native\include\boost -> build\appveyor_install.bat
+  - dependencies -> build\appveyor_install.bat
+  - build\visualstudio_v14\bin
+  - cache
 platform:
   - x86
   - x64
@@ -12,12 +14,17 @@ clone_depth: 1
 install:
   # Install dependencies
   - if not exist "boost\" .\build\appveyor_install.bat
+  - mkdir release\
+  - ps: move cache\* release\ -Force
 build:
   project: build/VisualStudio_v14/NEWorld.sln
   verbosity: minimal
 on_success:
   # Create an archive
-  #- 7z a "c:\NEWorld_Core.zip" .\res .\licenses > nul
-  #- cd .\build\visualstudio_v14\bin\Win32\Debug
-  #- 7z a "c:\NEWorld_Core.zip" *.exe *.dll .\Plugins\*.dll > nul
-  #- appveyor PushArtifact c:\NEWorld_Core.zip
+  - ps: move -path release\*.ilk,release\*.iobj,release\*.ipdb,release\*.pdb -destination cache\ -Force
+  - if %PLATFORM% equ x86 (copy .\dependencies\dll\* .\release\) else (copy .\dependencies\dll_x64\* .\release\) > nul
+  - 7z a c:\NEWorld.zip .\res .\licenses > nul
+  - cd .\release
+  - 7z a c:\NEWorld.zip . > nul
+  - if %PLATFORM% equ x64 rename c:\NEWorld.zip NEWorld_x64.zip
+  - if %PLATFORM% equ x64 (appveyor PushArtifact c:\NEWorld_x64.zip) else (appveyor PushArtifact c:\NEWorld.zip)
