@@ -22,18 +22,34 @@
 #include "utils.h"
 #include <logger.h>
 #include "network.h"
+#include <boost/dll/shared_library.hpp>
+typedef void NWAPICALL MainFunction(int, char**);
 
 GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
-    :UI::Controls::GLContext(), m_blocks(bm), m_plugins(pm), m_worlds(pm, bm), m_networkThread(networkThread)
+    :UI::Controls::GLContext(), m_blocks(bm), m_plugins(pm)
 {
+    // TODO: start the server only when it's a single player mode.
+    m_localServerThread = std::thread([]
+    {
+        try
+        {
+            boost::dll::shared_library("NEWorldServer.dll", boost::dll::load_mode::append_decorations).get<MainFunction>("main")(0, nullptr); //fixme 偷懒没传参数
+        }
+        catch (std::exception& e)
+        {
+            fatalstream << "Error in server: " << e.what();
+        }
+    });
+    // FIXME: if the server spends too much time starting, the network thread won't connect to the server.
+    m_networkThread = std::thread(networkThread);
+
     keyFunc.connect([this](int scancode, UI::Core::ButtonAction)
     {
         onKey(scancode);
     });
     win->renderdelegate.push_back([this, win]() { init(win); });
 
-    m_worldCurrent = m_worlds.addWorld("Main World");
-    m_renderer=std::unique_ptr<WorldRenderer>(new WorldRenderer(*m_worldCurrent));
+    m_renderer=std::unique_ptr<WorldRenderer>(new WorldRenderer(*m_world));
 }
 
 void GameScene::init(UI::Core::Window*)
