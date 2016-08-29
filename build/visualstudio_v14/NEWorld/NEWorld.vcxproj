@@ -263,7 +263,6 @@
     <ClInclude Include="..\..\..\src\client\player.h" />
     <ClInclude Include="..\..\..\src\client\renderer.h" />
     <ClInclude Include="..\..\..\src\client\texture.h" />
-    <ClInclude Include="..\..\..\src\client\util.h" />
     <ClInclude Include="..\..\..\src\client\vertexarray.h" />
     <ClInclude Include="..\..\..\src\client\gamescene.h" />
     <ClInclude Include="..\..\..\src\client\window.h" />

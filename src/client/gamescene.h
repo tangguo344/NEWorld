@@ -59,16 +59,16 @@ private:
     BlockManager& m_blocks;
     // Loaded plugins
     PluginManager& m_plugins;
-    // Loaded worlds
-    WorldManager m_worlds;
     // Current world
-    World* m_worldCurrent;
+    World* m_world;
     // Player test
     Player m_player;
     // Renderer
     std::unique_ptr<WorldRenderer> m_renderer;
     // Network thread
     std::thread m_networkThread;
+    // Local server thread
+    std::thread m_localServerThread;
 };
 
 #endif // !GAMEVIEW_H_

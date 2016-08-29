@@ -80,31 +80,31 @@ void Logger::init(const std::string& prefix)
     std::stringstream ss;
 
     int c = 0;
+    std::string str_prefix = "[" + prefix + "]";
 
     ss.str("");
-    ss << LColor::white << '[' << "trace" << ']';
+    ss << str_prefix << LColor::white << '[' << "trace" << ']';
     LevelTags[c++] = ss.str();
 
     ss.str("");
-    ss << LColor::white << '[' << "debug" << ']';
+    ss << str_prefix << LColor::white << '[' << "debug" << ']';
     LevelTags[c++] = ss.str();
 
     ss.str("");
-    ss << LColor::lwhite << '[' << "info" << ']';
+    ss << str_prefix << LColor::lwhite << '[' << "info" << ']';
     LevelTags[c++] = ss.str();
 
     ss.str("");
-    ss << LColor::lyellow << '[' << "warning" << ']';
+    ss << str_prefix << LColor::lyellow << '[' << "warning" << ']';
     LevelTags[c++] = ss.str();
 
     ss.str("");
-    ss << LColor::lred << '[' << "error" << ']';
+    ss << str_prefix << LColor::lred << '[' << "error" << ']';
     LevelTags[c++] = ss.str();
 
     ss.str("");
-    ss << LColor::red << '[' << "fatal" << ']';
+    ss << str_prefix << LColor::red << '[' << "fatal" << ']';
     LevelTags[c] = ss.str();
-
 }
 
 Logger::Logger(const char* fileName, const char *funcName, int lineNumber, Level level)
