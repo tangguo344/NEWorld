@@ -33,7 +33,8 @@ GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
     {
         try
         {
-            boost::dll::shared_library("NEWorldServer.dll", boost::dll::load_mode::append_decorations).get<MainFunction>("main")(0, nullptr); //fixme 偷懒没传参数
+            boost::dll::shared_library("nwserver", boost::dll::load_mode::append_decorations).get<MainFunction>("main")(0, nullptr); //fixme 鍋锋噿娌′紶鍙傛暟
+            // TODO: Read library path from config file.
         }
         catch (std::exception& e)
         {
