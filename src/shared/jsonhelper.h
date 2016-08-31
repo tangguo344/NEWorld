@@ -23,13 +23,15 @@
 #include <string>
 #include <fstream>
 #include "json.hpp"
+
 using Json = nlohmann::json;
 
 const std::string SettingsFilename = "settings.json";
 
 inline Json readJsonFromFile(std::string filename)
 {
-    std::string content = std::string((std::istreambuf_iterator<char>(std::ifstream(filename))),
+    std::ifstream file(filename);
+    std::string content = std::string((std::istreambuf_iterator<char>(file)),
                                       std::istreambuf_iterator<char>());
     if (!content.empty())
         return Json::parse(content);
