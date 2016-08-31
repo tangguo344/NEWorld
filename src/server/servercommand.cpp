@@ -111,26 +111,26 @@ void initCommands()
     }
     EndCommandDefine;
 
-    CommandDefine("conf.set", "Internal", "Set one configuration item. Usage: conf.set <confname> <value>")
-    {
-        if (cmd.args.size() == 2)
-        {
-            settings.set(cmd.args[0], string2type(cmd.args[1]));
-            return{ true, "Set" };
-        }
-        else
-        {
-            return{ false, "Usage: conf.set <confname> <value>" };
-        }
-    }
-    EndCommandDefine;
-
     CommandDefine("conf.get", "Internal", "Get one configuration item. Usage: conf.get <confname>")
     {
         if (cmd.args.size() == 1)
         {
-            if(settings.have(cmd.args[0]))
-                return{ true, cmd.args[0] + " = " + type2string(settings.get(cmd.args[0])) };
+            auto keys = split(cmd.args[0], ".");
+            Json now = getSettings();
+            bool exist = true;
+            for (auto key : keys)
+            {
+                auto iter = now.find(key);
+                if (iter == now.end())
+                {
+                    exist = false;
+                    break;
+                }
+                now = iter.value();
+            }
+
+            if(exist)
+                return{ true, cmd.args[0] + " = " + now.dump() };
             else
                 return{ false, "The configuration item does not exist." };
         }
@@ -143,18 +143,13 @@ void initCommands()
 
     CommandDefine("conf.show", "Internal", "Show the configuration.")
     {
-        std::string conf;
-        for (const auto& p : settings.getMap())
-        {
-            conf += '\n' + p.first + " = " + type2string(p.second);
-        }
-        return{ true,conf };
+        return{ true, getSettings().dump() };
     }
     EndCommandDefine;
 
     CommandDefine("conf.save", "Internal", "Save the configuration.")
     {
-        settings.save();
+        saveSettings();
         return{ true,"Done!" };
     }
     EndCommandDefine;
@@ -176,7 +171,7 @@ void inputThreadFunc()
     while (inputThreadRunning)
     {
         std::string input;
-        std::cout << LColorFunc::white << "$> ";
+        std::cout << LColorFunc::white << "$> " << LColorFunc::lwhite;
         std::getline(std::cin, input);
         auto result = handleCommand(Command(input));
         if (result.info != "")

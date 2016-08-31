@@ -21,69 +21,33 @@
 #include <string>
 #include <boost/dll/shared_library.hpp>
 #include <common.h> // For NWAPICALL
+#include "../shared/jsonhelper.h"
 
-std::string Path = "./";
 typedef void NWAPICALL MainFunction(int, char**);
 
 int main(int argc, char** argv)
 {
-    std::string in;
     std::string file;
+
+    Json settings = readJsonFromFile(SettingsFilename);
+
+    std::string in;
     if (argc == 1)
     {
         std::cout << "NEWorld Minimal Launcher" << std::endl;
         std::cout << "Enter 'client' to run client" << std::endl;
         std::cout << "Enter 'server' to run server" << std::endl;
         std::cin >> in;
-        //std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
     else
     {
-        bool filespec = false;
-        for(int i = 1; i < argc; i++)
-        {
-            char *str = argv[i];
-            if(filespec)
-            {
-                file = str;
-                filespec = false;
-            }
-            else if(!strcmp(str,"-f"))
-            {
-                filespec = true;
-            }
-            else
-            {
-                in = str;
-            }
-        }
+        in = argv[1];
     }
-    try
-    {
-        if (in == "server")
-        {
-            if(file.size() == 0) file = "nwserver";
-            boost::dll::shared_library
-                (
-                    Path + file,
-                    boost::dll::load_mode::append_decorations
-                )
-                .get<MainFunction>("main")(argc, argv);
-        }
-        else
-        {
-            if(file.size() == 0) file = "nwclient";
-            boost::dll::shared_library
-                (
-                    Path + file,
-                    boost::dll::load_mode::append_decorations
-                )
-                .get<MainFunction>("main")(argc, argv);
-        }
-    }
-    catch (std::exception& e)
-    {
-        std::cout << e.what() << std::endl;
-    }
-    return 0;
+
+    std::string clientFilename = getJsonValueWithDefaultValue<std::string>(settings["client"]["file"], "NEWorld.dll");
+    std::string serverFilename = getJsonValueWithDefaultValue<std::string>(settings["server"]["file"], "NEWorldServer.dll");
+
+    file = in == "server" ? serverFilename : clientFilename;
+
+    boost::dll::shared_library(file, boost::dll::load_mode::append_decorations).get<MainFunction>("main")(argc, argv);
 }

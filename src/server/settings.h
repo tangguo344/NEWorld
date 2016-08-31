@@ -19,8 +19,8 @@
 #ifndef _SETTINGS_H__
 #define _SETTINGS_H__
 
-#include <settingsmanager.h>
-extern Settings settings;
+#include <jsonhelper.h>
+Json& getSettings();
 void loadSettings();
 void saveSettings();
 

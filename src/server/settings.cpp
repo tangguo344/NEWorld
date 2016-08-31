@@ -20,18 +20,23 @@
 #include <logger.h>
 #include "server.h"
 
-void loadSharedSettings(Settings& settings);
+void loadSharedSettings(Json& settings);
 
-Settings settings("Configs/server_settings.conf");
+Json& getSettings()
+{
+    static Json settings = readJsonFromFile(SettingsFilename);
+    return settings;
+}
 
 void loadSettings()
 {
-    loadSharedSettings(settings);
-    globalPort = static_cast<unsigned short>(settings.get<int>("server.server.port", 8090));
+    loadSharedSettings(getSettings());
+    globalPort = getJsonValueWithDefaultValue(getSettings()["server"]["port"], 8090);
+
     saveSettings();
 }
 
 void saveSettings()
 {
-    settings.save();
+    writeJsonToFile(SettingsFilename, getSettings());
 }
