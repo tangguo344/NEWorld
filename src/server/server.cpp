@@ -31,10 +31,9 @@ void errorHandle(const tcp::socket& m_socket, error_code ec)
 
 void Session::doUpdate()
 {
-    return;
     auto self(shared_from_this());
-    deadline_timer(m_socket.get_io_service(), boost::posix_time::microseconds(updateInterval)).async_wait(
-        [this, self](error_code)
+    m_updateTimer.expires_from_now(boost::posix_time::microseconds(UpdateInterval));
+    m_updateTimer.async_wait([this, self](error_code)
     {
         // TODO: Process client actions here
         doWrite();
@@ -73,12 +72,11 @@ void Server::doAccept()
         doAccept();
     });
 }
-
 void Server::doGlobalUpdate()
 {
-    return;
-    boost::asio::deadline_timer(m_socket.get_io_service(), boost::posix_time::microseconds(globalUpdateInterval)).async_wait(
-        [this](boost::system::error_code)
+    static auto lst = std::chrono::high_resolution_clock::now();
+    m_updateTimer.expires_from_now(boost::posix_time::microseconds(GlobalUpdateInterval));
+    m_updateTimer.async_wait([this](boost::system::error_code)
     {
         // Update worlds
         for (auto world : m_worlds) world->update();
