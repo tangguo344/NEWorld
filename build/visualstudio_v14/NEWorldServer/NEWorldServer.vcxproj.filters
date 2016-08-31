@@ -14,7 +14,7 @@
     <Filter Include="Source\Command">
       <UniqueIdentifier>{f64d43dd-aee3-423a-bc5d-cf31e4345fd9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\World\Settings">
+    <Filter Include="Source\Settings">
       <UniqueIdentifier>{8a3e28c7-9a9b-4199-9c9d-eb68853e075e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -32,7 +32,7 @@
       <Filter>Source\Command</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\server\settings.cpp">
-      <Filter>Source\World\Settings</Filter>
+      <Filter>Source\Settings</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\server\main.cpp">
       <Filter>Source</Filter>
@@ -46,7 +46,7 @@
       <Filter>Source\Network</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\server\settings.h">
-      <Filter>Source\World\Settings</Filter>
+      <Filter>Source\Settings</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\server\servercommand.h">
       <Filter>Source\Command</Filter>

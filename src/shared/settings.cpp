@@ -17,25 +17,24 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "settingsmanager.h"
+#include "jsonhelper.h"
 #include "logger.h"
 #include "common.h"
 
-void loadSharedSettings(Settings& settings)
+void loadSharedSettings(Json& settings)
 {
     using Level = Logger::Level;
     /*
-#ifdef NEWORLD_DEBUG
+    #ifdef NEWORLD_DEBUG
     Logger::coutLevel = settings.get<Level>("shared.logger.coutLevel", Level::trace);
     Logger::cerrLevel = settings.get<Level>("shared.logger.cerrLevel", Level::fatal);
     Logger::fileLevel = settings.get<Level>("shared.logger.fileLevel", Level::trace);
     Logger::lineLevel = settings.get<Level>("shared.logger.lineLevel", Level::warning);
-#else
+    #else
     Logger::coutLevel = settings.get<Level>("shared.logger.coutLevel", Level::info);
     Logger::cerrLevel = settings.get<Level>("shared.logger.cerrLevel", Level::fatal);
     Logger::fileLevel = settings.get<Level>("shared.logger.fileLevel", Level::info);
     Logger::lineLevel = settings.get<Level>("shared.logger.lineLevel", Level::warning);
-#endif
+    #endif
     */
-    settings.setMinimal(settings.get<bool>("shared.settings.minimal", false));
 }
