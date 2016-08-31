@@ -25,7 +25,6 @@
 #include "server.h"
 #include <utils.h>
 #include "settings.h"
-#include <type.h>
 
 bool inputThreadRunning = true;
 
