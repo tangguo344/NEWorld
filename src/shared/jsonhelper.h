@@ -56,4 +56,9 @@ inline T getJsonValueWithDefaultValue(Json& json, T defaultValue=T())
     return json;
 }
 
+inline Json& getSettings()
+{
+    static Json settings = readJsonFromFile(SettingsFilename);
+    return settings;
+}
 #endif

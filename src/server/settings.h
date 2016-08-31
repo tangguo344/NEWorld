@@ -20,7 +20,6 @@
 #define _SETTINGS_H__
 
 #include <jsonhelper.h>
-Json& getSettings();
 void loadSettings();
 void saveSettings();
 
