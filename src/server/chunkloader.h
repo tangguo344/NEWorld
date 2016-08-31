@@ -42,7 +42,7 @@ public:
     ChunkLoader& operator=(const ChunkLoader&) = delete;
 
     // Build chunk
-    void build(int DaylightBrightness) const;
+    void build(int daylightBrightness) const;
 };
 
 #endif // !CHUNKLOADER_H_

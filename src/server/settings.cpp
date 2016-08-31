@@ -22,12 +22,6 @@
 
 void loadSharedSettings(Json& settings);
 
-Json& getSettings()
-{
-    static Json settings = readJsonFromFile(SettingsFilename);
-    return settings;
-}
-
 void loadSettings()
 {
     loadSharedSettings(getSettings());

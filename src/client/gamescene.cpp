@@ -23,7 +23,7 @@
 #include <logger.h>
 #include "network.h"
 #include <boost/dll/shared_library.hpp>
-typedef void NWAPICALL MainFunction(int, char**);
+#include <jsonhelper.h>
 
 GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
     :UI::Controls::GLContext(), m_blocks(bm), m_plugins(pm)
@@ -33,8 +33,7 @@ GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
     {
         try
         {
-            boost::dll::shared_library("nwserver", boost::dll::load_mode::append_decorations).get<MainFunction>("main")(0, nullptr); //fixme 偷懒没传参数
-            // TODO: Read library path from config file.
+            boost::dll::shared_library(getJsonValueWithDefaultValue<std::string>(getSettings()["server"]["file"], "NEWorldServer.dll"), boost::dll::load_mode::append_decorations).get<void NWAPICALL(int, char**)>("main")(0, nullptr); //FIXME: 偷懒没传参数
         }
         catch (std::exception& e)
         {
