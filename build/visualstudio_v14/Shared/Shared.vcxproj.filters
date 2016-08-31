@@ -73,9 +73,6 @@
     <ClInclude Include="..\..\..\src\shared\playerobject.h">
       <Filter>Source\Object</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\chunkloader.h">
-      <Filter>Source\World</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\shared\base.h">
       <Filter>Source\Common</Filter>
     </ClInclude>
@@ -142,9 +139,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\shared\playerobject.cpp">
       <Filter>Source\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\shared\chunkloader.cpp">
-      <Filter>Source\World</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

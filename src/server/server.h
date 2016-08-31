@@ -30,6 +30,8 @@
 #include <pluginmanager.h>
 #include <pluginapi.h>
 #include <ratemeter.h>
+#include "worldloader.h"
+#include <unordered_map>
 
 constexpr int UpdateInterval = 1000/60, GlobalUpdateInterval = 1000/60; // unit: ms
 
@@ -38,24 +40,9 @@ extern unsigned short globalPort;
 class Server
 {
 public:
-    Server(boost::asio::io_service& ioservice, unsigned short port)
-        : m_acceptor(ioservice, boost::asio::ip::tcp::endpoint(tcp::v4(), port)), m_socket(ioservice),
-          m_worlds(m_plugins, m_blocks), m_updateTimer(m_socket.get_io_service())
-    {
-        // Initialization
-        PluginAPI::Blocks = &m_blocks;
-        infostream << "Initializing plugins...";
-//        m_plugins.loadPlugins(base);
-        // Start server
-        infostream << "Server started!";
-        doGlobalUpdate();
-        doAccept();
-    }
+    Server(boost::asio::io_service& ioservice, unsigned short port);
 
-    ~Server()
-    {
-        // TODO: Terminate here
-    }
+    ~Server();
 
     //void sendToAllSessions(Packet packet);
 
@@ -73,6 +60,8 @@ private:
     WorldManager m_worlds;
     BlockManager m_blocks;
     PluginManager m_plugins; // Loaded plugins
+
+    std::unordered_map<std::string, WorldLoader> m_worldLoaders;
 };
 
 #endif // SERVER_H__

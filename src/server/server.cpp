@@ -18,7 +18,6 @@
 */
 
 #include "server.h"
-
 using namespace boost::asio;
 using namespace boost::system;
 
@@ -58,6 +57,27 @@ void Session::doUpdate()
 //}
 //}
 
+Server::Server(boost::asio::io_service & ioservice, unsigned short port)
+    : m_acceptor(ioservice, boost::asio::ip::tcp::endpoint(tcp::v4(), port)), m_socket(ioservice),
+      m_worlds(m_plugins, m_blocks), m_updateTimer(m_socket.get_io_service())
+{
+    // Initialization
+    PluginAPI::Blocks = &m_blocks;
+    infostream << "Initializing plugins...";
+    //        m_plugins.loadPlugins(base);
+    World* world = m_worlds.addWorld("main_world");
+    m_worldLoaders.insert({ "main_world", WorldLoader(*world, 16) }); //TODO: get the range by players' settings
+    // Start server
+    infostream << "Server started!";
+    doGlobalUpdate();
+    doAccept();
+}
+
+Server::~Server()
+{
+    // TODO: Terminate here
+}
+
 void Server::doAccept()
 {
     m_acceptor.async_accept(m_socket, [this](boost::system::error_code ec)
@@ -78,6 +98,11 @@ void Server::doGlobalUpdate()
     m_updateTimer.async_wait([this](boost::system::error_code)
     {
         // Update worlds
+        for (auto& worldLoader : m_worldLoaders)
+        {
+            worldLoader.second.sortChunkLoadUnloadList({0,0,0}); //TODO: players' position;
+            worldLoader.second.loadUnloadChunks();
+        }
         for (auto world : m_worlds) world->update();
         doGlobalUpdate();
 
