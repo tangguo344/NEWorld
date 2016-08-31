@@ -29,6 +29,7 @@
 #include <blockmanager.h>
 #include <pluginmanager.h>
 #include <pluginapi.h>
+#include <ratemeter.h>
 
 constexpr int UpdateInterval = 1000/60, GlobalUpdateInterval = 1000/60; // unit: ms
 
@@ -44,7 +45,7 @@ public:
         // Initialization
         PluginAPI::Blocks = &m_blocks;
         infostream << "Initializing plugins...";
-        m_plugins.loadPlugins(base);
+//        m_plugins.loadPlugins(base);
         // Start server
         infostream << "Server started!";
         doGlobalUpdate();
@@ -67,7 +68,7 @@ private:
     std::vector<std::weak_ptr<Session>> m_sessions;
 
     boost::asio::deadline_timer m_updateTimer;
-
+    RateMeter m_ups;
 
     WorldManager m_worlds;
     BlockManager m_blocks;

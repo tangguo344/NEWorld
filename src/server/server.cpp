@@ -74,12 +74,13 @@ void Server::doAccept()
 }
 void Server::doGlobalUpdate()
 {
-    static auto lst = std::chrono::high_resolution_clock::now();
     m_updateTimer.expires_from_now(boost::posix_time::microseconds(GlobalUpdateInterval));
     m_updateTimer.async_wait([this](boost::system::error_code)
     {
         // Update worlds
         for (auto world : m_worlds) world->update();
         doGlobalUpdate();
+
+        m_ups.refresh();
     });
 }
