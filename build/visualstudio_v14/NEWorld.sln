@@ -53,6 +53,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RunClient", "Utils\RunClien
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RunServer", "Utils\RunServer\RunServer.vcxproj", "{CA52BEA5-226D-4FAA-A9A5-6380E6995CF4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EB85579F-6F16-410D-AD97-9A6F9CE03657} = {EB85579F-6F16-410D-AD97-9A6F9CE03657}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{A2C14EA2-941B-4E0B-B439-22438A377C96}"
 EndProject

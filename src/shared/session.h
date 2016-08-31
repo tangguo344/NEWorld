@@ -28,7 +28,7 @@ class Session :public std::enable_shared_from_this<Session>
 {
 public:
     Session(tcp::socket socket)
-        : m_socket(std::move(socket))
+        : m_socket(std::move(socket)), m_updateTimer(m_socket.get_io_service())
     {
     }
 
@@ -56,6 +56,8 @@ private:
     tcp::socket m_socket;
     std::queue<Packet> m_packets; // Packets need sent
     Packet m_packetRead;
+
+    boost::asio::deadline_timer m_updateTimer;
 };
 
 #endif // !SESSION_H_

@@ -30,7 +30,7 @@
 #include <pluginmanager.h>
 #include <pluginapi.h>
 
-constexpr int updateInterval = 10, globalUpdateInterval = 10;
+constexpr int UpdateInterval = 1000/60, GlobalUpdateInterval = 1000/60; // unit: ms
 
 extern unsigned short globalPort;
 
@@ -39,7 +39,7 @@ class Server
 public:
     Server(boost::asio::io_service& ioservice, unsigned short port, const std::string& base)
         : m_acceptor(ioservice, boost::asio::ip::tcp::endpoint(tcp::v4(), port)), m_socket(ioservice),
-          m_worlds(m_plugins, m_blocks)
+          m_worlds(m_plugins, m_blocks), m_updateTimer(m_socket.get_io_service())
     {
         // Initialization
         PluginAPI::Blocks = &m_blocks;
@@ -65,6 +65,9 @@ private:
     tcp::acceptor m_acceptor;
     tcp::socket m_socket;
     std::vector<std::weak_ptr<Session>> m_sessions;
+
+    boost::asio::deadline_timer m_updateTimer;
+
 
     WorldManager m_worlds;
     BlockManager m_blocks;
