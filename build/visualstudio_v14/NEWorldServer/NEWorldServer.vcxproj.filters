@@ -17,15 +17,15 @@
     <Filter Include="Source\Settings">
       <UniqueIdentifier>{8a3e28c7-9a9b-4199-9c9d-eb68853e075e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Main">
+      <UniqueIdentifier>{4df86efc-5d15-42ec-b35c-767643cbacbc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\server\networkstructures.cpp">
       <Filter>Source\Network</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\server\networkutils.cpp">
-      <Filter>Source\Network</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\server\server.cpp">
       <Filter>Source\Network</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\server\servercommand.cpp">
@@ -37,19 +37,31 @@
     <ClCompile Include="..\..\..\src\server\main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\server\worldloader.cpp">
+      <Filter>Source\World</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\server\server.cpp">
+      <Filter>Source\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\server\chunkloader.cpp">
+      <Filter>Source\World</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\server\worldloader.h">
       <Filter>Source\World</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\server\server.h">
-      <Filter>Source\Network</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\server\settings.h">
       <Filter>Source\Settings</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\server\servercommand.h">
       <Filter>Source\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\server\server.h">
+      <Filter>Source\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\server\chunkloader.h">
+      <Filter>Source\World</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

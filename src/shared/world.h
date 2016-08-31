@@ -175,6 +175,11 @@ public:
         return m_blocks;
     }
 
+    ChunkPointerArray& getChunkPointerArray()
+    {
+        return m_cpa;
+    }
+
     std::vector<AABB> getHitboxes(const AABB& range) const;
 
     // Main update
