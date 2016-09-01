@@ -14,7 +14,6 @@ clone_depth: 1
 install:
   # Install dependencies
   - if not exist "boost\" .\build\appveyor_install.bat
-  - mkdir release\
   - ps: move cache\* release\ -Force
 build:
   project: build/VisualStudio_v14/NEWorld.sln
