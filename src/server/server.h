@@ -32,6 +32,8 @@
 #include <ratemeter.h>
 #include "worldloader.h"
 #include <unordered_map>
+#include <thread>
+#include "commandcontroller.h"
 
 constexpr int UpdateInterval = 1000/60, GlobalUpdateInterval = 1000/60; // unit: ms
 
@@ -50,6 +52,8 @@ private:
     void doAccept();
     void doGlobalUpdate();
 
+    void initCommands();
+
     tcp::acceptor m_acceptor;
     tcp::socket m_socket;
     std::vector<std::weak_ptr<Session>> m_sessions;
@@ -62,6 +66,8 @@ private:
     PluginManager m_plugins; // Loaded plugins
 
     std::unordered_map<std::string, WorldLoader> m_worldLoaders;
+
+    CommandController m_commandController;
 };
 
 #endif // SERVER_H__

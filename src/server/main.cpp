@@ -22,7 +22,6 @@
 #include <logger.h>
 #include <thread>
 #include "settings.h"
-#include "servercommand.h"
 #include <pluginapi.h>
 
 extern "C" NWAPIEXPORT int NWAPICALL main(int, char**);
@@ -36,7 +35,6 @@ int NWAPICALL main(int argc, char** argv)
                << "----------------------------------------";
     infostream << "NEWorld Server v" << NEWorldVersion << ", Release Version:" << ReleaseVersion << ", compiled at " << __TIME__ << " " << __DATE__;
     infostream << "Server starting...";
-    std::thread inputThread(inputThreadFunc);
     try
     {
         Server s(ioService, globalPort);
@@ -45,10 +43,8 @@ int NWAPICALL main(int argc, char** argv)
     catch (std::exception& e)
     {
         fatalstream << "Exception: " << e.what() << ".Press Enter to exit.";
-        stopInputThreadRunning();
     }
     infostream << "Server is stopping...";
-    inputThread.join();
     saveSettings();
     return 0;
 }
