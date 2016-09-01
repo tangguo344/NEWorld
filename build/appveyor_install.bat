@@ -3,6 +3,7 @@ echo Installing dependiencies...
 echo Installing Boost libraries...
 mkdir boost
 mkdir cache
+mkdir release
 cd boost\
 nuget install boost_system-vc140 -Version 1.61.0 > nul
 nuget install boost_filesystem-vc140 -Version 1.61.0 > nul
