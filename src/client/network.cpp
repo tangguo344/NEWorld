@@ -16,29 +16,22 @@
 * You should have received a copy of the GNU Lesser General Public License
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include <memory>
-#include <common.h>
-#include <logger.h>
 #include "network.h"
-#include "session.h"
-#include <networkstructures.h>
+#include <logger.h>
 
-std::string hostIp = "127.0.0.1";
-boost::asio::io_service ioService;
-std::shared_ptr<Session> session;
-const int updateInterval = 10;
-const int Port = 8090; //TODO: read it from an address
-void disconnect()
+const int UpdateInterval = 10;
+
+void errorHandle(const tcp::socket&, boost::system::error_code ec)
 {
-    ioService.stop();
+    errorstream << "Network error, code:" << ec.value();
 }
 
-bool initNetwork(boost::asio::io_service& ioservice, tcp::socket& socket, std::string ip)
+bool Connection::init(tcp::socket& socket)
 {
-    tcp::resolver resolver(ioservice);
+    tcp::resolver resolver(m_ioService);
     try
     {
-        boost::asio::connect(socket, resolver.resolve({ip, std::to_string(Port)}));
+        boost::asio::connect(socket, resolver.resolve({m_hostIP, std::to_string(m_port)}));
         return true;
     }
     catch (std::exception& e)
@@ -48,31 +41,24 @@ bool initNetwork(boost::asio::io_service& ioservice, tcp::socket& socket, std::s
     }
 }
 
-void networkThread()
+void Connection::mainLoop()
 {
-    tcp::socket socket(ioService);
-    if (!initNetwork(ioService, socket, hostIp))
+    tcp::socket socket(m_ioService);
+    if (!init(socket))
         exit(-1);
 
-    session = std::make_shared<Session>(std::move(socket));
-    session->start();
-    session->addRequest(std::move(LoginPacket("test", "123456", NEWorldVersion).makePacket()));
-    ioService.run();
-}
-
-void errorHandle(const tcp::socket&, boost::system::error_code ec)
-{
-    errorstream << "Network error, code:" << ec.value();
+    m_session = std::make_shared<Session>(std::move(socket));
+    m_session->start();
+    m_session->addRequest(std::move(LoginPacket("test", "123456", NEWorldVersion).makePacket()));
+    m_ioService.run();
 }
 
 void Session::doUpdate()
 {
-    return;
     auto self(shared_from_this());
-    boost::asio::deadline_timer(m_socket.get_io_service(), boost::posix_time::microseconds(updateInterval)).async_wait(
-        [this, self](boost::system::error_code)
+    m_updateTimer.expires_from_now(boost::posix_time::milliseconds(UpdateInterval));
+    m_updateTimer.async_wait([this, self](boost::system::error_code)
     {
-        //Update world here
         doWrite();
     });
 }

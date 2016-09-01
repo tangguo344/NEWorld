@@ -26,7 +26,7 @@
 #include <jsonhelper.h>
 
 GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
-    :UI::Controls::GLContext(), m_blocks(bm), m_plugins(pm)
+    :UI::Controls::GLContext(), m_blocks(bm), m_plugins(pm), m_connection("127.0.0.1", 8090) //TODO: read it from settings
 {
     // TODO: start the server only when it's a single player mode.
     m_localServerThread = std::thread([]
@@ -41,7 +41,7 @@ GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
         }
     });
     // FIXME: if the server spends too much time starting, the network thread won't connect to the server.
-    m_networkThread = std::thread(networkThread);
+    m_connection.connect();
 
     keyFunc.connect([this](int scancode, UI::Core::ButtonAction)
     {

@@ -35,7 +35,7 @@ void errorHandle(const tcp::socket& m_socket, error_code ec)
 void Session::doUpdate()
 {
     auto self(shared_from_this());
-    m_updateTimer.expires_from_now(boost::posix_time::microseconds(UpdateInterval));
+    m_updateTimer.expires_from_now(boost::posix_time::milliseconds(UpdateInterval));
     m_updateTimer.async_wait([this, self](error_code)
     {
         // TODO: Process client actions here
