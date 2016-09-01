@@ -35,6 +35,7 @@
 #include "worldrenderer.h"
 #include "texture.h"
 #include "player.h"
+#include "network.h"
 
 class GameScene : public UI::Controls::GLContext
 {
@@ -43,7 +44,7 @@ public:
     ~GameScene()
     {
         m_plugins.unloadPlugins();
-        m_networkThread.join();
+        m_connection.disconnect();
     }
     void doRender();
     void onResize(size_t w, size_t h) override;
@@ -65,8 +66,8 @@ private:
     Player m_player;
     // Renderer
     std::unique_ptr<WorldRenderer> m_renderer;
-    // Network thread
-    std::thread m_networkThread;
+    // Network connection
+    Connection m_connection;
     // Local server thread
     std::thread m_localServerThread;
 };
