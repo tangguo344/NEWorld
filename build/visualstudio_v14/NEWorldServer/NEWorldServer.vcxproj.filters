@@ -28,9 +28,6 @@
     <ClCompile Include="..\..\..\src\server\networkutils.cpp">
       <Filter>Source\Network</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\server\servercommand.cpp">
-      <Filter>Source\Command</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\server\settings.cpp">
       <Filter>Source\Settings</Filter>
     </ClCompile>
@@ -46,6 +43,9 @@
     <ClCompile Include="..\..\..\src\server\chunkloader.cpp">
       <Filter>Source\World</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\server\commandcontroller.cpp">
+      <Filter>Source\Command</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\server\worldloader.h">
@@ -54,14 +54,14 @@
     <ClInclude Include="..\..\..\src\server\settings.h">
       <Filter>Source\Settings</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\server\servercommand.h">
-      <Filter>Source\Command</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\server\server.h">
       <Filter>Source\Main</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\server\chunkloader.h">
       <Filter>Source\World</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\server\commandcontroller.h">
+      <Filter>Source\Command</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

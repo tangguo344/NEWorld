@@ -16,11 +16,30 @@
 * You should have received a copy of the GNU Lesser General Public License
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef SERVERCOMMAND_H_
-#define SERVERCOMMAND_H_
 
-void inputThreadFunc();
+#include "commandcontroller.h"
+#include <logger.h>
+#include <consolecolor.h>
 
-void stopInputThreadRunning();
+CommandExecuteStat CommandController::handleCommand(Command cmd)
+{
+    strtolower(cmd.name);
+    auto result = m_commandMap.find(cmd.name);
+    if (result != m_commandMap.end())
+        return (*result).second.second(cmd);
+    else
+        return{ false,"Failed to execute the command: The command does not exist, type help for available commands." };
+}
 
-#endif //!SERVERCOMMAND_H_
+void CommandController::mainLoop()
+{
+    while (m_threadRunning)
+    {
+        std::string input;
+        std::cout << LColorFunc::white << "$> " << LColorFunc::lwhite;
+        std::getline(std::cin, input);
+        auto result = handleCommand(Command(input));
+        if (result.info != "")
+            infostream << result.info;
+    }
+}
