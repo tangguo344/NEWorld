@@ -28,5 +28,5 @@ NEWorld采用[LGPLv3许可证](http://www.gnu.org/licenses/lgpl.html)发布并�
 ## 更多文档
 
 * 若在运行NEWorld时遇到了问题，请阅读 [用户指南](doc/usermanual.md)
-* 若希望加入NEWorld的开发，请阅读 [开发者规范](doc/regulations.md) 和 [编译指南](doc/installation.md)
+* 若希望加入NEWorld的开发，请阅读 [开发者规范](doc/regulations.md), [编译指南](doc/installation.md) 和 [程序结构说明](doc/structure.md)
 * 若想要查看NEWorld的发展计划，请阅读 [待办事项](https://github.com/Infinideastudio/NEWorld/issues/46)
