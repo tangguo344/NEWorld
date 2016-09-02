@@ -64,8 +64,7 @@ void WorldLoader::sortChunkLoadUnloadList(const Vec3i& centerPos)
                 m_chunkUnloadList[j] = m_chunkUnloadList[j - 1];
 
             // Insert into list
-            m_chunkUnloadList[first].first = m_world.getChunkPtr(ci);
-            m_chunkUnloadList[first].second = distsqr;
+            m_chunkUnloadList[first] = { m_world.getChunkPtr(ci), distsqr };
 
             // Add counter
             if (pl < MaxChunkUnloadCount) pl++;
@@ -109,8 +108,7 @@ void WorldLoader::sortChunkLoadUnloadList(const Vec3i& centerPos)
                         m_chunkLoadList[j] = m_chunkLoadList[j - 1];
 
                     // Insert into list
-                    m_chunkLoadList[first].first = Vec3i(x, y, z);
-                    m_chunkLoadList[first].second = distsqr;
+                    m_chunkLoadList[first] = { Vec3i(x, y, z),distsqr };
 
                     // Add counter
                     if (pu < MaxChunkLoadCount) pu++;
