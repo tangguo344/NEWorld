@@ -21,14 +21,14 @@
 
 const int UpdateInterval = 10;
 
-void errorHandle(const tcp::socket&, boost::system::error_code ec)
+void errorHandle(const boost::asio::ip::tcp::socket&, boost::system::error_code ec)
 {
     errorstream << "Network error, code:" << ec.value();
 }
 
-bool Connection::init(tcp::socket& socket)
+bool Connection::init(boost::asio::ip::tcp::socket& socket)
 {
-    tcp::resolver resolver(m_ioService);
+    boost::asio::ip::tcp::resolver resolver(m_ioService);
     try
     {
         boost::asio::connect(socket, resolver.resolve({m_hostIP, std::to_string(m_port)}));
@@ -43,7 +43,7 @@ bool Connection::init(tcp::socket& socket)
 
 void Connection::mainLoop()
 {
-    tcp::socket socket(m_ioService);
+    boost::asio::ip::tcp::socket socket(m_ioService);
     if (!init(socket))
         exit(-1);
 

@@ -49,9 +49,6 @@
     <ClInclude Include="..\..\..\src\shared\aabb.h">
       <Filter>Source\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\networkshared.h">
-      <Filter>Source\Network</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\shared\identifier.h">
       <Filter>Source\Network</Filter>
     </ClInclude>

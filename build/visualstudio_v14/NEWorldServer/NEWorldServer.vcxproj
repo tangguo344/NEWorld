@@ -27,7 +27,6 @@
     <ClCompile Include="..\..\..\src\server\chunkloader.cpp" />
     <ClCompile Include="..\..\..\src\server\main.cpp" />
     <ClCompile Include="..\..\..\src\server\networkstructures.cpp" />
-    <ClCompile Include="..\..\..\src\server\networkutils.cpp" />
     <ClCompile Include="..\..\..\src\server\server.cpp" />
     <ClCompile Include="..\..\..\src\server\commandcontroller.cpp" />
     <ClCompile Include="..\..\..\src\server\settings.cpp" />

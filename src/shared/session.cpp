@@ -26,7 +26,7 @@ using namespace boost::asio;
 using namespace boost::system;
 using namespace boost::posix_time;
 
-void errorHandle(const tcp::socket& m_socket, error_code ec);
+void errorHandle(const boost::asio::ip::tcp::socket& m_socket, error_code ec);
 
 std::unique_ptr<NetworkStructure> makeNetworkStructure(Packet& packet)
 {

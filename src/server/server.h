@@ -22,7 +22,6 @@
 
 #include <memory>
 #include <vector>
-#include <networkshared.h>
 #include <logger.h>
 #include <session.h>
 #include <worldmanager.h>
@@ -42,9 +41,11 @@ extern unsigned short globalPort;
 class Server
 {
 public:
-    Server(boost::asio::io_service& ioservice, unsigned short port);
+    Server(unsigned short port);
 
     ~Server();
+
+    void run() { m_ioService.run(); }
 
     //void sendToAllSessions(Packet packet);
 
@@ -54,8 +55,9 @@ private:
 
     void initCommands();
 
-    tcp::acceptor m_acceptor;
-    tcp::socket m_socket;
+    boost::asio::io_service m_ioService;
+    boost::asio::ip::tcp::acceptor m_acceptor;
+    boost::asio::ip::tcp::socket m_socket;
     std::vector<std::weak_ptr<Session>> m_sessions;
 
     boost::asio::deadline_timer m_updateTimer;

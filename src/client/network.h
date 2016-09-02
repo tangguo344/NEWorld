@@ -1,7 +1,6 @@
 #ifndef NETWORK_H__
 #define NETWORK_H__
 
-#include <networkshared.h>
 #include <packet.h>
 #include "network.h"
 #include "session.h"
@@ -20,7 +19,7 @@ public:
 
 private:
     void mainLoop();
-    bool init(tcp::socket& socket);
+    bool init(boost::asio::ip::tcp::socket& socket);
 
     boost::asio::io_service m_ioService;
     std::shared_ptr<Session> m_session;

@@ -25,9 +25,6 @@
     <ClCompile Include="..\..\..\src\server\networkstructures.cpp">
       <Filter>Source\Network</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\server\networkutils.cpp">
-      <Filter>Source\Network</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\server\settings.cpp">
       <Filter>Source\Settings</Filter>
     </ClCompile>
