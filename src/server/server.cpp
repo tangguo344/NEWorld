@@ -27,7 +27,7 @@ using namespace boost::system;
 
 unsigned short globalPort;
 
-void errorHandle(const tcp::socket& m_socket, error_code ec)
+void errorHandle(const boost::asio::ip::tcp::socket& m_socket, error_code ec)
 {
     infostream << m_socket.remote_endpoint().address().to_string() << " disconnected, code: " << ec.value();
 }
@@ -61,8 +61,8 @@ void Session::doUpdate()
 //}
 //}
 
-Server::Server(boost::asio::io_service & ioservice, unsigned short port)
-    : m_acceptor(ioservice, boost::asio::ip::tcp::endpoint(tcp::v4(), port)), m_socket(ioservice),
+Server::Server(unsigned short port)
+    : m_acceptor(m_ioService, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)), m_socket(m_ioService),
       m_worlds(m_plugins, m_blocks), m_updateTimer(m_socket.get_io_service())
 {
     // Initialization
@@ -162,7 +162,7 @@ void Server::initCommands()
     });
     m_commandController.addCommand("server.stop", { "Internel","Stop the server." }, [this](Command cmd)->CommandExecuteStat
     {
-        ioService.stop();
+        m_ioService.stop();
         return{ true, "" };
     });
     m_commandController.addCommand("conf.get", { "Internel","Get one configuration item. Usage: conf.get <confname>" }, [this](Command cmd)->CommandExecuteStat
