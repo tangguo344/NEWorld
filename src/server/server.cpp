@@ -23,49 +23,9 @@
 #include "settings.h"
 #include <consolecolor.h>
 #include <functional>
-using namespace boost::asio;
-using namespace boost::system;
-
-std::function<void()> errorHook;
-
-void errorHandle(const boost::asio::ip::tcp::socket& m_socket, error_code ec)
-{
-    infostream << m_socket.remote_endpoint().address().to_string() << " disconnected, code: " << ec.value();
-    if (errorHook) errorHook();
-}
-
-void Session::doUpdate()
-{
-    auto self(shared_from_this());
-    m_updateTimer.expires_from_now(boost::posix_time::milliseconds(UpdateInterval));
-    m_updateTimer.async_wait([this, self](error_code)
-    {
-        // TODO: Process client actions here
-        doWrite();
-    });
-}
-
-//void Server::sendToAllSessions(Packet packet)
-//{
-//TODO: fix it
-//for (auto iter = m_sessions.begin(); iter != m_sessions.end();)
-//{
-//    auto session = iter->lock();
-//    if (session)
-//    {
-//        session->addRequest(packet);
-//        ++iter;
-//    }
-//    else
-//    {
-//        iter = m_sessions.erase(iter);
-//    }
-//}
-//}
 
 Server::Server(std::vector<std::string> args)
-    : m_acceptor(m_ioService, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), getJsonValue(getSettings()["server"]["port"], 8090))), m_socket(m_ioService),
-      m_worlds(m_plugins, m_blocks), m_updateTimer(m_socket.get_io_service()), m_plugins(false), m_args(args)
+    : m_worlds(m_plugins, m_blocks), m_updateTimer(m_ioService), m_plugins(false), m_args(args)
 {
     // Initialization
     PluginAPI::Blocks = &m_blocks;
@@ -75,49 +35,12 @@ Server::Server(std::vector<std::string> args)
     //  m_worldLoaders.insert({ "main_world", WorldLoader(*world, 16) }); //TODO: get the range by players' settings
     // Start server
     infostream << "Server started!";
-    doGlobalUpdate();
-    doAccept();
     initCommands();
-
-    if (std::find(args.begin(), args.end(), "-single-player-mode") != args.end())
-        errorHook = [this] {m_ioService.stop(); };
 }
 
 Server::~Server()
 {
     // TODO: Terminate here
-}
-
-void Server::doAccept()
-{
-    m_acceptor.async_accept(m_socket, [this](boost::system::error_code ec)
-    {
-        if (!ec)
-        {
-            infostream << m_socket.remote_endpoint().address().to_string() << " connected to the server";
-            auto session = std::make_shared<Session>(std::move(m_socket));
-            session->start();
-            m_sessions.push_back(session);
-        }
-        doAccept();
-    });
-}
-void Server::doGlobalUpdate()
-{
-    m_updateTimer.expires_from_now(boost::posix_time::milliseconds(GlobalUpdateInterval));
-    m_updateTimer.async_wait([this](boost::system::error_code)
-    {
-        // Update worlds
-        for (auto& worldLoader : m_worldLoaders)
-        {
-            worldLoader.second.sortChunkLoadUnloadList({0,0,0}); //TODO: players' position;
-            worldLoader.second.loadUnloadChunks();
-        }
-        for (auto world : m_worlds) world->update();
-        doGlobalUpdate();
-
-        m_ups.refresh();
-    });
 }
 
 void Server::initCommands()
@@ -211,4 +134,9 @@ void Server::initCommands()
     {
         return{ true,"Ups: " + std::to_string(m_ups.getRate()) };
     });
+}
+
+void Server::run()
+{
+    // TODO:Initilizal NetworkManager
 }

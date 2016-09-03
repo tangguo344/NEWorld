@@ -23,7 +23,6 @@
 #include <memory>
 #include <vector>
 #include <logger.h>
-#include <session.h>
 #include <worldmanager.h>
 #include <blockmanager.h>
 #include <pluginmanager.h>
@@ -33,37 +32,31 @@
 #include <unordered_map>
 #include <thread>
 #include "commandcontroller.h"
-
+#include "networkmanager.h"
+#include <boost/asio.hpp>
 constexpr int UpdateInterval = 1000/60, GlobalUpdateInterval = 1000/60; // unit: ms
 
 class Server
 {
 public:
     Server(std::vector<std::string> args);
-
     ~Server();
 
-    void run() { m_ioService.run(); }
-
-    //void sendToAllSessions(Packet packet);
-
+    void run();
 private:
-    void doAccept();
-    void doGlobalUpdate();
 
     void initCommands();
 
-    boost::asio::io_service m_ioService;
-    boost::asio::ip::tcp::acceptor m_acceptor;
-    boost::asio::ip::tcp::socket m_socket;
-    std::vector<std::weak_ptr<Session>> m_sessions;
-
-    boost::asio::deadline_timer m_updateTimer;
     RateMeter m_ups;
+    
+    boost::asio::io_service m_ioService;
+    
+    boost::asio::deadline_timer m_updateTimer;
 
     WorldManager m_worlds;
     BlockManager m_blocks;
-    PluginManager m_plugins; // Loaded plugins
+    PluginManager m_plugins;
+    NetworkManager m_network;
 
     std::unordered_map<std::string, WorldLoader> m_worldLoaders;
 

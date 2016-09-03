@@ -33,8 +33,7 @@ int NWAPICALL main(int argc, char** argv)
     infostream << "\n----------------------------------------"
                << CopyrightString
                << "----------------------------------------";
-    infostream << "NEWorld Server v" << NEWorldVersion << ", Release Version:" << ReleaseVersion << ", compiled at " << __TIME__ << " " << __DATE__;
-    infostream << "Server starting...";
+    infostream << "NEWorld Server v" << NEWorldVersion << ", release version:" << ReleaseVersion;
     try
     {
         Server server(std::vector<std::string>(argv + 1, argv + argc));
@@ -42,7 +41,7 @@ int NWAPICALL main(int argc, char** argv)
     }
     catch (std::exception& e)
     {
-        fatalstream << "Exception: " << e.what() << ".Press Enter to exit.";
+        fatalstream << "Unhandled exception: " << e.what() << ".Press Enter to exit.";
     }
     infostream << "Server is stopping...";
     saveSettings();
