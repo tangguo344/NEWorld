@@ -36,12 +36,10 @@
 
 constexpr int UpdateInterval = 1000/60, GlobalUpdateInterval = 1000/60; // unit: ms
 
-extern unsigned short globalPort;
-
 class Server
 {
 public:
-    Server(unsigned short port);
+    Server(std::vector<std::string> args);
 
     ~Server();
 
@@ -70,6 +68,8 @@ private:
     std::unordered_map<std::string, WorldLoader> m_worldLoaders;
 
     CommandController m_commandController;
+
+    std::vector<std::string> m_args;
 };
 
 #endif // SERVER_H__

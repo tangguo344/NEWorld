@@ -46,7 +46,7 @@ inline void writeJsonToFile(std::string filename,Json& json)
 
 // get a json value. If it does not exist, return the default value and write it to the json
 template<class T>
-inline T getJsonValueWithDefaultValue(Json& json, T defaultValue=T())
+inline T getJsonValue(Json& json, T defaultValue=T())
 {
     if (json.is_null())
     {
