@@ -25,7 +25,7 @@
 #include <functional>
 
 Server::Server(std::vector<std::string> args)
-    : m_worlds(m_plugins, m_blocks), m_updateTimer(m_ioService), m_plugins(false), m_args(args)
+    : m_worlds(m_plugins, m_blocks), m_plugins(false), m_args(args)
 {
     // Initialization
     PluginAPI::Blocks = &m_blocks;
@@ -90,7 +90,7 @@ void Server::initCommands()
     });
     m_commandController.addCommand("server.stop", { "Internel","Stop the server." }, [this](Command cmd)->CommandExecuteStat
     {
-        m_ioService.stop();
+        // TODO: Stop server and network.
         return{ true, "" };
     });
     m_commandController.addCommand("conf.get", { "Internel","Get one configuration item. Usage: conf.get <confname>" }, [this](Command cmd)->CommandExecuteStat
