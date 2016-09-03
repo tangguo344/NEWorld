@@ -35,18 +35,15 @@ std::unique_ptr<NetworkStructure> makeNetworkStructure(Packet& packet)
     {
     case Login:
     {
-        uint32_t lengthUsername = tdh.take<uint32_t>();
-        std::string username = tdh.getString(lengthUsername);
-        std::string password = tdh.getString(packet.length - lengthUsername - sizeof(uint32_t) - sizeof(uint16_t));
+        std::string username = tdh.getString();
+        std::string password = tdh.getString();
         uint16_t version = tdh.take<uint16_t>();
         return std::unique_ptr<LoginPacket>(new LoginPacket(username, password, version));
     }
     case Chat:
     {
-        uint32_t length1 = tdh.take<uint32_t>();
-        uint32_t length2 = packet.length - length1;
-        std::string username = tdh.getString(length1);
-        std::string content = tdh.getString(length2);
+        std::string username = tdh.getString();
+        std::string content = tdh.getString();
         return std::unique_ptr<ChatPacket>(new ChatPacket(username, content));
     }
     case Close:

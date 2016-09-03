@@ -34,7 +34,7 @@ void LoginPacket::process()
 {
     if (true) //TODO: password verifies
     {
-        infostream << "Player " << m_username << " login!"; //TODO: Fix it: extra space
+        infostream << "Player " << m_username << " login!";
     }
     else
     {
