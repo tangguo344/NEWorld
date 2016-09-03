@@ -17,34 +17,25 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PLUGINMANAGER_H_
-#define PLUGINMANAGER_H_
+// The client version
 
-#include <string>
-#include <vector>
-#include <boost/dll/shared_library.hpp>
-#include "plugin.h"
+#include "../shared/shared.h"
 
-// Plugin system
-class PluginManager
+NWplugindata* MainPlugin = nullptr;
+
+NWplugindata* NWAPICALL getInfo()
 {
-public:
-    PluginManager(bool isClient) :m_isClient(isClient) {}
-    ~PluginManager()
-    {
-        unloadPlugins();
-    }
+    return getInfo(true);
+}
 
-    // Load single plugin
-    void loadPlugin(const std::string& filename);
-    // Load plugins
-    void loadPlugins();
-    // Unload plugins
-    void unloadPlugins();
+// Main function
+void NWAPICALL init()
+{
+    sharedInit();
+}
 
-private:
-    std::vector<Plugin> m_plugins;
-    bool m_isClient;
-};
-
-#endif // !PLUGINMANAGER_H_
+// Unload function
+void NWAPICALL unload()
+{
+    if (MainPlugin != nullptr) delete MainPlugin;
+}

@@ -16,35 +16,17 @@
 * You should have received a copy of the GNU Lesser General Public License
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
+#ifndef SHARED_H_
+#define SHARED_H_
+#include "../../../api/cpp/nwapi.h"
 
-#ifndef PLUGINMANAGER_H_
-#define PLUGINMANAGER_H_
+// Block IDs
+extern int32_t RockID;
 
-#include <string>
-#include <vector>
-#include <boost/dll/shared_library.hpp>
-#include "plugin.h"
+void registerBlocks();
 
-// Plugin system
-class PluginManager
-{
-public:
-    PluginManager(bool isClient) :m_isClient(isClient) {}
-    ~PluginManager()
-    {
-        unloadPlugins();
-    }
+NWplugindata* getInfo(bool client);
 
-    // Load single plugin
-    void loadPlugin(const std::string& filename);
-    // Load plugins
-    void loadPlugins();
-    // Unload plugins
-    void unloadPlugins();
+void sharedInit();
 
-private:
-    std::vector<Plugin> m_plugins;
-    bool m_isClient;
-};
-
-#endif // !PLUGINMANAGER_H_
+#endif

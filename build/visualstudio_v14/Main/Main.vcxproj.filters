@@ -5,15 +5,24 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Source\Shared">
+      <UniqueIdentifier>{9ba65ea4-18fe-4c1d-a845-60ad730bf38b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\main\entry.cpp">
+    <ClCompile Include="..\..\..\src\main\client\entry.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\main\shared\shared.cpp">
+      <Filter>Source\Shared</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\api\cpp\nwapi.h">
-      <Filter>Source</Filter>
+      <Filter>Source\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\main\shared\shared.h">
+      <Filter>Source\Shared</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

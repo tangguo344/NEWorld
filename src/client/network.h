@@ -11,7 +11,7 @@ class Connection
 {
 public:
     Connection(std::string ip, int port) :m_hostIP(ip), m_port(port) {}
-    ~Connection() { disconnect(); }
+    ~Connection() { disconnect(); m_thread.join(); }
 
     void connect() { m_thread = std::thread([this] { mainLoop(); }); connected = true; }
     void disconnect() { if (connected) m_ioService.stop(); }

@@ -23,7 +23,7 @@
 #include "window.h"
 
 Application::Application(int width, int height, const std::string& title, const std::string& path) :
-    m_width(width), m_height(height), m_title(title)
+    m_width(width), m_height(height), m_title(title), m_plugins(true)
 {
 }
 
@@ -64,7 +64,7 @@ void Application::beforeLaunch()
     PluginAPI::Blocks = &m_blocks;
     PluginAPI::Plugins = &m_plugins;
 
-    m_plugins.loadPlugins("./");
+    m_plugins.loadPlugins();
 }
 
 void Application::afterLaunch()

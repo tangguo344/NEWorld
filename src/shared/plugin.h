@@ -33,6 +33,7 @@ struct PluginData
     char* pluginName;
     char* authorName;
     char* internalName;
+    bool isClientPlugin;
 };
 
 // Single plugin
@@ -58,6 +59,8 @@ public:
     {
         unload();
     }
+
+    int init();
 
     // Get plugin data
     const PluginData& getData() const

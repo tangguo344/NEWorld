@@ -20,22 +20,40 @@
 #include "plugin.h"
 #include "logger.h"
 
-typedef PluginData* NWAPICALL InitFunction();
+typedef PluginData* NWAPICALL GetInfoFunction();
+typedef void NWAPICALL InitFunction();
 typedef void NWAPICALL UnloadFunction();
 
-int Plugin::loadFrom(const std::string& filename)
+int Plugin::init()
 {
     InitFunction* init = nullptr;
     try
     {
-        m_lib.load(filename);
         init = m_lib.get<InitFunction>("init");
-        m_data = init();
+        init();
     }
     catch (std::exception& e)
     {
         if (!m_lib.is_loaded()) return m_status = 1; // Failed: could not load
         if (init == nullptr) return m_status = 2; // Failed: entry not found
+        warningstream << "Failed: unhandled exception: " << e.what();
+    }
+    return m_status = 0;
+}
+
+int Plugin::loadFrom(const std::string& filename)
+{
+    GetInfoFunction* getinfo = nullptr;
+    try
+    {
+        m_lib.load(filename);
+        getinfo = m_lib.get<GetInfoFunction>("getInfo");
+        m_data = getinfo();
+    }
+    catch (std::exception& e)
+    {
+        if (!m_lib.is_loaded()) return m_status = 1; // Failed: could not load
+        if (getinfo == nullptr) return m_status = 2; // Failed: entry not found
         warningstream << "Failed: unhandled exception: " << e.what();
     }
     return m_status = 0;
