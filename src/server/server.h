@@ -33,7 +33,7 @@
 #include <thread>
 #include "commandcontroller.h"
 #include "networkmanager.h"
-#include <boost/asio.hpp>
+#include <boost/timer.hpp>
 constexpr int UpdateInterval = 1000/60, GlobalUpdateInterval = 1000/60; // unit: ms
 
 class Server
@@ -48,10 +48,8 @@ private:
     void initCommands();
 
     RateMeter m_ups;
-    
-    boost::asio::io_service m_ioService;
-    
-    boost::asio::deadline_timer m_updateTimer;
+
+    boost::timer m_updateTimer;
 
     WorldManager m_worlds;
     BlockManager m_blocks;
