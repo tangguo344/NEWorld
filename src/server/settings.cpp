@@ -25,8 +25,6 @@ void loadSharedSettings(Json& settings);
 void loadSettings()
 {
     loadSharedSettings(getSettings());
-    globalPort = getJsonValueWithDefaultValue(getSettings()["server"]["port"], 8090);
-
     saveSettings();
 }
 

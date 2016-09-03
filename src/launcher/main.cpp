@@ -44,8 +44,8 @@ int main(int argc, char** argv)
         in = argv[1];
     }
 
-    std::string clientFilename = getJsonValueWithDefaultValue<std::string>(settings["client"]["file"], "NEWorld.dll");
-    std::string serverFilename = getJsonValueWithDefaultValue<std::string>(settings["server"]["file"], "NEWorldServer.dll");
+    std::string clientFilename = getJsonValue<std::string>(settings["client"]["file"], "NEWorld.dll");
+    std::string serverFilename = getJsonValue<std::string>(settings["server"]["file"], "NEWorldServer.dll");
 
     file = in == "server" ? serverFilename : clientFilename;
 

@@ -31,16 +31,10 @@ GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
     // TODO: start the server only when it's a single player mode.
     m_localServerThread = std::thread([]
     {
-        try
-        {
-            boost::dll::shared_library(getJsonValueWithDefaultValue<std::string>(getSettings()["server"]["file"], "NEWorldServer.dll"), boost::dll::load_mode::append_decorations).get<void NWAPICALL(int, char**)>("main")(0, nullptr); //FIXME: 偷懒没传参数
-        }
-        catch (std::exception& e)
-        {
-            fatalstream << "Error in server: " << e.what();
-        }
+        char* argv[] = { "","-single-player-mode" };
+        boost::dll::shared_library(getJsonValue<std::string>(getSettings()["server"]["file"], "NEWorldServer.dll"), boost::dll::load_mode::append_decorations).get<void NWAPICALL(int, char**)>("main")(sizeof(argv)/sizeof(argv[0]), argv);
     });
-    // FIXME: if the server spends too much time starting, the network thread won't connect to the server.
+    // FIXME: if the server spends too much time starting, the network thread won't be able to connect to the server.
     m_connection.connect();
 
     keyFunc.connect([this](int scancode, UI::Core::ButtonAction)

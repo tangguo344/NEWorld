@@ -45,6 +45,7 @@ public:
     {
         m_plugins.unloadPlugins();
         m_connection.disconnect();
+        if (m_localServerThread.joinable()) m_localServerThread.join();
     }
     void doRender();
     void onResize(size_t w, size_t h) override;

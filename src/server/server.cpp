@@ -22,14 +22,16 @@
 
 #include "settings.h"
 #include <consolecolor.h>
+#include <functional>
 using namespace boost::asio;
 using namespace boost::system;
 
-unsigned short globalPort;
+std::function<void()> errorHook;
 
 void errorHandle(const boost::asio::ip::tcp::socket& m_socket, error_code ec)
 {
     infostream << m_socket.remote_endpoint().address().to_string() << " disconnected, code: " << ec.value();
+    if (errorHook) errorHook();
 }
 
 void Session::doUpdate()
@@ -61,21 +63,24 @@ void Session::doUpdate()
 //}
 //}
 
-Server::Server(unsigned short port)
-    : m_acceptor(m_ioService, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)), m_socket(m_ioService),
-      m_worlds(m_plugins, m_blocks), m_updateTimer(m_socket.get_io_service()), m_plugins(false)
+Server::Server(std::vector<std::string> args)
+    : m_acceptor(m_ioService, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), getJsonValue(getSettings()["server"]["port"], 8090))), m_socket(m_ioService),
+      m_worlds(m_plugins, m_blocks), m_updateTimer(m_socket.get_io_service()), m_plugins(false), m_args(args)
 {
     // Initialization
     PluginAPI::Blocks = &m_blocks;
     infostream << "Initializing plugins...";
     m_plugins.loadPlugins();
     World* world = m_worlds.addWorld("main_world");
-    m_worldLoaders.insert({ "main_world", WorldLoader(*world, 16) }); //TODO: get the range by players' settings
+    //  m_worldLoaders.insert({ "main_world", WorldLoader(*world, 16) }); //TODO: get the range by players' settings
     // Start server
     infostream << "Server started!";
     doGlobalUpdate();
     doAccept();
     initCommands();
+
+    if (std::find(args.begin(), args.end(), "-single-player-mode") != args.end())
+        errorHook = [this] {m_ioService.stop(); };
 }
 
 Server::~Server()

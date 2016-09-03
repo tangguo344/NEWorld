@@ -37,7 +37,7 @@ int NWAPICALL main(int argc, char** argv)
     infostream << "Server starting...";
     try
     {
-        Server server(globalPort);
+        Server server(std::vector<std::string>(argv + 1, argv + argc));
         server.run();
     }
     catch (std::exception& e)
