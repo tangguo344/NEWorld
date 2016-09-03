@@ -63,12 +63,12 @@ void Session::doUpdate()
 
 Server::Server(unsigned short port)
     : m_acceptor(m_ioService, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)), m_socket(m_ioService),
-      m_worlds(m_plugins, m_blocks), m_updateTimer(m_socket.get_io_service())
+      m_worlds(m_plugins, m_blocks), m_updateTimer(m_socket.get_io_service()), m_plugins(false)
 {
     // Initialization
     PluginAPI::Blocks = &m_blocks;
     infostream << "Initializing plugins...";
-    //        m_plugins.loadPlugins(base);
+    m_plugins.loadPlugins();
     World* world = m_worlds.addWorld("main_world");
     m_worldLoaders.insert({ "main_world", WorldLoader(*world, 16) }); //TODO: get the range by players' settings
     // Start server
