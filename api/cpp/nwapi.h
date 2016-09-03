@@ -31,22 +31,22 @@ extern "C"
 #endif
 
 #if defined _WIN32 || defined __CYGWIN__
-    #ifdef _MSC_VER
-        #define NWAPIENTRY __declspec(dllimport)
-        #define NWAPIEXPORT __declspec(dllexport)
-    #else
-        #define NWAPIENTRY __attribute__((dllimport))
-        #define NWAPIEXPORT __attribute__((dllexport))
-    #endif
+#ifdef _MSC_VER
+#define NWAPIENTRY __declspec(dllimport)
+#define NWAPIEXPORT __declspec(dllexport)
 #else
-    #define NWAPIENTRY __attribute__((visibility("default")))
-    #define NWAPIEXPORT __attribute__((visibility("default")))
+#define NWAPIENTRY __attribute__((dllimport))
+#define NWAPIEXPORT __attribute__((dllexport))
+#endif
+#else
+#define NWAPIENTRY __attribute__((visibility("default")))
+#define NWAPIEXPORT __attribute__((visibility("default")))
 #endif
 
 #ifdef _MSC_VER
-    #define NWAPICALL __cdecl
+#define NWAPICALL __cdecl
 #else
-    #define NWAPICALL __attribute__((__cdecl__))
+#define NWAPICALL __attribute__((__cdecl__))
 #endif
 
 struct NWvec3i
@@ -59,6 +59,7 @@ struct NWplugindata
     const char* pluginName;
     const char* authorName;
     const char* internalName;
+    bool isClientPlugin;
 };
 
 struct NWblockdata
@@ -80,14 +81,26 @@ struct NWblocktype
 
 typedef void NWAPICALL NWchunkgenerator(const NWvec3i*, NWblockdata*, int32_t);
 
-    NWAPIENTRY NWblockdata NWAPICALL nwGetBlock(const NWvec3i* pos);
-    NWAPIENTRY int32_t NWAPICALL nwSetBlock(const NWvec3i* pos, NWblockdata block);
-    NWAPIENTRY int32_t NWAPICALL nwRegisterBlock(const NWblocktype*);
-    NWAPIENTRY int32_t NWAPICALL nwRegisterChunkGenerator(NWchunkgenerator* const generator);
+NWAPIENTRY NWblockdata NWAPICALL nwGetBlock(const NWvec3i* pos);
+NWAPIENTRY int32_t NWAPICALL nwSetBlock(const NWvec3i* pos, NWblockdata block);
+NWAPIENTRY int32_t NWAPICALL nwRegisterBlock(const NWblocktype*);
+NWAPIENTRY int32_t NWAPICALL nwRegisterChunkGenerator(NWchunkgenerator* const generator);
 
 #ifdef __cplusplus
 }
 #endif
+
+// NEWorld constants
+constexpr int ChunkSize = 32;
+constexpr int32_t AirID = 0;
+
+// Export functions
+extern "C"
+{
+    NWAPIEXPORT NWplugindata* NWAPICALL getInfo();
+    NWAPIEXPORT void NWAPICALL init();
+    NWAPIEXPORT void NWAPICALL unload();
+}
 
 #endif // !NWAPI_H_
 

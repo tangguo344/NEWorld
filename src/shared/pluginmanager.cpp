@@ -27,22 +27,31 @@
 void PluginManager::loadPlugin(const std::string& filename)
 {
     m_plugins.emplace_back(Plugin(filename));
-    const Plugin& plugin = m_plugins[m_plugins.size() - 1];
+    Plugin& plugin = m_plugins[m_plugins.size() - 1];
+    if (plugin.getData().isClientPlugin != m_isClient)
+    {
+        m_plugins.pop_back();
+        return;
+    }
+
+    plugin.init();
+
     if (!plugin.isLoaded())
     {
         m_plugins.pop_back();
         warningstream << "Failed to load plugin from \"" << filename << "\", skipping";
         return;
     }
+
     infostream << "Loaded plugin \"" << plugin.getData().pluginName << "\"["
                << plugin.getData().internalName
                << "], authored by \"" << plugin.getData().authorName << "\"";
 }
 
-void PluginManager::loadPlugins(const std::string& base)
+void PluginManager::loadPlugins()
 {
     using namespace boost::filesystem;
-    std::string path = base + "plugins/";
+    std::string path = "plugins/";
     if (exists(path))
     {
         directory_iterator itemEnd;
