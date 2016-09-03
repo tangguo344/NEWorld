@@ -33,18 +33,18 @@ public:
     template <typename T>
     T take()
     {
-        if (m_offset + sizeof(T) > m_length) throw;
+        if (m_offset + sizeof(T) > m_length) throw std::exception("Failed to take! Length is too big.");
         T ret = *reinterpret_cast<T*>(m_buffer + m_offset);
         m_offset += sizeof(T);
         return ret;
     }
 
-    std::string getString(size_t length)
+    std::string getString()
     {
-        if (m_offset + length >= m_length) throw;
-        char* ret = m_buffer + m_offset;
-        m_offset += length;
-        return std::string(ret, length);
+        std::string ret(m_buffer+ m_offset);
+        m_offset += ret.length();
+        if (m_offset >= m_length) throw std::exception("Failed to take! Length is too big.");
+        return ret;
     }
 
 private:
