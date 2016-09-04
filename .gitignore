@@ -218,11 +218,10 @@ dependencies/
 # Binary output
 *.out
 
-# Final NEWorld executable
-NEWorld
-NEWorldLauncher
-!NEWorld/
-!NEWorldLauncher/
+# Executables for linux
+launcher
+libnwclient.so
+libnwserver.so
 
 # NEWorld files
 [Ww]orlds/
