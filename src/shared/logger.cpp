@@ -116,7 +116,7 @@ Logger::Logger(const char* fileName, const char *funcName, int lineNumber, Level
         m_funcName = funcName;
         m_lineNumber = lineNumber;
     }
-    m_content << LColor::white << '[' << getTimeString('-', ' ', ':') << ']' << LevelTags[static_cast<size_t>(level)];
+    m_content << LColor::white << getTimeString('-', ' ', ':') << LevelTags[static_cast<size_t>(level)];
 }
 
 void Logger::writeOstream(std::ostream& ostream, bool noColor) const
