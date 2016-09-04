@@ -32,22 +32,22 @@ public:
             m_valid = true;
             return;
         }
-        auto now = std::chrono::high_resolution_clock::now();
-        m_deltaTime = now - m_lastRefreshTime;
+        auto now = std::chrono::steady_clock::now();
+        m_deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_lastRefreshTime).count();
         m_lastRefreshTime = now;
     }
     double getRate()
     {
-        return 1000.0 / m_deltaTime.count();
+        return 1000.0 / m_deltaTime;
     }
     double getDeltaTimeMs()
     {
-        return m_deltaTime.count();
+        return m_deltaTime;
     }
 
 private:
-    std::chrono::time_point<std::chrono::steady_clock> m_lastRefreshTime;
-    std::chrono::duration<double, std::milli> m_deltaTime;
+    std::chrono::steady_clock::time_point m_lastRefreshTime;
+    long long m_deltaTime;
     bool m_valid = false;
 };
 
