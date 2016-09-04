@@ -34,6 +34,7 @@ int NWAPICALL main(int argc, char** argv)
                << CopyrightString
                << "----------------------------------------";
     infostream << "NEWorld Server v" << NEWorldVersion << ", release version:" << ReleaseVersion;
+    warningstream << "TODO: The RakNet gateway is not completed yet!";
     try
     {
         Server server(std::vector<std::string>(argv + 1, argv + argc));

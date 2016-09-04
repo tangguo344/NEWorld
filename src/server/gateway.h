@@ -9,6 +9,8 @@
  *  @see NetworkManager
  *  @see Connection
  */
+class NetworkManager;
+
 class Gateway
 {
 public:
@@ -16,13 +18,16 @@ public:
      *  @see Gateway
      *  @see NetworkManager
      */
-    class Connection
-    {
-    public:
-        virtual void sendData(const char *data,size_t len) = 0;
-    };
-    virtual Gateway(NetworkManager &network);
+    
+    Gateway(NetworkManager &network);
 private:
     NetworkManager &m_network;
 };
+
+class Connection
+{
+public:
+    virtual void sendData(const char *data,size_t len) = 0;
+};
+
 #endif

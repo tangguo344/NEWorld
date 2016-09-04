@@ -1,18 +1,20 @@
 #include "networkmanager.h"
+#include "logger.h"
 
 // TODO:Implement them!!!
+// TODO:Delete all debug log before merge to `renew`
 
-void NetworkManager::onConnStart(Gateway::Connection *conn)
+void NetworkManager::onConnStart(Connection *conn)
 {
-
+    debugstream << "onConnStart:";
 }
 
-void NetworkManager::onConnStop(Gateway::Connection *conn)
+void NetworkManager::onConnStop(Connection *conn)
 {
-
+    debugstream << "onConnStop:";
 }
 
-void NetworkManager::onReciveData(Gateway::Connection *conn, const char *data, size_t len)
+void NetworkManager::onReciveData(Connection *conn, const char *data, size_t len)
 {
-
+    debugstream << "onReciveData[" << len << "]:" << data;
 }
