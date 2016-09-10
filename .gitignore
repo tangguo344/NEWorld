@@ -244,3 +244,10 @@ libnwserver.so
 [Tt]humbs.db
 /plugins
 /res/fonts
+
+# CMake files
+release/CMakeFiles
+release/logs
+release/Makefile
+release/CMakeCache.txt
+release/cmake_install.cmake
