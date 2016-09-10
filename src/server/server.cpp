@@ -72,7 +72,7 @@ Server::Server(std::vector<std::string> args)
     infostream << "Initializing plugins...";
     m_plugins.loadPlugins();
     World* world = m_worlds.addWorld("main_world");
-    //  m_worldLoaders.insert({ "main_world", WorldLoader(*world, 16) }); //TODO: get the range by players' settings
+    m_worldLoaders.insert({ "main_world", WorldLoader(*world, 16) }); //TODO: get the range by players' settings
     // Start server
     infostream << "Server started!";
     doGlobalUpdate();
