@@ -4,6 +4,11 @@
 // TODO:Implement them!!!
 // TODO:Delete all debug log before merge to `renew`
 
+NetworkManager::NetworkManager(Server &s)
+    : m_server(s)
+{
+}
+
 void NetworkManager::onConnStart(Connection *conn)
 {
     debugstream << "onConnStart:";

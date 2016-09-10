@@ -17,26 +17,26 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "commandcontroller.h"
+#include "commandmanager.h"
 #include <logger.h>
 #include <consolecolor.h>
 
-CommandExecuteStat CommandController::handleCommand(Command cmd)
+CommandExecuteStat CommandManager::handleCommand(Command cmd)
 {
     strtolower(cmd.name);
     auto result = m_commandMap.find(cmd.name);
     if (result != m_commandMap.end())
         return (*result).second.second(cmd);
     else
-        return{ false,"Failed to execute the command: The command does not exist, type help for available commands." };
+        return {false,"Command not exists, type help for available commands." };
 }
 
-void CommandController::mainLoop()
+void CommandManager::processInput()
 {
     while (m_threadRunning)
     {
         std::string input;
-        std::cout << LColorFunc::white << "$> " << LColorFunc::lwhite;
+        std::cout << LColorFunc::white << "> " << LColorFunc::lwhite;
         std::getline(std::cin, input);
         auto result = handleCommand(Command(input));
         if (result.info != "")

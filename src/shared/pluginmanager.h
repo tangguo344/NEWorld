@@ -29,7 +29,7 @@
 class PluginManager
 {
 public:
-    PluginManager(bool isClient) :m_isClient(isClient) {}
+    PluginManager(bool isClient);
     ~PluginManager()
     {
         unloadPlugins();

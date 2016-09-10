@@ -31,9 +31,11 @@
 #include "worldloader.h"
 #include <unordered_map>
 #include <thread>
-#include "commandcontroller.h"
+#include "commandmanager.h"
 #include "networkmanager.h"
+#include "raknet.h"
 #include <boost/timer.hpp>
+
 constexpr int UpdateInterval = 1000/60, GlobalUpdateInterval = 1000/60; // unit: ms
 
 class Server
@@ -41,26 +43,27 @@ class Server
 public:
     Server(std::vector<std::string> args);
     ~Server();
-
-    void run();
 private:
 
-    void initCommands();
+    void initBuiltinCommands();
 
     RateMeter m_ups;
 
     boost::timer m_updateTimer;
 
+    // Managers
     WorldManager m_worlds;
     BlockManager m_blocks;
     PluginManager m_plugins;
     NetworkManager m_network;
+    CommandManager m_commands;
+    
+    // Gateways
+    RaknetGateway m_raknet;
 
     std::unordered_map<std::string, WorldLoader> m_worldLoaders;
-
-    CommandController m_commandController;
 
     std::vector<std::string> m_args;
 };
 
-#endif // SERVER_H__
+#endif
