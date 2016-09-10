@@ -32,7 +32,7 @@ GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
     m_localServerThread = std::thread([]
     {
         char* argv[] = { "","-single-player-mode" };
-        boost::dll::shared_library(getJsonValue<std::string>(getSettings()["server"]["file"], "NEWorldServer.dll"), boost::dll::load_mode::append_decorations).get<void NWAPICALL(int, char**)>("main")(sizeof(argv)/sizeof(argv[0]), argv);
+        boost::dll::shared_library(getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver.dll"), boost::dll::load_mode::append_decorations).get<void NWAPICALL(int, char**)>("main")(sizeof(argv)/sizeof(argv[0]), argv);
     });
     // FIXME: if the server spends too much time starting, the network thread won't be able to connect to the server.
     m_connection.connect();
