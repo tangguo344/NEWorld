@@ -80,7 +80,6 @@
 #endif
 
 constexpr unsigned int NEWorldVersion = 41u;
-constexpr unsigned int ReleaseVersion = (NEWorldVersion << 16) + 2;
 constexpr const char* CopyrightString = R"(
 NEWorld  Copyright (C) 2016  NEWorld Team
 This program comes with ABSOLUTELY NO WARRANTY.
