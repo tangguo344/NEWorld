@@ -2,8 +2,8 @@ version: '{build}'
 cache:
   - boost\boost.1.61.0.0\lib\native\include\boost -> build\appveyor_install.bat
   - dependencies -> build\appveyor_install.bat
-  - build\visualstudio_v14\bin
-  - cache
+  - build\visualstudio_v14\bin -> appveyor.yml
+  - cache -> appveyor.yml
 platform:
   - x86
   - x64
