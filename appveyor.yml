@@ -18,9 +18,10 @@ install:
 build:
   project: build/VisualStudio_v14/NEWorld.sln
   verbosity: minimal
+after_build:
+  - ps: move -path release\*.ilk,release\*.iobj,release\*.ipdb,release\*.pdb -destination cache\ -Force
 on_success:
   # Create an archive
-  - ps: move -path release\*.ilk,release\*.iobj,release\*.ipdb,release\*.pdb -destination cache\ -Force
   - if %PLATFORM% equ x86 (copy .\dependencies\dll\* .\release\) else (copy .\dependencies\dll_x64\* .\release\) > nul
   - 7z a c:\NEWorld.zip .\licenses > nul
   - cd .\release
