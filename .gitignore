@@ -228,6 +228,7 @@ libnwclient.so
 libnwserver.so
 
 # NEWorld files
+settings.json
 [Ww]orlds/
 [Ss]creen[Ss]hots/
 [Cc]onfigs/
