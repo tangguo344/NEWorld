@@ -12,6 +12,7 @@
 
 # Build results
 [Dd]ebug/
+[Rr]elease/
 [Pp]rofile/
 x64/
 x86/
@@ -194,6 +195,9 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+
+# Release directory
+./[Rr]elease/
 
 # Some binary files
 *.lib
