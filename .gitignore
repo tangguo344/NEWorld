@@ -11,9 +11,9 @@
 *.userprefs
 
 # Build results
-[Dd]ebug/
-[Rr]elease/
-[Pp]rofile/
+build/visualstudio_v14/**/[Dd]ebug/
+build/visualstudio_v14/**/[Rr]elease/
+build/visualstudio_v14/**/[Pp]rofile/
 x64/
 x86/
 [Bb]in/
@@ -195,9 +195,6 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
-
-# Release directory
-./[Rr]elease/
 
 # Some binary files
 *.lib
