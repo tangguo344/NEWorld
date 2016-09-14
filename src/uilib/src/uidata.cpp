@@ -88,7 +88,7 @@ namespace UI
                 return std::to_string(var.cast<double>());
             else if (var.type() == typeid(std::string))
                 return '"' + var.cast<std::string>() + '"';
-            else 
+            else
                 logwarning("Failed to handle type " + std::string(var.type().name()) + " which maybe not supported.");
             return "";
         }

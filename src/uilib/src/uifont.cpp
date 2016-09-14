@@ -99,7 +99,7 @@ namespace UI
                     curX = 0;
                     curY++;
                 }
- 
+
                 delete[] Tex;
                 c.width = bitmap->width;
                 c.height = bitmap->rows;
@@ -136,9 +136,9 @@ namespace UI
                 c = fos.GetChar(wc);
                 float wid = pow(2, ceil(log2(fos.height)));
                 float p1x = x + span + c.xpos, p1y = y + tpos - c.ypos,
-                    p2x = x + span + c.xpos + c.width, p2y = y + tpos + c.height - c.ypos;
+                      p2x = x + span + c.xpos + c.width, p2y = y + tpos + c.height - c.ypos;
                 float t1x = 0.0, t1y = 0.0,
-                       t2x = c.width / wid * c.twid, t2y = c.height / wid * c.twid;
+                      t2x = c.width / wid * c.twid, t2y = c.height / wid * c.twid;
                 span += c.advance;
 
                 //Apply Clipping
@@ -156,22 +156,24 @@ namespace UI
                     t2x *= (1 - (p2x - r.xmax) / c.width);
                     p2x = r.xmax;
                 }
-               
-                t1x += c.xzero; t2x += c.xzero;
-                t1y += c.yzero; t2y += c.yzero;
+
+                t1x += c.xzero;
+                t2x += c.xzero;
+                t1y += c.yzero;
+                t2y += c.yzero;
 
                 //tex:2 color:4, vtx:2
                 vtrary.push_back(
                 {
-                t1x, t1y, 0.5, 0.5, 0.5, (float)color.t, p1x + 1.0f, p1y + 1.0f, (float)layer,
-                t2x, t1y, 0.5, 0.5, 0.5, (float)color.t, p2x + 1.0f, p1y + 1.0f, (float)layer,
-                t2x, t2y, 0.5, 0.5, 0.5, (float)color.t, p2x + 1.0f, p2y + 1.0f, (float)layer,
-                t1x, t2y, 0.5, 0.5, 0.5, (float)color.t, p1x + 1.0f, p2y + 1.0f, (float)layer,
+                    t1x, t1y, 0.5, 0.5, 0.5, (float)color.t, p1x + 1.0f, p1y + 1.0f, (float)layer,
+                    t2x, t1y, 0.5, 0.5, 0.5, (float)color.t, p2x + 1.0f, p1y + 1.0f, (float)layer,
+                    t2x, t2y, 0.5, 0.5, 0.5, (float)color.t, p2x + 1.0f, p2y + 1.0f, (float)layer,
+                    t1x, t2y, 0.5, 0.5, 0.5, (float)color.t, p1x + 1.0f, p2y + 1.0f, (float)layer,
 
-                t1x, t1y, (float)color.x, (float)color.y, (float)color.z, (float)color.t, p1x, p1y, (float)layer + 0.5f,
-                t2x, t1y, (float)color.x, (float)color.y, (float)color.z, (float)color.t, p2x, p1y, (float)layer + 0.5f,
-                t2x, t2y, (float)color.x, (float)color.y, (float)color.z, (float)color.t, p2x, p2y, (float)layer + 0.5f,
-                t1x, t2y, (float)color.x, (float)color.y, (float)color.z, (float)color.t, p1x, p2y, (float)layer + 0.5f
+                    t1x, t1y, (float)color.x, (float)color.y, (float)color.z, (float)color.t, p1x, p1y, (float)layer + 0.5f,
+                    t2x, t1y, (float)color.x, (float)color.y, (float)color.z, (float)color.t, p2x, p1y, (float)layer + 0.5f,
+                    t2x, t2y, (float)color.x, (float)color.y, (float)color.z, (float)color.t, p2x, p2y, (float)layer + 0.5f,
+                    t1x, t2y, (float)color.x, (float)color.y, (float)color.z, (float)color.t, p1x, p2y, (float)layer + 0.5f
                 }
                 );
                 //layer += 1;

@@ -176,7 +176,7 @@ namespace LColorFunc
     inline std::ostream& lwhite(std::ostream &s)
     { return s << "\033[1;37m"; }
 #endif
-} // namespace LColor
+}
 
 namespace LColor
 {

@@ -34,7 +34,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 using namespace std;
 
 #if defined( __WIN32__ ) || defined( _WIN32 )
-//#include <dsound.h>
+    //#include <dsound.h>
 #endif
 
 namespace UI
