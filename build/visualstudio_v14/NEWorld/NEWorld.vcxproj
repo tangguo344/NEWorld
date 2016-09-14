@@ -82,6 +82,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)..\..\release\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <TargetName>nwclient</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(ProjectDir)..\..\..\src\uilib\include;$(ProjectDir)..\..\..\src\maximilian\include;$(ProjectDir)..\..\..\dependencies\include\AL;$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\src\shared;$(ProjectDir)..\..\..\UILib\include;$(IncludePath)</IncludePath>
@@ -90,18 +91,21 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)..\..\release\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <TargetName>nwclient</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(ProjectDir)..\..\..\src\uilib\include;$(ProjectDir)..\..\..\src\maximilian\include;$(ProjectDir)..\..\..\dependencies\include\AL;$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\src\shared;$(ProjectDir)..\..\..\UILIb\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)..\..\..\dependencies\lib\boostlib;$(SolutionDir)bin\$(Platform)\$(Configuration)\;$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\..\release\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <TargetName>nwclient</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(ProjectDir)..\..\..\src\uilib\include;$(ProjectDir)..\..\..\src\maximilian\include;$(ProjectDir)..\..\..\dependencies\include\AL;$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\src\shared;$(ProjectDir)..\..\..\UILIb\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)..\..\..\dependencies\lib\boostlib;$(SolutionDir)bin\$(Platform)\$(Configuration)\;$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\..\release\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <TargetName>nwclient</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
