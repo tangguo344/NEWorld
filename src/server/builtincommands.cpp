@@ -70,7 +70,7 @@ void Server::initBuiltinCommands()
                 }
                 now = iter.value();
             }
-            
+
             if (exist)
                 return{ true, cmd.args[0] + " = " + now.dump() };
             else

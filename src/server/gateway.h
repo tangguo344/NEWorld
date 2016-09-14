@@ -15,12 +15,12 @@ class Gateway
 {
 public:
     Gateway(NetworkManager &network);
-    inline NetworkManager &getNetworkManager(){return m_network;}
+    inline NetworkManager &getNetworkManager() {return m_network;}
     /// @return `true` if this gateway is running,
-    inline bool isAlive(){return m_alive;}
+    inline bool isAlive() {return m_alive;}
 protected:
     /// Set the gateway status as `alive` or not.
-    void setAlive(bool alive){m_alive = alive;}
+    void setAlive(bool alive) {m_alive = alive;}
 private:
     NetworkManager &m_network;
     bool m_alive;
