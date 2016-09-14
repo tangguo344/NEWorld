@@ -22,7 +22,7 @@
 #include <stdint.h>
 
 #ifndef __cplusplus
-#include <stdbool.h>
+    #include <stdbool.h>
 #endif
 
 #ifdef __cplusplus

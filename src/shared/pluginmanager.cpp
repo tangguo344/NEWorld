@@ -24,6 +24,11 @@
 #include "pluginmanager.h"
 #include "logger.h"
 
+PluginManager::PluginManager(bool isClient)
+    : m_isClient(isClient)
+{
+}
+
 void PluginManager::loadPlugin(const std::string& filename)
 {
     m_plugins.emplace_back(Plugin(filename));
