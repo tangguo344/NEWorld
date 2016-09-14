@@ -26,21 +26,21 @@ Server::Server(std::vector<std::string> args)
 {
     using namespace std::chrono;
     auto start_time = steady_clock::now();
-    
+
     // Plugin
     PluginAPI::Blocks = &m_blocks;
     infostream << "Initializing plugins...";
     m_plugins.loadPlugins();
-    
+
     // World
     World* world = m_worlds.addWorld("main_world");
 
     m_worldLoaders.insert({ "main_world", WorldLoader(*world, 16) }); //TODO: get the range by players' settings
-    
+
     // Network
     m_raknet.run("127.0.0.1",9887); // TODO: get address and port to bind from settingsmanager.
     warningstream << "TODO: The RakNet gateway is not completed yet!";
-    
+
     // Done
     auto done_time = steady_clock::now();
     infostream << "Done!(in " << duration_cast<milliseconds>(done_time - start_time).count() << "ms)!";

@@ -57,7 +57,7 @@ private:
     PluginManager m_plugins;
     NetworkManager m_network;
     CommandManager m_commands;
-    
+
     // Gateways
     RaknetGateway m_raknet;
 

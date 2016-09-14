@@ -37,7 +37,7 @@ bool RaknetGateway::run(const char *addr,unsigned short port)
     if(ret == RakNet::StartupResult::RAKNET_STARTED)
     {
         setAlive(true);
-        m_thread = std::thread([this]{loop();});
+        m_thread = std::thread([this] {loop();});
         return true;
     }
     else
@@ -58,46 +58,46 @@ void RaknetGateway::loop()
     RakNet::Packet* p = nullptr;
     while(isAlive())
     {
-        for (p = m_peer->Receive();p;m_peer->DeallocatePacket(p),p = m_peer->Receive())
+        for (p = m_peer->Receive(); p; m_peer->DeallocatePacket(p),p = m_peer->Receive())
         {
             switch(p->data[0])
             {
-                case ID_REMOTE_DISCONNECTION_NOTIFICATION:
-                    debugstream << "Another client has disconnected";
-                    break;
-                case ID_REMOTE_CONNECTION_LOST:
-                    debugstream << "Another client has lost the connection";
-                    break;
-                case ID_REMOTE_NEW_INCOMING_CONNECTION:
-                    debugstream << "Another client has connected";
-                    break;
-                case ID_CONNECTION_REQUEST_ACCEPTED:
-                {
-                    // TODO: Make a `Connection` instance for the connection
-                    debugstream << "Connection request has been accepted";
-                    RakNet::BitStream bsOut;
-                    bsOut.Write(ID_USER_PACKET_ENUM);
-                    bsOut.Write("Hello world");
-                    m_peer->Send(&bsOut,HIGH_PRIORITY,RELIABLE_ORDERED,0,p->systemAddress,false);
-                }
-                    break;
-                case ID_NEW_INCOMING_CONNECTION:
-                    debugstream << "A connection is incoming";
-                    break;
-                case ID_NO_FREE_INCOMING_CONNECTIONS:
-                    debugstream << "The server is full";
-                    break;
-                case ID_DISCONNECTION_NOTIFICATION:
-                    debugstream << "A client has disconnected";
-                    break;
-                case ID_CONNECTION_LOST:
-                    debugstream << "A client lost the connection";
-                    break;
-                case ID_USER_PACKET_ENUM:
-                    break;
-                default:
-                    debugstream << "Bad Package arrived";
-                    break;
+            case ID_REMOTE_DISCONNECTION_NOTIFICATION:
+                debugstream << "Another client has disconnected";
+                break;
+            case ID_REMOTE_CONNECTION_LOST:
+                debugstream << "Another client has lost the connection";
+                break;
+            case ID_REMOTE_NEW_INCOMING_CONNECTION:
+                debugstream << "Another client has connected";
+                break;
+            case ID_CONNECTION_REQUEST_ACCEPTED:
+            {
+                // TODO: Make a `Connection` instance for the connection
+                debugstream << "Connection request has been accepted";
+                RakNet::BitStream bsOut;
+                bsOut.Write(ID_USER_PACKET_ENUM);
+                bsOut.Write("Hello world");
+                m_peer->Send(&bsOut,HIGH_PRIORITY,RELIABLE_ORDERED,0,p->systemAddress,false);
+            }
+            break;
+            case ID_NEW_INCOMING_CONNECTION:
+                debugstream << "A connection is incoming";
+                break;
+            case ID_NO_FREE_INCOMING_CONNECTIONS:
+                debugstream << "The server is full";
+                break;
+            case ID_DISCONNECTION_NOTIFICATION:
+                debugstream << "A client has disconnected";
+                break;
+            case ID_CONNECTION_LOST:
+                debugstream << "A client lost the connection";
+                break;
+            case ID_USER_PACKET_ENUM:
+                break;
+            default:
+                debugstream << "Bad Package arrived";
+                break;
             }
         }
         RakSleep(30);

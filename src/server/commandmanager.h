@@ -29,9 +29,9 @@ public:
     CommandManager& operator=(const CommandManager&) = delete;
 
     CommandMap& getCommandMap() { return m_commandMap; }
-    
+
     void processInput();
-    
+
     void addCommand(std::string name, CommandInfo info, CommandHandleFunction func)
     {
         m_commandMap.insert({name, {info, func}});
@@ -39,7 +39,7 @@ public:
 
 private:
     CommandExecuteStat handleCommand(Command cmd);
-    
+
     bool m_threadRunning = true;
     CommandMap m_commandMap;
 };

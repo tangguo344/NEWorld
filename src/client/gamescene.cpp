@@ -34,7 +34,7 @@ GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
         const char *file = getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver.dll").c_str();
         const char *argv[] = {file,"-single-player-mode"};
         boost::dll::shared_library(file, boost::dll::load_mode::append_decorations)
-            .get<void NWAPICALL(int, char**)>("main")(sizeof(argv)/sizeof(argv[0]), const_cast<char**>(argv));
+        .get<void NWAPICALL(int, char**)>("main")(sizeof(argv)/sizeof(argv[0]), const_cast<char**>(argv));
     });
     // FIXME: if the server spends too much time starting, the network thread won't be able to connect to the server.
     m_connection.connect();
