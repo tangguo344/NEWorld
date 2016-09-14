@@ -41,35 +41,21 @@ void World::expandChunkArray(size_t c)
 size_t World::getChunkIndex(const Vec3i& pos) const
 {
     // Binary search
-    if (m_chunkCount == 0)
-        return 0;
-    size_t first = 0, last = m_chunkCount - 1, middle;
-    do
+    int first = 0, last = m_chunkCount - 1;
+    while (first <= last)
     {
-        middle = (first + last) / 2;
-        const Vec3i& curr = m_chunks[middle]->getPosition();
-        if (curr > pos)
-        {
-            if (middle == 0) break;
-            last = middle - 1;
-        }
-        else if (curr < pos)
-        {
-            first = middle + 1;
-        }
-        else
-        {
-            return middle;
-        }
+        int mid = (first + last) / 2;
+        const Vec3i& curr = m_chunks[mid]->getPosition();
+        if (curr < pos) first = mid + 1;
+        else last = mid - 1;
     }
-    while (first <= last);
-    return middle;
+    return first;
 }
 
 Chunk* World::addChunk(const Vec3i& chunkPos)
 {
     int index = getChunkIndex(chunkPos);
-    if (m_chunkCount && m_chunks[index]->getPosition() == chunkPos)
+    if (index < m_chunkCount && m_chunks[index]->getPosition() == chunkPos)
     {
         assert(false);
         return nullptr;
@@ -85,7 +71,7 @@ Chunk* World::addChunk(const Vec3i& chunkPos)
 int World::deleteChunk(const Vec3i& chunkPos)
 {
     int index = getChunkIndex(chunkPos);
-    if (m_chunkCount == 0 || m_chunks[index]->getPosition() != chunkPos)
+    if (index >= m_chunkCount || m_chunks[index]->getPosition() != chunkPos)
     {
         assert(false);
         return 1;

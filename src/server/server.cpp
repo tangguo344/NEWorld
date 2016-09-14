@@ -34,7 +34,8 @@ Server::Server(std::vector<std::string> args)
     
     // World
     World* world = m_worlds.addWorld("main_world");
-    //  m_worldLoaders.insert({ "main_world", WorldLoader(*world, 16) }); //TODO: get the range by players' settings
+
+    m_worldLoaders.insert({ "main_world", WorldLoader(*world, 16) }); //TODO: get the range by players' settings
     
     // Network
     m_raknet.run("127.0.0.1",9887); // TODO: get address and port to bind from settingsmanager.

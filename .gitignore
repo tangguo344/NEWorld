@@ -11,8 +11,9 @@
 *.userprefs
 
 # Build results
-[Dd]ebug/
-[Pp]rofile/
+build/visualstudio_v14/**/[Dd]ebug/
+build/visualstudio_v14/**/[Rr]elease/
+build/visualstudio_v14/**/[Pp]rofile/
 x64/
 x86/
 [Bb]in/
@@ -224,6 +225,7 @@ libnwclient.so
 libnwserver.so
 
 # NEWorld files
+settings.json
 [Ww]orlds/
 [Ss]creen[Ss]hots/
 [Cc]onfigs/

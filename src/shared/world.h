@@ -100,6 +100,7 @@ public:
 
     bool isChunkLoaded(const Vec3i& chunkPos) const
     {
+        if (getChunkIndex(chunkPos) >= m_chunkCount) return false;
         return m_chunks[getChunkIndex(chunkPos)]->getPosition() == chunkPos;
     }
 
