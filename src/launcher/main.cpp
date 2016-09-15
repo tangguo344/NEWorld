@@ -21,33 +21,43 @@
 #include <string>
 #include <boost/dll/shared_library.hpp>
 #include <common.h> // For NWAPICALL
-#include "../shared/jsonhelper.h"
+#include <jsonhelper.h>
 
-typedef void NWAPICALL MainFunction(int, char**);
+typedef int NWAPICALL MainFunction(int, char*[]);
 
-int main(int argc, char** argv)
+void printUsage()
 {
-    std::string file;
+    
+}
 
+int main(int argc, char *argv[])
+{
     Json settings = readJsonFromFile(SettingsFilename);
-
-    std::string in;
-    if (argc == 1)
+    
+    if(argc >= 2)
     {
-        std::cout << "NEWorld Minimal Launcher" << std::endl;
-        std::cout << "Enter 'client' to run client" << std::endl;
-        std::cout << "Enter 'server' to run server" << std::endl;
-        std::cin >> in;
+        std::string libname;
+        std::string in(argv[1]);
+        if(in == "client")
+        {
+            libname = getJsonValue<std::string>(settings["client"]["file"], "nwclient");
+        }
+        else if(in == "server")
+        {
+            libname = getJsonValue<std::string>(settings["server"]["file"], "nwserver");
+        }
+        else
+        {
+            printUsage();
+            return 1;
+        }
+        argv++;
+        argv[0] = const_cast<char*>(libname.c_str());
+        return boost::dll::shared_library(libname, boost::dll::load_mode::append_decorations).get<MainFunction>("main")(argc-1, argv);
     }
     else
     {
-        in = argv[1];
+        printUsage();
     }
-
-    std::string clientFilename = getJsonValue<std::string>(settings["client"]["file"], "nwclient");
-    std::string serverFilename = getJsonValue<std::string>(settings["server"]["file"], "nwserver");
-
-    file = in == "server" ? serverFilename : clientFilename;
-
-    boost::dll::shared_library(file, boost::dll::load_mode::append_decorations).get<MainFunction>("main")(argc, argv);
+    return 1;
 }

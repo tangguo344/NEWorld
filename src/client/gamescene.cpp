@@ -26,26 +26,24 @@
 #include <jsonhelper.h>
 
 GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
-    :UI::Controls::GLContext(), m_blocks(bm), m_plugins(pm), m_connection("127.0.0.1", 8090) //TODO: read it from settings
+    :UI::Controls::GLContext(), m_blocks(bm), m_plugins(pm)
 {
     // TODO: start the server only when it's a single player mode.
     m_localServerThread = std::thread([]
     {
-        const char *file = getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver.dll").c_str();
+        const char *file = getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver").c_str();
         const char *argv[] = {file,"-single-player-mode"};
         boost::dll::shared_library(file, boost::dll::load_mode::append_decorations)
         .get<void NWAPICALL(int, char**)>("main")(sizeof(argv)/sizeof(argv[0]), const_cast<char**>(argv));
     });
-    // FIXME: if the server spends too much time starting, the network thread won't be able to connect to the server.
-    m_connection.connect();
 
     keyFunc.connect([this](int scancode, UI::Core::ButtonAction)
     {
         onKey(scancode);
     });
-    win->renderdelegate.push_back([this, win]() { init(win); });
+    win -> renderdelegate.push_back([this, win]() { init(win); });
 
-    m_renderer=std::unique_ptr<WorldRenderer>(new WorldRenderer(*m_world));
+    m_renderer = std::unique_ptr<WorldRenderer>(new WorldRenderer(*m_world));
 }
 
 void GameScene::init(UI::Core::Window*)

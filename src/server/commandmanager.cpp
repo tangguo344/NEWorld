@@ -31,7 +31,7 @@ CommandExecuteStat CommandManager::handleCommand(Command cmd)
         return {false,"Command not exists, type help for available commands." };
 }
 
-void CommandManager::processInput()
+void CommandManager::inputLoop()
 {
     while (m_threadRunning)
     {

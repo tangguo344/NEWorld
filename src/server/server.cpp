@@ -47,7 +47,7 @@ Server::Server(std::vector<std::string> args)
 
     // Process input
     initBuiltinCommands();
-    m_commands.processInput(); // This will block the main thread
+    m_commands.inputLoop(); // This will block the main thread
 }
 
 Server::~Server()
