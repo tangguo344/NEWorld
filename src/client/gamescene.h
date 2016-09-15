@@ -44,7 +44,6 @@ public:
     ~GameScene()
     {
         m_plugins.unloadPlugins();
-        m_connection.disconnect();
         if (m_localServerThread.joinable()) m_localServerThread.join();
     }
     void doRender();
@@ -67,8 +66,6 @@ private:
     Player m_player;
     // Renderer
     std::unique_ptr<WorldRenderer> m_renderer;
-    // Network connection
-    Connection m_connection;
     // Local server thread
     std::thread m_localServerThread;
 };

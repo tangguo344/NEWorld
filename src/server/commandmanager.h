@@ -30,7 +30,7 @@ public:
 
     CommandMap& getCommandMap() { return m_commandMap; }
 
-    void processInput();
+    void inputLoop();
 
     void addCommand(std::string name, CommandInfo info, CommandHandleFunction func)
     {
