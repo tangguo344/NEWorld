@@ -25,7 +25,7 @@ namespace UI
 {
     namespace Math
     {
-        Vec2::Vec2(double _x, double _y) : x(_x), y(_y)
+        Vec2::Vec2(double _x, double _y) : x(_x), y(_y) 
         {
         }
 
@@ -101,22 +101,18 @@ namespace UI
         Vec3 Vec3::operator*(const Vec3 & b) const
         {
             return Vec3(y * b.z - z * b.y, z * b.x - x * b.z,
-                        x * b.y - y * b.x);
+                x * b.y - y * b.x);
         }
 
         Vec3& Vec3::operator-=(const Vec3 & b)
         {
-            x -= b.x;
-            y -= b.y;
-            z -= b.z;
+            x -= b.x; y -= b.y; z -= b.z;
             return *this;
         }
 
         Vec3& Vec3::operator+=(const Vec3 & b)
         {
-            x += b.x;
-            y += b.y;
-            z += b.z;
+            x += b.x; y += b.y; z += b.z;
             return *this;
         }
 
@@ -160,7 +156,7 @@ namespace UI
         {
             return (sqrt(x * x + y * y + z * z));
         }
-
+        
         double Vec3::lengthSqr() const
         {
             return x * x + y * y + z * z;
@@ -204,26 +200,19 @@ namespace UI
 
         Vec4& Vec4::operator-=(const Vec4 & b)
         {
-            x -= b.x;
-            y -= b.y;
-            z -= b.z;
-            t -= b.t;
+            x -= b.x; y -= b.y; z -= b.z; t -= b.t;
             return *this;
         }
 
         Vec4& Vec4::operator+=(const Vec4 & b)
         {
-            x += b.x;
-            y += b.y;
-            z += b.z;
-            t += b.t;
+            x += b.x; y += b.y; z += b.z; t += b.t;
             return *this;
         }
 
         Vec4& Vec4::operator*=(const double b)
         {
-            x *= b, y *= b, z *= b;
-            y *= b;
+            x *= b, y *= b, z *= b; y *= b;
             return *this;
         }
 

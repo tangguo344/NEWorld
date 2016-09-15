@@ -44,8 +44,8 @@ int main(int argc, char** argv)
         in = argv[1];
     }
 
-    std::string clientFilename = getJsonValue<std::string>(settings["client"]["file"], "nwclient");
-    std::string serverFilename = getJsonValue<std::string>(settings["server"]["file"], "nwserver");
+    std::string clientFilename = getJsonValue<std::string>(settings["client"]["file"], "nwclient.dll");
+    std::string serverFilename = getJsonValue<std::string>(settings["server"]["file"], "nwserver.dll");
 
     file = in == "server" ? serverFilename : clientFilename;
 

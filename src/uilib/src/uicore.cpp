@@ -287,7 +287,7 @@ namespace UI
                 }
                 else if(!mainWin->terminated)
                 {
-                    mainWin->dorender();
+                     mainWin->dorender();
                 }
 
                 processMessages();

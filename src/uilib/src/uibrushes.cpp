@@ -54,14 +54,14 @@ namespace UI
 
             void GradientBrush::sample(double x, double y, const Math::Vec2 & pt)
             {
-                //Linear interpolation
+                //Linear interpolation 
                 Base::Color colleft = (col3 - col0) * ((y + 1.0) / 2) + col0;
                 Base::Color colright = (col2 - col1) * ((y + 1.0) / 2) + col1;
                 Base::Color col = (colright - colleft) * ((x + 1.0) / 2) + colleft;
                 glColor4f(col.x, col.y, col.z, col.t);
                 glVertex2d(pt.x, pt.y);
             }
-
+            
             ImageBrush::ImageBrush(std::shared_ptr<Base::Image> _tex):
                 tex(_tex)
             {
@@ -79,7 +79,7 @@ namespace UI
                 glTexCoord2d((tex->rect.xmax - tex->rect.xmin) * ((x + 1.0) / 2.0) + tex->rect.xmin, (tex->rect.ymax - tex->rect.ymin) * ((y + 1.0) / 2.0) + tex->rect.ymin);
                 glVertex2d(pt.x, pt.y);
             }
-
+            
             void ImageBrush::done()
             {
                 glDisable(GL_TEXTURE_2D);

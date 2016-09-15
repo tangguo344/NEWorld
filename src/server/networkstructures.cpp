@@ -17,29 +17,29 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "commandmanager.h"
+#include "../shared/common.h"
+#include "networkstructures.h"
 #include <logger.h>
-#include <consolecolor.h>
 
-CommandExecuteStat CommandManager::handleCommand(Command cmd)
+#define DEFAULT_IMPLEMENT(classname) void LoginPacket::process() { assert(false); }
+
+//Define the ways the data packets process.
+
+void ChatPacket::process()
 {
-    strtolower(cmd.name);
-    auto result = m_commandMap.find(cmd.name);
-    if (result != m_commandMap.end())
-        return (*result).second.second(cmd);
-    else
-        return {false,"Command not exists, type help for available commands." };
+    //Do something like sending it to all players.
 }
 
-void CommandManager::processInput()
+void LoginPacket::process()
 {
-    while (m_threadRunning)
+    if (true) //TODO: password verifies
     {
-        std::string input;
-        std::cout << LColorFunc::white << "> " << LColorFunc::lwhite;
-        std::getline(std::cin, input);
-        auto result = handleCommand(Command(input));
-        if (result.info != "")
-            infostream << result.info;
+        infostream << "Player " << m_username << " login!";
+    }
+    else
+    {
+        infostream << "Player " << m_username << " failed to login. Wrong password.";
     }
 }
+
+//The below is client side, no need for server to implement.
