@@ -17,34 +17,47 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PLUGINMANAGER_H_
-#define PLUGINMANAGER_H_
+#ifndef SESSION_H_
+#define SESSION_H_
 
-#include <string>
-#include <vector>
-#include <boost/dll/shared_library.hpp>
-#include "plugin.h"
+#include <queue>
+#include <boost/asio.hpp>
+#include "packet.h"
 
-// Plugin system
-class PluginManager
+class Session :public std::enable_shared_from_this<Session>
 {
 public:
-    PluginManager(bool isClient) :m_isClient(isClient) {}
-    ~PluginManager()
+    Session(boost::asio::ip::tcp::socket socket)
+        : m_socket(std::move(socket)), m_updateTimer(m_socket.get_io_service())
     {
-        unloadPlugins();
     }
 
-    // Load single plugin
-    void loadPlugin(const std::string& filename);
-    // Load plugins
-    void loadPlugins();
-    // Unload plugins
-    void unloadPlugins();
+    void start()
+    {
+        doRead();
+        doUpdate();
+    }
+
+    void addRequest(Packet& packet)
+    {
+        m_packets.push(packet);
+    }
+
+    void addRequest(Packet&& packet)
+    {
+        m_packets.push(packet);
+    }
 
 private:
-    std::vector<Plugin> m_plugins;
-    bool m_isClient;
+    void doUpdate();
+    void doRead();
+    void doWrite();
+
+    boost::asio::ip::tcp::socket m_socket;
+    std::queue<Packet> m_packets; // Packets need sent
+    Packet m_packetRead;
+
+    boost::asio::deadline_timer m_updateTimer;
 };
 
-#endif // !PLUGINMANAGER_H_
+#endif // !SESSION_H_

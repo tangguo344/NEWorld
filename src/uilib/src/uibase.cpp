@@ -110,7 +110,7 @@ namespace UI
         {
             Image ret = *this;
             ret.rect = Rect((rect.xmax - rect.xmin) * range.xmin + rect.xmin, (rect.xmax - rect.xmin) * range.xmax + rect.xmin,
-                            (rect.ymax - rect.ymin) * range.ymin + rect.ymin, (rect.ymax - rect.ymin) * range.ymax + rect.ymin);
+                (rect.ymax - rect.ymin) * range.ymin + rect.ymin, (rect.ymax - rect.ymin) * range.ymax + rect.ymin);
             return ret;
         }
 

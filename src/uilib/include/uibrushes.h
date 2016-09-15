@@ -49,7 +49,7 @@ namespace UI
             private:
                 Base::Color col0, col1, col2, col3;
             };
-
+            
             class UILIB_API ImageBrush : public Base::Brush
             {
             public:

@@ -26,14 +26,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 #pragma warning(disable: 4996)
 #define UILIB_STATIC
 #ifdef UILIB_EXPORTS
-    #define UILIB_API __declspec(dllexport)
+#define UILIB_API __declspec(dllexport)
 #else
-    #define UILIB_API __declspec(dllimport)
+#define UILIB_API __declspec(dllimport)
 #endif
 
 #ifdef UILIB_STATIC
-    #undef UILIB_API
-    #define UILIB_API
+#undef UILIB_API
+#define UILIB_API
 #endif
 
 #endif

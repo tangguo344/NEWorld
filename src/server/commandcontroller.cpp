@@ -17,34 +17,29 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PLUGINMANAGER_H_
-#define PLUGINMANAGER_H_
+#include "commandcontroller.h"
+#include <logger.h>
+#include <consolecolor.h>
 
-#include <string>
-#include <vector>
-#include <boost/dll/shared_library.hpp>
-#include "plugin.h"
-
-// Plugin system
-class PluginManager
+CommandExecuteStat CommandController::handleCommand(Command cmd)
 {
-public:
-    PluginManager(bool isClient) :m_isClient(isClient) {}
-    ~PluginManager()
+    strtolower(cmd.name);
+    auto result = m_commandMap.find(cmd.name);
+    if (result != m_commandMap.end())
+        return (*result).second.second(cmd);
+    else
+        return{ false,"Failed to execute the command: The command does not exist, type help for available commands." };
+}
+
+void CommandController::mainLoop()
+{
+    while (m_threadRunning)
     {
-        unloadPlugins();
+        std::string input;
+        std::cout << LColorFunc::white << "$> " << LColorFunc::lwhite;
+        std::getline(std::cin, input);
+        auto result = handleCommand(Command(input));
+        if (result.info != "")
+            infostream << result.info;
     }
-
-    // Load single plugin
-    void loadPlugin(const std::string& filename);
-    // Load plugins
-    void loadPlugins();
-    // Unload plugins
-    void unloadPlugins();
-
-private:
-    std::vector<Plugin> m_plugins;
-    bool m_isClient;
-};
-
-#endif // !PLUGINMANAGER_H_
+}

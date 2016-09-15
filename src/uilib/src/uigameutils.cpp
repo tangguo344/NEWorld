@@ -29,12 +29,12 @@ namespace UI
         {
             if (SDL_GetRelativeMouseMode() == SDL_TRUE) SDL_SetRelativeMouseMode(SDL_FALSE);
         }
-
+        
         void disableCursor()
         {
             if (SDL_GetRelativeMouseMode() == SDL_FALSE) SDL_SetRelativeMouseMode(SDL_TRUE);
         }
-
+        
         void setSwapInterval(int val)
         {
             SDL_GL_SetSwapInterval(val);

@@ -21,16 +21,16 @@
 
 #include <command.h>
 #include <thread>
-class CommandManager
+class CommandController
 {
 public:
-    CommandManager() = default;
-    CommandManager(const CommandManager&) = delete;
-    CommandManager& operator=(const CommandManager&) = delete;
+    CommandController() { m_thread = std::thread([this] { mainLoop(); }); }
+    ~CommandController() { m_threadRunning = false; m_thread.join(); }
+
+    CommandController(const CommandController&) = delete;
+    CommandController& operator=(const CommandController&) = delete;
 
     CommandMap& getCommandMap() { return m_commandMap; }
-
-    void processInput();
 
     void addCommand(std::string name, CommandInfo info, CommandHandleFunction func)
     {
@@ -38,8 +38,10 @@ public:
     }
 
 private:
+    void mainLoop();
     CommandExecuteStat handleCommand(Command cmd);
 
+    std::thread m_thread;
     bool m_threadRunning = true;
     CommandMap m_commandMap;
 };
