@@ -72,7 +72,7 @@ Server::Server(std::vector<std::string> args)
     infostream << "Initializing plugins...";
     m_plugins.loadPlugins();
     World* world = m_worlds.addWorld("main_world");
-    m_worldLoaders.insert({ "main_world", WorldLoader(*world, 16) }); //TODO: get the range by players' settings
+    m_worldLoaders.insert({ "main_world", WorldLoader(*world, 32) }); //TODO: get the range by players' settings
     // Start server
     infostream << "Server started!";
     doGlobalUpdate();
@@ -210,5 +210,14 @@ void Server::initCommands()
     m_commandController.addCommand("server.ups", { "Internel","Show the ups." }, [this](Command cmd)->CommandExecuteStat
     {
         return{ true,"Ups: " + std::to_string(m_ups.getRate()) };
+    });
+    m_commandController.addCommand("chunks.count", { "Internel","Show how many chunks are loaded" }, [this](Command cmd)->CommandExecuteStat
+    {
+        int sum = 0;
+        for (World* world : m_worlds)
+        {
+            sum += world->getChunkCount();
+        }
+        return{ true,"Chunks loaded: " + std::to_string(sum) };
     });
 }
