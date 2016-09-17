@@ -122,7 +122,7 @@ void Server::doGlobalUpdate()
 
 void Server::initCommands()
 {
-    m_commandController.addCommand("help", {"Internel","Help"}, [this](Command cmd)->CommandExecuteStat
+    m_commandController.addCommand("help", {"internal","Help"}, [this](Command cmd)->CommandExecuteStat
     {
         std::string helpString = "\nAvailable commands:\n";
         for (const auto& command : m_commandController.getCommandMap())
@@ -131,18 +131,18 @@ void Server::initCommands()
         }
         return {true, helpString};
     });
-    m_commandController.addCommand("test.hello", { "Internel","Say hello" }, [this](Command cmd)->CommandExecuteStat
+    m_commandController.addCommand("test.hello", { "internal","Say hello" }, [this](Command cmd)->CommandExecuteStat
     {
         return{ true, "Hello!" };
     });
-    m_commandController.addCommand("test.log", { "Internel","test the logger." }, [this](Command cmd)->CommandExecuteStat
+    m_commandController.addCommand("test.log", { "internal","test the logger." }, [this](Command cmd)->CommandExecuteStat
     {
         fatalstream << "execute test.fatal!";
         errorstream << "execute test.error!";
         warningstream << "Your computer will explode in three seconds!!!";
         return{ true , "" };
     });
-    m_commandController.addCommand("test.rainbow", { "Internel","test colors." }, [this](Command cmd)->CommandExecuteStat
+    m_commandController.addCommand("test.rainbow", { "internal","test colors." }, [this](Command cmd)->CommandExecuteStat
     {
         infostream << "Grayscales:";
         infostream << LColor::black << "2333333333 [0%]";
@@ -165,12 +165,12 @@ void Server::initCommands()
         infostream << LColor::lmagenta << "2333333333 [magenta]";
         return{ true , "" };
     });
-    m_commandController.addCommand("server.stop", { "Internel","Stop the server." }, [this](Command cmd)->CommandExecuteStat
+    m_commandController.addCommand("server.stop", { "internal","Stop the server." }, [this](Command cmd)->CommandExecuteStat
     {
         m_ioService.stop();
         return{ true, "" };
     });
-    m_commandController.addCommand("conf.get", { "Internel","Get one configuration item. Usage: conf.get <confname>" }, [this](Command cmd)->CommandExecuteStat
+    m_commandController.addCommand("conf.get", { "internal","Get one configuration item. Usage: conf.get <confname>" }, [this](Command cmd)->CommandExecuteStat
     {
         if (cmd.args.size() == 1)
         {
@@ -198,20 +198,20 @@ void Server::initCommands()
             return{ false, "Usage: conf.get <confname>" };
         }
     });
-    m_commandController.addCommand("conf.show", { "Internel","Show the configuration." }, [this](Command cmd)->CommandExecuteStat
+    m_commandController.addCommand("conf.show", { "internal","Show the configuration." }, [this](Command cmd)->CommandExecuteStat
     {
         return{ true, getSettings().dump() };
     });
-    m_commandController.addCommand("conf.save", { "Internel","Save the configuration." }, [this](Command cmd)->CommandExecuteStat
+    m_commandController.addCommand("conf.save", { "internal","Save the configuration." }, [this](Command cmd)->CommandExecuteStat
     {
         saveSettings();
         return{ true,"Done!" };
     });
-    m_commandController.addCommand("server.ups", { "Internel","Show the ups." }, [this](Command cmd)->CommandExecuteStat
+    m_commandController.addCommand("server.ups", { "internal","Show the ups." }, [this](Command cmd)->CommandExecuteStat
     {
         return{ true,"Ups: " + std::to_string(m_ups.getRate()) };
     });
-    m_commandController.addCommand("chunks.count", { "Internel","Show how many chunks are loaded" }, [this](Command cmd)->CommandExecuteStat
+    m_commandController.addCommand("chunks.count", { "internal","Show how many chunks are loaded" }, [this](Command cmd)->CommandExecuteStat
     {
         int sum = 0;
         for (World* world : m_worlds)
