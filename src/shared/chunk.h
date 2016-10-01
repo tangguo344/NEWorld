@@ -39,6 +39,18 @@ public:
         return m_position;
     }
 
+    /// Get chunk updated flag
+    bool isUpdated() const
+    {
+        return m_updated;
+    }
+
+    /// Set chunk updated flag
+    void setUpdated(bool updated)
+    {
+        m_updated = updated;
+    }
+
     /// Get block data in this chunk
     BlockData getBlock(const Vec3i& pos) const
     {
@@ -61,11 +73,14 @@ public:
     {
         assert(pos.x >= 0 && pos.x < ChunkSize && pos.y >= 0 && pos.y < ChunkSize && pos.z >= 0 && pos.z < ChunkSize);
         m_blocks[pos.x * ChunkSize * ChunkSize + pos.y * ChunkSize + pos.z] = block;
+        m_updated = true;
     }
 
 private:
     Vec3i m_position;
     BlockData m_blocks[ChunkSize * ChunkSize * ChunkSize];
+    bool m_updated;
+
 };
 
 #endif // !CHUNK_H_
