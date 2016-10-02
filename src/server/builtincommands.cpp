@@ -50,7 +50,7 @@ void Server::initBuiltinCommands()
     });
     m_commands.addCommand("server.stop", { "Internel","Stop the server." }, [this](Command cmd)->CommandExecuteStat
     {
-        // TODO: Stop server and network.
+        stop();
         return{ true, "" };
     });
     m_commands.addCommand("conf.get", { "Internel","Get one configuration item. Usage: conf.get <confname>" }, [this](Command cmd)->CommandExecuteStat

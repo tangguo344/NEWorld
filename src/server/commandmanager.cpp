@@ -43,3 +43,8 @@ void CommandManager::inputLoop()
             infostream << result.info;
     }
 }
+
+void CommandManager::setStatus(bool s)
+{
+    m_threadRunning = s;
+}

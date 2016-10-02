@@ -2,7 +2,8 @@
 #define GATEWAY_H
 
 #include <stdexcept>
-#include "networkmanager.h"
+#include <thread>
+#include <raknet/RakPeerInterface.h>
 
 /** The base class of all Gateways.
  *  Network Gateway,can be implemented as TCP or UDP.
@@ -15,15 +16,19 @@ class Gateway
 {
 public:
     Gateway(NetworkManager &network);
-    inline NetworkManager &getNetworkManager() {return m_network;}
-    /// @return `true` if this gateway is running,
-    inline bool isAlive() {return m_alive;}
-protected:
-    /// Set the gateway status as `alive` or not.
-    void setAlive(bool alive) {m_alive = alive;}
+    ~Gateway();
+    void close();
+    /**
+     * Try to start up an server gateway and start listenning on it.
+     * @throw std::runtime_error if start up failed
+     * @return `true` if start up successfully,`false` if already running,otherwise throws an exception
+     */
+    bool run(const char *addr,unsigned short port);
 private:
-    NetworkManager &m_network;
-    bool m_alive;
+    void loop();
+    NetworkManager &mNetwork;
+    RakNet::RakPeerInterface *mPeer;
+    std::thread mThread;
 };
 
 /** The base class of any Connection class to it's Gateway
@@ -33,7 +38,7 @@ private:
 class Connection
 {
 public:
-    virtual void sendData(const char *data,size_t len) = 0;
+    void sendData(const char *data,size_t len);
 };
 
 #endif
