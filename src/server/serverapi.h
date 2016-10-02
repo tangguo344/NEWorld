@@ -25,7 +25,8 @@
 
 namespace PluginAPI
 {
-    // Server-only structures for plugins goes here
+    using ChunkGenerator = void NWAPICALL(const Vec3i*, BlockData*, int);
+    using NWchunkgenerator = ChunkGenerator;
 }
 
 #endif

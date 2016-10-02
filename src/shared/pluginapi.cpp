@@ -18,7 +18,6 @@
 */
 
 #include "pluginapi.h"
-#include "../server/chunkloader.h"
 
 namespace PluginAPI
 {
