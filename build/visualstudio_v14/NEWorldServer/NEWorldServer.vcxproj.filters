@@ -20,6 +20,9 @@
     <Filter Include="Source\Main">
       <UniqueIdentifier>{4df86efc-5d15-42ec-b35c-767643cbacbc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Plugin">
+      <UniqueIdentifier>{a54b74af-34a8-45cf-8b46-3c70dba3e24d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\server\networkstructures.cpp">
@@ -43,6 +46,9 @@
     <ClCompile Include="..\..\..\src\server\commandcontroller.cpp">
       <Filter>Source\Command</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\server\serverapi.cpp">
+      <Filter>Source\Plugin</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\server\worldloader.h">
@@ -59,6 +65,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\server\commandcontroller.h">
       <Filter>Source\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\server\serverapi.h">
+      <Filter>Source\Plugin</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

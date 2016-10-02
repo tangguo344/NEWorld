@@ -16,8 +16,10 @@
 * You should have received a copy of the GNU Lesser General Public License
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #ifndef SHARED_H_
 #define SHARED_H_
+
 #include "../../../api/cpp/nwapi.h"
 
 // Block IDs

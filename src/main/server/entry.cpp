@@ -19,6 +19,7 @@
 
 // The server version
 
+#define NEWORLD_PLUGIN_SERVER_SIDE
 #include "../shared/shared.h"
 #include "worldgen.h"
 

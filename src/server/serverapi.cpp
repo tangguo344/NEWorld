@@ -17,29 +17,22 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "commandcontroller.h"
-#include <logger.h>
-#include <consolecolor.h>
+#include "serverapi.h"
 
-CommandExecuteStat CommandController::handleCommand(Command cmd)
+extern "C"
 {
-    strtolower(cmd.name);
-    auto result = m_commandMap.find(cmd.name);
-    if (result != m_commandMap.end())
-        return (*result).second.second(cmd);
-    else
-        return{ false,"Failed to execute the command: The command does not exist, type help for available commands." };
-}
+    using namespace PluginAPI;
 
-void CommandController::mainLoop()
-{
-    while (m_threadRunning)
+    NWAPIEXPORT int32_t NWAPICALL nwRegisterChunkGenerator(NWchunkgenerator* const generator)
     {
-        std::string input;
-        //std::cout << LColorFunc::white << "$> " << LColorFunc::lwhite;
-        std::getline(std::cin, input);
-        auto result = handleCommand(Command(input));
-        if (result.info != "")
-            infostream << result.info;
+        if (ChunkGeneratorLoaded)
+        {
+            warningstream << "Ignoring multiple chunk generator";
+            return 1;
+        }
+        ChunkGeneratorLoaded = true;
+        ChunkGen = generator;
+        infostream << "Registered chunk generator";
+        return 0;
     }
 }

@@ -18,6 +18,7 @@
 */
 
 #include "pluginapi.h"
+#include "../server/chunkloader.h"
 
 namespace PluginAPI
 {
@@ -67,21 +68,6 @@ extern "C"
     NWAPIEXPORT int32_t NWAPICALL nwRegisterBlock(const NWblocktype* block)
     {
         return Blocks->registerBlock(convertBlockType(*block));
-    }
-
-    NWAPIEXPORT int32_t NWAPICALL nwRegisterChunkGenerator(NWchunkgenerator* const generator)
-    {
-        /*
-        if (ChunkGeneratorLoaded)
-        {
-            warningstream << "Ignoring multiple chunk generator";
-            return 1;
-        }
-        ChunkGeneratorLoaded = true;
-        ChunkGen = generator;
-        infostream << "Registered chunk generator";
-        */
-        return 0;
     }
 
     NWAPIEXPORT void NWAPICALL nwLog(char* str, Logger::Level level)

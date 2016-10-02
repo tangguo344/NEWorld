@@ -17,29 +17,15 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "commandcontroller.h"
-#include <logger.h>
-#include <consolecolor.h>
+#ifndef SERVERAPI_H_
+#define SERVERAPI_H_
 
-CommandExecuteStat CommandController::handleCommand(Command cmd)
+#include <pluginapi.h>
+#include "chunkloader.h"
+
+namespace PluginAPI
 {
-    strtolower(cmd.name);
-    auto result = m_commandMap.find(cmd.name);
-    if (result != m_commandMap.end())
-        return (*result).second.second(cmd);
-    else
-        return{ false,"Failed to execute the command: The command does not exist, type help for available commands." };
+    // Server-only structures for plugins goes here
 }
 
-void CommandController::mainLoop()
-{
-    while (m_threadRunning)
-    {
-        std::string input;
-        //std::cout << LColorFunc::white << "$> " << LColorFunc::lwhite;
-        std::getline(std::cin, input);
-        auto result = handleCommand(Command(input));
-        if (result.info != "")
-            infostream << result.info;
-    }
-}
+#endif
