@@ -19,6 +19,7 @@
 
 // The client version
 
+#define NEWORLD_PLUGIN_CLIENT_SIDE
 #include "../shared/shared.h"
 
 NWplugindata* MainPlugin = nullptr;

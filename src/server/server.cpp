@@ -69,17 +69,20 @@ Server::Server(std::vector<std::string> args)
 {
     // Initialization
     PluginAPI::Blocks = &m_blocks;
+
     infostream << "Initializing plugins...";
     m_plugins.loadPlugins();
+
     World* world = m_worlds.addWorld("main_world");
     m_worldLoaders.insert({ "main_world", WorldLoader(*world, 32) }); //TODO: get the range by players' settings
+
     // Start server
     infostream << "Server started!";
     doGlobalUpdate();
     doAccept();
     initCommands();
 
-    if (std::find(args.begin(), args.end(), "-single-player-mode") != args.end())
+    if (std::find(args.begin(), args.end(), "--single-player-mode") != args.end())
         errorHook = [this] {m_ioService.stop(); };
 }
 
