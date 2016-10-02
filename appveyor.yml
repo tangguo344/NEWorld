@@ -28,3 +28,5 @@ on_success:
   - 7z a c:\NEWorld.zip . > nul
   - if %PLATFORM% equ x64 rename c:\NEWorld.zip NEWorld_x64.zip
   - if %PLATFORM% equ x64 (appveyor PushArtifact c:\NEWorld_x64.zip) else (appveyor PushArtifact c:\NEWorld.zip)
+  # Clean cache 161002
+  
