@@ -33,7 +33,7 @@
 #include <thread>
 #include "commandmanager.h"
 #include "networkmanager.h"
-#include "raknet.h"
+#include "gateway.h"
 #include <boost/timer.hpp>
 
 constexpr int UpdateInterval = 1000/60, GlobalUpdateInterval = 1000/60; // unit: ms
@@ -42,6 +42,7 @@ class Server
 {
 public:
     Server(std::vector<std::string> args);
+    void stop();
     ~Server();
 private:
 
@@ -57,9 +58,6 @@ private:
     PluginManager m_plugins;
     NetworkManager m_network;
     CommandManager m_commands;
-
-    // Gateways
-    RaknetGateway m_raknet;
 
     std::unordered_map<std::string, WorldLoader> m_worldLoaders;
 

@@ -5,8 +5,14 @@
 // TODO:Delete all debug log before merge to `renew`
 
 NetworkManager::NetworkManager(Server &s)
-    : m_server(s)
+    : mServer(s),mGateway(*this)
 {
+    mGateway.run("127.0.0.1",9887); // TODO: get address and port to bind from settingsmanager.
+}
+
+void NetworkManager::stop()
+{
+    mGateway.close();
 }
 
 void NetworkManager::onConnStart(Connection *conn)

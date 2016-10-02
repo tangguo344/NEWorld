@@ -22,7 +22,7 @@
 #include "commandmanager.h"
 
 Server::Server(std::vector<std::string> args)
-    : m_worlds(m_plugins, m_blocks), m_plugins(false), m_args(args), m_network(*this), m_raknet(m_network)
+    : m_worlds(m_plugins, m_blocks), m_plugins(false), m_args(args), m_network(*this)
 {
     using namespace std::chrono;
     auto start_time = steady_clock::now();
@@ -37,17 +37,19 @@ Server::Server(std::vector<std::string> args)
 
     m_worldLoaders.insert({ "main_world", WorldLoader(*world, 16) }); //TODO: get the range by players' settings
 
-    // Network
-    m_raknet.run("127.0.0.1",9887); // TODO: get address and port to bind from settingsmanager.
-    warningstream << "TODO: The RakNet gateway is not completed yet!";
-
     // Done
     auto done_time = steady_clock::now();
     infostream << "Done!(in " << duration_cast<milliseconds>(done_time - start_time).count() << "ms)!";
-
+    
     // Process input
     initBuiltinCommands();
     m_commands.inputLoop(); // This will block the main thread
+}
+
+void Server::stop()
+{
+    m_network.stop();
+    m_commands.setStatus(false);
 }
 
 Server::~Server()
