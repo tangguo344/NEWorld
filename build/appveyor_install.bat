@@ -40,4 +40,4 @@ copy C:\NEWorld\boost\boost_filesystem-vc140.1.61.0.0\lib\native\address-model-6
 copy C:\NEWorld\boost\boost_system-vc140.1.61.0.0\lib\native\address-model-64\lib\libboost_system-vc140-mt-1_61.lib dependencies\lib_x64\boostlib
 copy C:\NEWorld\boost\boost_date_time-vc140.1.61.0.0\lib\native\address-model-64\lib\libboost_date_time-vc140-mt-1_61.lib dependencies\lib_x64\boostlib
 copy C:\NEWorld\boost\boost_regex-vc140.1.61.0.0\lib\native\address-model-64\lib\libboost_regex-vc140-mt-1_61.lib dependencies\lib_x64\boostlib
-# clean cache 161002
+:: clean cache 161002
