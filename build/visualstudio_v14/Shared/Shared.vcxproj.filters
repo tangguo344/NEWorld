@@ -7,13 +7,7 @@
     <ClInclude Include="..\..\..\src\shared\blocktype.h">
       <Filter>Source\World</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\chunk.h">
-      <Filter>Source\World</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\shared\blockdata.h">
-      <Filter>Source\World</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\world.h">
       <Filter>Source\World</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\shared\common.h">
@@ -82,6 +76,12 @@
     <ClInclude Include="..\..\..\src\shared\jsonhelper.h">
       <Filter>Source\Common</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\shared\chunkbase.h">
+      <Filter>Source\World</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\shared\worldbase.h">
+      <Filter>Source\World</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -104,9 +104,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\shared\world.cpp">
-      <Filter>Source\World</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\shared\plugin.cpp">
       <Filter>Source\Plugin</Filter>
     </ClCompile>
@@ -136,6 +133,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\shared\playerobject.cpp">
       <Filter>Source\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\shared\worldbase.cpp">
+      <Filter>Source\World</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

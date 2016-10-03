@@ -18,16 +18,16 @@
 */
 
 #include "logger.h"
-#include "world.h"
-#include "chunk.h"
+#include "worldbase.h"
+#include "chunkbase.h"
 
-void World::expandChunkArray(size_t c)
+void WorldBase::expandChunkArray(size_t c)
 {
     m_chunkCount += c;
     if (m_chunkCount > m_chunkArraySize)
     {
         m_chunkArraySize *= 2;
-        Chunk** newchunks = reinterpret_cast<Chunk**>(realloc(m_chunks, m_chunkArraySize * sizeof(Chunk*)));
+        ChunkBase** newchunks = reinterpret_cast<ChunkBase**>(realloc(m_chunks, m_chunkArraySize * sizeof(ChunkBase*)));
         assert(newchunks != nullptr);
         if (newchunks == nullptr)
         {
@@ -38,7 +38,7 @@ void World::expandChunkArray(size_t c)
     }
 }
 
-size_t World::getChunkIndex(const Vec3i& pos) const
+size_t WorldBase::getChunkIndex(const Vec3i& pos) const
 {
     // Binary search
     int first = 0, last = m_chunkCount - 1;
@@ -52,7 +52,7 @@ size_t World::getChunkIndex(const Vec3i& pos) const
     return first;
 }
 
-Chunk* World::addChunk(const Vec3i& chunkPos)
+ChunkBase* WorldBase::addChunk(const Vec3i& chunkPos)
 {
     int index = getChunkIndex(chunkPos);
     if (index < m_chunkCount && m_chunks[index]->getPosition() == chunkPos)
@@ -61,14 +61,14 @@ Chunk* World::addChunk(const Vec3i& chunkPos)
         return nullptr;
     }
     newChunkPtr(index);
-    m_chunks[index] = new Chunk(chunkPos);
+    m_chunks[index] = new ChunkBase(chunkPos);
     // TODO: Update chunk pointer cache
     // TODO: Update chunk pointer array
     // Return pointer
     return m_chunks[index];
 }
 
-int World::deleteChunk(const Vec3i& chunkPos)
+int WorldBase::deleteChunk(const Vec3i& chunkPos)
 {
     int index = getChunkIndex(chunkPos);
     if (index >= m_chunkCount || m_chunks[index]->getPosition() != chunkPos)
@@ -82,7 +82,7 @@ int World::deleteChunk(const Vec3i& chunkPos)
     return 0;
 }
 
-std::vector<AABB> World::getHitboxes(const AABB& range) const
+std::vector<AABB> WorldBase::getHitboxes(const AABB& range) const
 {
     std::vector<AABB> res;
     // Naive implemention, needs to be optimized
@@ -99,6 +99,6 @@ std::vector<AABB> World::getHitboxes(const AABB& range) const
     return res;
 }
 
-void World::update()
+void WorldBase::update()
 {
 }

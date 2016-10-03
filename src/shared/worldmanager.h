@@ -22,7 +22,7 @@
 
 #include <vector>
 
-#include "world.h"
+#include "worldbase.h"
 #include "pluginmanager.h"
 #include "blockmanager.h"
 
@@ -39,17 +39,17 @@ public:
         m_worlds.clear();
     }
 
-    World* addWorld(const std::string& name)
+    WorldBase* addWorld(const std::string& name)
     {
-        m_worlds.emplace_back(new World(name, m_plugins, m_blocks));
+        m_worlds.emplace_back(new WorldBase(name, m_plugins, m_blocks));
         return m_worlds[m_worlds.size() - 1];
     }
 
-    std::vector<World*>::iterator begin() { return m_worlds.begin(); }
-    std::vector<World*>::iterator end() { return m_worlds.end(); }
+    std::vector<WorldBase*>::iterator begin() { return m_worlds.begin(); }
+    std::vector<WorldBase*>::iterator end() { return m_worlds.end(); }
 
 private:
-    std::vector<World*> m_worlds;
+    std::vector<WorldBase*> m_worlds;
     PluginManager& m_plugins;
     BlockManager& m_blocks;
 };

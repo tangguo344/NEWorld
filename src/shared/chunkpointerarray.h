@@ -22,13 +22,13 @@
 
 #include <cstring>
 #include <boost/core/noncopyable.hpp>
-#include "chunk.h"
+#include "chunkbase.h"
 
 class ChunkPointerArray : boost::noncopyable
 {
 private:
     /// Array
-    Chunk** m_array;
+    ChunkBase** m_array;
     /// Array size
     int m_size, m_size2, m_size3;
     /// Origin
@@ -40,8 +40,8 @@ public:
         m_size = size;
         m_size2 = size * size;
         m_size3 = size * size * size;
-        m_array = new Chunk*[m_size3];
-        memset(m_array, 0, m_size3 * sizeof(Chunk*));
+        m_array = new ChunkBase*[m_size3];
+        memset(m_array, 0, m_size3 * sizeof(ChunkBase*));
     }
     ~ChunkPointerArray()
     {
@@ -51,7 +51,7 @@ public:
     /// Move array by delta
     void move(const Vec3i& delta)
     {
-        Chunk** arr = new Chunk*[m_size3];
+        ChunkBase** arr = new ChunkBase*[m_size3];
         Vec3i::for_range(0, m_size, [this, arr, delta](const Vec3i& pos)
         {
             arr[pos.x * m_size2 + pos.y * m_size + pos.z] =
@@ -77,14 +77,14 @@ public:
     }
 
     /// Get chunk pointer from array
-    Chunk* get(Vec3i pos) const
+    ChunkBase* get(Vec3i pos) const
     {
         pos -= m_org;
         return exist(pos) ? m_array[pos.x * m_size2 + pos.y * m_size + pos.z] : nullptr;
     }
 
     /// Update chunk pointer in array
-    void set(Vec3i pos, Chunk* c) const
+    void set(Vec3i pos, ChunkBase* c) const
     {
         pos -= m_org;
         if (exist(pos))

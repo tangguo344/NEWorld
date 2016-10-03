@@ -17,28 +17,27 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef WORLD_H_
-#define WORLD_H_
+#ifndef WORLDBASE_H_
+#define WORLDBASE_H_
 
 #include <algorithm>
 #include <string>
 #include <cstdlib> // malloc, realloc, free
 #include <boost/core/noncopyable.hpp>
 #include "aabb.h"
-#include "chunk.h"
+#include "chunkbase.h"
 #include "blockmanager.h"
 #include "chunkpointerarray.h"
 
 class PluginManager;
 
-class World :boost::noncopyable
+class WorldBase: boost::noncopyable
 {
 public:
-    World(const std::string& name, PluginManager& plugins, BlockManager& blocks)
+    WorldBase(const std::string& name, PluginManager& plugins, BlockManager& blocks)
         : m_name(name), m_plugins(plugins), m_blocks(blocks), m_chunkCount(0), m_chunkArraySize(1024), m_daylightBrightness(15), m_cpa(8)
     {
-        //m_chunks = new Chunk*[m_chunkArraySize];
-        m_chunks = reinterpret_cast<Chunk**>(malloc(m_chunkArraySize * sizeof(Chunk*)));
+        m_chunks = reinterpret_cast<ChunkBase**>(malloc(m_chunkArraySize * sizeof(ChunkBase*)));
     }
 
     //FIXME: m_cpa
@@ -48,7 +47,7 @@ public:
     //{
     //}
 
-    ~World()
+    ~WorldBase()
     {
         if (m_chunks)
         {
@@ -70,7 +69,7 @@ public:
     }
 
     // Get chunk pointer by index
-    Chunk* getChunkPtr(size_t index) const
+    ChunkBase* getChunkPtr(size_t index) const
     {
         assert(index < m_chunkCount);
         return m_chunks[index];
@@ -78,10 +77,10 @@ public:
 
     // Get chunk pointer by chunk coordinates
     // Optimized for clustered search
-    Chunk* getChunkPtr(const Vec3i& chunkPos) const
+    ChunkBase* getChunkPtr(const Vec3i& chunkPos) const
     {
         // TODO: Try chunk pointer cache
-        Chunk* res = getChunkPtrNonclustered(chunkPos);
+        ChunkBase* res = getChunkPtrNonclustered(chunkPos);
         // TODO: Update chunk pointer array
         // TODO: Update chunk pointer cache
         return res;
@@ -89,12 +88,12 @@ public:
 
     // Non-clustered & thread-safe version of getChunkPtr()
     // Will not update CPA and CPC
-    Chunk* getChunkPtrNonclustered(const Vec3i& chunkPos) const
+    ChunkBase* getChunkPtrNonclustered(const Vec3i& chunkPos) const
     {
         // TODO: Try chunk pointer array
         size_t index = getChunkIndex(chunkPos);
         if (m_chunkCount == 0 || m_chunks[index]->getPosition() != chunkPos) return nullptr;
-        Chunk* res = m_chunks[index];
+        ChunkBase* res = m_chunks[index];
         return res;
     }
 
@@ -105,7 +104,7 @@ public:
     }
 
     // Add chunk
-    Chunk* addChunk(const Vec3i& chunkPos);
+    ChunkBase* addChunk(const Vec3i& chunkPos);
     // Delete chunk
     int deleteChunk(const Vec3i& chunkPos);
 
@@ -145,7 +144,7 @@ public:
     // Get block data
     BlockData getBlock(const Vec3i& pos) const
     {
-        Chunk* chunk = getChunkPtr(getChunkPos(pos));
+        ChunkBase* chunk = getChunkPtr(getChunkPos(pos));
         assert(chunk != nullptr);
         return chunk->getBlock(getBlockPos(pos));
     }
@@ -153,7 +152,7 @@ public:
     // Get block reference
     BlockData& getBlock(const Vec3i& pos)
     {
-        Chunk* chunk = getChunkPtr(getChunkPos(pos));
+        ChunkBase* chunk = getChunkPtr(getChunkPos(pos));
         assert(chunk != nullptr);
         return chunk->getBlock(getBlockPos(pos));
     }
@@ -161,7 +160,7 @@ public:
     // Set block data
     void setBlock(const Vec3i& pos, BlockData block) const
     {
-        Chunk* chunk = getChunkPtr(getChunkPos(pos));
+        ChunkBase* chunk = getChunkPtr(getChunkPos(pos));
         assert(chunk != nullptr);
         chunk->setBlock(getBlockPos(pos), block);
     }
@@ -198,7 +197,7 @@ private:
     // Size of chunk array
     size_t m_chunkArraySize;
     // All chunks (chunk array)
-    Chunk** m_chunks;
+    ChunkBase** m_chunks;
     // CPA
     ChunkPointerArray m_cpa;
 
@@ -236,4 +235,4 @@ private:
 
 };
 
-#endif // !WORLD_H_
+#endif // !WORLDBASE_H_

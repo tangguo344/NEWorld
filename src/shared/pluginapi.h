@@ -26,7 +26,7 @@
 #include "blockdata.h"
 #include "blocktype.h"
 #include "blockmanager.h"
-#include "world.h"
+#include "worldbase.h"
 
 namespace PluginAPI
 {
@@ -41,7 +41,7 @@ namespace PluginAPI
 
     extern BlockManager* Blocks;
     extern PluginManager* Plugins;
-    extern World* CurrWorld;
+    extern WorldBase* CurrWorld;
 
     // Structures for plugin interface
     // Aliases cannot be used when structure definitions in NEWorld and in Plugin API are different
