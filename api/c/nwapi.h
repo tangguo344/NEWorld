@@ -21,33 +21,38 @@
 
 #include <stdint.h>
 
-#ifndef __cplusplus
-    #include <stdbool.h>
-#endif
-
 #ifdef __cplusplus
 extern "C"
 {
+#else
+#include <stdbool.h>
 #endif
 
 #if defined _WIN32 || defined __CYGWIN__
-#ifdef _MSC_VER
-#define NWAPIENTRY __declspec(dllimport)
-#define NWAPIEXPORT __declspec(dllexport)
+    #ifdef _MSC_VER
+        #define NWAPIENTRY __declspec(dllimport)
+        #define NWAPIEXPORT __declspec(dllexport)
+    #else
+        #define NWAPIENTRY __attribute__((dllimport))
+        #define NWAPIEXPORT __attribute__((dllexport))
+    #endif
 #else
-#define NWAPIENTRY __attribute__((dllimport))
-#define NWAPIEXPORT __attribute__((dllexport))
-#endif
-#else
-#define NWAPIENTRY __attribute__((visibility("default")))
-#define NWAPIEXPORT __attribute__((visibility("default")))
+    #define NWAPIENTRY __attribute__((visibility("default")))
+    #define NWAPIEXPORT __attribute__((visibility("default")))
 #endif
 
 #ifdef _MSC_VER
-#define NWAPICALL __cdecl
+    #define NWAPICALL __cdecl
 #else
-#define NWAPICALL __attribute__((__cdecl__))
+    #define NWAPICALL __attribute__((__cdecl__))
 #endif
+
+// NEWorld constants
+
+const int ChunkSize = 32;
+const int32_t AirID = 0;
+
+// NEWorld structures
 
 struct NWvec3i
 {
@@ -79,39 +84,33 @@ struct NWblocktype
     int32_t hardness;
 };
 
+// NEWorld APIs
+
 NWAPIENTRY NWblockdata NWAPICALL nwGetBlock(const NWvec3i* pos);
 NWAPIENTRY int32_t NWAPICALL nwSetBlock(const NWvec3i* pos, NWblockdata block);
 NWAPIENTRY int32_t NWAPICALL nwRegisterBlock(const NWblocktype*);
 
 #ifdef NEWORLD_PLUGIN_CLIENT_SIDE
-// Client-only APIs
+    // Client-only APIs
 
 #endif
 
 #ifdef NEWORLD_PLUGIN_SERVER_SIDE
-// Server-only APIs
+    // Server-only APIs
 
-typedef void NWAPICALL NWchunkgenerator(const NWvec3i*, NWblockdata*, int32_t);
+    typedef void NWAPICALL NWchunkgenerator(const NWvec3i*, NWblockdata*, int32_t);
 
-NWAPIENTRY int32_t NWAPICALL nwRegisterChunkGenerator(NWchunkgenerator* const generator);
+    NWAPIENTRY int32_t NWAPICALL nwRegisterChunkGenerator(NWchunkgenerator* const generator);
 
 #endif
+
+// Plugin exported functions
+NWAPIEXPORT NWplugindata* NWAPICALL getInfo();
+NWAPIEXPORT void NWAPICALL init();
+NWAPIEXPORT void NWAPICALL unload();
 
 #ifdef __cplusplus
 }
 #endif
 
-// NEWorld constants
-constexpr int ChunkSize = 32;
-constexpr int32_t AirID = 0;
-
-// Export functions
-extern "C"
-{
-    NWAPIEXPORT NWplugindata* NWAPICALL getInfo();
-    NWAPIEXPORT void NWAPICALL init();
-    NWAPIEXPORT void NWAPICALL unload();
-}
-
 #endif // !NWAPI_H_
-

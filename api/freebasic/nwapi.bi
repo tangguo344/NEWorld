@@ -16,6 +16,10 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '/
 
+/'
+
+WARNING: THESE APIS ARE OUT OF DATE!
+
 #ifndef NWAPI_BI_
 #define NWAPI_BI_
 
@@ -65,3 +69,5 @@ declare function nwRegisterBlock NWAPICALL alias "nwRegisterBlock" (byval as con
 declare function nwRegisterChunkGenerator NWAPICALL alias "nwRegisterChunkGenerator" (byval as NWchunkgenerator const ptr) as int32_t
 
 #endif ' !NWAPI_BI_
+
+'/
