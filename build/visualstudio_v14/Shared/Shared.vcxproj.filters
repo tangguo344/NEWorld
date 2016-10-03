@@ -31,17 +31,11 @@
     <ClInclude Include="..\..\..\src\shared\networkstructures.h">
       <Filter>Source\Network</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\packet.h">
-      <Filter>Source\Network</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\shared\plugin.h">
       <Filter>Source\Plugin</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\shared\pluginmanager.h">
       <Filter>Source\Plugin</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\session.h">
-      <Filter>Source\Network</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\shared\takedatahelper.h">
       <Filter>Source\Network</Filter>
@@ -112,9 +106,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\shared\pluginmanager.cpp">
       <Filter>Source\Plugin</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\shared\session.cpp">
-      <Filter>Source\Network</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\shared\logger.cpp">
       <Filter>Source\Common</Filter>

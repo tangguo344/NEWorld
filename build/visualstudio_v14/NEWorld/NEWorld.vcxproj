@@ -128,7 +128,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;freetype2.lib;UILib.lib;SDL2.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;freetype2.lib;UILib.lib;SDL2.lib;SDL2_image.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <Profile>false</Profile>
       <SubSystem>NotSet</SubSystem>
       <EntryPointSymbol>
@@ -161,7 +161,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;freetype2.lib;UILib.lib;SDL2.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;freetype2.lib;UILib.lib;SDL2.lib;SDL2_image.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <Profile>false</Profile>
       <SubSystem>NotSet</SubSystem>
       <EntryPointSymbol>
@@ -281,7 +281,6 @@
     <ClCompile Include="..\..\..\src\client\chunkrenderer.cpp" />
     <ClCompile Include="..\..\..\src\client\main.cpp" />
     <ClCompile Include="..\..\..\src\client\network.cpp" />
-    <ClCompile Include="..\..\..\src\client\networkstructures.cpp" />
     <ClCompile Include="..\..\..\src\client\neworld.cpp" />
     <ClCompile Include="..\..\..\src\client\mainmenu.cpp" />
     <ClCompile Include="..\..\..\src\client\player.cpp" />

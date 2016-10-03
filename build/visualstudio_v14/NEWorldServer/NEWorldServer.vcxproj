@@ -24,18 +24,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\src\server\builtincommands.cpp" />
     <ClCompile Include="..\..\..\src\server\chunkloader.cpp" />
+    <ClCompile Include="..\..\..\src\server\commandmanager.cpp" />
+    <ClCompile Include="..\..\..\src\server\gateway.cpp" />
     <ClCompile Include="..\..\..\src\server\main.cpp" />
-    <ClCompile Include="..\..\..\src\server\networkstructures.cpp" />
+    <ClCompile Include="..\..\..\src\server\networkmanager.cpp" />
     <ClCompile Include="..\..\..\src\server\server.cpp" />
-    <ClCompile Include="..\..\..\src\server\commandcontroller.cpp" />
     <ClCompile Include="..\..\..\src\server\settings.cpp" />
     <ClCompile Include="..\..\..\src\server\worldloader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\server\chunkloader.h" />
+    <ClInclude Include="..\..\..\src\server\commandmanager.h" />
+    <ClInclude Include="..\..\..\src\server\gateway.h" />
+    <ClInclude Include="..\..\..\src\server\networkmanager.h" />
     <ClInclude Include="..\..\..\src\server\server.h" />
-    <ClInclude Include="..\..\..\src\server\commandcontroller.h" />
     <ClInclude Include="..\..\..\src\server\settings.h" />
     <ClInclude Include="..\..\..\src\server\worldloader.h" />
   </ItemGroup>
@@ -140,7 +144,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\dependencies\lib\boostlib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(TargetName).lib</ImportLibrary>
     </Link>
@@ -161,7 +166,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\dependencies\lib_x64\boostlib;$(ProjectDir)..\..\..\dependencies\lib_x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(TargetName).lib</ImportLibrary>
     </Link>
@@ -188,7 +194,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\dependencies\lib\boostlib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(TargetName).lib</ImportLibrary>
     </Link>
@@ -215,7 +222,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\dependencies\lib_x64\boostlib;$(ProjectDir)..\..\..\dependencies\lib_x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(TargetName).lib</ImportLibrary>
     </Link>

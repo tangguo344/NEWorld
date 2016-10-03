@@ -72,9 +72,6 @@
     <ClCompile Include="..\..\..\src\client\chunkrenderer.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\client\networkstructures.cpp">
-      <Filter>Source\Network</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\client\network.cpp">
       <Filter>Source\Network</Filter>
     </ClCompile>
