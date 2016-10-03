@@ -28,9 +28,6 @@
     <ClInclude Include="..\..\..\src\client\vertexarray.h">
       <Filter>Source\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\client\chunkrenderer.h">
-      <Filter>Source\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\client\network.h">
       <Filter>Source\Network</Filter>
     </ClInclude>
@@ -61,15 +58,15 @@
     <ClInclude Include="..\..\..\src\client\window.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\client\chunk.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\client\renderer.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\client\vertexarray.cpp">
-      <Filter>Source\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\client\chunkrenderer.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\client\networkstructures.cpp">
@@ -101,6 +98,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\client\window.cpp">
       <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\chunk.cpp">
+      <Filter>Source\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -20,13 +20,13 @@
 #ifndef WORLDRENDERER_H_
 #define WORLDRENDERER_H_
 
-#include <world.h>
-#include "chunkrenderer.h"
+#include <worldbase.h>
+#include "chunk.h"
 
 class WorldRenderer
 {
 public:
-    WorldRenderer(World& world) : m_world(world)
+    WorldRenderer(WorldBase& world) : m_world(world)
     {
     }
 
@@ -36,14 +36,15 @@ public:
     // Render all chunks
     void render() const
     {
-        for(auto& chunkRenderer: m_chunkRenderers)
+        for(auto&& chunkRenderer: m_chunkRenderers)
             chunkRenderer.render();
     }
 
 private:
     // Target world
-    World& m_world;
-    std::vector<ChunkRenderer> m_chunkRenderers;
+    WorldBase& m_world;
+    std::vector<Chunk> m_chunkRenderers;
+
 };
 
 #endif // !WORLDRENDERER_H_

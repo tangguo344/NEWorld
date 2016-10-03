@@ -24,7 +24,7 @@ namespace PluginAPI
     // See [1] in pluginapi.h
     BlockManager* Blocks;
     PluginManager* Plugins;
-    World* CurrWorld;
+    WorldBase* CurrWorld;
 
     BlockData convertBlockData(const NWblockdata& src)
     {
