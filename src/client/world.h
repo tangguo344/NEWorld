@@ -17,23 +17,34 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "chunkloader.h"
-#include "pluginmanager.h"
+#ifndef WORLD_H_
+#define WORLD_H_
 
-void NWAPICALL DefaultChunkGen(const Vec3i*, BlockData* blocks, int32_t daylightBrightness)
+#include <worldbase.h>
+#include "chunk.h"
+
+class World
 {
-    // This is the default terrain generator. Use this when no generators were loaded from plugins.
-    for (int x = 0; x < ChunkSize; x++)
-        for (int z = 0; z < ChunkSize; z++)
-            for (int y = 0; y < ChunkSize; y++)
-                blocks[x*ChunkSize*ChunkSize + y*ChunkSize + z] = BlockData(0, daylightBrightness, 0);
-}
+public:
+    World(WorldBase& world) : m_world(world)
+    {
+    }
 
-bool ChunkGeneratorLoaded = false;
-ChunkGenerator *ChunkGen = &DefaultChunkGen;
+    // Build/Destroy VBO
+    void update();
 
-void ChunkLoader::build(int daylightBrightness) const
-{
-    (*ChunkGen)(&m_chunk.getPosition(), m_chunk.getBlocks(), daylightBrightness);
-    m_chunk.setUpdated(true);
-}
+    // Render all chunks
+    void render() const
+    {
+        for(auto&& chunkRenderer: m_chunkRenderers)
+            chunkRenderer.render();
+    }
+
+private:
+    // Target world
+    WorldBase& m_world;
+    std::vector<Chunk> m_chunkRenderers;
+
+};
+
+#endif // !WORLD_H_

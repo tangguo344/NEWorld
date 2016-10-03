@@ -17,34 +17,30 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef WORLDRENDERER_H_
-#define WORLDRENDERER_H_
+#ifndef CHUNK_H_
+#define CHUNK_H_
 
-#include <worldbase.h>
-#include "chunk.h"
+#include <common.h>
+#include <chunkbase.h>
 
-class WorldRenderer
+using ChunkGenerator = void NWAPICALL(const Vec3i*, BlockData*, int);
+
+extern bool ChunkGeneratorLoaded;
+extern ChunkGenerator *ChunkGen;
+
+class Chunk
 {
-public:
-    WorldRenderer(WorldBase& world) : m_world(world)
-    {
-    }
-
-    // Build/Destroy VBO
-    void update();
-
-    // Render all chunks
-    void render() const
-    {
-        for(auto&& chunkRenderer: m_chunkRenderers)
-            chunkRenderer.render();
-    }
-
 private:
-    // Target world
-    WorldBase& m_world;
-    std::vector<Chunk> m_chunkRenderers;
+    ChunkBase& m_chunk;
 
+public:
+    explicit Chunk(ChunkBase& chunk) : m_chunk(chunk) {}
+
+    Chunk(const Chunk&) = delete;
+    Chunk& operator=(const Chunk&) = delete;
+
+    // Build chunk
+    void build(int daylightBrightness) const;
 };
 
-#endif // !WORLDRENDERER_H_
+#endif // !CHUNK_H_

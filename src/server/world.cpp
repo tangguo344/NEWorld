@@ -17,10 +17,10 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "worldloader.h"
-#include "chunkloader.h"
+#include "world.h"
+#include "chunk.h"
 
-void WorldLoader::sortChunkLoadUnloadList(const Vec3i& centerPos)
+void World::sortChunkLoadUnloadList(const Vec3i& centerPos)
 {
     //Vec3i centerCPos;
     int pl = 0, pu = 0;
@@ -116,12 +116,12 @@ void WorldLoader::sortChunkLoadUnloadList(const Vec3i& centerPos)
     m_chunkLoadCount = pu;
 }
 
-void WorldLoader::loadUnloadChunks() const
+void World::loadUnloadChunks() const
 {
     for (int i = 0; i < m_chunkLoadCount; i++)
     {
         // TODO: Try to read in file
-        ChunkLoader(*m_world.addChunk(m_chunkLoadList[i].first)).build(m_world.getDaylightBrightness());
+        Chunk(*m_world.addChunk(m_chunkLoadList[i].first)).build(m_world.getDaylightBrightness());
     }
     for (int i = 0; i < m_chunkUnloadCount; i++)
     {

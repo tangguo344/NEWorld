@@ -17,8 +17,8 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef WORLDLOADER_H_
-#define WORLDLOADER_H_
+#ifndef WORLD_H_
+#define WORLD_H_
 
 #include <utility>
 #include <worldbase.h>
@@ -26,10 +26,10 @@
 
 constexpr int MaxChunkLoadCount = 64, MaxChunkUnloadCount = 64;
 
-class WorldLoader
+class World
 {
 public:
-    WorldLoader(WorldBase& world, int loadRange)
+    World(WorldBase& world, int loadRange)
         : m_world(world), m_cpa(world.getChunkPointerArray()), m_loadRange(loadRange)
     {
     }
@@ -59,4 +59,4 @@ private:
 
 };
 
-#endif // !WORLDLOADER_H_
+#endif // !WORLD_H_
