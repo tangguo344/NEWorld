@@ -17,26 +17,22 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-// The client version
+#include "serverapi.h"
 
-#define NEWORLD_PLUGIN_CLIENT_SIDE
-#include "../shared/shared.h"
-
-NWplugindata* MainPlugin = nullptr;
-
-NWplugindata* NWAPICALL getInfo()
+extern "C"
 {
-    return getInfo(true);
-}
+    using namespace PluginAPI;
 
-// Main function
-void NWAPICALL init()
-{
-    sharedInit();
-}
-
-// Unload function
-void NWAPICALL unload()
-{
-    if (MainPlugin != nullptr) delete MainPlugin;
+    NWAPIEXPORT int32_t NWAPICALL nwRegisterChunkGenerator(NWchunkgenerator* const generator)
+    {
+        if (ChunkGeneratorLoaded)
+        {
+            warningstream << "Ignoring multiple chunk generator";
+            return 1;
+        }
+        ChunkGeneratorLoaded = true;
+        ChunkGen = generator;
+        infostream << "Registered chunk generator";
+        return 0;
+    }
 }

@@ -69,21 +69,6 @@ extern "C"
         return Blocks->registerBlock(convertBlockType(*block));
     }
 
-    NWAPIEXPORT int32_t NWAPICALL nwRegisterChunkGenerator(NWchunkgenerator* const generator)
-    {
-        /*
-        if (ChunkGeneratorLoaded)
-        {
-            warningstream << "Ignoring multiple chunk generator";
-            return 1;
-        }
-        ChunkGeneratorLoaded = true;
-        ChunkGen = generator;
-        infostream << "Registered chunk generator";
-        */
-        return 0;
-    }
-
     NWAPIEXPORT void NWAPICALL nwLog(char* str, Logger::Level level)
     {
         Logger("", "", 0, level) << str;
