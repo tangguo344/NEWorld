@@ -23,7 +23,7 @@
     <ClCompile Include="..\..\..\src\main\shared\shared.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\api\cpp\nwapi.h" />
+    <ClInclude Include="..\..\..\api\c\nwapi.h" />
     <ClInclude Include="..\..\..\src\main\shared\shared.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -20,7 +20,7 @@
 #ifndef SHARED_H_
 #define SHARED_H_
 
-#include "../../../api/cpp/nwapi.h"
+#include "../../../api/c/nwapi.h"
 
 // Block IDs
 extern int32_t RockID;
