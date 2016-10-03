@@ -21,7 +21,7 @@
 #define SERVERAPI_H_
 
 #include <pluginapi.h>
-#include "chunkloader.h"
+#include "chunk.h"
 
 namespace PluginAPI
 {
