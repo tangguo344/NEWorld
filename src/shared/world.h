@@ -93,7 +93,7 @@ public:
     {
         // TODO: Try chunk pointer array
         size_t index = getChunkIndex(chunkPos);
-        if (m_chunks[index]->getPosition() != chunkPos) return nullptr;
+        if (m_chunkCount == 0 || m_chunks[index]->getPosition() != chunkPos) return nullptr;
         Chunk* res = m_chunks[index];
         return res;
     }

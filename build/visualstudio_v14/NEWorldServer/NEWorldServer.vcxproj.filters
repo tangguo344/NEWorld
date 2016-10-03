@@ -22,6 +22,9 @@
     </Filter>
     <Filter Include="Source\Game">
       <UniqueIdentifier>{cacc27af-bc70-4805-8a4d-aecd8addd92b}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="Source\Plugin">
+      <UniqueIdentifier>{a54b74af-34a8-45cf-8b46-3c70dba3e24d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -51,6 +54,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\server\networkmanager.cpp">
       <Filter>Source\Network</Filter>
+	</ClCompile>
+    <ClCompile Include="..\..\..\src\server\serverapi.cpp">
+      <Filter>Source\Plugin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -77,6 +83,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\server\playermanager.h">
       <Filter>Source\Game</Filter>
+	</ClInclude>
+    <ClInclude Include="..\..\..\src\server\serverapi.h">
+      <Filter>Source\Plugin</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

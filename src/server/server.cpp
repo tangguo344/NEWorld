@@ -29,18 +29,24 @@ Server::Server(std::vector<std::string> args)
 
     // Plugin
     PluginAPI::Blocks = &m_blocks;
+
     infostream << "Initializing plugins...";
     m_plugins.loadPlugins();
 
     // World
     World* world = m_worlds.addWorld("main_world");
+    m_worldLoaders.insert({ "main_world", WorldLoader(*world, 32) }); //TODO: get the range by players' settings
 
-    m_worldLoaders.insert({ "main_world", WorldLoader(*world, 16) }); //TODO: get the range by players' settings
+    // Start server
+    infostream << "Server started!";
+
+    //if (std::find(args.begin(), args.end(), "--single-player-mode") != args.end())
+    //    errorHook = [this] {m_ioService.stop(); };
 
     // Done
     auto done_time = steady_clock::now();
     infostream << "Done!(in " << duration_cast<milliseconds>(done_time - start_time).count() << "ms)!";
-    
+
     // Process input
     initBuiltinCommands();
     m_commands.inputLoop(); // This will block the main thread

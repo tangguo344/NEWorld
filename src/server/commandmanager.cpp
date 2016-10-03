@@ -36,7 +36,7 @@ void CommandManager::inputLoop()
     while (m_threadRunning)
     {
         std::string input;
-        std::cout << LColorFunc::white << "> " << LColorFunc::lwhite;
+        //std::cout << LColorFunc::white << "> " << LColorFunc::lwhite;
         std::getline(std::cin, input);
         auto result = handleCommand(Command(input));
         if (result.info != "")

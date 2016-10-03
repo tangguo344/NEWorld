@@ -65,9 +65,6 @@ namespace PluginAPI
         int32_t hardness;
     };
 
-    using ChunkGenerator = void NWAPICALL(const Vec3i*, BlockData*, int);
-    using NWchunkgenerator = ChunkGenerator;
-
     // Conversions between plugin structures and NEWorld structures
     // This is used when structure definitions in NEWorld and in Plugin API are different
 
