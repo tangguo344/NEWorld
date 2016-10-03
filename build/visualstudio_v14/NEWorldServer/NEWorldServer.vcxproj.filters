@@ -20,6 +20,9 @@
     <Filter Include="Source\Main">
       <UniqueIdentifier>{4df86efc-5d15-42ec-b35c-767643cbacbc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Game">
+      <UniqueIdentifier>{cacc27af-bc70-4805-8a4d-aecd8addd92b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\server\settings.cpp">
@@ -71,6 +74,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\server\networkmanager.h">
       <Filter>Source\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\server\playermanager.h">
+      <Filter>Source\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
