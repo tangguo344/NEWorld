@@ -229,6 +229,9 @@ settings.json
 [Ww]orlds/
 [Ss]creen[Ss]hots/
 [Cc]onfigs/
+[Pp]lugins/
+res/fonts/
+
 
 # Eclipse
 *.project
@@ -244,12 +247,4 @@ settings.json
 
 # Windows thumbnail cache
 [Tt]humbs.db
-/plugins
-/res/fonts
 
-# CMake files
-release/CMakeFiles
-release/logs
-release/Makefile
-release/CMakeCache.txt
-release/cmake_install.cmake
