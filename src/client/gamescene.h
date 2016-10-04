@@ -68,6 +68,7 @@ private:
     std::unique_ptr<WorldRenderer> m_renderer;
     // Local server thread
     std::thread m_localServerThread;
+    Connection mConn;
 };
 
 #endif // !GAMEVIEW_H_

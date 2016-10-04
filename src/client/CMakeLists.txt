@@ -9,6 +9,6 @@ if(EXECUTABLE)
 else()
     add_library(nwclient SHARED ${SRC_CLIENT})
 endif()
-target_link_libraries(nwclient pthread nwshared uilib freetype)
+target_link_libraries(nwclient pthread nwshared uilib freetype RakNetDLL)
 target_include_directories(nwclient PUBLIC ${SOURCE_DIR}/shared PUBLIC)
 

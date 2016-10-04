@@ -29,6 +29,7 @@ GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
     :UI::Controls::GLContext(), m_blocks(bm), m_plugins(pm)
 {
     // TODO: start the server only when it's a single player mode.
+    /*
     m_localServerThread = std::thread([]
     {
         const char *file = getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver").c_str();
@@ -36,7 +37,10 @@ GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
         boost::dll::shared_library(file, boost::dll::load_mode::append_decorations)
         .get<void NWAPICALL(int, char**)>("main")(sizeof(argv)/sizeof(argv[0]), const_cast<char**>(argv));
     });
-
+    */
+    
+    mConn.connect("127.0.0.1",9887);// TODO: get address and port from settingsmanager. --Miigon
+    
     keyFunc.connect([this](int scancode, UI::Core::ButtonAction)
     {
         onKey(scancode);
