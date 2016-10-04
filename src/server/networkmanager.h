@@ -1,29 +1,49 @@
-#ifndef NETWORKMGR_H
-#define NETWORKMGR_H
+#ifndef NetworkManager_H
+#define NetworkManager_H
 
-#include <cstddef>
-#include "gateway.h"
+#include <stdexcept>
+#include <thread>
+#include <raknet/RakPeerInterface.h>
 
-/** Manage the network connections.
- *  Use Gateway to send and recive data,unpack them and call the protocol callback.
- *  @see Gateway
- */
 class Connection;
-class Server;
 
 class NetworkManager
 {
 public:
-    NetworkManager(Server &s);
-    void onReciveData(Connection *conn,const char *data,size_t len);
-    void onConnStart(Connection *conn);
-    void onConnStop(Connection *conn);
-    /** Terminate all gateways.
-    */
-    void stop();
+    NetworkManager();
+    ~NetworkManager();
+    void close();
+    /**
+     * Try to start up an server NetworkManager and start listenning on it.
+     * @throw std::runtime_error if start up failed
+     * @return `true` if start up successfully,`false` if already running,otherwise throws an exception
+     */
+    bool run(const char *addr,unsigned short port);
 private:
-    Server &mServer;
-    Gateway mGateway;
+    void loop();
+    Connection *newConnection(RakNet::SystemAddress addr);
+    void deleteConnection(RakNet::SystemAddress addr);
+    RakNet::RakPeerInterface *mPeer;
+    std::thread mThread;
+    std::vector<Connection*> mConns;
+};
+
+/** The base class of any Connection class to it's NetworkManager
+ *  @see NetworkManager
+ *  @see NetworkManager
+ */
+class Connection
+{
+public:
+    friend class NetworkManager;
+    // TODO: method `send()` to send packet(flatbuffers)
+private:
+    Connection(NetworkManager &network,RakNet::RakPeerInterface *peer,RakNet::SystemAddress addr);
+    ~Connection();
+    void sendRawData(const char *data, int len,PacketPriority priority,PacketReliability reliability);
+    NetworkManager &mNetwork;
+    RakNet::RakPeerInterface *mPeer;
+    RakNet::SystemAddress mAddr;
 };
 
 #endif
