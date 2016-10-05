@@ -40,12 +40,11 @@ public:
         m_chunks = reinterpret_cast<ChunkBase**>(malloc(m_chunkArraySize * sizeof(ChunkBase*)));
     }
 
-    //FIXME: m_cpa
-    //World(World&& rhs)
-    //    : m_name(std::move(rhs.m_name)), m_plugins(rhs.m_plugins), m_blocks(rhs.m_blocks),
-    //      m_chunkCount(rhs.m_chunkCount), m_chunkArraySize(rhs.m_chunkArraySize), m_chunks(rhs.m_chunks), m_daylightBrightness(rhs.m_daylightBrightness), m_cpa(rhs.m_cpa)
-    //{
-    //}
+    WorldBase(WorldBase&& rhs)
+        : m_name(std::move(rhs.m_name)), m_plugins(rhs.m_plugins), m_blocks(rhs.m_blocks),
+          m_chunkCount(rhs.m_chunkCount), m_chunkArraySize(rhs.m_chunkArraySize), m_chunks(rhs.m_chunks), m_daylightBrightness(rhs.m_daylightBrightness), m_cpa(std::move(rhs.m_cpa))
+    {
+    }
 
     ~WorldBase()
     {

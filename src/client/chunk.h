@@ -25,11 +25,12 @@
 #include <worldbase.h>
 #include "renderer.h"
 
+// Chunk (Client)
 class Chunk
-    :boost::noncopyable
+    : public ChunkBase, boost::noncopyable
 {
 public:
-    Chunk(WorldBase& world, ChunkBase& chunk) : m_world(world), m_chunk(chunk)
+    Chunk(WorldBase& world, Vec3i& position): ChunkBase(position), m_world(world)
     {
     }
 
@@ -43,10 +44,8 @@ public:
     }
 
 private:
-    // Target world
-    WorldBase& m_world;
-    // Target chunk
-    ChunkBase& m_chunk;
+    // Current world
+    WorldBase &m_world;
     // Vertex buffer object
     VertexBuffer m_buffer;
     // Vertex array

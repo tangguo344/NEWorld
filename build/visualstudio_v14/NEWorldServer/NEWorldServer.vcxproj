@@ -32,6 +32,7 @@
     <ClCompile Include="..\..\..\src\server\serverapi.cpp" />
     <ClCompile Include="..\..\..\src\server\settings.cpp" />
     <ClCompile Include="..\..\..\src\server\world.cpp" />
+    <ClCompile Include="..\..\..\src\server\worldmanager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\server\chunk.h" />
@@ -40,6 +41,7 @@
     <ClInclude Include="..\..\..\src\server\serverapi.h" />
     <ClInclude Include="..\..\..\src\server\settings.h" />
     <ClInclude Include="..\..\..\src\server\world.h" />
+    <ClInclude Include="..\..\..\src\server\worldmanager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{ABBA7A56-1D26-4C66-AED9-67C8F7CC3AE7}</ProjectGuid>

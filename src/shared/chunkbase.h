@@ -29,7 +29,7 @@ constexpr int ChunkSizeLog2 = 5, ChunkSize = 1 << ChunkSizeLog2; // 2 ^ ChunkSiz
 class ChunkBase
 {
 public:
-    explicit ChunkBase(const Vec3i& position) : m_position(position)
+    explicit ChunkBase(const Vec3i& position) : m_position(position), m_updated(false)
     {
     }
 
