@@ -29,9 +29,9 @@ void World::sortChunkLoadUnloadList(const Vec3i& centerPos)
     // centerPos to chunk coords
     //centerCPos = m_world->getChunkPos(centerPos);
 
-    for (size_t ci = 0; ci < m_world.getChunkCount(); ci++)
+    for (size_t ci = 0; ci < getChunkCount(); ci++)
     {
-        Vec3i curPos = m_world.getChunkPtr(ci)->getPosition();
+        Vec3i curPos = getChunkPtr(ci)->getPosition();
         // Get chunk center pos
         curPos.for_each([](int& x)
         {
@@ -64,7 +64,7 @@ void World::sortChunkLoadUnloadList(const Vec3i& centerPos)
                 m_chunkUnloadList[j] = m_chunkUnloadList[j - 1];
 
             // Insert into list
-            m_chunkUnloadList[first] = { m_world.getChunkPtr(ci), distsqr };
+            m_chunkUnloadList[first] = { getChunkPtr(ci), distsqr };
 
             // Add counter
             if (pl < MaxChunkUnloadCount) pl++;
@@ -76,7 +76,7 @@ void World::sortChunkLoadUnloadList(const Vec3i& centerPos)
         for (int y = centerPos.y - m_loadRange; y <= centerPos.y + m_loadRange; y++)
             for (int z = centerPos.z - m_loadRange; z <= centerPos.z + m_loadRange; z++)
                 // In load range, pending to load
-                if (!m_world.isChunkLoaded(Vec3i(x, y, z))) // if (m_cpa.get(Vec3i(x, y, z)) == nullptr)
+                if (!isChunkLoaded(Vec3i(x, y, z))) // if (m_cpa.get(Vec3i(x, y, z)) == nullptr)
                 {
                     Vec3i curPos(x, y, z);
                     // Get chunk center pos
@@ -116,16 +116,16 @@ void World::sortChunkLoadUnloadList(const Vec3i& centerPos)
     m_chunkLoadCount = pu;
 }
 
-void World::loadUnloadChunks() const
+void World::loadUnloadChunks()
 {
     for (int i = 0; i < m_chunkLoadCount; i++)
     {
         // TODO: Try to read in file
-        Chunk(*m_world.addChunk(m_chunkLoadList[i].first)).build(m_world.getDaylightBrightness());
+        reinterpret_cast<Chunk*>(addChunk(m_chunkLoadList[i].first))->build(getDaylightBrightness());
     }
     for (int i = 0; i < m_chunkUnloadCount; i++)
     {
         // TODO: Save chunk
-        m_world.deleteChunk(m_chunkUnloadList[i].first->getPosition());
+        deleteChunk(m_chunkUnloadList[i].first->getPosition());
     }
 }

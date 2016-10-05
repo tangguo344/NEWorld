@@ -49,6 +49,9 @@
     <ClCompile Include="..\..\..\src\server\world.cpp">
       <Filter>Source\World</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\server\worldmanager.cpp">
+      <Filter>Source\World</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\server\settings.h">
@@ -67,6 +70,9 @@
       <Filter>Source\World</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\server\world.h">
+      <Filter>Source\World</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\server\worldmanager.h">
       <Filter>Source\World</Filter>
     </ClInclude>
   </ItemGroup>

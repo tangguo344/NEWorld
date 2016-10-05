@@ -32,8 +32,8 @@ void NWAPICALL DefaultChunkGen(const Vec3i*, BlockData* blocks, int32_t daylight
 bool ChunkGeneratorLoaded = false;
 ChunkGenerator *ChunkGen = &DefaultChunkGen;
 
-void Chunk::build(int daylightBrightness) const
+void Chunk::build(int daylightBrightness)
 {
-    (*ChunkGen)(&m_chunk.getPosition(), m_chunk.getBlocks(), daylightBrightness);
-    m_chunk.setUpdated(true);
+    (*ChunkGen)(&getPosition(), getBlocks(), daylightBrightness);
+    setUpdated(true);
 }

@@ -26,11 +26,11 @@
 
 constexpr int MaxChunkLoadCount = 64, MaxChunkUnloadCount = 64;
 
-class World
+class World : public WorldBase
 {
 public:
-    World(WorldBase& world, int loadRange)
-        : m_world(world), m_cpa(world.getChunkPointerArray()), m_loadRange(loadRange)
+    World(WorldBase&& world, int loadRange)
+        : WorldBase(std::move(world)), m_loadRange(loadRange)
     {
     }
 
@@ -43,15 +43,10 @@ public:
     /// Find the nearest chunks in load range to load, fartherest chunks out of load range to unload
     void sortChunkLoadUnloadList(const Vec3i& centerPos);
     /// Load & unload chunks
-    void loadUnloadChunks() const;
+    void loadUnloadChunks();
 
 private:
-    /// World
-    WorldBase& m_world;
-    /// ChunkPointerArray used to detect unloaded chunks in load range
-    ChunkPointerArray& m_cpa;
-
-    int m_chunkLoadCount, m_chunkUnloadCount = 0, m_loadRange = 0;
+    int m_chunkLoadCount = 0, m_chunkUnloadCount = 0, m_loadRange;
     /// Chunk load list [position, distance]
     std::pair<Vec3i, int> m_chunkLoadList[MaxChunkLoadCount];
     /// Chunk unload list [pointer, distance]

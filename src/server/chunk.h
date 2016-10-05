@@ -28,19 +28,13 @@ using ChunkGenerator = void NWAPICALL(const Vec3i*, BlockData*, int);
 extern bool ChunkGeneratorLoaded;
 extern ChunkGenerator *ChunkGen;
 
-class Chunk
+class Chunk : public ChunkBase
 {
-private:
-    ChunkBase& m_chunk;
-
 public:
-    explicit Chunk(ChunkBase& chunk) : m_chunk(chunk) {}
-
-    Chunk(const Chunk&) = delete;
-    Chunk& operator=(const Chunk&) = delete;
+    explicit Chunk(ChunkBase& chunk) : ChunkBase(chunk) {}
 
     // Build chunk
-    void build(int daylightBrightness) const;
+    void build(int daylightBrightness);
 };
 
 #endif // !CHUNK_H_

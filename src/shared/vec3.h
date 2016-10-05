@@ -180,7 +180,7 @@ public:
         func(z, std::forward<ArgType>(args)...);
     }
 
-    //TODO: fix it. And tell if "for_each" will change the value of "this".
+    // TODO: fix it. And tell if "for_each" will change the value of "this".
     template <typename Func>
     Vec3<T> transform(Func func) const
     {
@@ -233,7 +233,7 @@ public:
     }
 
 private:
-    // to solve problems about `abs`, we need this.
+    // To solve problems about `abs`, we need this.
     static T abs(param_type arg)
     {
         return arg >= 0 ? arg : -arg;
