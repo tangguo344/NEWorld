@@ -73,7 +73,7 @@ Server::Server(std::vector<std::string> args)
     infostream << "Initializing plugins...";
     m_plugins.loadPlugins();
 
-    WorldBase* world = m_worlds.addWorld("main_world");
+    World* world = m_worlds.addWorld("main_world");
     m_worldLoaders.insert({ "main_world", WorldLoader(*world, 32) }); //TODO: get the range by players' settings
 
     // Start server
@@ -217,7 +217,7 @@ void Server::initCommands()
     m_commandController.addCommand("chunks.count", { "internal","Show how many chunks are loaded" }, [this](Command cmd)->CommandExecuteStat
     {
         int sum = 0;
-        for (WorldBase* world : m_worlds)
+        for (World* world : m_worlds)
         {
             sum += world->getChunkCount();
         }
