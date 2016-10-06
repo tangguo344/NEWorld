@@ -21,7 +21,6 @@
 #define CHUNKPOINTERARRAY_H_
 
 #include <cstring>
-#include <algorithm>
 #include <boost/core/noncopyable.hpp>
 #include "chunkbase.h"
 
@@ -36,7 +35,7 @@ private:
     Vec3i m_org;
 
 public:
-    explicit ChunkPointerArray(int size) : m_org(-size / 2, -size / 2, -size / 2)
+    explicit ChunkPointerArray(int size) :m_org(-size / 2, -size / 2, -size / 2)
     {
         m_size = size;
         m_size2 = size * size;
@@ -44,12 +43,6 @@ public:
         m_array = new ChunkBase*[m_size3];
         memset(m_array, 0, m_size3 * sizeof(ChunkBase*));
     }
-
-    ChunkPointerArray(ChunkPointerArray&& rhs) : m_size(rhs.m_size), m_size2(rhs.m_size2), m_size3(rhs.m_size3), m_org(rhs.m_org)
-    {
-        std::swap(m_array, rhs.m_array);
-    }
-
     ~ChunkPointerArray()
     {
         delete[] m_array;

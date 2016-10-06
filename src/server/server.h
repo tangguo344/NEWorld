@@ -24,12 +24,12 @@
 #include <vector>
 #include <logger.h>
 #include <session.h>
+#include <worldmanager.h>
 #include <blockmanager.h>
 #include <pluginmanager.h>
 #include <pluginapi.h>
 #include <ratemeter.h>
 #include "world.h"
-#include "worldmanager.h"
 #include <unordered_map>
 #include <thread>
 #include "commandcontroller.h"
@@ -64,6 +64,8 @@ private:
     WorldManager m_worlds;
     BlockManager m_blocks;
     PluginManager m_plugins; // Loaded plugins
+
+    std::unordered_map<std::string, World> m_worldLoaders;
 
     CommandController m_commandController;
 
