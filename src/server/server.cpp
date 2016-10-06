@@ -73,7 +73,8 @@ Server::Server(std::vector<std::string> args)
     infostream << "Initializing plugins...";
     m_plugins.loadPlugins();
 
-    m_worlds.addWorld("main_world");
+    WorldBase* world = m_worlds.addWorld("main_world");
+    m_worldLoaders.insert({ "main_world", World(*world, 32) }); //TODO: get the range by players' settings
 
     // Start server
     infostream << "Server started!";
@@ -110,10 +111,10 @@ void Server::doGlobalUpdate()
     m_updateTimer.async_wait([this](boost::system::error_code)
     {
         // Update worlds
-        for (auto& world : m_worlds)
+        for (auto& worldLoader : m_worldLoaders)
         {
-            world->sortChunkLoadUnloadList({0,0,0}); //TODO: players' position;
-            world->loadUnloadChunks();
+            worldLoader.second.sortChunkLoadUnloadList({0,0,0}); //TODO: players' position;
+            worldLoader.second.loadUnloadChunks();
         }
         for (auto world : m_worlds) world->update();
         doGlobalUpdate();

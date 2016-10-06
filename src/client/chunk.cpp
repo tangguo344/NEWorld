@@ -35,15 +35,15 @@ void Chunk::buildVertexArray()
         {
             //Vec3i worldpos = m_chunk.getPos() + pos;
 
-            BlockData curr = getBlock(pos);
+            BlockData curr = m_chunk.getBlock(pos);
             BlockData neighbors[6] =
             {
-                pos.x == ChunkSize - 1 ? BlockData(0, 15, 0) : getBlock(Vec3i(pos.x + 1, pos.y, pos.z)),
-                pos.x == 0 ? BlockData(0, 15, 0) : getBlock(Vec3i(pos.x - 1, pos.y, pos.z)),
-                pos.y == ChunkSize - 1 ? BlockData(0, 15, 0) : getBlock(Vec3i(pos.x, pos.y + 1, pos.z)),
-                pos.y == 0 ? BlockData(0, 15, 0) : getBlock(Vec3i(pos.x, pos.y - 1, pos.z)),
-                pos.z == ChunkSize - 1 ? BlockData(0, 15, 0) : getBlock(Vec3i(pos.x, pos.y, pos.z + 1)),
-                pos.z == 0 ? BlockData(0, 15, 0) : getBlock(Vec3i(pos.x, pos.y, pos.z - 1)),
+                pos.x == ChunkSize - 1 ? BlockData(0, 15, 0) : m_chunk.getBlock(Vec3i(pos.x + 1, pos.y, pos.z)),
+                pos.x == 0 ? BlockData(0, 15, 0) : m_chunk.getBlock(Vec3i(pos.x - 1, pos.y, pos.z)),
+                pos.y == ChunkSize - 1 ? BlockData(0, 15, 0) : m_chunk.getBlock(Vec3i(pos.x, pos.y + 1, pos.z)),
+                pos.y == 0 ? BlockData(0, 15, 0) : m_chunk.getBlock(Vec3i(pos.x, pos.y - 1, pos.z)),
+                pos.z == ChunkSize - 1 ? BlockData(0, 15, 0) : m_chunk.getBlock(Vec3i(pos.x, pos.y, pos.z + 1)),
+                pos.z == 0 ? BlockData(0, 15, 0) : m_chunk.getBlock(Vec3i(pos.x, pos.y, pos.z - 1)),
             };
 
             // Right
