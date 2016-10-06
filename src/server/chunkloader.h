@@ -21,7 +21,7 @@
 #define CHUNKLOADER_H_
 
 #include <common.h>
-#include <chunkbase.h>
+#include <chunk.h>
 
 using ChunkGenerator = void NWAPICALL(const Vec3i*, BlockData*, int);
 
@@ -31,10 +31,10 @@ extern ChunkGenerator *ChunkGen;
 class ChunkLoader
 {
 private:
-    ChunkBase& m_chunk;
+    Chunk& m_chunk;
 
 public:
-    explicit ChunkLoader(ChunkBase& chunk) : m_chunk(chunk) {}
+    explicit ChunkLoader(Chunk& chunk) : m_chunk(chunk) {}
 
     ChunkLoader(const ChunkLoader&) = delete;
     ChunkLoader& operator=(const ChunkLoader&) = delete;

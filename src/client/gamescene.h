@@ -25,7 +25,7 @@
 #include "vec3.h"
 #include "renderer.h"
 
-#include <worldbase.h>
+#include <world.h>
 #include <logger.h>
 #include <pluginapi.h>
 #include <blockmanager.h>
@@ -62,7 +62,7 @@ private:
     // Loaded plugins
     PluginManager& m_plugins;
     // Current world
-    WorldBase* m_world;
+    World* m_world;
     // Player test
     Player m_player;
     // Renderer
