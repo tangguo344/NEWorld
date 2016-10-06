@@ -17,9 +17,9 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "world.h"
+#include "worldrenderer.h"
 
-void World::update()
+void WorldRenderer::update()
 {
     // Build VBO in visible range
 

@@ -49,6 +49,9 @@
     <ClInclude Include="..\..\..\src\client\gamescene.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\client\worldrenderer.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\src\client\mainmenu.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
@@ -56,9 +59,6 @@
       <Filter>Source\Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\client\chunk.h">
-      <Filter>Source\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\client\world.h">
       <Filter>Source\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
@@ -90,6 +90,9 @@
     <ClCompile Include="..\..\..\src\client\gamescene.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\client\worldrenderer.cpp">
+      <Filter>Source\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\client\mainmenu.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
@@ -97,9 +100,6 @@
       <Filter>Source\Scene</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\client\chunk.cpp">
-      <Filter>Source\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\client\world.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
   </ItemGroup>

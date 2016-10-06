@@ -29,7 +29,7 @@
 #include <pluginmanager.h>
 #include <pluginapi.h>
 #include <ratemeter.h>
-#include "world.h"
+#include "worldloader.h"
 #include <unordered_map>
 #include <thread>
 #include "commandcontroller.h"
@@ -65,7 +65,7 @@ private:
     BlockManager m_blocks;
     PluginManager m_plugins; // Loaded plugins
 
-    std::unordered_map<std::string, World> m_worldLoaders;
+    std::unordered_map<std::string, WorldLoader> m_worldLoaders;
 
     CommandController m_commandController;
 

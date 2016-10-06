@@ -43,7 +43,7 @@ GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
     });
     win->renderdelegate.push_back([this, win]() { init(win); });
 
-    m_renderer=std::unique_ptr<World>(new World(*m_world));
+    m_renderer=std::unique_ptr<WorldRenderer>(new WorldRenderer(*m_world));
 }
 
 void GameScene::init(UI::Core::Window*)

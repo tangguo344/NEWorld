@@ -74,7 +74,7 @@ Server::Server(std::vector<std::string> args)
     m_plugins.loadPlugins();
 
     WorldBase* world = m_worlds.addWorld("main_world");
-    m_worldLoaders.insert({ "main_world", World(*world, 32) }); //TODO: get the range by players' settings
+    m_worldLoaders.insert({ "main_world", WorldLoader(*world, 32) }); //TODO: get the range by players' settings
 
     // Start server
     infostream << "Server started!";
