@@ -31,7 +31,8 @@
 #include <blockmanager.h>
 #include <worldmanager.h>
 #include <pluginmanager.h>
-#include "world.h"
+#include "../server/worldloader.h"
+#include "worldrenderer.h"
 #include "texture.h"
 #include "player.h"
 #include "network.h"
@@ -65,7 +66,7 @@ private:
     // Player test
     Player m_player;
     // Renderer
-    std::unique_ptr<World> m_renderer;
+    std::unique_ptr<WorldRenderer> m_renderer;
     // Network connection
     Connection m_connection;
     // Local server thread

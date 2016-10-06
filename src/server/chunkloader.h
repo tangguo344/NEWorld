@@ -17,23 +17,30 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "chunk.h"
-#include "pluginmanager.h"
+#ifndef CHUNKLOADER_H_
+#define CHUNKLOADER_H_
 
-void NWAPICALL DefaultChunkGen(const Vec3i*, BlockData* blocks, int32_t daylightBrightness)
+#include <common.h>
+#include <chunkbase.h>
+
+using ChunkGenerator = void NWAPICALL(const Vec3i*, BlockData*, int);
+
+extern bool ChunkGeneratorLoaded;
+extern ChunkGenerator *ChunkGen;
+
+class ChunkLoader
 {
-    // This is the default terrain generator. Use this when no generators were loaded from plugins.
-    for (int x = 0; x < ChunkSize; x++)
-        for (int z = 0; z < ChunkSize; z++)
-            for (int y = 0; y < ChunkSize; y++)
-                blocks[x*ChunkSize*ChunkSize + y*ChunkSize + z] = BlockData(0, daylightBrightness, 0);
-}
+private:
+    ChunkBase& m_chunk;
 
-bool ChunkGeneratorLoaded = false;
-ChunkGenerator *ChunkGen = &DefaultChunkGen;
+public:
+    explicit ChunkLoader(ChunkBase& chunk) : m_chunk(chunk) {}
 
-void Chunk::build(int daylightBrightness) const
-{
-    (*ChunkGen)(&m_chunk.getPosition(), m_chunk.getBlocks(), daylightBrightness);
-    m_chunk.setUpdated(true);
-}
+    ChunkLoader(const ChunkLoader&) = delete;
+    ChunkLoader& operator=(const ChunkLoader&) = delete;
+
+    // Build chunk
+    void build(int daylightBrightness) const;
+};
+
+#endif // !CHUNKLOADER_H_

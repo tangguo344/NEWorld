@@ -270,7 +270,7 @@
     <ClInclude Include="..\..\..\src\client\vertexarray.h" />
     <ClInclude Include="..\..\..\src\client\gamescene.h" />
     <ClInclude Include="..\..\..\src\client\window.h" />
-    <ClInclude Include="..\..\..\src\client\world.h" />
+    <ClInclude Include="..\..\..\src\client\worldrenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared\Shared.vcxproj">
@@ -290,7 +290,7 @@
     <ClCompile Include="..\..\..\src\client\renderer.cpp" />
     <ClCompile Include="..\..\..\src\client\gamescene.cpp" />
     <ClCompile Include="..\..\..\src\client\window.cpp" />
-    <ClCompile Include="..\..\..\src\client\world.cpp" />
+    <ClCompile Include="..\..\..\src\client\worldrenderer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
