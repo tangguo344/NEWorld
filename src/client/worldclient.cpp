@@ -17,23 +17,28 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "chunkloader.h"
-#include "pluginmanager.h"
+#include "worldclient.h"
 
-void NWAPICALL DefaultChunkGen(const Vec3i*, BlockData* blocks, int32_t daylightBrightness)
+Chunk* WorldClient::addChunk(const Vec3i& chunkPos)
 {
-    // This is the default terrain generator. Use this when no generators were loaded from plugins.
-    for (int x = 0; x < ChunkSize; x++)
-        for (int z = 0; z < ChunkSize; z++)
-            for (int y = 0; y < ChunkSize; y++)
-                blocks[x*ChunkSize*ChunkSize + y*ChunkSize + z] = BlockData(0, daylightBrightness, 0);
+    size_t index = getChunkIndex(chunkPos);
+    if (index < m_chunkCount && m_chunks[index]->getPosition() == chunkPos)
+    {
+        assert(false);
+        return nullptr;
+    }
+    newChunkPtr(index);
+    m_chunks[index] = static_cast<Chunk*>(new ChunkClient(chunkPos,*this));
+    // TODO: Update chunk pointer cache
+    // TODO: Update chunk pointer array
+    // Return pointer
+    return m_chunks[index];
 }
 
-bool ChunkGeneratorLoaded = false;
-ChunkGenerator *ChunkGen = &DefaultChunkGen;
-
-void ChunkLoader::build(int daylightBrightness) const
+void WorldClient::renderUpdate()
 {
-    (*ChunkGen)(&m_chunk.getPosition(), m_chunk.getBlocks(), daylightBrightness);
-    m_chunk.setUpdated(true);
+    // TODO: Build VBO in visible range
+
+    // TODO: Destroy VBO in invisible range
+
 }

@@ -21,6 +21,7 @@
 #define WORLDMANAGER_H_
 
 #include <vector>
+#include <functional>
 
 #include "world.h"
 #include "pluginmanager.h"
@@ -30,7 +31,9 @@
 class WorldManager
 {
 public:
-    WorldManager(PluginManager& plugins, BlockManager& blocks) : m_plugins(plugins), m_blocks(blocks)
+    using AddFunc_t = std::function<World*(const std::string&,PluginManager&, BlockManager&)>;
+    WorldManager(PluginManager& plugins, BlockManager& blocks, AddFunc_t addFunc) :
+        m_plugins(plugins), m_blocks(blocks), m_addFunc(addFunc)
     {
     }
 
@@ -41,7 +44,7 @@ public:
 
     World* addWorld(const std::string& name)
     {
-        m_worlds.emplace_back(new World(name, m_plugins, m_blocks));
+        m_worlds.emplace_back(m_addFunc(name, m_plugins, m_blocks));
         return m_worlds[m_worlds.size() - 1];
     }
 
@@ -52,6 +55,7 @@ private:
     std::vector<World*> m_worlds;
     PluginManager& m_plugins;
     BlockManager& m_blocks;
+    AddFunc_t m_addFunc;
 };
 
 #endif

@@ -40,7 +40,7 @@ public:
     {
         return 1000.0 / m_deltaTime;
     }
-    double getDeltaTimeMs()
+    long long getDeltaTimeMs()
     {
         return m_deltaTime;
     }

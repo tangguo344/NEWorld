@@ -29,10 +29,7 @@ constexpr int ChunkSizeLog2 = 5, ChunkSize = 1 << ChunkSizeLog2; // 2 ^ ChunkSiz
 class Chunk
 {
 public:
-    explicit Chunk(const Vec3i& position) : m_position(position)
-    {
-    }
-
+    virtual ~Chunk() {}
     /// Get chunk position
     const Vec3i& getPosition() const
     {
@@ -67,6 +64,7 @@ public:
 
     /// Get block pointer
     BlockData* getBlocks() { return m_blocks; }
+    const BlockData* getBlocks() const { return m_blocks; }
 
     /// Set block data in this chunk
     void setBlock(const Vec3i& pos, BlockData block)
@@ -75,6 +73,8 @@ public:
         m_blocks[pos.x * ChunkSize * ChunkSize + pos.y * ChunkSize + pos.z] = block;
         m_updated = true;
     }
+protected:
+    explicit Chunk(const Vec3i& position) : m_position(position) {}
 
 private:
     Vec3i m_position;

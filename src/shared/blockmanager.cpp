@@ -19,7 +19,7 @@
 
 #include "blockmanager.h"
 
-void BlockManager::showInfo(int id) const
+void BlockManager::showInfo(size_t id) const
 {
     BlockType block = m_blocks[id];
     debugstream << "Block \"" << block.getName() << "\"(ID = " << id << "), attributes:"

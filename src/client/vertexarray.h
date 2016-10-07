@@ -31,7 +31,7 @@ class VertexFormat
 {
 public:
     // Vertex attribute count
-    int textureCount, colorCount, normalCount, coordinateCount;
+    size_t textureCount, colorCount, normalCount, coordinateCount;
     // Vertex attributes count (sum of all)
     int vertexAttributeCount;
 
@@ -80,7 +80,7 @@ try :
     }
 
     // Set texture coordinates
-    void setTexture(int size, const float* texture)
+    void setTexture(size_t size, const float* texture)
     {
         assert(size <= m_format.textureCount);
         memcpy(m_vertexAttributes, texture, size * sizeof(float));
@@ -92,7 +92,7 @@ try :
     }
 
     // Set color value
-    void setColor(int size, const float* color)
+    void setColor(size_t size, const float* color)
     {
         assert(size <= m_format.colorCount);
         memcpy(m_vertexAttributes + m_format.textureCount, color, size * sizeof(float));
@@ -104,7 +104,7 @@ try :
     }
 
     // Set normal vector
-    void setNormal(int size, const float* normal)
+    void setNormal(size_t size, const float* normal)
     {
         assert(size <= m_format.normalCount);
         memcpy(m_vertexAttributes + m_format.textureCount + m_format.colorCount, normal, size * sizeof(float));

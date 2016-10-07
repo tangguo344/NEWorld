@@ -23,6 +23,7 @@
 #include "settings.h"
 #include <consolecolor.h>
 #include <functional>
+#include "worldserver.h"
 using namespace boost::asio;
 using namespace boost::system;
 
@@ -65,7 +66,7 @@ void Session::doUpdate()
 
 Server::Server(std::vector<std::string> args)
     : m_acceptor(m_ioService, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), static_cast<unsigned short>(getJsonValue(getSettings()["server"]["port"], 8090)))),
-      m_socket(m_ioService), m_worlds(m_plugins, m_blocks), m_updateTimer(m_socket.get_io_service()), m_plugins(false), m_args(args)
+      m_socket(m_ioService), m_worlds(m_plugins, m_blocks,[](const std::string& name, PluginManager& plugins, BlockManager& blocks) {return new WorldServer(name, plugins, blocks, 32); }), m_updateTimer(m_socket.get_io_service()), m_plugins(false), m_args(args)
 {
     // Initialization
     PluginAPI::Blocks = &m_blocks;
@@ -73,8 +74,7 @@ Server::Server(std::vector<std::string> args)
     infostream << "Initializing plugins...";
     m_plugins.loadPlugins();
 
-    World* world = m_worlds.addWorld("main_world");
-    m_worldLoaders.insert({ "main_world", WorldLoader(*world, 32) }); //TODO: get the range by players' settings
+    m_worlds.addWorld("main_world");
 
     // Start server
     infostream << "Server started!";
@@ -111,10 +111,10 @@ void Server::doGlobalUpdate()
     m_updateTimer.async_wait([this](boost::system::error_code)
     {
         // Update worlds
-        for (auto& worldLoader : m_worldLoaders)
+        for (auto world : m_worlds)
         {
-            worldLoader.second.sortChunkLoadUnloadList({0,0,0}); //TODO: players' position;
-            worldLoader.second.loadUnloadChunks();
+            static_cast<WorldServer*>(world)->sortChunkLoadUnloadList({0,0,0}); //TODO: players' position;
+            static_cast<WorldServer*>(world)->loadUnloadChunks();
         }
         for (auto world : m_worlds) world->update();
         doGlobalUpdate();
