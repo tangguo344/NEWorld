@@ -26,13 +26,18 @@
 #include <jsonhelper.h>
 
 GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
-    :UI::Controls::GLContext(), m_blocks(bm), m_plugins(pm), m_connection("127.0.0.1", 8090) //TODO: read it from settings
+    : UI::Controls::GLContext(), m_blocks(bm), m_plugins(pm), m_connection("127.0.0.1", 8090), //TODO: read it from settings
+      m_world("TestWorld", pm, bm)
 {
     // TODO: start the server only when it's a single player mode.
     m_localServerThread = std::thread([]
     {
-        char* argv[] = { "","-single-player-mode" };
-        boost::dll::shared_library(getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver.dll"), boost::dll::load_mode::append_decorations).get<void NWAPICALL(int, char**)>("main")(sizeof(argv)/sizeof(argv[0]), argv);
+        char* argv[] = { "","--single-player-mode" };
+        boost::dll::shared_library
+        (
+            getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver.dll"),
+            boost::dll::load_mode::append_decorations
+        ).get<void NWAPICALL(int, char**)>("main")(sizeof(argv)/sizeof(argv[0]), argv);
     });
     // FIXME: if the server spends too much time starting, the network thread won't be able to connect to the server.
     m_connection.connect();
@@ -42,8 +47,6 @@ GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
         onKey(scancode);
     });
     win->renderdelegate.push_back([this, win]() { init(win); });
-
-    m_renderer=std::unique_ptr<WorldRenderer>(new WorldRenderer(*m_world));
 }
 
 void GameScene::init(UI::Core::Window*)
@@ -82,14 +85,14 @@ void GameScene::doRender()
     Renderer::translate(-m_player.getPosition());
 
     // Render
-    m_renderer->render();
+    m_world.render();
 
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_DEPTH_TEST);
 
     // Update
     m_player.update();
-    m_renderer->update();
+    m_world.renderUpdate();
 }
 
 void GameScene::onResize(size_t w, size_t h)

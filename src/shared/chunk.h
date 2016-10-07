@@ -79,7 +79,7 @@ public:
 private:
     Vec3i m_position;
     BlockData m_blocks[ChunkSize * ChunkSize * ChunkSize];
-    bool m_updated;
+    bool m_updated = false;
 
 };
 

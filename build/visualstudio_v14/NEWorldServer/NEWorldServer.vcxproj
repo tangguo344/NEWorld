@@ -95,11 +95,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\dependencies\include\asio;$(ProjectDir)..\..\..\src\shared;$(IncludePath)</IncludePath>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>NativeMinimumRules.ruleset</CodeAnalysisRuleSet>
     <LibraryPath>$(SolutionDir)bin\$(Platform)\$(Configuration);$(SolutionDir)..\..\dependencies\lib\boostlib;$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\..\release\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName>nwserver</TargetName>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -138,6 +139,7 @@
       <MinimalRebuild>false</MinimalRebuild>
       <FloatingPointExceptions>true</FloatingPointExceptions>
       <FloatingPointModel>Strict</FloatingPointModel>
+      <EnablePREfast>false</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

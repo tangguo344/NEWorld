@@ -19,10 +19,26 @@
 
 #include "worldrenderer.h"
 
-void WorldRenderer::update()
+Chunk* WorldRenderer::addChunk(const Vec3i& chunkPos)
 {
-    // Build VBO in visible range
+    size_t index = getChunkIndex(chunkPos);
+    if (index < m_chunkCount && m_chunks[index]->getPosition() == chunkPos)
+    {
+        assert(false);
+        return nullptr;
+    }
+    newChunkPtr(index);
+    m_chunks[index] = new Chunk(chunkPos);
+    // TODO: Update chunk pointer cache
+    // TODO: Update chunk pointer array
+    // Return pointer
+    return m_chunks[index];
+}
 
-    // Destroy VBO in invisible range
+void WorldRenderer::renderUpdate()
+{
+    // TODO: Build VBO in visible range
+
+    // TODO: Destroy VBO in invisible range
 
 }

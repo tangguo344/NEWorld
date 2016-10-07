@@ -64,8 +64,8 @@ void Session::doUpdate()
 //}
 
 Server::Server(std::vector<std::string> args)
-    : m_acceptor(m_ioService, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), getJsonValue(getSettings()["server"]["port"], 8090))), m_socket(m_ioService),
-      m_worlds(m_plugins, m_blocks), m_updateTimer(m_socket.get_io_service()), m_plugins(false), m_args(args)
+    : m_acceptor(m_ioService, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), static_cast<unsigned short>(getJsonValue(getSettings()["server"]["port"], 8090)))),
+      m_socket(m_ioService), m_worlds(m_plugins, m_blocks), m_updateTimer(m_socket.get_io_service()), m_plugins(false), m_args(args)
 {
     // Initialization
     PluginAPI::Blocks = &m_blocks;

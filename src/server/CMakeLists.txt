@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 
 project(Server)
+add_definitions(-DNEWORLD_SERVER)
+
 aux_source_directory(${SOURCE_DIR}/server SRC_SERVER)
 if(EXECUTABLE)
     add_executable(nwserver ${SRC_SERVER})
