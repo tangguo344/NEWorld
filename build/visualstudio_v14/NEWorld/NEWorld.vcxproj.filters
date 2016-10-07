@@ -28,6 +28,9 @@
     <ClInclude Include="..\..\..\src\client\vertexarray.h">
       <Filter>Source\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\client\chunkrenderer.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\src\client\network.h">
       <Filter>Source\Network</Filter>
     </ClInclude>
@@ -49,17 +52,14 @@
     <ClInclude Include="..\..\..\src\client\gamescene.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\client\worldrenderer.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\src\client\mainmenu.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\client\window.h">
       <Filter>Source\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\client\chunk.h">
-      <Filter>Source\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\client\world.h">
-      <Filter>Source\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\client\settingsmenu.h">
       <Filter>Source\Scene</Filter>
@@ -70,6 +70,9 @@
       <Filter>Source\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\client\vertexarray.cpp">
+      <Filter>Source\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\chunkrenderer.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\client\networkstructures.cpp">
@@ -93,17 +96,14 @@
     <ClCompile Include="..\..\..\src\client\gamescene.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\client\worldrenderer.cpp">
+      <Filter>Source\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\client\mainmenu.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\client\window.cpp">
       <Filter>Source\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\client\chunk.cpp">
-      <Filter>Source\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\client\world.cpp">
-      <Filter>Source\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\client\settingsmenu.cpp">
       <Filter>Source\Scene</Filter>

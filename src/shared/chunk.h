@@ -17,8 +17,8 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CHUNKBASE_H_
-#define CHUNKBASE_H_
+#ifndef CHUNK_H_
+#define CHUNK_H_
 
 #include <cassert>
 #include "vec3.h"
@@ -26,10 +26,10 @@
 
 constexpr int ChunkSizeLog2 = 5, ChunkSize = 1 << ChunkSizeLog2; // 2 ^ ChunkSizeLog2 == 32
 
-class ChunkBase
+class Chunk
 {
 public:
-    explicit ChunkBase(const Vec3i& position) : m_position(position)
+    explicit Chunk(const Vec3i& position) : m_position(position)
     {
     }
 
@@ -83,4 +83,4 @@ private:
 
 };
 
-#endif // !CHUNKBASE_H_
+#endif // !CHUNK_H_

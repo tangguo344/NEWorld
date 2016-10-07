@@ -17,12 +17,12 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "chunk.h"
+#include "chunkrenderer.h"
 
-VertexArray Chunk::va(262144, VertexFormat(2, 3, 0, 3));
-bool Chunk::mergeFace;
+VertexArray ChunkRenderer::va(262144, VertexFormat(2, 3, 0, 3));
+bool ChunkRenderer::mergeFace;
 
-void Chunk::buildVertexArray()
+void ChunkRenderer::buildVertexArray()
 {
     va.clear();
     if (mergeFace)

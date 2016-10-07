@@ -17,30 +17,12 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CHUNK_H_
-#define CHUNK_H_
+#include "worldrenderer.h"
 
-#include <common.h>
-#include <chunkbase.h>
-
-using ChunkGenerator = void NWAPICALL(const Vec3i*, BlockData*, int);
-
-extern bool ChunkGeneratorLoaded;
-extern ChunkGenerator *ChunkGen;
-
-class Chunk
+void WorldRenderer::update()
 {
-private:
-    ChunkBase& m_chunk;
+    // Build VBO in visible range
 
-public:
-    explicit Chunk(ChunkBase& chunk) : m_chunk(chunk) {}
+    // Destroy VBO in invisible range
 
-    Chunk(const Chunk&) = delete;
-    Chunk& operator=(const Chunk&) = delete;
-
-    // Build chunk
-    void build(int daylightBrightness) const;
-};
-
-#endif // !CHUNK_H_
+}
