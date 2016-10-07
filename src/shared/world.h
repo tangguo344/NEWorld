@@ -31,30 +31,20 @@
 
 class PluginManager;
 
-class World :boost::noncopyable
+class World : boost::noncopyable
 {
 public:
     World(const std::string& name, PluginManager& plugins, BlockManager& blocks)
         : m_name(name), m_plugins(plugins), m_blocks(blocks), m_chunkCount(0), m_chunkArraySize(1024), m_daylightBrightness(15), m_cpa(8)
     {
-        //m_chunks = new Chunk*[m_chunkArraySize];
         m_chunks = reinterpret_cast<Chunk**>(malloc(m_chunkArraySize * sizeof(Chunk*)));
     }
 
-    //FIXME: m_cpa
-    //World(World&& rhs)
-    //    : m_name(std::move(rhs.m_name)), m_plugins(rhs.m_plugins), m_blocks(rhs.m_blocks),
-    //      m_chunkCount(rhs.m_chunkCount), m_chunkArraySize(rhs.m_chunkArraySize), m_chunks(rhs.m_chunks), m_daylightBrightness(rhs.m_daylightBrightness), m_cpa(rhs.m_cpa)
-    //{
-    //}
-
-    ~World()
+    World(World&& rhs)
+        : m_name(std::move(rhs.m_name)), m_plugins(rhs.m_plugins), m_blocks(rhs.m_blocks),
+          m_chunkCount(rhs.m_chunkCount), m_chunkArraySize(rhs.m_chunkArraySize), m_daylightBrightness(rhs.m_daylightBrightness), m_cpa(std::move(rhs.m_cpa))
     {
-        if (m_chunks)
-        {
-            // TODO: Save and destroy chunks
-            free(m_chunks);
-        }
+        std::swap(m_chunks, rhs.m_chunks);
     }
 
     // Get world name
@@ -105,7 +95,8 @@ public:
     }
 
     // Add chunk
-    Chunk* addChunk(const Vec3i& chunkPos);
+    virtual Chunk* addChunk(const Vec3i& chunkPos);
+
     // Delete chunk
     int deleteChunk(const Vec3i& chunkPos);
 
@@ -186,7 +177,7 @@ public:
     // Main update
     void update();
 
-private:
+protected:
     // World name
     std::string m_name;
     // Loaded plugins
@@ -203,6 +194,15 @@ private:
     ChunkPointerArray m_cpa;
 
     int m_daylightBrightness;
+
+    ~World()
+    {
+        if (m_chunks != nullptr)
+        {
+            // TODO: Save and destroy chunks
+            free(m_chunks);
+        }
+    }
 
     // Expand chunk array
     void expandChunkArray(size_t expandCount);

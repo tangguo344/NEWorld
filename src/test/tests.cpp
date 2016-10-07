@@ -18,8 +18,8 @@
 
 #include <gtest/gtest.h>
 
-
 //***********Vec3***********//
+
 #include <vec3.h>
 TEST(Vec3, Basic)
 {

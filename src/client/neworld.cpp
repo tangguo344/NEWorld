@@ -22,7 +22,7 @@
 #include <pluginapi.h>
 #include "window.h"
 
-Application::Application(int width, int height, const std::string& title, const std::string& path) :
+Application::Application(int width, int height, const std::string& title, const std::string&) :
     m_width(width), m_height(height), m_title(title), m_plugins(true)
 {
 }

@@ -41,6 +41,7 @@ class GameScene : public UI::Controls::GLContext
 {
 public:
     GameScene(UI::Core::Window*, BlockManager& bm, PluginManager& pm);
+
     ~GameScene()
     {
         m_plugins.unloadPlugins();
@@ -61,12 +62,10 @@ private:
     BlockManager& m_blocks;
     // Loaded plugins
     PluginManager& m_plugins;
-    // Current world
-    World* m_world;
+    // World
+    WorldRenderer m_world;
     // Player test
     Player m_player;
-    // Renderer
-    std::unique_ptr<WorldRenderer> m_renderer;
     // Network connection
     Connection m_connection;
     // Local server thread
