@@ -22,7 +22,7 @@
     </Filter>
     <Filter Include="Source\Game">
       <UniqueIdentifier>{cacc27af-bc70-4805-8a4d-aecd8addd92b}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="Source\Plugin">
       <UniqueIdentifier>{a54b74af-34a8-45cf-8b46-3c70dba3e24d}</UniqueIdentifier>
     </Filter>
@@ -49,12 +49,9 @@
     <ClCompile Include="..\..\..\src\server\commandmanager.cpp">
       <Filter>Source\Command</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\server\gateway.cpp">
-      <Filter>Source\Network</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\server\networkmanager.cpp">
       <Filter>Source\Network</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\server\serverapi.cpp">
       <Filter>Source\Plugin</Filter>
     </ClCompile>
@@ -75,15 +72,12 @@
     <ClInclude Include="..\..\..\src\server\commandmanager.h">
       <Filter>Source\Command</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\server\gateway.h">
-      <Filter>Source\Network</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\server\networkmanager.h">
       <Filter>Source\Network</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\server\playermanager.h">
       <Filter>Source\Game</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\..\..\src\server\serverapi.h">
       <Filter>Source\Plugin</Filter>
     </ClInclude>

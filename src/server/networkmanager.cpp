@@ -1,3 +1,4 @@
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include "logger.h"
 #include "networkmanager.h"
 #include <raknet/MessageIdentifiers.h>
@@ -58,7 +59,7 @@ void NetworkManager::loop()
             switch(p->data[0])
             {
             case ID_USER_PACKET_ENUM:
-    
+
                 break;
             case ID_NEW_INCOMING_CONNECTION:
             {

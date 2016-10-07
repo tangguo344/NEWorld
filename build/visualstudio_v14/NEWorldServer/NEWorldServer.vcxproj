@@ -27,7 +27,6 @@
     <ClCompile Include="..\..\..\src\server\builtincommands.cpp" />
     <ClCompile Include="..\..\..\src\server\chunkloader.cpp" />
     <ClCompile Include="..\..\..\src\server\commandmanager.cpp" />
-    <ClCompile Include="..\..\..\src\server\gateway.cpp" />
     <ClCompile Include="..\..\..\src\server\main.cpp" />
     <ClCompile Include="..\..\..\src\server\networkmanager.cpp" />
     <ClCompile Include="..\..\..\src\server\server.cpp" />
@@ -38,7 +37,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\src\server\chunkloader.h" />
     <ClInclude Include="..\..\..\src\server\commandmanager.h" />
-    <ClInclude Include="..\..\..\src\server\gateway.h" />
     <ClInclude Include="..\..\..\src\server\networkmanager.h" />
     <ClInclude Include="..\..\..\src\server\playermanager.h" />
     <ClInclude Include="..\..\..\src\server\server.h" />
