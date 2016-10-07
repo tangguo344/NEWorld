@@ -61,6 +61,9 @@
     <ClInclude Include="..\..\..\src\client\world.h">
       <Filter>Source\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\client\settingsmenu.h">
+      <Filter>Source\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\client\renderer.cpp">
@@ -101,6 +104,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\client\world.cpp">
       <Filter>Source\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\settingsmenu.cpp">
+      <Filter>Source\Scene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
