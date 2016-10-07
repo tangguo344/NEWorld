@@ -84,8 +84,8 @@ Texture Texture::loadBlock3DTexture(std::string filename)
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     RawTexture image(filename);
-    auto surf = image.getSurface();
-    //TODO: fix it
+    // TODO: fix it
+    //auto surf = image.getSurface();
     //glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA, BLOCKTEXTURE_UNITSIZE, BLOCKTEXTURE_UNITSIZE, BLOCKTEXTURE_UNITS * BLOCKTEXTURE_UNITS, 0, GL_RGBA, GL_UNSIGNED_BYTE, static_cast<const ubyte*>(surf->pixels));
     glDisable(GL_TEXTURE_3D);
     glEnable(GL_TEXTURE_2D);

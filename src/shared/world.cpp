@@ -27,14 +27,14 @@ void World::expandChunkArray(size_t c)
     if (m_chunkCount > m_chunkArraySize)
     {
         m_chunkArraySize *= 2;
-        Chunk** newchunks = reinterpret_cast<Chunk**>(realloc(m_chunks, m_chunkArraySize * sizeof(Chunk*)));
-        assert(newchunks != nullptr);
-        if (newchunks == nullptr)
+        Chunk** newChunks = reinterpret_cast<Chunk**>(realloc(m_chunks, m_chunkArraySize * sizeof(Chunk*)));
+        assert(newChunks != nullptr);
+        if (newChunks == nullptr)
         {
             fatalstream << "Failed to create chunks, size:" << m_chunkArraySize;
             // TODO: exit
         }
-        else m_chunks = newchunks;
+        else m_chunks = newChunks;
     }
 }
 
@@ -54,7 +54,7 @@ size_t World::getChunkIndex(const Vec3i& pos) const
 
 Chunk* World::addChunk(const Vec3i& chunkPos)
 {
-    int index = getChunkIndex(chunkPos);
+    size_t index = getChunkIndex(chunkPos);
     if (index < m_chunkCount && m_chunks[index]->getPosition() == chunkPos)
     {
         assert(false);
@@ -70,7 +70,7 @@ Chunk* World::addChunk(const Vec3i& chunkPos)
 
 int World::deleteChunk(const Vec3i& chunkPos)
 {
-    int index = getChunkIndex(chunkPos);
+    size_t index = getChunkIndex(chunkPos);
     if (index >= m_chunkCount || m_chunks[index]->getPosition() != chunkPos)
     {
         assert(false);
