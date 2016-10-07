@@ -266,6 +266,7 @@
     <ClInclude Include="..\..\..\src\client\mainmenu.h" />
     <ClInclude Include="..\..\..\src\client\player.h" />
     <ClInclude Include="..\..\..\src\client\renderer.h" />
+    <ClInclude Include="..\..\..\src\client\settingsmenu.h" />
     <ClInclude Include="..\..\..\src\client\texture.h" />
     <ClInclude Include="..\..\..\src\client\vertexarray.h" />
     <ClInclude Include="..\..\..\src\client\gamescene.h" />
@@ -285,6 +286,7 @@
     <ClCompile Include="..\..\..\src\client\neworld.cpp" />
     <ClCompile Include="..\..\..\src\client\mainmenu.cpp" />
     <ClCompile Include="..\..\..\src\client\player.cpp" />
+    <ClCompile Include="..\..\..\src\client\settingsmenu.cpp" />
     <ClCompile Include="..\..\..\src\client\texture.cpp" />
     <ClCompile Include="..\..\..\src\client\vertexarray.cpp" />
     <ClCompile Include="..\..\..\src\client\renderer.cpp" />
