@@ -69,5 +69,8 @@
     <ClInclude Include="..\..\..\src\server\chunkserver.h">
       <Filter>Source\World</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\server\worldmanager.h">
+      <Filter>Source\World</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

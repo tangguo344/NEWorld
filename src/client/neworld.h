@@ -25,7 +25,6 @@
 #include <string>
 #include <uilib.h>
 #include <pluginmanager.h>
-#include <worldmanager.h>
 #include <blockmanager.h>
 
 class Application : public UI::Core::Application

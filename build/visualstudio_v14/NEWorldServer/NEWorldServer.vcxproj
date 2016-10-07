@@ -39,6 +39,7 @@
     <ClInclude Include="..\..\..\src\server\commandcontroller.h" />
     <ClInclude Include="..\..\..\src\server\serverapi.h" />
     <ClInclude Include="..\..\..\src\server\settings.h" />
+    <ClInclude Include="..\..\..\src\server\worldmanager.h" />
     <ClInclude Include="..\..\..\src\server\worldserver.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
