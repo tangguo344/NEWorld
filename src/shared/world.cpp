@@ -54,7 +54,7 @@ size_t World::getChunkIndex(const Vec3i& pos) const
 
 Chunk* World::addChunk(const Vec3i& chunkPos)
 {
-    int index = getChunkIndex(chunkPos);
+    size_t index = getChunkIndex(chunkPos);
     if (index < m_chunkCount && m_chunks[index]->getPosition() == chunkPos)
     {
         assert(false);
@@ -70,7 +70,7 @@ Chunk* World::addChunk(const Vec3i& chunkPos)
 
 int World::deleteChunk(const Vec3i& chunkPos)
 {
-    int index = getChunkIndex(chunkPos);
+    size_t index = getChunkIndex(chunkPos);
     if (index >= m_chunkCount || m_chunks[index]->getPosition() != chunkPos)
     {
         assert(false);
