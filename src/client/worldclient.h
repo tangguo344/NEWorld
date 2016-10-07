@@ -17,46 +17,37 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CHUNKRENDERER_H_
-#define CHUNKRENDERER_H_
+#ifndef WORLDCLIENT_H_
+#define WORLDCLIENT_H_
 
-#include <boost/core/noncopyable.hpp>
-#include <chunk.h>
 #include <world.h>
-#include "renderer.h"
+#include "chunkclient.h"
 
-class ChunkRenderer : public Chunk
+class WorldClient : public World
 {
 public:
-    ChunkRenderer(const Vec3i& position, World& world) : Chunk(position), m_world(world)
+    WorldClient(const std::string& name, PluginManager& plugins, BlockManager& blocks)
+        : World(name, plugins, blocks)
     {
     }
 
-    // Build VBO
-    void buildVertexArray();
+    WorldClient(World&& world) : World(std::move(world))
+    {
+    }
 
-    // Draw call
+    Chunk* addChunk(const Vec3i& chunkPos) override;
+
+    // Build/Destroy VBO
+    void renderUpdate();
+
+    // Render all chunks
     void render() const
     {
-        m_buffer.render();
-    }
-
-private:
-    // Target world
-    World& m_world;
-    // Vertex buffer object
-    VertexBuffer m_buffer;
-    // Vertex array
-    static VertexArray va;
-    // Merge face rendering
-    static bool mergeFace;
-
-    bool adjacentTest(BlockData a, BlockData b) const
-    {
-        if (a.getID() == 0) return false;
-        if (m_world.getBlockTypes().getType(b.getID()).isOpaque()) return false;
-        return true;
+        for (size_t i = 0; i < m_chunkCount; i++)
+        {
+            static_cast<ChunkClient*>(m_chunks[i])->render();
+        }
     }
 };
 
-#endif // !CHUNKRENDERER_H_
+#endif // !WORLDCLIENT_H_

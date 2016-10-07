@@ -27,7 +27,7 @@ void World::expandChunkArray(size_t c)
     if (m_chunkCount > m_chunkArraySize)
     {
         m_chunkArraySize *= 2;
-        Chunk** newChunks = reinterpret_cast<Chunk**>(realloc(m_chunks, m_chunkArraySize * sizeof(Chunk*)));
+        Chunk** newChunks = static_cast<Chunk**>(realloc(m_chunks, m_chunkArraySize * sizeof(Chunk*)));
         assert(newChunks != nullptr);
         if (newChunks == nullptr)
         {
@@ -50,22 +50,6 @@ size_t World::getChunkIndex(const Vec3i& pos) const
         else last = mid - 1;
     }
     return first;
-}
-
-Chunk* World::addChunk(const Vec3i& chunkPos)
-{
-    size_t index = getChunkIndex(chunkPos);
-    if (index < m_chunkCount && m_chunks[index]->getPosition() == chunkPos)
-    {
-        assert(false);
-        return nullptr;
-    }
-    newChunkPtr(index);
-    m_chunks[index] = new Chunk(chunkPos);
-    // TODO: Update chunk pointer cache
-    // TODO: Update chunk pointer array
-    // Return pointer
-    return m_chunks[index];
 }
 
 int World::deleteChunk(const Vec3i& chunkPos)

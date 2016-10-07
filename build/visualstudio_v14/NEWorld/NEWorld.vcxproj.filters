@@ -20,15 +20,15 @@
     <Filter Include="Source\Player">
       <UniqueIdentifier>{acabc496-b610-4eed-8952-85f6a1c9b2ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\World">
+      <UniqueIdentifier>{89ba5170-0187-4f32-adca-9482cf7b5b21}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\client\renderer.h">
       <Filter>Source\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\client\vertexarray.h">
-      <Filter>Source\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\client\chunkrenderer.h">
       <Filter>Source\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\client\network.h">
@@ -52,9 +52,6 @@
     <ClInclude Include="..\..\..\src\client\gamescene.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\client\worldrenderer.h">
-      <Filter>Source\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\client\mainmenu.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
@@ -64,15 +61,18 @@
     <ClInclude Include="..\..\..\src\client\settingsmenu.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\client\worldclient.h">
+      <Filter>Source\World</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\chunkclient.h">
+      <Filter>Source\World</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\client\renderer.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\client\vertexarray.cpp">
-      <Filter>Source\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\client\chunkrenderer.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\client\networkstructures.cpp">
@@ -96,9 +96,6 @@
     <ClCompile Include="..\..\..\src\client\gamescene.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\client\worldrenderer.cpp">
-      <Filter>Source\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\client\mainmenu.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
@@ -107,6 +104,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\client\settingsmenu.cpp">
       <Filter>Source\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\worldclient.cpp">
+      <Filter>Source\World</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\chunkclient.cpp">
+      <Filter>Source\World</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

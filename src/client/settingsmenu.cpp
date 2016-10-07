@@ -19,7 +19,7 @@
 
 #include "settingsmenu.h"
 
-SettingsMenu::SettingsMenu(UI::Core::Window * win)
+SettingsMenu::SettingsMenu(UI::Core::Window* win)
 {
     addChild(std::make_shared<UI::Controls::Button>("BTPlay", UI::Core::Margin::CenterCenter(200, 200, -32, 64), UI::Locale::Str("play"), [] {}));
     addChild(std::make_shared<UI::Controls::Button>("optionsbtn", UI::Core::Margin::CenterCenter(200, -3, -70, 102), UI::Locale::Str("option"), [] {}));

@@ -17,40 +17,46 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef BLOCKMANAGER_H_
-#define BLOCKMANAGER_H_
+#ifndef CHUNKCLIENT_H_
+#define CHUNKCLIENT_H_
 
-#include <vector>
+#include <boost/core/noncopyable.hpp>
+#include <chunk.h>
+#include <world.h>
+#include "renderer.h"
 
-#include "blocktype.h"
-#include "logger.h"
-
-class BlockManager
+class ChunkClient : public Chunk
 {
 public:
-    BlockManager()
+    ChunkClient(const Vec3i& position, World& world) : Chunk(position), m_world(world)
     {
-        m_blocks.push_back(BlockType("Air", false, false, false, 0, 0));
     }
 
-    size_t registerBlock(const BlockType& block)
-    {
-        m_blocks.push_back(block);
-        debugstream << "Registered block:";
-        showInfo(m_blocks.size() - 1);
-        return m_blocks.size() - 1;
-    }
+    // Build VBO
+    void buildVertexArray();
 
-    const BlockType& getType(int id) const
+    // Draw call
+    void render() const
     {
-        return m_blocks[id];
+        m_buffer.render();
     }
-
-    void showInfo(size_t id) const;
 
 private:
-    std::vector<BlockType> m_blocks;
+    // Target world
+    World& m_world;
+    // Vertex buffer object
+    VertexBuffer m_buffer;
+    // Vertex array
+    static VertexArray va;
+    // Merge face rendering
+    static bool mergeFace;
 
+    bool adjacentTest(BlockData a, BlockData b) const
+    {
+        if (a.getID() == 0) return false;
+        if (m_world.getBlockTypes().getType(b.getID()).isOpaque()) return false;
+        return true;
+    }
 };
 
-#endif // !BLOCKMANAGER_H_
+#endif // !CHUNKCLIENT_H_
