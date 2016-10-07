@@ -258,7 +258,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\client\chunk.h" />
+    <ClInclude Include="..\..\..\src\client\chunkrenderer.h" />
     <ClInclude Include="..\..\..\src\client\mat4.h" />
     <ClInclude Include="..\..\..\src\client\network.h" />
     <ClInclude Include="..\..\..\src\client\neworld.h" />
@@ -271,7 +271,7 @@
     <ClInclude Include="..\..\..\src\client\vertexarray.h" />
     <ClInclude Include="..\..\..\src\client\gamescene.h" />
     <ClInclude Include="..\..\..\src\client\window.h" />
-    <ClInclude Include="..\..\..\src\client\world.h" />
+    <ClInclude Include="..\..\..\src\client\worldrenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared\Shared.vcxproj">
@@ -279,7 +279,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\client\chunk.cpp" />
+    <ClCompile Include="..\..\..\src\client\chunkrenderer.cpp" />
     <ClCompile Include="..\..\..\src\client\main.cpp" />
     <ClCompile Include="..\..\..\src\client\network.cpp" />
     <ClCompile Include="..\..\..\src\client\networkstructures.cpp" />
@@ -292,7 +292,7 @@
     <ClCompile Include="..\..\..\src\client\renderer.cpp" />
     <ClCompile Include="..\..\..\src\client\gamescene.cpp" />
     <ClCompile Include="..\..\..\src\client\window.cpp" />
-    <ClCompile Include="..\..\..\src\client\world.cpp" />
+    <ClCompile Include="..\..\..\src\client\worldrenderer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

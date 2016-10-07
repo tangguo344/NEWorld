@@ -17,7 +17,7 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "chunk.h"
+#include "chunkloader.h"
 #include "pluginmanager.h"
 
 void NWAPICALL DefaultChunkGen(const Vec3i*, BlockData* blocks, int32_t daylightBrightness)
@@ -32,7 +32,7 @@ void NWAPICALL DefaultChunkGen(const Vec3i*, BlockData* blocks, int32_t daylight
 bool ChunkGeneratorLoaded = false;
 ChunkGenerator *ChunkGen = &DefaultChunkGen;
 
-void Chunk::build(int daylightBrightness) const
+void ChunkLoader::build(int daylightBrightness) const
 {
     (*ChunkGen)(&m_chunk.getPosition(), m_chunk.getBlocks(), daylightBrightness);
     m_chunk.setUpdated(true);

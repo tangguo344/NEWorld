@@ -25,13 +25,14 @@
 #include "vec3.h"
 #include "renderer.h"
 
-#include <worldbase.h>
+#include <world.h>
 #include <logger.h>
 #include <pluginapi.h>
 #include <blockmanager.h>
 #include <worldmanager.h>
 #include <pluginmanager.h>
-#include "world.h"
+#include "../server/worldloader.h"
+#include "worldrenderer.h"
 #include "texture.h"
 #include "player.h"
 #include "network.h"
@@ -61,11 +62,11 @@ private:
     // Loaded plugins
     PluginManager& m_plugins;
     // Current world
-    WorldBase* m_world;
+    World* m_world;
     // Player test
     Player m_player;
     // Renderer
-    std::unique_ptr<World> m_renderer;
+    std::unique_ptr<WorldRenderer> m_renderer;
     // Network connection
     Connection m_connection;
     // Local server thread

@@ -17,12 +17,33 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "world.h"
+#ifndef WORLDRENDERER_H_
+#define WORLDRENDERER_H_
 
-void World::update()
+#include <world.h>
+#include "chunkrenderer.h"
+
+class WorldRenderer
 {
-    // Build VBO in visible range
+public:
+    WorldRenderer(World& world) : m_world(world)
+    {
+    }
 
-    // Destroy VBO in invisible range
+    // Build/Destroy VBO
+    void update();
 
-}
+    // Render all chunks
+    void render() const
+    {
+        for(auto& chunkRenderer: m_chunkRenderers)
+            chunkRenderer.render();
+    }
+
+private:
+    // Target world
+    World& m_world;
+    std::vector<ChunkRenderer> m_chunkRenderers;
+};
+
+#endif // !WORLDRENDERER_H_

@@ -17,19 +17,19 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CHUNK_H_
-#define CHUNK_H_
+#ifndef CHUNKRENDERER_H_
+#define CHUNKRENDERER_H_
 
 #include <boost/core/noncopyable.hpp>
-#include <chunkbase.h>
-#include <worldbase.h>
+#include <chunk.h>
+#include <world.h>
 #include "renderer.h"
 
-class Chunk
+class ChunkRenderer
     :boost::noncopyable
 {
 public:
-    Chunk(WorldBase& world, ChunkBase& chunk) : m_world(world), m_chunk(chunk)
+    ChunkRenderer(World& world, Chunk& chunk) : m_world(world), m_chunk(chunk)
     {
     }
 
@@ -44,9 +44,9 @@ public:
 
 private:
     // Target world
-    WorldBase& m_world;
+    World& m_world;
     // Target chunk
-    ChunkBase& m_chunk;
+    Chunk& m_chunk;
     // Vertex buffer object
     VertexBuffer m_buffer;
     // Vertex array
@@ -62,4 +62,4 @@ private:
     }
 };
 
-#endif // !CHUNK_H_
+#endif // !CHUNKRENDERER_H_
