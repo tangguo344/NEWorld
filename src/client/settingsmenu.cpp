@@ -17,18 +17,11 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SHARED_H_
-#define SHARED_H_
+#include "settingsmenu.h"
 
-#include "../../../api/c/nwapi.h"
-
-// Block IDs
-extern int32_t RockID;
-
-void registerBlocks();
-
-NWplugindata* getInfo(bool client);
-
-void sharedInit();
-
-#endif
+SettingsMenu::SettingsMenu(UI::Core::Window * win)
+{
+    addChild(std::make_shared<UI::Controls::Button>("BTPlay", UI::Core::Margin::CenterCenter(200, 200, -32, 64), UI::Locale::Str("play"), [] {}));
+    addChild(std::make_shared<UI::Controls::Button>("optionsbtn", UI::Core::Margin::CenterCenter(200, -3, -70, 102), UI::Locale::Str("option"), [] {}));
+    addChild(std::make_shared<UI::Controls::Button>("quitbtn", UI::Core::Margin::CenterCenter(-3, 200, -70, 102), UI::Locale::Str("exit"), [] {}));
+}

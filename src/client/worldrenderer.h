@@ -23,27 +23,31 @@
 #include <world.h>
 #include "chunkrenderer.h"
 
-class WorldRenderer
+class WorldRenderer : public World
 {
 public:
-    WorldRenderer(World& world) : m_world(world)
+    WorldRenderer(const std::string& name, PluginManager& plugins, BlockManager& blocks)
+        : World(name, plugins, blocks)
     {
     }
 
+    WorldRenderer(World&& world) : World(std::move(world))
+    {
+    }
+
+    Chunk* addChunk(const Vec3i& chunkPos) override;
+
     // Build/Destroy VBO
-    void update();
+    void renderUpdate();
 
     // Render all chunks
     void render() const
     {
-        for(auto& chunkRenderer: m_chunkRenderers)
-            chunkRenderer.render();
+        for (size_t i = 0; i < m_chunkCount; i++)
+        {
+            reinterpret_cast<ChunkRenderer*>(m_chunks[i])->render();
+        }
     }
-
-private:
-    // Target world
-    World& m_world;
-    std::vector<ChunkRenderer> m_chunkRenderers;
 };
 
 #endif // !WORLDRENDERER_H_

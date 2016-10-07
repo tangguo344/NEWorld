@@ -13,11 +13,11 @@
     <ClInclude Include="..\..\..\src\main\shared\shared.h">
       <Filter>Source\Shared</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\api\cpp\nwapi.h">
-      <Filter>Source\Shared</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\main\server\worldgen.h">
       <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\api\c\nwapi.h">
+      <Filter>Source\Shared</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

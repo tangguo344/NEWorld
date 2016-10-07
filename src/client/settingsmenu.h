@@ -17,18 +17,15 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SHARED_H_
-#define SHARED_H_
+#ifndef SETTINGS_MENU_H_
+#define SETTINGS_MENU_H_
 
-#include "../../../api/c/nwapi.h"
+#include <uilib.h>
 
-// Block IDs
-extern int32_t RockID;
-
-void registerBlocks();
-
-NWplugindata* getInfo(bool client);
-
-void sharedInit();
+class SettingsMenu : public UI::Core::Grid
+{
+public:
+    SettingsMenu(UI::Core::Window* win);
+};
 
 #endif

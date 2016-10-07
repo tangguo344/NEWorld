@@ -25,11 +25,10 @@
 #include <world.h>
 #include "renderer.h"
 
-class ChunkRenderer
-    :boost::noncopyable
+class ChunkRenderer : public Chunk
 {
 public:
-    ChunkRenderer(World& world, Chunk& chunk) : m_world(world), m_chunk(chunk)
+    ChunkRenderer(const Vec3i& position, World& world) : Chunk(position), m_world(world)
     {
     }
 
@@ -45,8 +44,6 @@ public:
 private:
     // Target world
     World& m_world;
-    // Target chunk
-    Chunk& m_chunk;
     // Vertex buffer object
     VertexBuffer m_buffer;
     // Vertex array

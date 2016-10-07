@@ -18,10 +18,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\api\cpp\nwapi.h">
+    <ClInclude Include="..\..\..\src\main\shared\shared.h">
       <Filter>Source\Shared</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\main\shared\shared.h">
+    <ClInclude Include="..\..\..\api\c\nwapi.h">
       <Filter>Source\Shared</Filter>
     </ClInclude>
   </ItemGroup>
