@@ -24,7 +24,7 @@
 #include <vector>
 #include <logger.h>
 #include <session.h>
-#include <worldmanager.h>
+#include "worldmanager.h"
 #include <blockmanager.h>
 #include <pluginmanager.h>
 #include <pluginapi.h>

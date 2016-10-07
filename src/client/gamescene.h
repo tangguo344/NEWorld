@@ -29,7 +29,6 @@
 #include <logger.h>
 #include <pluginapi.h>
 #include <blockmanager.h>
-#include <worldmanager.h>
 #include <pluginmanager.h>
 #include "../server/worldserver.h"
 #include "worldclient.h"

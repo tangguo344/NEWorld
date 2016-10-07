@@ -21,19 +21,17 @@
 #define WORLDMANAGER_H_
 
 #include <vector>
-#include <functional>
 
-#include "world.h"
-#include "pluginmanager.h"
-#include "blockmanager.h"
+#include "worldserver.h"
+#include <pluginmanager.h>
+#include <blockmanager.h>
 
 // Multi-world
 class WorldManager
 {
 public:
-    using AddFunc_t = std::function<World*(const std::string&,PluginManager&, BlockManager&)>;
-    WorldManager(PluginManager& plugins, BlockManager& blocks, AddFunc_t addFunc) :
-        m_plugins(plugins), m_blocks(blocks), m_addFunc(addFunc)
+    WorldManager(PluginManager& plugins, BlockManager& blocks) :
+        m_plugins(plugins), m_blocks(blocks)
     {
     }
 
@@ -42,20 +40,19 @@ public:
         m_worlds.clear();
     }
 
-    World* addWorld(const std::string& name)
+    WorldServer* addWorld(const std::string& name)
     {
-        m_worlds.emplace_back(m_addFunc(name, m_plugins, m_blocks));
+        m_worlds.emplace_back(new WorldServer(name, m_plugins, m_blocks, 16));
         return m_worlds[m_worlds.size() - 1];
     }
 
-    std::vector<World*>::iterator begin() { return m_worlds.begin(); }
-    std::vector<World*>::iterator end() { return m_worlds.end(); }
+    std::vector<WorldServer*>::iterator begin() { return m_worlds.begin(); }
+    std::vector<WorldServer*>::iterator end() { return m_worlds.end(); }
 
 private:
-    std::vector<World*> m_worlds;
+    std::vector<WorldServer*> m_worlds;
     PluginManager& m_plugins;
     BlockManager& m_blocks;
-    AddFunc_t m_addFunc;
 };
 
 #endif
