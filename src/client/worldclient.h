@@ -48,11 +48,11 @@ public:
     void renderUpdate(const Vec3i& position);
 
     // Render all chunks
-    int render(const Vec3i& position) const;
+    size_t render(const Vec3i& position) const;
 
 private:
     // Render distance
-    int m_renderDist;
+    int m_renderDist = 0;
     // Render build list
     std::pair<ChunkClient*, int> m_chunkRenderList[MaxChunkRenderCount];
 

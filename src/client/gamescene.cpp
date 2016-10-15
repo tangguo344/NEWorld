@@ -40,8 +40,16 @@ GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
         ).get<void NWAPICALL(int, char**)>("main")(sizeof(argv)/sizeof(argv[0]), argv);
     });
 
+    // TEMP CODE
+    // Load some chunks at client side to test rendering
+    m_world.setRenderDistance(4);
     m_player.setPosition(Vec3d(-16.0, 32.0, 32.0));
     m_player.setRotation(Vec3d(-45.0, -22.5, 0.0));
+    Vec3i::for_range(-6, 6, [&](const Vec3i& pos)
+    {
+        m_world.addChunk(pos);
+    });
+    // END TEMP CODE
 
     // FIXME: if the server spends too much time starting, the network thread won't be able to connect to the server.
     m_connection.connect();
@@ -97,12 +105,14 @@ void GameScene::doRender()
     // To show the world coordinates
     glDisable(GL_CULL_FACE);
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    /*
     glBegin(GL_QUADS);
     glVertex3f(0.0f, 0.0f, 0.0f);
     glVertex3f(0.0f, 0.0f, 32.0f);
     glVertex3f(32.0f, 0.0f, 32.0f);
     glVertex3f(32.0f, 0.0f, 0.0f);
     glEnd();
+    */
     // X
     glColor3f(1.0f, 0.0f, 0.0f);
     glBegin(GL_LINES);
