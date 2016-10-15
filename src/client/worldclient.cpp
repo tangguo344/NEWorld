@@ -35,10 +35,87 @@ Chunk* WorldClient::addChunk(const Vec3i& chunkPos)
     return m_chunks[index];
 }
 
-void WorldClient::renderUpdate()
+void WorldClient::renderUpdate(const Vec3i& position)
 {
-    // TODO: Build VBO in visible range
+    size_t pr = 0;
+    for (size_t i = 0; i < getChunkCount(); i++)
+    {
+        ChunkClient* p = static_cast<ChunkClient*>(getChunkPtr(i));
 
-    // TODO: Destroy VBO in invisible range
+        // In render range, pending to render
+        if (position.chebyshevDistance(p->getPosition()) <= m_renderDist)
+        {
+            if (p->isRenderBuilt()/* || p->isEmpty()*/)
+                continue;
+
+            // Get chunk center pos
+            Vec3i curPos = p->getPosition();
+            curPos.for_each([](int& x)
+            {
+                x = x * ChunkSize + ChunkSize / 2 - 1;
+            });
+
+            // Distance from center pos
+            int distsqr = (curPos - position).lengthSqr();
+
+            // Binary search in render list
+            int first = 0, last = pr - 1;
+            while (first <= last)
+            {
+                int middle = (first + last) / 2;
+                if (distsqr < m_chunkRenderList[middle].second)
+                    last = middle - 1;
+                else
+                    first = middle + 1;
+            }
+
+            // Not very near, don't render now
+            if (first > pr || first >= MaxChunkRenderCount)
+                continue;
+
+            // Move elements to make prace
+            for (int j = MaxChunkRenderCount - 1; j > first; j--)
+                m_chunkRenderList[j] = m_chunkRenderList[j - 1];
+
+            // Insert into list
+            m_chunkRenderList[first] = { p, distsqr };
+
+            // Add counter
+            if (pr < MaxChunkRenderCount) pr++;
+        }
+        else
+        {
+            if (!p->isRenderBuilt())
+                continue;
+
+            p->destroyVertexArray();
+        }
+    }
+
+    // debugstream << pr;
+
+    for (size_t i = 0; i < pr; i++)
+    {
+        m_chunkRenderList[i].first->buildVertexArray();
+    }
 
 }
+
+size_t WorldClient::render(const Vec3i& position) const
+{
+    size_t renderedChunks = 0;
+    for (size_t i = 0; i < getChunkCount(); i++)
+    {
+        ChunkClient* p = static_cast<ChunkClient*>(getChunkPtr(i));
+        if (!p->isRenderBuilt())
+            continue;
+        if (position.chebyshevDistance(p->getPosition()) > m_renderDist)
+            continue;
+        Renderer::translate(p->getPosition() * ChunkSize);
+        p->render();
+        Renderer::translate(-p->getPosition() * ChunkSize);
+        renderedChunks++;
+    }
+    return renderedChunks;
+}
+

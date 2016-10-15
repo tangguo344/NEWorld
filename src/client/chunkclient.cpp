@@ -132,4 +132,5 @@ void ChunkClient::buildVertexArray()
         });
     }
     m_buffer = VertexBuffer(va);
+    m_renderBuilt = true;
 }
