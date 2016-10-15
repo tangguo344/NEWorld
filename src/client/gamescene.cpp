@@ -97,7 +97,7 @@ void GameScene::doRender()
     Renderer::translate(-m_player.getPosition());
 
     // Render
-    m_world.render(Vec3i(m_player.getPosition() / ChunkSize));
+    m_world.render(Vec3i(m_player.getPosition()));
 
     glDisable(GL_TEXTURE_2D);
 
@@ -138,7 +138,8 @@ void GameScene::doRender()
 
     // Update
     m_player.update();
-    m_world.renderUpdate(Vec3i(m_player.getPosition() / ChunkSize));
+    m_world.renderUpdate(Vec3i(m_player.getPosition()));
+    m_world.update();
 }
 
 void GameScene::onResize(size_t w, size_t h)

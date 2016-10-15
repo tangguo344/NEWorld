@@ -37,13 +37,15 @@ Chunk* WorldClient::addChunk(const Vec3i& chunkPos)
 
 void WorldClient::renderUpdate(const Vec3i& position)
 {
+    Vec3i chunkpos = getChunkPos(position);
     size_t pr = 0;
+
     for (size_t i = 0; i < getChunkCount(); i++)
     {
         ChunkClient* p = static_cast<ChunkClient*>(getChunkPtr(i));
 
         // In render range, pending to render
-        if (position.chebyshevDistance(p->getPosition()) <= m_renderDist)
+        if (chunkpos.chebyshevDistance(p->getPosition()) <= m_renderDist)
         {
             if (p->isRenderBuilt()/* || p->isEmpty()*/)
                 continue;
@@ -103,17 +105,18 @@ void WorldClient::renderUpdate(const Vec3i& position)
 
 size_t WorldClient::render(const Vec3i& position) const
 {
+    Vec3i chunkpos = getChunkPos(position);
     size_t renderedChunks = 0;
     for (size_t i = 0; i < getChunkCount(); i++)
     {
         ChunkClient* p = static_cast<ChunkClient*>(getChunkPtr(i));
         if (!p->isRenderBuilt())
             continue;
-        if (position.chebyshevDistance(p->getPosition()) > m_renderDist)
+        if (chunkpos.chebyshevDistance(p->getPosition()) > m_renderDist)
             continue;
-        Renderer::translate(p->getPosition() * ChunkSize);
+        Renderer::translate(Vec3f(p->getPosition() * ChunkSize));
         p->render();
-        Renderer::translate(-p->getPosition() * ChunkSize);
+        Renderer::translate(Vec3f(-p->getPosition() * ChunkSize));
         renderedChunks++;
     }
     return renderedChunks;
