@@ -130,13 +130,6 @@ void ChunkClient::buildVertexArray()
                 va.addVertex({ pos.x + 0.0f, pos.y + 1.0f, pos.z + 0.0f });
             }
         });
-
-        va.setColor({ 1.0f, 1.0f, 1.0f });
-        va.setTexture({ 0.0f, 0.0f });
-        va.addVertex({ 0.0f, 0.0f, 0.0f });
-        va.addVertex({ 0.0f, 0.0f, 16.0f });
-        va.addVertex({ 16.0f, 0.0f, 16.0f });
-        va.addVertex({ 16.0f, 0.0f, 0.0f });
     }
     m_buffer = VertexBuffer(va);
     m_renderBuilt = true;
