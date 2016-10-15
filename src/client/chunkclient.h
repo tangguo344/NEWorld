@@ -32,8 +32,21 @@ public:
     {
     }
 
+    // Is render built
+    bool isRenderBuilt()
+    {
+        return m_renderBuilt;
+    }
+
     // Build VBO
     void buildVertexArray();
+
+    // Destroy VBO
+    void destroyVertexArray()
+    {
+        m_buffer.destroy();
+        m_renderBuilt = false;
+    }
 
     // Draw call
     void render() const
@@ -46,6 +59,9 @@ private:
     World& m_world;
     // Vertex buffer object
     VertexBuffer m_buffer;
+    // Render built
+    bool m_renderBuilt = false;
+
     // Vertex array
     static VertexArray va;
     // Merge face rendering
