@@ -23,6 +23,8 @@
 #include <world.h>
 #include "chunkclient.h"
 
+const int MaxChunkRenderCount = 4;
+
 class WorldClient : public World
 {
 public:
@@ -37,17 +39,23 @@ public:
 
     Chunk* addChunk(const Vec3i& chunkPos) override;
 
+    void setRenderDistance(int x)
+    {
+        m_renderDist = x;
+    }
+
     // Build/Destroy VBO
-    void renderUpdate();
+    void renderUpdate(const Vec3i& position);
 
     // Render all chunks
-    void render() const
-    {
-        for (size_t i = 0; i < m_chunkCount; i++)
-        {
-            static_cast<ChunkClient*>(m_chunks[i])->render();
-        }
-    }
+    size_t render(const Vec3i& position) const;
+
+private:
+    // Render distance
+    int m_renderDist = 0;
+    // Render build list
+    std::pair<ChunkClient*, int> m_chunkRenderList[MaxChunkRenderCount];
+
 };
 
 #endif // !WORLDCLIENT_H_

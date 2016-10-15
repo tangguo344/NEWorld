@@ -177,6 +177,14 @@ public:
     // Render vertex buffer
     void render() const;
 
+    // Destroy vertex buffer
+    void destroy()
+    {
+        glDeleteBuffersARB(1, &id);
+        vertexes = id = 0;
+        format = VertexFormat();
+    }
+
 private:
     // Buffer ID
     VertexBufferID id;

@@ -26,8 +26,8 @@
 #include <jsonhelper.h>
 
 GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
-    : UI::Controls::GLContext(), m_blocks(bm), m_plugins(pm), m_connection("127.0.0.1", 8090), //TODO: read it from settings
-      m_world("TestWorld", pm, bm)
+    : UI::Controls::GLContext(), m_blocks(bm), m_plugins(pm), m_world("TestWorld", pm, bm), //TODO: read it from settings
+      m_connection("127.0.0.1", 8090)
 {
     // TODO: start the server only when it's a single player mode.
     m_localServerThread = std::thread([]
@@ -39,6 +39,18 @@ GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
             boost::dll::load_mode::append_decorations
         ).get<void NWAPICALL(int, char**)>("main")(sizeof(argv)/sizeof(argv[0]), argv);
     });
+
+    // TEMP CODE
+    // Load some chunks at client side to test rendering
+    m_world.setRenderDistance(4);
+    m_player.setPosition(Vec3d(-16.0, 32.0, 32.0));
+    m_player.setRotation(Vec3d(-45.0, -22.5, 0.0));
+    Vec3i::for_range(-6, 6, [&](const Vec3i& pos)
+    {
+        m_world.addChunk(pos);
+    });
+    // END TEMP CODE
+
     // FIXME: if the server spends too much time starting, the network thread won't be able to connect to the server.
     m_connection.connect();
 
@@ -77,7 +89,7 @@ void GameScene::doRender()
     m_texture.bind(Texture::Texture2D);
     Renderer::clear();
     Renderer::restoreProj();
-    Renderer::applyPerspective(70.0f, cMargin.absrect.xmax / cMargin.absrect.ymax, 1.0f, 300.0f);
+    Renderer::applyPerspective(70.0f, cMargin.absrect.xmax / cMargin.absrect.ymax, 1.0f, 1000.0f);
     Renderer::restoreScale();
     Renderer::rotate(-m_player.getRotation().x, Vec3f(1.0f, 0.0f, 0.0f));
     Renderer::rotate(-m_player.getRotation().y, Vec3f(0.0f, 1.0f, 0.0f));
@@ -85,14 +97,48 @@ void GameScene::doRender()
     Renderer::translate(-m_player.getPosition());
 
     // Render
-    m_world.render();
+    m_world.render(Vec3i(0, 0, 0));
 
     glDisable(GL_TEXTURE_2D);
+
+    // TEMP CODE
+    // To show the world coordinates
+    glDisable(GL_CULL_FACE);
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    /*
+    glBegin(GL_QUADS);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(0.0f, 0.0f, 32.0f);
+    glVertex3f(32.0f, 0.0f, 32.0f);
+    glVertex3f(32.0f, 0.0f, 0.0f);
+    glEnd();
+    */
+    // X
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glBegin(GL_LINES);
+    glVertex3f(-256.0f, 0.0f, 0.0f);
+    glVertex3f(256.0f, 0.0f, 0.0f);
+    glEnd();
+    // Y
+    glColor3f(0.0f, 1.0f, 0.0f);
+    glBegin(GL_LINES);
+    glVertex3f(0.0f, -256.0f, 0.0f);
+    glVertex3f(0.0f, 256.0f, 0.0f);
+    glEnd();
+    // Z
+    glColor3f(0.0f, 0.0f, 1.0f);
+    glBegin(GL_LINES);
+    glVertex3f(0.0f, 0.0f, -256.0f);
+    glVertex3f(0.0f, 0.0f, 256.0f);
+    glEnd();
+    glEnable(GL_CULL_FACE);
+    // END TEMP CODE
+
     glDisable(GL_DEPTH_TEST);
 
     // Update
     m_player.update();
-    m_world.renderUpdate();
+    m_world.renderUpdate(Vec3i(0, 0, 0));
 }
 
 void GameScene::onResize(size_t w, size_t h)

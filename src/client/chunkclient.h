@@ -20,7 +20,6 @@
 #ifndef CHUNKCLIENT_H_
 #define CHUNKCLIENT_H_
 
-#include <boost/core/noncopyable.hpp>
 #include <chunk.h>
 #include <world.h>
 #include "renderer.h"
@@ -30,10 +29,33 @@ class ChunkClient : public Chunk
 public:
     ChunkClient(const Vec3i& position, World& world) : Chunk(position), m_world(world)
     {
+        // TEMP CODE
+        // Generate terrain at client side to test rendering
+        if (position.y <= 0)
+        {
+            Vec3i::for_range(0, ChunkSize, [&](const Vec3i& curr)
+            {
+                setBlock(curr, BlockData(1, 0, 0));
+            });
+        }
+        // END TEMP CODE
+    }
+
+    // Is render built
+    bool isRenderBuilt() const
+    {
+        return m_renderBuilt;
     }
 
     // Build VBO
     void buildVertexArray();
+
+    // Destroy VBO
+    void destroyVertexArray()
+    {
+        m_buffer.destroy();
+        m_renderBuilt = false;
+    }
 
     // Draw call
     void render() const
@@ -46,6 +68,9 @@ private:
     World& m_world;
     // Vertex buffer object
     VertexBuffer m_buffer;
+    // Render built
+    bool m_renderBuilt = false;
+
     // Vertex array
     static VertexArray va;
     // Merge face rendering
