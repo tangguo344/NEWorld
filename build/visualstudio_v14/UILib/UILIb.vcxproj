@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\uilib\include\uiaudio.h" />
     <ClInclude Include="..\..\..\src\uilib\include\uibase.h" />
     <ClInclude Include="..\..\..\src\uilib\include\uibrushes.h" />
     <ClInclude Include="..\..\..\src\uilib\include\uicontrols.h" />
@@ -37,7 +36,6 @@
     <ClInclude Include="..\..\..\src\uilib\src\uishader.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\uilib\src\uiaudio.cpp" />
     <ClCompile Include="..\..\..\src\uilib\src\uibase.cpp" />
     <ClCompile Include="..\..\..\src\uilib\src\uibrushes.cpp" />
     <ClCompile Include="..\..\..\src\uilib\src\uicontrols.cpp" />
