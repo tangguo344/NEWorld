@@ -38,7 +38,7 @@ Chunk* WorldClient::addChunk(const Vec3i& chunkPos)
 void WorldClient::renderUpdate(const Vec3i& position)
 {
     Vec3i chunkpos = getChunkPos(position);
-    size_t pr = 0;
+    int pr = 0;
 
     for (size_t i = 0; i < getChunkCount(); i++)
     {
@@ -96,7 +96,7 @@ void WorldClient::renderUpdate(const Vec3i& position)
 
     // debugstream << pr;
 
-    for (size_t i = 0; i < pr; i++)
+    for (int i = 0; i < pr; i++)
     {
         m_chunkRenderList[i].first->buildVertexArray();
     }

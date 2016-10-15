@@ -30,7 +30,6 @@
 #include <pluginapi.h>
 #include <blockmanager.h>
 #include <pluginmanager.h>
-#include "../server/worldserver.h"
 #include "worldclient.h"
 #include "texture.h"
 #include "player.h"

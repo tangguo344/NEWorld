@@ -155,7 +155,7 @@ void GameScene::onKey(int key)
     if (key == SDLK_s) m_player.accelerate(Vec3d( 0.0, 0.0, 0.2));
     if (key == SDLK_a) m_player.accelerate(Vec3d(-0.2, 0.0, 0.0));
     if (key == SDLK_d) m_player.accelerate(Vec3d( 0.2, 0.0, 0.0));
-    if (key == SDLK_LSHIFT || key == SDLK_RSHIFT) m_player.accelerate(Vec3d( 0.0,-0.2, 0.0));
+    if (key == SDLK_LCTRL || key == SDLK_RCTRL) m_player.accelerate(Vec3d( 0.0,-0.2, 0.0));
     if (key == SDLK_SPACE) m_player.accelerate(Vec3d( 0.0, 0.2, 0.0));
     if (key == SDLK_UP) m_player.rotate(Vec3d( 1.0, 0.0, 0.0));
     if (key == SDLK_DOWN) m_player.rotate(Vec3d(-1.0, 0.0, 0.0));
