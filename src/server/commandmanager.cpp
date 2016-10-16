@@ -44,7 +44,7 @@ void CommandManager::inputLoop()
     }
 }
 
-void CommandManager::setStatus(bool s)
+void CommandManager::setRunningStatus(bool s)
 {
     m_threadRunning = s;
 }

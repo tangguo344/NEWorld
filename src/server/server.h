@@ -23,12 +23,12 @@
 #include <memory>
 #include <vector>
 #include <logger.h>
-#include <worldmanager.h>
+#include "worldmanager.h"
 #include <blockmanager.h>
 #include <pluginmanager.h>
 #include <pluginapi.h>
 #include <ratemeter.h>
-#include "worldloader.h"
+#include "worldserver.h"
 #include <unordered_map>
 #include <thread>
 #include "commandmanager.h"
@@ -58,8 +58,6 @@ private:
     PluginManager m_plugins;
     NetworkManager m_network;
     CommandManager m_commands;
-
-    std::unordered_map<std::string, WorldLoader> m_worldLoaders;
 
     std::vector<std::string> m_args;
 };

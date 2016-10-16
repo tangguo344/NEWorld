@@ -22,7 +22,7 @@
 
 extern "C" NWAPIEXPORT int NWAPICALL main(int, char**);
 
-int NWAPICALL main(int argc, char** argv)
+int NWAPICALL main(int, char**)
 {
     Application::getApplication().run();
 }

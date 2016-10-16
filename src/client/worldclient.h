@@ -17,41 +17,45 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef WORLDMANAGER_H_
-#define WORLDMANAGER_H_
+#ifndef WORLDCLIENT_H_
+#define WORLDCLIENT_H_
 
-#include <vector>
+#include <world.h>
+#include "chunkclient.h"
 
-#include "world.h"
-#include "pluginmanager.h"
-#include "blockmanager.h"
+const int MaxChunkRenderCount = 4;
 
-// Multi-world
-class WorldManager
+class WorldClient : public World
 {
 public:
-    WorldManager(PluginManager& plugins, BlockManager& blocks) : m_plugins(plugins), m_blocks(blocks)
+    WorldClient(const std::string& name, PluginManager& plugins, BlockManager& blocks)
+        : World(name, plugins, blocks)
     {
     }
 
-    ~WorldManager()
+    WorldClient(World&& world) : World(std::move(world))
     {
-        m_worlds.clear();
     }
 
-    World* addWorld(const std::string& name)
+    Chunk* addChunk(const Vec3i& chunkPos) override;
+
+    void setRenderDistance(int x)
     {
-        m_worlds.emplace_back(new World(name, m_plugins, m_blocks));
-        return m_worlds[m_worlds.size() - 1];
+        m_renderDist = x;
     }
 
-    std::vector<World*>::iterator begin() { return m_worlds.begin(); }
-    std::vector<World*>::iterator end() { return m_worlds.end(); }
+    // Build/Destroy VBO
+    void renderUpdate(const Vec3i& position);
+
+    // Render all chunks
+    size_t render(const Vec3i& position) const;
 
 private:
-    std::vector<World*> m_worlds;
-    PluginManager& m_plugins;
-    BlockManager& m_blocks;
+    // Render distance
+    int m_renderDist = 0;
+    // Render build list
+    std::pair<ChunkClient*, int> m_chunkRenderList[MaxChunkRenderCount];
+
 };
 
-#endif
+#endif // !WORLDCLIENT_H_

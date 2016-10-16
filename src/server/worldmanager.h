@@ -17,40 +17,42 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef BLOCKMANAGER_H_
-#define BLOCKMANAGER_H_
+#ifndef WORLDMANAGER_H_
+#define WORLDMANAGER_H_
 
 #include <vector>
 
-#include "blocktype.h"
-#include "logger.h"
+#include "worldserver.h"
+#include <pluginmanager.h>
+#include <blockmanager.h>
 
-class BlockManager
+// Multi-world
+class WorldManager
 {
 public:
-    BlockManager()
+    WorldManager(PluginManager& plugins, BlockManager& blocks) :
+        m_plugins(plugins), m_blocks(blocks)
     {
-        m_blocks.push_back(BlockType("Air", false, false, false, 0, 0));
     }
 
-    size_t registerBlock(const BlockType& block)
+    ~WorldManager()
     {
-        m_blocks.push_back(block);
-        debugstream << "Registered block:";
-        showInfo(m_blocks.size() - 1);
-        return m_blocks.size() - 1;
+        m_worlds.clear();
     }
 
-    const BlockType& getType(int id) const
+    WorldServer* addWorld(const std::string& name)
     {
-        return m_blocks[id];
+        m_worlds.emplace_back(new WorldServer(name, m_plugins, m_blocks, 16));
+        return m_worlds[m_worlds.size() - 1];
     }
 
-    void showInfo(size_t id) const;
+    std::vector<WorldServer*>::iterator begin() { return m_worlds.begin(); }
+    std::vector<WorldServer*>::iterator end() { return m_worlds.end(); }
 
 private:
-    std::vector<BlockType> m_blocks;
-
+    std::vector<WorldServer*> m_worlds;
+    PluginManager& m_plugins;
+    BlockManager& m_blocks;
 };
 
-#endif // !BLOCKMANAGER_H_
+#endif

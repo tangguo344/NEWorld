@@ -132,7 +132,7 @@ void Logger::writeOstream(std::ostream& ostream, bool noColor) const
     };
     std::string str = m_content.str();
     std::string::size_type pos1 = 0, pos2 = str.find(stylechar);
-    while (true)
+    for (;;)
     {
         if (std::string::npos == pos2)
         {
