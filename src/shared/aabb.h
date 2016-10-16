@@ -34,12 +34,7 @@ public:
 
     AABB() = default;
 
-    AABB(const Vec3d& _min, const Vec3d& _max) : min(_min), max(_max)
-    {
-    }
-
-    AABB(const AABB&) = default;
-    AABB(AABB&&) = default;
+    AABB(const Vec3d& _min, const Vec3d& _max) : min(_min), max(_max) {}
 
     /// Is intersect on X axis
     bool intersectX(const AABB& box) const
