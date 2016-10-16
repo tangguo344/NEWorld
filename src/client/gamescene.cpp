@@ -45,7 +45,6 @@ GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
     m_world.setRenderDistance(4);
     m_player.setPosition(Vec3d(-16.0, 32.0, 32.0));
     m_player.setRotation(Vec3d(-45.0, -22.5, 0.0));
-    m_player.setPosition(Vec3d(0.0, 32.0, 0.0));
     Vec3i::for_range(-6, 6, [&](const Vec3i& pos)
     {
         m_world.addChunk(pos);
@@ -156,7 +155,7 @@ void GameScene::onKey(int key)
     if (key == SDLK_s) m_player.accelerate(Vec3d( 0.0, 0.0, 0.06));
     if (key == SDLK_a) m_player.accelerate(Vec3d(-0.06, 0.0, 0.0));
     if (key == SDLK_d) m_player.accelerate(Vec3d( 0.06, 0.0, 0.0));
-    if (key == SDLK_LSHIFT || key == SDLK_RSHIFT) m_player.accelerate(Vec3d( 0.0,-0.1, 0.0));
+    if (key == SDLK_LCTRL || key == SDLK_RCTRL) m_player.accelerate(Vec3d( 0.0,-0.1, 0.0));
     if (key == SDLK_SPACE) m_player.accelerate(Vec3d( 0.0, 0.1, 0.0));
     if (key == SDLK_UP) m_player.rotate(Vec3d( 2.5, 0.0, 0.0));
     if (key == SDLK_DOWN) m_player.rotate(Vec3d(-2.5, 0.0, 0.0));
