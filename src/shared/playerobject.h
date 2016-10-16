@@ -22,11 +22,17 @@
 
 #include "object.h"
 
+const double PlayerHeight = 1.6;
+const double PlayerWidth = 0.6;
+const Vec3d PlayerHitboxSize = Vec3d(PlayerWidth, PlayerHeight, PlayerWidth);
+
 class PlayerObject : public Object
 {
 public:
     PlayerObject(const World* world)
-        : Object(world, Vec3d(), Vec3d(), Vec3d(1.0), AABB(-m_hitboxSize / 2.0, m_hitboxSize / 2.0)) {}
+        : Object(world, Vec3d(), Vec3d(), Vec3d(1.0), AABB(-PlayerHitboxSize / 2.0, PlayerHitboxSize / 2.0))
+    {
+    }
 
     PlayerObject(const Object& obj) : Object(obj)
     {
@@ -51,28 +57,6 @@ public:
         return m_rotation;
     }
 
-    void setHeight(double height)
-    {
-        m_height = height;
-        updateHitbox();
-    }
-
-    double getHeight() const
-    {
-        return m_height;
-    }
-
-    void setWidth(double width)
-    {
-        m_width = width;
-        updateHitbox();
-    }
-
-    double setWidth() const
-    {
-        return m_width;
-    }
-
     void setSpeed(double speed)
     {
         m_speed = speed;
@@ -84,18 +68,8 @@ public:
     }
 
 private:
-    void updateHitbox()
-    {
-        m_hitboxSize = Vec3d(m_width, m_height, m_width);
-        m_hitbox = AABB(-m_hitboxSize / 2.0, m_hitboxSize / 2.0);
-    }
-
     Vec3d m_direction; // Body direction, head direction is `m_rotation` in class Object
-
-    double m_height = 1.6;
-    double m_width = 0.6;
     double m_speed = 0.2;
-    Vec3d m_hitboxSize = Vec3d(m_width, m_height, m_width);
 };
 
 #endif

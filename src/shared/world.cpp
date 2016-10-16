@@ -69,7 +69,6 @@ int World::deleteChunk(const Vec3i& chunkPos)
 std::vector<AABB> World::getHitboxes(const AABB& range) const
 {
     std::vector<AABB> res;
-    // Naive implemention, needs to be optimized
     Vec3i curr;
     for (curr.x = int(floor(range.min.x)); curr.x < int(ceil(range.max.x)); curr.x++)
         for (curr.y = int(floor(range.min.y)); curr.y < int(ceil(range.max.y)); curr.y++)
