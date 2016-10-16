@@ -25,33 +25,71 @@
 class PlayerObject : public Object
 {
 public:
-    PlayerObject()
-        : Object(Vec3d(), Vec3d(), Vec3d(1.0), AABB(-m_hitboxSize / 2.0, m_hitboxSize / 2.0)) {}
+    PlayerObject(const World* world)
+        : Object(world, Vec3d(), Vec3d(), Vec3d(1.0), AABB(-m_hitboxSize / 2.0, m_hitboxSize / 2.0)) {}
 
-    PlayerObject(const Object& obj) : Object(obj) {}
+    PlayerObject(const Object& obj) : Object(obj)
+    {
+    }
 
-    ~PlayerObject() {}
+    ~PlayerObject()
+    {
+    }
 
-    void rotate(const Vec3d& rotation) { m_rotation += rotation; }
+    void rotate(const Vec3d& rotation)
+    {
+        m_rotation += rotation;
+    }
 
-    void setDirection(const Vec3d& direction) { m_rotation = direction; }
-    Vec3d getDirection() const { return m_rotation;}
+    void setDirection(const Vec3d& direction)
+    {
+        m_rotation = direction;
+    }
 
-    void setHeight(double height) { m_height = height; flushHitbox(); }
-    double getHeight() const { return m_height; }
+    Vec3d getDirection() const
+    {
+        return m_rotation;
+    }
 
-    void setWidth(double width) { m_width = width; flushHitbox(); }
-    double setWidth() const { return m_width; }
+    void setHeight(double height)
+    {
+        m_height = height;
+        updateHitbox();
+    }
 
-    void setSpeed(double speed) { m_speed = speed; }
-    double getSpeed() const { return m_speed; }
+    double getHeight() const
+    {
+        return m_height;
+    }
+
+    void setWidth(double width)
+    {
+        m_width = width;
+        updateHitbox();
+    }
+
+    double setWidth() const
+    {
+        return m_width;
+    }
+
+    void setSpeed(double speed)
+    {
+        m_speed = speed;
+    }
+
+    double getSpeed() const
+    {
+        return m_speed;
+    }
 
 private:
-    void flushHitbox() {
+    void updateHitbox()
+    {
         m_hitboxSize = Vec3d(m_width, m_height, m_width);
         m_hitbox = AABB(-m_hitboxSize / 2.0, m_hitboxSize / 2.0);
     }
-    Vec3d m_direction; // Body direction, head direction is `m_rotation` in class Object
+
     Vec3d m_direction; // Body direction, head direction is `m_rotation` in class Object
 
     double m_height = 1.6;
