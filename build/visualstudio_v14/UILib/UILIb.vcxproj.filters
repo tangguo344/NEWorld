@@ -7,9 +7,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\uilib\include\uiaudio.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\uilib\include\uibase.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -57,9 +54,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\uilib\src\uiaudio.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\uilib\src\uibase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

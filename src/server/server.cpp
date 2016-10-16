@@ -35,8 +35,7 @@ Server::Server(std::vector<std::string> args)
 
     // World
     World* world = m_worlds.addWorld("main_world");
-    m_worldLoaders.insert({ "main_world", WorldLoader(*world, 32) }); //TODO: get the range by players' settings
-    
+
     // Network
     m_network.run("127.0.0.1",9887); // TODO: Get from settings --Miigon
     
@@ -54,7 +53,7 @@ Server::Server(std::vector<std::string> args)
 void Server::stop()
 {
     m_network.close();
-    m_commands.setStatus(false);
+    m_commands.setRunningStatus(false);
 }
 
 Server::~Server()

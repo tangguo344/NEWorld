@@ -17,23 +17,45 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CHUNKRENDERER_H_
-#define CHUNKRENDERER_H_
+#ifndef CHUNKCLIENT_H_
+#define CHUNKCLIENT_H_
 
-#include <boost/core/noncopyable.hpp>
 #include <chunk.h>
 #include <world.h>
 #include "renderer.h"
 
-class ChunkRenderer : public Chunk
+class ChunkClient : public Chunk
 {
 public:
-    ChunkRenderer(const Vec3i& position, World& world) : Chunk(position), m_world(world)
+    ChunkClient(const Vec3i& position, World& world) : Chunk(position), m_world(world)
     {
+        // TEMP CODE
+        // Generate terrain at client side to test rendering
+        if (position.y <= 0)
+        {
+            Vec3i::for_range(0, ChunkSize, [&](const Vec3i& curr)
+            {
+                setBlock(curr, BlockData(1, 0, 0));
+            });
+        }
+        // END TEMP CODE
+    }
+
+    // Is render built
+    bool isRenderBuilt() const
+    {
+        return m_renderBuilt;
     }
 
     // Build VBO
     void buildVertexArray();
+
+    // Destroy VBO
+    void destroyVertexArray()
+    {
+        m_buffer.destroy();
+        m_renderBuilt = false;
+    }
 
     // Draw call
     void render() const
@@ -46,12 +68,15 @@ private:
     World& m_world;
     // Vertex buffer object
     VertexBuffer m_buffer;
+    // Render built
+    bool m_renderBuilt = false;
+
     // Vertex array
     static VertexArray va;
     // Merge face rendering
     static bool mergeFace;
 
-    bool adjacentTest(BlockData a, BlockData b) const
+    bool adjacentTest(const BlockData& a, const BlockData& b) const
     {
         if (a.getID() == 0) return false;
         if (m_world.getBlockTypes().getType(b.getID()).isOpaque()) return false;
@@ -59,4 +84,4 @@ private:
     }
 };
 
-#endif // !CHUNKRENDERER_H_
+#endif // !CHUNKCLIENT_H_

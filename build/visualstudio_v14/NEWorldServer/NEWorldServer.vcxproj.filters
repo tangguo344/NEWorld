@@ -34,14 +34,8 @@
     <ClCompile Include="..\..\..\src\server\main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\server\worldloader.cpp">
-      <Filter>Source\World</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\server\server.cpp">
       <Filter>Source\Main</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\server\chunkloader.cpp">
-      <Filter>Source\World</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\server\builtincommands.cpp">
       <Filter>Source\Command</Filter>
@@ -55,19 +49,19 @@
     <ClCompile Include="..\..\..\src\server\serverapi.cpp">
       <Filter>Source\Plugin</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\server\worldserver.cpp">
+      <Filter>Source\World</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\server\chunkserver.cpp">
+      <Filter>Source\World</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\server\worldloader.h">
-      <Filter>Source\World</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\server\settings.h">
       <Filter>Source\Settings</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\server\server.h">
       <Filter>Source\Main</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\server\chunkloader.h">
-      <Filter>Source\World</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\server\commandmanager.h">
       <Filter>Source\Command</Filter>
@@ -80,6 +74,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\server\serverapi.h">
       <Filter>Source\Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\server\worldserver.h">
+      <Filter>Source\World</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\server\chunkserver.h">
+      <Filter>Source\World</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\server\worldmanager.h">
+      <Filter>Source\World</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

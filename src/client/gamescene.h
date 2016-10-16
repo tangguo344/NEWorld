@@ -29,10 +29,8 @@
 #include <logger.h>
 #include <pluginapi.h>
 #include <blockmanager.h>
-#include <worldmanager.h>
 #include <pluginmanager.h>
-#include "../server/worldloader.h"
-#include "worldrenderer.h"
+#include "worldclient.h"
 #include "texture.h"
 #include "player.h"
 #include "network.h"
@@ -62,7 +60,7 @@ private:
     // Loaded plugins
     PluginManager& m_plugins;
     // World
-    WorldRenderer m_world;
+    WorldClient m_world;
     // Player test
     Player m_player;
     // Local server thread

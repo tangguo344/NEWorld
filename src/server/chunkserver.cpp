@@ -17,28 +17,23 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "worldrenderer.h"
+#include "chunkserver.h"
+#include "pluginmanager.h"
 
-Chunk* WorldRenderer::addChunk(const Vec3i& chunkPos)
+void NWAPICALL DefaultChunkGen(const Vec3i*, BlockData* blocks, int32_t daylightBrightness)
 {
-    size_t index = getChunkIndex(chunkPos);
-    if (index < m_chunkCount && m_chunks[index]->getPosition() == chunkPos)
-    {
-        assert(false);
-        return nullptr;
-    }
-    newChunkPtr(index);
-    m_chunks[index] = new Chunk(chunkPos);
-    // TODO: Update chunk pointer cache
-    // TODO: Update chunk pointer array
-    // Return pointer
-    return m_chunks[index];
+    // This is the default terrain generator. Use this when no generators were loaded from plugins.
+    for (int x = 0; x < ChunkSize; x++)
+        for (int z = 0; z < ChunkSize; z++)
+            for (int y = 0; y < ChunkSize; y++)
+                blocks[x*ChunkSize*ChunkSize + y*ChunkSize + z] = BlockData(0, daylightBrightness, 0);
 }
 
-void WorldRenderer::renderUpdate()
+bool ChunkGeneratorLoaded = false;
+ChunkGenerator *ChunkGen = &DefaultChunkGen;
+
+void ChunkServer::build(int daylightBrightness)
 {
-    // TODO: Build VBO in visible range
-
-    // TODO: Destroy VBO in invisible range
-
+    (*ChunkGen)(&getPosition(), getBlocks(), daylightBrightness);
+    setUpdated(true);
 }

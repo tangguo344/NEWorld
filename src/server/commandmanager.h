@@ -31,7 +31,7 @@ public:
     CommandMap& getCommandMap() { return m_commandMap; }
 
     void inputLoop();
-    void setStatus(bool s);
+    void setRunningStatus(bool s);
 
     void addCommand(std::string name, CommandInfo info, CommandHandleFunction func)
     {

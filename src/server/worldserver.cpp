@@ -17,10 +17,26 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "worldloader.h"
-#include "chunkloader.h"
+#include "worldserver.h"
+#include "chunkserver.h"
 
-void WorldLoader::sortChunkLoadUnloadList(const Vec3i& centerPos)
+Chunk* WorldServer::addChunk(const Vec3i& chunkPos)
+{
+    size_t index = getChunkIndex(chunkPos);
+    if (index < m_chunkCount && m_chunks[index]->getPosition() == chunkPos)
+    {
+        assert(false);
+        return nullptr;
+    }
+    newChunkPtr(index);
+    m_chunks[index] = static_cast<Chunk*>(new ChunkServer(chunkPos));
+    // TODO: Update chunk pointer cache
+    // TODO: Update chunk pointer array
+    // Return pointer
+    return m_chunks[index];
+}
+
+void WorldServer::sortChunkLoadUnloadList(const Vec3i& centerPos)
 {
     //Vec3i centerCPos;
     int pl = 0, pu = 0;
@@ -29,9 +45,9 @@ void WorldLoader::sortChunkLoadUnloadList(const Vec3i& centerPos)
     // centerPos to chunk coords
     //centerCPos = m_world->getChunkPos(centerPos);
 
-    for (size_t ci = 0; ci < m_world.getChunkCount(); ci++)
+    for (size_t ci = 0; ci < getChunkCount(); ci++)
     {
-        Vec3i curPos = m_world.getChunkPtr(ci)->getPosition();
+        Vec3i curPos = getChunkPtr(ci)->getPosition();
         // Get chunk center pos
         curPos.for_each([](int& x)
         {
@@ -64,7 +80,7 @@ void WorldLoader::sortChunkLoadUnloadList(const Vec3i& centerPos)
                 m_chunkUnloadList[j] = m_chunkUnloadList[j - 1];
 
             // Insert into list
-            m_chunkUnloadList[first] = { m_world.getChunkPtr(ci), distsqr };
+            m_chunkUnloadList[first] = { getChunkPtr(ci), distsqr };
 
             // Add counter
             if (pl < MaxChunkUnloadCount) pl++;
@@ -76,7 +92,7 @@ void WorldLoader::sortChunkLoadUnloadList(const Vec3i& centerPos)
         for (int y = centerPos.y - m_loadRange; y <= centerPos.y + m_loadRange; y++)
             for (int z = centerPos.z - m_loadRange; z <= centerPos.z + m_loadRange; z++)
                 // In load range, pending to load
-                if (!m_world.isChunkLoaded(Vec3i(x, y, z))) // if (m_cpa.get(Vec3i(x, y, z)) == nullptr)
+                if (!isChunkLoaded(Vec3i(x, y, z))) // if (m_cpa.get(Vec3i(x, y, z)) == nullptr)
                 {
                     Vec3i curPos(x, y, z);
                     // Get chunk center pos
@@ -116,16 +132,16 @@ void WorldLoader::sortChunkLoadUnloadList(const Vec3i& centerPos)
     m_chunkLoadCount = pu;
 }
 
-void WorldLoader::loadUnloadChunks() const
+void WorldServer::loadUnloadChunks()
 {
     for (int i = 0; i < m_chunkLoadCount; i++)
     {
         // TODO: Try to read in file
-        ChunkLoader(*m_world.addChunk(m_chunkLoadList[i].first)).build(m_world.getDaylightBrightness());
+        static_cast<ChunkServer*>(addChunk(m_chunkLoadList[i].first))->build(getDaylightBrightness());
     }
     for (int i = 0; i < m_chunkUnloadCount; i++)
     {
         // TODO: Save chunk
-        m_world.deleteChunk(m_chunkUnloadList[i].first->getPosition());
+        deleteChunk(m_chunkUnloadList[i].first->getPosition());
     }
 }

@@ -17,13 +17,21 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "chunkrenderer.h"
+#include "chunkclient.h"
 
-VertexArray ChunkRenderer::va(262144, VertexFormat(2, 3, 0, 3));
-bool ChunkRenderer::mergeFace;
+VertexArray ChunkClient::va(262144, VertexFormat(2, 3, 0, 3));
+bool ChunkClient::mergeFace;
 
-void ChunkRenderer::buildVertexArray()
+void ChunkClient::buildVertexArray()
 {
+    Vec3i::for_range(-1, 2, [&](const Vec3i& curr)
+    {
+        if (curr != Vec3i(0, 0, 0))
+        {
+            if (!m_world.isChunkLoaded(getPosition() + curr))
+                return; // Neighbor chunk not loaded
+        }
+    });
     va.clear();
     if (mergeFace)
     {
@@ -33,17 +41,17 @@ void ChunkRenderer::buildVertexArray()
     {
         Vec3i::for_range(0, ChunkSize, [&](const Vec3i& pos)
         {
-            //Vec3i worldpos = getPosition() + pos;
+            Vec3i worldpos = getPosition() + pos;
 
             BlockData curr = getBlock(pos);
             BlockData neighbors[6] =
             {
-                pos.x == ChunkSize - 1 ? BlockData(0, 15, 0) : getBlock(Vec3i(pos.x + 1, pos.y, pos.z)),
-                pos.x == 0 ? BlockData(0, 15, 0) : getBlock(Vec3i(pos.x - 1, pos.y, pos.z)),
-                pos.y == ChunkSize - 1 ? BlockData(0, 15, 0) : getBlock(Vec3i(pos.x, pos.y + 1, pos.z)),
-                pos.y == 0 ? BlockData(0, 15, 0) : getBlock(Vec3i(pos.x, pos.y - 1, pos.z)),
-                pos.z == ChunkSize - 1 ? BlockData(0, 15, 0) : getBlock(Vec3i(pos.x, pos.y, pos.z + 1)),
-                pos.z == 0 ? BlockData(0, 15, 0) : getBlock(Vec3i(pos.x, pos.y, pos.z - 1)),
+                pos.x == ChunkSize - 1 ? m_world.getBlock(Vec3i(worldpos.x + 1, worldpos.y, worldpos.z)) : getBlock(Vec3i(pos.x + 1, pos.y, pos.z)),
+                pos.x == 0 ? m_world.getBlock(Vec3i(worldpos.x - 1, worldpos.y, worldpos.z)) : getBlock(Vec3i(pos.x - 1, pos.y, pos.z)),
+                pos.y == ChunkSize - 1 ? m_world.getBlock(Vec3i(worldpos.x, worldpos.y + 1, worldpos.z)) : getBlock(Vec3i(pos.x, pos.y + 1, pos.z)),
+                pos.y == 0 ? m_world.getBlock(Vec3i(worldpos.x, worldpos.y - 1, worldpos.z)) : getBlock(Vec3i(pos.x, pos.y - 1, pos.z)),
+                pos.z == ChunkSize - 1 ? m_world.getBlock(Vec3i(worldpos.x, worldpos.y, worldpos.z + 1)) : getBlock(Vec3i(pos.x, pos.y, pos.z + 1)),
+                pos.z == 0 ? m_world.getBlock(Vec3i(worldpos.x, worldpos.y, worldpos.z - 1)) : getBlock(Vec3i(pos.x, pos.y, pos.z - 1)),
             };
 
             // Right
@@ -132,4 +140,5 @@ void ChunkRenderer::buildVertexArray()
         });
     }
     m_buffer = VertexBuffer(va);
+    m_renderBuilt = true;
 }

@@ -17,8 +17,8 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef WORLDLOADER_H_
-#define WORLDLOADER_H_
+#ifndef WORLDSERVER_H_
+#define WORLDSERVER_H_
 
 #include <utility>
 #include <world.h>
@@ -26,11 +26,11 @@
 
 constexpr int MaxChunkLoadCount = 64, MaxChunkUnloadCount = 64;
 
-class WorldLoader
+class WorldServer : public World
 {
 public:
-    WorldLoader(World& world, int loadRange)
-        : m_world(world), m_cpa(world.getChunkPointerArray()), m_loadRange(loadRange)
+    WorldServer(const std::string& name, PluginManager& plugins, BlockManager& blocks, int loadRange)
+        : World(name,plugins,blocks),m_cpa(getChunkPointerArray()), m_loadRange(loadRange)
     {
     }
 
@@ -43,11 +43,11 @@ public:
     /// Find the nearest chunks in load range to load, fartherest chunks out of load range to unload
     void sortChunkLoadUnloadList(const Vec3i& centerPos);
     /// Load & unload chunks
-    void loadUnloadChunks() const;
+    void loadUnloadChunks();
+
+    Chunk* addChunk(const Vec3i& chunkPos) override;
 
 private:
-    /// World
-    World& m_world;
     /// ChunkPointerArray used to detect unloaded chunks in load range
     ChunkPointerArray& m_cpa;
 
@@ -59,4 +59,4 @@ private:
 
 };
 
-#endif // !WORLDLOADER_H_
+#endif // !WORLDSERVER_H_

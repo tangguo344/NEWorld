@@ -34,17 +34,14 @@ class PluginManager;
 class World : boost::noncopyable
 {
 public:
-    World(const std::string& name, PluginManager& plugins, BlockManager& blocks)
-        : m_name(name), m_plugins(plugins), m_blocks(blocks), m_chunkCount(0), m_chunkArraySize(1024), m_daylightBrightness(15), m_cpa(8)
-    {
-        m_chunks = reinterpret_cast<Chunk**>(malloc(m_chunkArraySize * sizeof(Chunk*)));
-    }
 
-    World(World&& rhs)
-        : m_name(std::move(rhs.m_name)), m_plugins(rhs.m_plugins), m_blocks(rhs.m_blocks),
-          m_chunkCount(rhs.m_chunkCount), m_chunkArraySize(rhs.m_chunkArraySize), m_daylightBrightness(rhs.m_daylightBrightness), m_cpa(std::move(rhs.m_cpa))
+    virtual ~World()
     {
-        std::swap(m_chunks, rhs.m_chunks);
+        if (m_chunks != nullptr)
+        {
+            // TODO: Save and destroy chunks
+            free(m_chunks);
+        }
     }
 
     // Get world name
@@ -95,7 +92,7 @@ public:
     }
 
     // Add chunk
-    virtual Chunk* addChunk(const Vec3i& chunkPos);
+    virtual Chunk* addChunk(const Vec3i& chunkPos) = 0;
 
     // Delete chunk
     int deleteChunk(const Vec3i& chunkPos);
@@ -178,6 +175,19 @@ public:
     void update();
 
 protected:
+    World(const std::string& name, PluginManager& plugins, BlockManager& blocks)
+        : m_name(name), m_plugins(plugins), m_blocks(blocks), m_chunkCount(0), m_chunkArraySize(1024), m_daylightBrightness(15), m_cpa(8)
+    {
+        m_chunks = static_cast<Chunk**>(malloc(m_chunkArraySize * sizeof(Chunk*)));
+    }
+
+    World(World&& rhs)
+        : m_name(std::move(rhs.m_name)), m_plugins(rhs.m_plugins), m_blocks(rhs.m_blocks),
+          m_chunkCount(rhs.m_chunkCount), m_chunkArraySize(rhs.m_chunkArraySize), m_daylightBrightness(rhs.m_daylightBrightness), m_cpa(std::move(rhs.m_cpa))
+    {
+        std::swap(m_chunks, rhs.m_chunks);
+    }
+
     // World name
     std::string m_name;
     // Loaded plugins
@@ -194,15 +204,6 @@ protected:
     ChunkPointerArray m_cpa;
 
     int m_daylightBrightness;
-
-    ~World()
-    {
-        if (m_chunks != nullptr)
-        {
-            // TODO: Save and destroy chunks
-            free(m_chunks);
-        }
-    }
 
     // Expand chunk array
     void expandChunkArray(size_t expandCount);
