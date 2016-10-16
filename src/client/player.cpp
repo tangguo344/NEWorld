@@ -41,5 +41,5 @@ void Player::move(const World& world)
     m_position.y += delta.y;
     moveHitbox(Vec3d(0.0, delta.y, 0.0));
 
-    m_speed *= 0.96;
+    m_speed *= 0.8;
 }
