@@ -27,7 +27,7 @@
 
 GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
     : UI::Controls::GLContext(), m_blocks(bm), m_plugins(pm), m_world("TestWorld", pm, bm), //TODO: read it from settings
-      m_connection("127.0.0.1", 8090)
+      m_player(&m_world), m_connection("127.0.0.1", 8090)
 {
     // TODO: start the server only when it's a single player mode.
     m_localServerThread = std::thread([]
@@ -45,6 +45,7 @@ GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
     m_world.setRenderDistance(4);
     m_player.setPosition(Vec3d(-16.0, 32.0, 32.0));
     m_player.setRotation(Vec3d(-45.0, -22.5, 0.0));
+    m_player.setPosition(Vec3d(0.0, 32.0, 0.0));
     Vec3i::for_range(-6, 6, [&](const Vec3i& pos)
     {
         m_world.addChunk(pos);

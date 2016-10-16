@@ -22,6 +22,7 @@
 
 #include "aabb.h"
 #include "vec3.h"
+#include "world.h"
 
 class Object
 {
@@ -30,13 +31,23 @@ public:
     {
     }
 
-    Object(const Vec3d& position, const Vec3d& rotation, const Vec3d& scale, const AABB& hitbox)
-        : m_position(position), m_rotation(rotation), m_scale(scale), m_hitbox(hitbox)
+    Object(const World* world, const Vec3d& position, const Vec3d& rotation, const Vec3d& scale, const AABB& hitbox)
+        : m_world(world), m_position(position), m_rotation(rotation), m_scale(scale), m_hitbox(hitbox)
     {
     }
 
     virtual ~Object()
     {
+    }
+
+    void setWorldPtr(const World* world)
+    {
+        m_world = world;
+    }
+
+    const World* getWorldPtr() const
+    {
+        return m_world;
     }
 
     const Vec3d& getPosition() const
@@ -46,6 +57,7 @@ public:
 
     void setPosition(const Vec3d& val)
     {
+        m_hitbox.move(val - m_position);
         m_position = val;
     }
 
@@ -74,9 +86,15 @@ public:
         return m_hitbox;
     }
 
+    void moveHitbox(const Vec3d& delta)
+    {
+        m_hitbox.move(delta);
+    }
+
     virtual void update() = 0;
 
 protected:
+    const World* m_world;
     Vec3d m_position, m_rotation, m_scale;
     AABB m_hitbox;
 

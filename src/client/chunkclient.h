@@ -31,7 +31,7 @@ public:
     {
         // TEMP CODE
         // Generate terrain at client side to test rendering
-        if (position.y <= 0)
+        if (position.y < 0)
         {
             Vec3i::for_range(0, ChunkSize, [&](const Vec3i& curr)
             {
