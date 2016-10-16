@@ -28,17 +28,11 @@
     <ClInclude Include="..\..\..\src\shared\chunkpointerarray.h">
       <Filter>Source\World</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\networkstructures.h">
-      <Filter>Source\Network</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\shared\plugin.h">
       <Filter>Source\Plugin</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\shared\pluginmanager.h">
       <Filter>Source\Plugin</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\takedatahelper.h">
-      <Filter>Source\Network</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\shared\aabb.h">
       <Filter>Source\Common</Filter>
