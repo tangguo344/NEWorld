@@ -18,7 +18,7 @@
 */
 
 #include "server.h"
-#include "settings.h"
+#include <jsonhelper.h>
 #include "commandmanager.h"
 
 Server::Server(std::vector<std::string> args)
@@ -37,7 +37,8 @@ Server::Server(std::vector<std::string> args)
     World* world = m_worlds.addWorld("main_world");
 
     // Network
-    m_network.run("127.0.0.1",9887); // TODO: Get from settings --Miigon
+    m_network.run(getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1").c_str(),
+        getJsonValue<unsigned short>(getSettings()["server"]["port"], 9887));
     
     // Builtin Commands
     initBuiltinCommands();

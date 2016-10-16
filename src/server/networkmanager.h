@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <thread>
 #include <raknet/RakPeerInterface.h>
+#include <identifier.h>
 
 class Connection;
 
@@ -36,7 +37,11 @@ class Connection
 {
 public:
     friend class NetworkManager;
-    // TODO: method `send()` to send packet(flatbuffers)
+    template<class ProtocolType>
+    void send(const flatbuffers::Offset<ProtocolType>& data, PacketPriority priority, PacketReliability reliability)
+    {
+        sendRawData(static_cast<const char*>(&data), sizeof(data), priority, reliability);
+    }
 private:
     Connection(NetworkManager &network,RakNet::RakPeerInterface *peer,RakNet::SystemAddress addr);
     ~Connection();

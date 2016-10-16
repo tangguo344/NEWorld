@@ -11,6 +11,7 @@ NetworkManager::NetworkManager()
 {
     infostream << "Raknet initializating...";
     mPeer = RakNet::RakPeerInterface::GetInstance();
+    infostream << "Raknet initialized.";
 }
 
 NetworkManager::~NetworkManager()
@@ -39,7 +40,8 @@ bool NetworkManager::run(const char *addr,unsigned short port)
     }
     else
     {
-        // TODO: throw an exception --Miigon
+        fatalstream << "Failed to start Network Manager. Error code: " << ret;
+        assert(false);
         return false;
     }
 }
@@ -81,7 +83,7 @@ void NetworkManager::loop()
 Connection* NetworkManager::newConnection(RakNet::SystemAddress addr)
 {
     Connection *c = new Connection(*this,mPeer,addr);
-    mConns[mPeer->GetIndexFromSystemAddress(addr)] = c;
+    mConns.insert(mConns.begin()+mPeer->GetIndexFromSystemAddress(addr), c);
     return c;
 }
 
@@ -103,5 +105,5 @@ Connection::~Connection()
 
 void Connection::sendRawData(const char *data, int len,PacketPriority priority,PacketReliability reliability)
 {
-    mPeer->Send(data,len,priority,reliability,0,mAddr,false);
+    mPeer->Send(data, len, priority, reliability, 0, mAddr, false);
 }

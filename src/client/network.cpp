@@ -26,6 +26,7 @@ Connection::Connection()
 {
     infostream << "Raknet initializating...";
     mPeer = RakNet::RakPeerInterface::GetInstance();
+    infostream << "Raknet initialized.";
 }
 
 Connection::~Connection()
@@ -37,16 +38,19 @@ bool Connection::connect(const char *addr, unsigned short port)
 {
     RakNet::SocketDescriptor sd;
     sd.socketFamily = AF_INET; // IPv4
-    RakNet::StartupResult ret = mPeer->Startup(1,&sd,1);
+    RakNet::StartupResult ret = mPeer->Startup(1, &sd, 1);
     if(ret == RakNet::StartupResult::RAKNET_STARTED)
     {
         using CAR = RakNet::ConnectionAttemptResult;
-        CAR cret = mPeer->Connect(addr,port,nullptr,0);
+        CAR cret = mPeer->Connect(addr, port, nullptr, 0);
         
         switch(cret)
         {
         case CAR::CONNECTION_ATTEMPT_STARTED:
-            mThread = std::thread([this] {loop();});
+            mThread = std::thread([this] {
+                infostream << "Start listening.";
+                loop();
+            });
             return true;
         default:
             return false;
@@ -55,6 +59,7 @@ bool Connection::connect(const char *addr, unsigned short port)
     else
     {
         // TODO: throw an exception
+        errorstream << "Failed to connect to" << addr << ":" << port << ". Error code: " << ret;
         return false;
     }
 }

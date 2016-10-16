@@ -1,6 +1,6 @@
 #include <consolecolor.h>
 #include "server.h"
-#include "settings.h"
+#include <jsonhelper.h>
 #include <functional>
 
 void Server::initBuiltinCommands()
@@ -87,7 +87,7 @@ void Server::initBuiltinCommands()
     });
     m_commands.addCommand("conf.save", { "internal","Save the configuration." }, [this](Command cmd)->CommandExecuteStat
     {
-        saveSettings();
+        writeJsonToFile(SettingsFilename, getSettings());
         return{ true,"Done!" };
     });
     m_commands.addCommand("server.ups", { "internal","Show the ups." }, [this](Command cmd)->CommandExecuteStat

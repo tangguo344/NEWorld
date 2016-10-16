@@ -21,14 +21,13 @@
 #include <common.h>
 #include <logger.h>
 #include <thread>
-#include "settings.h"
+#include <jsonhelper.h>
 #include <pluginapi.h>
 
 extern "C" NWAPIEXPORT int NWAPICALL main(int, char**);
 
 int NWAPICALL main(int argc, char** argv)
 {
-    loadSettings();
     Logger::init("server");
     infostream << "\n----------------------------------------"
                << CopyrightString
@@ -43,6 +42,5 @@ int NWAPICALL main(int argc, char** argv)
         fatalstream << "Unhandled exception: " << e.what() << ".Press Enter to exit.";
     }
     infostream << "Server is stopping...";
-    saveSettings();
     return 0;
 }

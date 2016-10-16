@@ -295,7 +295,6 @@
     <ClCompile Include="..\..\..\src\shared\plugin.cpp" />
     <ClCompile Include="..\..\..\src\shared\pluginapi.cpp" />
     <ClCompile Include="..\..\..\src\shared\pluginmanager.cpp" />
-    <ClCompile Include="..\..\..\src\shared\settings.cpp" />
     <ClCompile Include="..\..\..\src\shared\utils.cpp" />
     <ClCompile Include="..\..\..\src\shared\world.cpp" />
   </ItemGroup>
