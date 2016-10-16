@@ -94,8 +94,6 @@ void WorldClient::renderUpdate(const Vec3i& position)
         }
     }
 
-    // debugstream << pr;
-
     for (int i = 0; i < pr; i++)
     {
         m_chunkRenderList[i].first->buildVertexArray();

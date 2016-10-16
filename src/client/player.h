@@ -20,12 +20,17 @@
 #ifndef PLAYER_H_
 #define PLAYER_H_
 
+#include <world.h>
 #include <playerobject.h>
 #include "mat4.h"
 
 class Player : public PlayerObject
 {
 public:
+    Player(const World* world) : PlayerObject(world)
+    {
+    }
+
     void accelerate(const Vec3d& acceleration)
     {
         m_speed += acceleration;
@@ -38,20 +43,13 @@ public:
 
     void update() override
     {
-        move();
+        move(*getWorldPtr());
     }
 
 private:
     Vec3d m_speed;
 
-    void move()
-    {
-        // TODO: Hit test
-        //m_speed.normalize();
-        //m.speed *= PlayerSpeed;
-        m_position += Mat4d::rotation(m_rotation.y, Vec3d(0.0, 1.0, 0.0)).transformVec3(m_speed);
-        m_speed *= 0.96;
-    }
+    void move(const World& world);
 };
 
 #endif // !PLAYER_H_

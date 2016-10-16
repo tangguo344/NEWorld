@@ -30,8 +30,8 @@ const Vec3d PlayerHitboxSize = Vec3d(PlayerWidth, PlayerHeight, PlayerWidth);
 class PlayerObject : public Object
 {
 public:
-    PlayerObject()
-        : Object(Vec3d(), Vec3d(), Vec3d(1.0), AABB(-PlayerHitboxSize / 2.0, PlayerHitboxSize / 2.0))
+    PlayerObject(const World* world)
+        : Object(world, Vec3d(), Vec3d(), Vec3d(1.0), AABB(-PlayerHitboxSize / 2.0, PlayerHitboxSize / 2.0))
     {
     }
 

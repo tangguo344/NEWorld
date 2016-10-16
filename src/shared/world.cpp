@@ -76,6 +76,7 @@ std::vector<AABB> World::getHitboxes(const AABB& range) const
             for (curr.z = int(floor(range.min.z)); curr.z < int(ceil(range.max.z)); curr.z++)
             {
                 // TODO: BlockType::getAABB
+                if (!isChunkLoaded(getChunkPos(curr))) continue;
                 if (getBlock(curr).getID() == 0) continue;
                 Vec3d currd = curr;
                 res.push_back(AABB(currd, currd + Vec3d(1.0, 1.0, 1.0)));
