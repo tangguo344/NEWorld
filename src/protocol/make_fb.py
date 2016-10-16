@@ -7,14 +7,16 @@ print("* Building fbs into './gen' ...")
 
 fbsList = []
 
+sep = os.sep
+
 for dirpath, dirs, files in os.walk("."):
     for f in files:
         name,suffix = os.path.splitext(f)
         if suffix == ".fbs":
-            cmd = "flatc -c -o \"./gen/" + dirpath.replace("./","") + "\" \"" + dirpath + "/" + f + "\""
+            cmd = 'flatc -c -o ".' + sep + 'gen' + sep + dirpath.replace("." + sep,"") + '" "' + dirpath + sep + f + '"'
             print(cmd)
             os.system(cmd)
-            fbsList.append(dirpath + "/" + f)
+            fbsList.append(dirpath + sep + f)
 
 print("* Generating 'protocol.h' ...")
 out = open('./gen/protocol.h','w')
