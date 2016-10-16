@@ -107,9 +107,6 @@
     <ClCompile Include="..\..\..\src\shared\utils.cpp">
       <Filter>Source\Common</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\shared\settings.cpp">
-      <Filter>Source\Common</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\shared\pluginapi.cpp">
       <Filter>Source\Plugin</Filter>
     </ClCompile>
