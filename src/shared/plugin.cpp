@@ -34,7 +34,7 @@ int Plugin::init()
     }
     catch (std::exception& e)
     {
-        if (!m_lib.is_loaded()) return m_status = 1; // Failed: could not load
+        if (!m_lib.isLoaded()) return m_status = 1; // Failed: could not load
         if (init == nullptr) return m_status = 2; // Failed: entry not found
         warningstream << "Failed: unhandled exception: " << e.what();
     }
@@ -52,7 +52,7 @@ int Plugin::loadFrom(const std::string& filename)
     }
     catch (std::exception& e)
     {
-        if (!m_lib.is_loaded()) return m_status = 1; // Failed: could not load
+        if (!m_lib.isLoaded()) return m_status = 1; // Failed: could not load
         if (getinfo == nullptr) return m_status = 2; // Failed: entry not found
         warningstream << "Failed: unhandled exception: " << e.what();
     }

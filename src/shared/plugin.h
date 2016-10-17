@@ -22,11 +22,11 @@
 
 #include <string>
 #include <utility>
-#include <boost/dll/shared_library.hpp>
 
 #include "common.h"
 #include "vec3.h"
 #include "blockdata.h"
+#include "library.h"
 
 struct PluginData
 {
@@ -87,7 +87,7 @@ public:
 
 private:
     // Plugin DLL
-    boost::dll::shared_library m_lib;
+    Library m_lib;
     // Plugin Data
     const PluginData* m_data;
     // Load status

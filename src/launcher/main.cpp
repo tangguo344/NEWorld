@@ -48,6 +48,6 @@ int main(int argc, char** argv)
     std::string serverFilename = getJsonValue<std::string>(settings["server"]["file"], "nwserver.dll");
 
     file = in == "server" ? serverFilename : clientFilename;
-
+    
     Library(file).get<MainFunction>("main")(argc, argv);
 }
