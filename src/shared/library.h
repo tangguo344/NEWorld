@@ -1,4 +1,5 @@
 /*
+
 * NEWorld: A free game with similar rules to Minecraft.
 * Copyright (C) 2016 NEWorld Team
 *
@@ -33,14 +34,30 @@ HandleType loadLibrary(std::string filename, bool& success) {
     return handle;
 }
 
-template<class T>
-T* getFunc(HandleType handle, std::string name) {
+template<class T> T* getFunc(HandleType handle, std::string name) {
     return reinterpret_cast<T*>(GetProcAddress(handle, name.c_str()));
 }
 
 void freeLibrary(HandleType handle) {
     FreeLibrary(handle);
 }
+#else
+    #include <dlfcn.h>
+    using HandleType = void*;
+
+    HandleType loadLibrary(std::string filename, bool& success) {
+        HandleType handle = dlopen(filename.c_str(), RTLD_LAZY)
+        success = handle != nullptr;
+        return handle;
+    }
+
+    template<class T> T* getFunc(HandleType handle, std::string name) {
+        return reinterpret_cast<T*>(dlsym(handle, name.c_str()));
+    }
+
+    void freeLibrary(HandleType handle) {
+        dlclose(libm_handle);
+    }
 #endif
 
 }
