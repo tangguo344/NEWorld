@@ -25,8 +25,8 @@
 class PlayerObject : public Object
 {
 public:
-    PlayerObject()
-        : Object(Vec3d(), Vec3d(), Vec3d(1.0), AABB(-m_hitboxSize / 2.0, m_hitboxSize / 2.0)) {}
+    PlayerObject(const World* world)
+        : Object(world, Vec3d(), Vec3d(), Vec3d(1.0), AABB(-m_hitboxSize / 2.0, m_hitboxSize / 2.0)) {}
 
     PlayerObject(const Object& obj) : Object(obj) {}
 
@@ -51,7 +51,6 @@ private:
         m_hitboxSize = Vec3d(m_width, m_height, m_width);
         m_hitbox = AABB(-m_hitboxSize / 2.0, m_hitboxSize / 2.0);
     }
-    Vec3d m_direction; // Body direction, head direction is `m_rotation` in class Object
     Vec3d m_direction; // Body direction, head direction is `m_rotation` in class Object
 
     double m_height = 1.6;

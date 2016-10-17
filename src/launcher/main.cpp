@@ -19,8 +19,8 @@
 
 #include <iostream>
 #include <string>
-#include <boost/dll/shared_library.hpp>
 #include <common.h> // For NWAPICALL
+#include <library.h>
 #include "../shared/jsonhelper.h"
 
 typedef void NWAPICALL MainFunction(int, char**);
@@ -49,5 +49,5 @@ int main(int argc, char** argv)
 
     file = in == "server" ? serverFilename : clientFilename;
 
-    boost::dll::shared_library(file, boost::dll::load_mode::append_decorations).get<MainFunction>("main")(argc, argv);
+    Library(file).get<MainFunction>("main")(argc, argv);
 }
