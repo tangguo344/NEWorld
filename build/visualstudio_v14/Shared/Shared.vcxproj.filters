@@ -79,6 +79,9 @@
     <ClInclude Include="..\..\..\src\shared\jsonhelper.h">
       <Filter>Source\Common</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\shared\library.h">
+      <Filter>Source\Dll</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -95,6 +98,9 @@
     </Filter>
     <Filter Include="Source\Plugin">
       <UniqueIdentifier>{e761470c-5131-4ce2-9fb2-cbdf243d84f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Dll">
+      <UniqueIdentifier>{31b713ac-f29d-48ee-86e6-473c8232ee3c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\World">
       <UniqueIdentifier>{9d424b71-c4b6-463f-b95b-cffeea273210}</UniqueIdentifier>
