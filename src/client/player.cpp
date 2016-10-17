@@ -19,12 +19,12 @@
 
 #include "player.h"
 
-void Player::move(const World& world)
+void Player::move()
 {
     //m_speed.normalize();
     //m.speed *= PlayerSpeed;
     Vec3d delta = Mat4d::rotation(m_rotation.y, Vec3d(0.0, 1.0, 0.0)).transformVec3(m_speed);
-    std::vector<AABB> hitboxes = world.getHitboxes(getHitbox().expand(delta));
+    std::vector<AABB> hitboxes = getWorldPtr()->getHitboxes(getHitbox().expand(delta));
 
     for (auto& curr : hitboxes)
         delta.x = getHitbox().maxMoveOnXclip(curr, delta.x);
@@ -41,5 +41,5 @@ void Player::move(const World& world)
     m_position.y += delta.y;
     moveHitbox(Vec3d(0.0, delta.y, 0.0));
 
-    m_speed *= 0.96;
+    m_speed *= 0.8;
 }

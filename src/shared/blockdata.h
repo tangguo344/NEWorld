@@ -23,56 +23,64 @@
 class BlockData
 {
 private:
-    unsigned int id : 12; // Block ID
-    unsigned int brightness : 4; // Brightness
-    unsigned int state : 16; // Block state
+    union BlockDataUnion
+    {
+        struct BlockDataUnionStruct
+        {
+            uint32_t id : 12; // Block ID
+            uint32_t brightness : 4; // Brightness
+            uint32_t state : 16; // Block state
+        } data;
+        uint32_t allData;
+    } u;
 
 public:
-    BlockData() : id(0), brightness(0), state(0)
+    BlockData() : u{0}
     {
     }
 
-    BlockData(int id_, int brightness_, int state_) : id(id_), brightness(brightness_), state(state_)
+    BlockData(uint32_t id_, uint32_t brightness_, uint32_t state_)
+        : u{ id_, brightness_, state_ }
     {
     }
 
-    BlockData(const BlockData& rhs) : id(rhs.id), brightness(rhs.brightness), state(rhs.state)
+    BlockData(const BlockData& rhs) : u(rhs.u)
     {
     }
 
     bool operator==(const BlockData& rhs) const
     {
-        return id == rhs.id;
+        return u.allData == rhs.u.allData;
     }
 
-    int getID() const
+    uint32_t getID() const
     {
-        return id;
+        return u.data.id;
     }
 
-    int getBrightness() const
+    uint32_t getBrightness() const
     {
-        return brightness;
+        return u.data.brightness;
     }
 
-    int getState() const
+    uint32_t getState() const
     {
-        return state;
+        return u.data.state;
     }
 
-    void setID(int id_)
+    void setID(uint32_t id_)
     {
-        id = id_;
+        u.data.id = id_;
     }
 
-    void setBrightness(int brightness_)
+    void setBrightness(uint32_t brightness_)
     {
-        brightness = brightness_;
+        u.data.brightness = brightness_;
     }
 
-    void setState(int state_)
+    void setState(uint32_t state_)
     {
-        state = state_;
+        u.data.state = state_;
     }
 };
 

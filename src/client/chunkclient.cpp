@@ -32,6 +32,7 @@ void ChunkClient::buildVertexArray()
                 return; // Neighbor chunk not loaded
         }
     });
+
     va.clear();
     if (mergeFace)
     {
@@ -41,7 +42,7 @@ void ChunkClient::buildVertexArray()
     {
         Vec3i::for_range(0, ChunkSize, [&](const Vec3i& pos)
         {
-            Vec3i worldpos = getPosition() + pos;
+            Vec3i worldpos = getPosition() * ChunkSize + pos;
 
             BlockData curr = getBlock(pos);
             BlockData neighbors[6] =

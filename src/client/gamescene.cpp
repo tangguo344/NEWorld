@@ -45,7 +45,6 @@ GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
     m_world.setRenderDistance(4);
     m_player.setPosition(Vec3d(-16.0, 32.0, 32.0));
     m_player.setRotation(Vec3d(-45.0, -22.5, 0.0));
-    m_player.setPosition(Vec3d(0.0, 32.0, 0.0));
     Vec3i::for_range(-6, 6, [&](const Vec3i& pos)
     {
         m_world.addChunk(pos);
@@ -90,7 +89,7 @@ void GameScene::doRender()
     m_texture.bind(Texture::Texture2D);
     Renderer::clear();
     Renderer::restoreProj();
-    Renderer::applyPerspective(70.0f, cMargin.absrect.xmax / cMargin.absrect.ymax, 1.0f, 1000.0f);
+    Renderer::applyPerspective(70.0f, cMargin.absrect.xmax / cMargin.absrect.ymax, 0.1f, 300.0f);
     Renderer::restoreScale();
     Renderer::rotate(-m_player.getRotation().x, Vec3f(1.0f, 0.0f, 0.0f));
     Renderer::rotate(-m_player.getRotation().y, Vec3f(0.0f, 1.0f, 0.0f));
@@ -152,14 +151,14 @@ void GameScene::onResize(size_t w, size_t h)
 
 void GameScene::onKey(int key)
 {
-    if (key == SDLK_w) m_player.accelerate(Vec3d( 0.0, 0.0,-0.2));
-    if (key == SDLK_s) m_player.accelerate(Vec3d( 0.0, 0.0, 0.2));
-    if (key == SDLK_a) m_player.accelerate(Vec3d(-0.2, 0.0, 0.0));
-    if (key == SDLK_d) m_player.accelerate(Vec3d( 0.2, 0.0, 0.0));
-    if (key == SDLK_LCTRL || key == SDLK_RCTRL) m_player.accelerate(Vec3d( 0.0,-0.2, 0.0));
-    if (key == SDLK_SPACE) m_player.accelerate(Vec3d( 0.0, 0.2, 0.0));
-    if (key == SDLK_UP) m_player.rotate(Vec3d( 1.0, 0.0, 0.0));
-    if (key == SDLK_DOWN) m_player.rotate(Vec3d(-1.0, 0.0, 0.0));
-    if (key == SDLK_LEFT) m_player.rotate(Vec3d( 0.0, 1.0, 0.0));
-    if (key == SDLK_RIGHT) m_player.rotate(Vec3d( 0.0,-1.0, 0.0));
+    if (key == SDLK_w) m_player.accelerate(Vec3d( 0.0, 0.0,-0.06));
+    if (key == SDLK_s) m_player.accelerate(Vec3d( 0.0, 0.0, 0.06));
+    if (key == SDLK_a) m_player.accelerate(Vec3d(-0.06, 0.0, 0.0));
+    if (key == SDLK_d) m_player.accelerate(Vec3d( 0.06, 0.0, 0.0));
+    if (key == SDLK_LCTRL || key == SDLK_RCTRL) m_player.accelerate(Vec3d( 0.0,-0.1, 0.0));
+    if (key == SDLK_SPACE) m_player.accelerate(Vec3d( 0.0, 0.1, 0.0));
+    if (key == SDLK_UP) m_player.rotate(Vec3d( 2.5, 0.0, 0.0));
+    if (key == SDLK_DOWN) m_player.rotate(Vec3d(-2.5, 0.0, 0.0));
+    if (key == SDLK_LEFT) m_player.rotate(Vec3d( 0.0, 2.5, 0.0));
+    if (key == SDLK_RIGHT) m_player.rotate(Vec3d( 0.0,-2.5, 0.0));
 }

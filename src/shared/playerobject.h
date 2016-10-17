@@ -26,25 +26,42 @@ class PlayerObject : public Object
 {
 public:
     PlayerObject(const World* world)
-        : Object(world, Vec3d(), Vec3d(), Vec3d(1.0), AABB(-m_hitboxSize / 2.0, m_hitboxSize / 2.0)) {}
+        : Object(world, Vec3d(), Vec3d(), Vec3d(1.0), AABB(-m_hitboxSize / 2.0, m_hitboxSize / 2.0))
+    {
+    }
 
-    PlayerObject(const Object& obj) : Object(obj) {}
+    PlayerObject(const Object& obj) : Object(obj)
+    {
+    }
 
-    ~PlayerObject() {}
+    ~PlayerObject()
+    {
+    }
 
-    void rotate(const Vec3d& rotation) { m_rotation += rotation; }
+    void rotate(const Vec3d& rotation)
+    {
+        m_rotation += rotation;
+    }
 
-    void setDirection(const Vec3d& direction) { m_rotation = direction; }
-    Vec3d getDirection() const { return m_rotation;}
+    void setDirection(const Vec3d& direction)
+    {
+        m_rotation = direction;
+    }
 
-    void setHeight(double height) { m_height = height; flushHitbox(); }
-    double getHeight() const { return m_height; }
+    Vec3d getDirection() const
+    {
+        return m_rotation;
+    }
 
-    void setWidth(double width) { m_width = width; flushHitbox(); }
-    double setWidth() const { return m_width; }
+    void setSpeed(double speed)
+    {
+        m_speed = speed;
+    }
 
-    void setSpeed(double speed) { m_speed = speed; }
-    double getSpeed() const { return m_speed; }
+    double getSpeed() const
+    {
+        return m_speed;
+    }
 
 private:
     void flushHitbox() {
