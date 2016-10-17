@@ -46,7 +46,7 @@ void freeLibrary(HandleType handle) {
     using HandleType = void*;
 
     HandleType loadLibrary(std::string filename, bool& success) {
-        HandleType handle = dlopen(filename.c_str(), RTLD_LAZY)
+        HandleType handle = dlopen(filename.c_str(), RTLD_LAZY);
         success = handle != nullptr;
         return handle;
     }
@@ -56,7 +56,7 @@ void freeLibrary(HandleType handle) {
     }
 
     void freeLibrary(HandleType handle) {
-        dlclose(libm_handle);
+        dlclose(handle);
     }
 #endif
 
