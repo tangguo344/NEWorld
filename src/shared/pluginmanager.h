@@ -22,7 +22,7 @@
 
 #include <string>
 #include <vector>
-#include <boost/dll/shared_library.hpp>
+#include "library.h"
 #include "plugin.h"
 
 // Plugin system

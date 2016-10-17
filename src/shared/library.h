@@ -25,15 +25,17 @@
 namespace{
 
 #ifdef NEWORLD_TARGET_WINDOWS
-using HandleType = HINSTANCE;
+using HandleType = HMODULE;
 
-HandleType loadLibrary(std::string filename) {
-    return LoadLibrary(filename.c_str());
+HandleType loadLibrary(std::string filename, bool& success) {
+    HandleType handle = LoadLibraryA(filename.c_str());
+    success = handle != nullptr;
+    return handle;
 }
 
 template<class T>
-std::function<T> getFunc(HandleType handle, std::string name) {
-    return (std::function<T>)GetProcAddress(handle, name.c_str());
+T* getFunc(HandleType handle, std::string name) {
+    return reinterpret_cast<T*>(GetProcAddress(handle, name.c_str()));
 }
 
 void freeLibrary(HandleType handle) {
@@ -45,11 +47,30 @@ void freeLibrary(HandleType handle) {
 
 class Library {
 public:
-    Library(std::string filename) :m_dllHandle(loadLibrary(filename)) {}
-    ~Library() {freeLibrary(m_dllHandle); }
-    template<class T> std::function<T> get(std::string name) {return getFunc<T>(m_dllHandle, name);}
+    Library() = default;
+    Library(std::string filename) { load(filename); }
+    Library(Library&& library) {
+        std::swap(library.m_dllHandle, m_dllHandle);
+        std::swap(library.m_loaded, m_loaded);
+    }
+    ~Library() {if(isLoaded()) freeLibrary(m_dllHandle); }
+
+    Library(const Library&) = delete;
+    Library& operator=(const Library&) = delete;
+
+    template<class T> T* get(std::string name) {return (T*)getFunc<T*>(m_dllHandle, name);}
+
+    operator bool() const { return isLoaded(); }
+    bool isLoaded() const { return m_loaded; }
+    
+    void load(std::string filename) {
+        if (isLoaded()) unload();
+        m_dllHandle = loadLibrary(filename, m_loaded);
+    }
+    void unload() { freeLibrary(m_dllHandle); m_loaded = false; }
 private:
     HandleType m_dllHandle;
+    bool m_loaded = false;
 };
 
 #endif
