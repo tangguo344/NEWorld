@@ -43,13 +43,13 @@ public:
 
     void update() override
     {
-        move(*getWorldPtr());
+        move();
     }
 
 private:
     Vec3d m_speed;
 
-    void move(const World& world);
+    void move();
 };
 
 #endif // !PLAYER_H_

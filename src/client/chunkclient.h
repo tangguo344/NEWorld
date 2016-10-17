@@ -76,7 +76,7 @@ private:
     // Merge face rendering
     static bool mergeFace;
 
-    bool adjacentTest(const BlockData& a, const BlockData& b) const
+    bool adjacentTest(BlockData a, BlockData b) const
     {
         if (a.getID() == 0) return false;
         if (m_world.getBlockTypes().getType(b.getID()).isOpaque()) return false;
