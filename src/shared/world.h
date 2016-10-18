@@ -80,15 +80,13 @@ public:
     {
         // TODO: Try chunk pointer array
         size_t index = getChunkIndex(chunkPos);
-        if (m_chunkCount == 0 || m_chunks[index]->getPosition() != chunkPos) return nullptr;
-        Chunk* res = m_chunks[index];
-        return res;
+        if (index >= m_chunkCount || m_chunks[index]->getPosition() != chunkPos) return nullptr;
+        return m_chunks[index];
     }
 
     bool isChunkLoaded(const Vec3i& chunkPos) const
     {
-        if (getChunkIndex(chunkPos) >= m_chunkCount) return false;
-        return m_chunks[getChunkIndex(chunkPos)]->getPosition() == chunkPos;
+        return getChunkPtr(chunkPos) != nullptr;
     }
 
     // Add chunk
