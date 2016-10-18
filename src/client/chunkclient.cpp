@@ -24,14 +24,16 @@ bool ChunkClient::mergeFace;
 
 void ChunkClient::buildVertexArray()
 {
-    Vec3i::for_range(-1, 2, [&](const Vec3i& curr)
-    {
-        if (curr != Vec3i(0, 0, 0))
-        {
-            if (!m_world.isChunkLoaded(getPosition() + curr))
-                return; // Neighbor chunk not loaded
-        }
-    });
+    Vec3i neighbor;
+    for (neighbor.x = -1; neighbor.x <= 1; neighbor.x++)
+        for (neighbor.y = -1; neighbor.y <= 1; neighbor.y++)
+            for (neighbor.z = -1; neighbor.z <= 1; neighbor.z++)
+            {
+                if (neighbor == Vec3i(0, 0, 0))
+                    continue;
+                if (!m_world.isChunkLoaded(getPosition() + neighbor))
+                    return; // Neighbor chunk not loaded
+            }
 
     va.clear();
     if (mergeFace)

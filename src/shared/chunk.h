@@ -20,7 +20,7 @@
 #ifndef CHUNK_H_
 #define CHUNK_H_
 
-#include <cassert>
+#include "common.h"
 #include "vec3.h"
 #include "blockdata.h"
 
