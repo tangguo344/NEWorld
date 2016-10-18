@@ -21,12 +21,14 @@
 #include <string>
 #include <common.h> // For NWAPICALL
 #include <library.h>
+#include <logger.h>
 #include "../shared/jsonhelper.h"
 
 typedef void NWAPICALL MainFunction(int, char**);
 
 int main(int argc, char** argv)
 {
+    Logger::init("Launcher");
     std::string file;
 
     Json settings = readJsonFromFile(SettingsFilename);
@@ -34,9 +36,9 @@ int main(int argc, char** argv)
     std::string in;
     if (argc == 1)
     {
-        std::cout << "NEWorld Minimal Launcher" << std::endl;
-        std::cout << "Enter 'client' to run client" << std::endl;
-        std::cout << "Enter 'server' to run server" << std::endl;
+        infostream << "NEWorld Minimal Launcher";
+        infostream << "Enter 'client' to run client";
+        infostream << "Enter 'server' to run server";
         std::cin >> in;
     }
     else
@@ -48,6 +50,6 @@ int main(int argc, char** argv)
     std::string serverFilename = getJsonValue<std::string>(settings["server"]["file"], "nwserver.dll");
 
     file = in == "server" ? serverFilename : clientFilename;
-    
+
     Library(file).get<MainFunction>("main")(argc, argv);
 }

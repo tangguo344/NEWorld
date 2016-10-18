@@ -23,50 +23,63 @@
 #include <string>
 #include <functional>
 #include "common.h"
-namespace{
+#include "logger.h"
+namespace
+{
 
 #ifdef NEWORLD_TARGET_WINDOWS
-using HandleType = HMODULE;
+    using HandleType = HMODULE;
 
-HandleType loadLibrary(std::string filename, bool& success) {
-    HandleType handle = LoadLibraryA(filename.c_str());
-    success = handle != nullptr;
-    return handle;
-}
+    HandleType loadLibrary(std::string filename, bool& success)
+    {
+        HandleType handle = LoadLibraryA(filename.c_str());
+        success = handle != nullptr;
+        if (!success) warningstream << "Failed to load " << filename << ". Error code:" << GetLastError();
+        return handle;
+    }
 
-template<class T> T* getFunc(HandleType handle, std::string name) {
-    return reinterpret_cast<T*>(GetProcAddress(handle, name.c_str()));
-}
+    template<class T> T* getFunc(HandleType handle, std::string name)
+    {
+        assert(handle != nullptr);
+        return reinterpret_cast<T*>(GetProcAddress(handle, name.c_str()));
+    }
 
-void freeLibrary(HandleType handle) {
-    FreeLibrary(handle);
-}
+    void freeLibrary(HandleType handle)
+    {
+        FreeLibrary(handle);
+    }
 #else
-    #include <dlfcn.h>
+#include <dlfcn.h>
     using HandleType = void*;
 
-    HandleType loadLibrary(std::string filename, bool& success) {
+    HandleType loadLibrary(std::string filename, bool& success)
+    {
         HandleType handle = dlopen(filename.c_str(), RTLD_LAZY);
         success = handle != nullptr;
         return handle;
     }
 
-    template<class T> T* getFunc(HandleType handle, std::string name) {
+    template<class T> T* getFunc(HandleType handle, std::string name)
+    {
+        assert(handle != nullptr);
         return reinterpret_cast<T*>(dlsym(handle, name.c_str()));
     }
 
-    void freeLibrary(HandleType handle) {
+    void freeLibrary(HandleType handle)
+    {
         dlclose(handle);
     }
 #endif
 
 }
 
-class Library {
+class Library
+{
 public:
     Library() = default;
-    Library(std::string filename) { load(filename); }
-    Library(Library&& library) {
+    Library(std::string filename) :Library{} { load(filename); }
+    Library(Library&& library) :Library{}
+    {
         std::swap(library.m_dllHandle, m_dllHandle);
         std::swap(library.m_loaded, m_loaded);
     }
@@ -79,11 +92,13 @@ public:
 
     operator bool() const { return isLoaded(); }
     bool isLoaded() const { return m_loaded; }
-    
-    void load(std::string filename) {
+
+    void load(std::string filename)
+    {
         if (isLoaded()) unload();
         m_dllHandle = loadLibrary(filename, m_loaded);
     }
+
     void unload() { freeLibrary(m_dllHandle); m_loaded = false; }
 private:
     HandleType m_dllHandle;

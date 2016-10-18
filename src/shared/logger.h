@@ -77,9 +77,9 @@ private:
 #define debugstream loggerstream(debug)
 // information for common users
 #define infostream loggerstream(info)
-// problems that may affect facility, performance or stability but don't lead the game to crash immediately
+// problems that may affect facility, performance or stability but may not lead the game to crash immediately
 #define warningstream loggerstream(warning)
-// the game crashes, but can be resumed by ways such as reloading the world which don't restart the program
+// the game crashes, but may be resumed by ways such as reloading the world which don't restart the program
 #define errorstream loggerstream(error)
 // unrecoverable error and program termination is required
 #define fatalstream loggerstream(fatal)

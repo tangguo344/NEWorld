@@ -26,8 +26,8 @@ class PlayerObject : public Object
 {
 public:
     PlayerObject(const World* world)
-        : Object(world, Vec3d(), Vec3d(), Vec3d(1.0), AABB(-m_hitboxSize / 2.0, m_hitboxSize / 2.0)),m_height(1.6),m_width(0.6), m_speed(0.2),
-          m_hitboxSize(Vec3d(m_width, m_height, m_width))
+        : m_height(1.6),m_width(0.6), m_speed(0.2), m_hitboxSize(Vec3d(m_width, m_height, m_width)),
+          Object(world, Vec3d(), Vec3d(), Vec3d(1.0), AABB(-m_hitboxSize / 2.0, m_hitboxSize / 2.0))
     {
     }
 
