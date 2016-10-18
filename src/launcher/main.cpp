@@ -28,7 +28,7 @@ typedef void NWAPICALL MainFunction(int, char**);
 
 int main(int argc, char** argv)
 {
-    Logger::init("Launcher");
+    Logger::init("launcher");
     std::string file;
 
     Json settings = readJsonFromFile(SettingsFilename);
