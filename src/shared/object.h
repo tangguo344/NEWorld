@@ -27,7 +27,7 @@
 class Object
 {
 public:
-    Object() : m_scale(1.0)
+    Object() : m_world(nullptr), m_scale(1.0)
     {
     }
 
@@ -84,6 +84,11 @@ public:
     const AABB& getHitbox() const
     {
         return m_hitbox;
+    }
+
+    void setHitbox(const AABB& aabb)
+    {
+        m_hitbox = aabb;
     }
 
     void moveHitbox(const Vec3d& delta)

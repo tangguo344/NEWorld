@@ -25,14 +25,17 @@
 class PlayerObject : public Object
 {
 public:
-    PlayerObject(const World* world)
-        : m_height(1.6),m_width(0.6), m_speed(0.2), m_hitboxSize(Vec3d(m_width, m_height, m_width)),
-          Object(world, Vec3d(), Vec3d(), Vec3d(1.0), AABB(-m_hitboxSize / 2.0, m_hitboxSize / 2.0))
+    explicit PlayerObject(const World* world)
+        : Object(world, Vec3d(), Vec3d(), Vec3d(1.0), AABB()),
+          m_height(1.6), m_width(0.6), m_speed(0.2)
     {
+        refreshHitbox();
     }
 
-    PlayerObject(const Object& obj) : Object(obj)
+    PlayerObject(const Object& obj)
+        : Object(obj), m_height(1.6), m_width(0.6), m_speed(0.2)
     {
+        refreshHitbox();
     }
 
     ~PlayerObject()
@@ -65,17 +68,15 @@ public:
     }
 
 private:
-    void flushHitbox()
+    Vec3d m_direction; // Body direction, head direction is `m_rotation` in class Object
+    double m_height, m_width, m_speed;
+    Vec3d m_hitboxSize;
+
+    void refreshHitbox()
     {
         m_hitboxSize = Vec3d(m_width, m_height, m_width);
-        m_hitbox = AABB(-m_hitboxSize / 2.0, m_hitboxSize / 2.0);
+        m_hitbox = AABB(-m_hitboxSize / 2, m_hitboxSize / 2);
     }
-    Vec3d m_direction; // Body direction, head direction is `m_rotation` in class Object
-
-    double m_height;
-    double m_width;
-    double m_speed;
-    Vec3d m_hitboxSize;
 };
 
 #endif

@@ -23,20 +23,26 @@
 #include <algorithm>
 #include "vec3.h"
 
-/// Axis aligned bounding box
+// Axis aligned bounding box
 class AABB
 {
 public:
-    /// Min bound
+    // Min bound
     Vec3d min;
-    /// Max bound
+    // Max bound
     Vec3d max;
 
     AABB() = default;
 
-    AABB(const Vec3d& _min, const Vec3d& _max) : min(_min), max(_max) {}
+    AABB(const Vec3d& min_, const Vec3d& max_) : min(min_), max(max_)
+    {
+    }
 
-    /// Is intersect on X axis
+    AABB(const AABB& rhs) : min(rhs.min), max(rhs.max)
+    {
+    }
+
+    // Is intersect on X axis
     bool intersectX(const AABB& box) const
     {
         if ((min.x > box.min.x && min.x < box.max.x) || (max.x > box.min.x && max.x < box.max.x) ||
@@ -46,7 +52,7 @@ public:
         return false;
     }
 
-    /// Is intersect on Y axis
+    // Is intersect on Y axis
     bool intersectY(const AABB& box) const
     {
         if ((min.y > box.min.y && min.y < box.max.y) || (max.y > box.min.y && max.y < box.max.y) ||
@@ -56,7 +62,7 @@ public:
         return false;
     }
 
-    /// Is intersect on Z axis
+    // Is intersect on Z axis
     bool intersectZ(const AABB& box) const
     {
         if ((min.z > box.min.z && min.z < box.max.z) || (max.z > box.min.z && max.z < box.max.z) ||
@@ -66,13 +72,13 @@ public:
         return false;
     }
 
-    /// Is intersect on all axes
+    // Is intersect on all axes
     bool intersect(const AABB& box) const
     {
         return intersectX(box) && intersectY(box) && intersectZ(box);
     }
 
-    /// Get max move distance <= original_move_distance on X axis, when blocked by another AABB
+    // Get max move distance <= orgmove on X axis, when blocked by another AABB
     double maxMoveOnXclip(const AABB& box, double orgmove) const
     {
         if (!(intersectY(box) && intersectZ(box)))
@@ -87,7 +93,7 @@ public:
         return orgmove;
     }
 
-    /// Get max move distance <= original_move_distance on Y axis, when blocked by another AABB
+    // Get max move distance <= orgmove on Y axis, when blocked by another AABB
     double maxMoveOnYclip(const AABB& box, double orgmove) const
     {
         if (!(intersectX(box) && intersectZ(box)))
@@ -102,7 +108,7 @@ public:
         return orgmove;
     }
 
-    /// Get max move distance <= original_move_distance on Z axis, when blocked by another AABB
+    // Get max move distance <= orgmove on Z axis, when blocked by another AABB
     double maxMoveOnZclip(const AABB& box, double orgmove) const
     {
         if (!(intersectX(box) && intersectY(box)))
@@ -117,7 +123,7 @@ public:
         return orgmove;
     }
 
-    /// Get expanded AABB
+    // Get expanded AABB
     AABB expand(const Vec3d& arg) const
     {
         AABB res = *this;
@@ -140,7 +146,7 @@ public:
         return res;
     }
 
-    /// Move AABB
+    // Move AABB
     void move(const Vec3d& arg)
     {
         min += arg;
