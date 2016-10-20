@@ -19,10 +19,11 @@
 
 #include <iostream>
 #include <string>
+#include <climits>
 #include <common.h> // For NWAPICALL
 #include <library.h>
 #include <logger.h>
-#include "../shared/jsonhelper.h"
+#include <jsonhelper.h>
 
 typedef void NWAPICALL MainFunction(int, char**);
 
@@ -40,6 +41,9 @@ int main(int argc, char** argv)
         infostream << "Enter 'client' to run client";
         infostream << "Enter 'server' to run server";
         std::cin >> in;
+
+        // Clear cin buffer
+        std::cin.ignore(INT_MAX, '\n');
     }
     else
     {

@@ -20,87 +20,121 @@
 
 #ifndef LIBRARY_H_
 #define LIBRARY_H_
+
 #include <string>
 #include <functional>
+
+#ifndef NEWORLD_TARGET_WINDOWS
+    #include <dlfcn.h>
+#endif
+
 #include "common.h"
 #include "logger.h"
-namespace
+
+class Library
 {
+public:
+    Library() = default;
+
+    Library(const std::string& filename) : Library{}
+    {
+        load(filename);
+    }
+
+    Library(Library&& library) : Library{}
+    {
+        std::swap(library.m_dllHandle, m_dllHandle);
+        std::swap(library.m_loaded, m_loaded);
+    }
+
+    ~Library()
+    {
+        if(isLoaded())
+            freeLibrary(m_dllHandle);
+    }
+
+    Library(const Library&) = delete;
+
+    Library& operator=(const Library&) = delete;
+
+    template<class T> T* get(const std::string& name)
+    {
+        return (T*)getFunc<T*>(m_dllHandle, name);
+    }
+
+    operator bool() const
+    {
+        return isLoaded();
+    }
+
+    bool isLoaded() const
+    {
+        return m_loaded;
+    }
+
+    void load(const std::string& filename)
+    {
+        if (isLoaded())
+            unload();
+        m_dllHandle = loadLibrary(filename, m_loaded);
+    }
+
+    void unload()
+    {
+        freeLibrary(m_dllHandle);
+        m_loaded = false;
+    }
+
+private:
 
 #ifdef NEWORLD_TARGET_WINDOWS
+
     using HandleType = HMODULE;
 
-    HandleType loadLibrary(std::string filename, bool& success)
+    static HandleType loadLibrary(const std::string& filename, bool& success)
     {
         HandleType handle = LoadLibraryA(filename.c_str());
         success = handle != nullptr;
-        if (!success) warningstream << "Failed to load " << filename << ". Error code:" << GetLastError();
+        if (!success)
+            warningstream << "Failed to load " << filename << ". Error code:" << GetLastError();
         return handle;
     }
 
-    template<class T> T* getFunc(HandleType handle, std::string name)
+    template<class T> static T* getFunc(HandleType handle, const std::string& name)
     {
         assert(handle != nullptr);
         return reinterpret_cast<T*>(GetProcAddress(handle, name.c_str()));
     }
 
-    void freeLibrary(HandleType handle)
+    static void freeLibrary(HandleType handle)
     {
         FreeLibrary(handle);
     }
+
 #else
-#include <dlfcn.h>
+
     using HandleType = void*;
 
-    HandleType loadLibrary(std::string filename, bool& success)
+    static HandleType loadLibrary(const std::string& filename, bool& success)
     {
         HandleType handle = dlopen(filename.c_str(), RTLD_LAZY);
         success = handle != nullptr;
         return handle;
     }
 
-    template<class T> T* getFunc(HandleType handle, std::string name)
+    template<class T> static T* getFunc(HandleType handle, const std::string& name)
     {
         assert(handle != nullptr);
         return reinterpret_cast<T*>(dlsym(handle, name.c_str()));
     }
 
-    void freeLibrary(HandleType handle)
+    static void freeLibrary(HandleType handle)
     {
         dlclose(handle);
     }
+
 #endif
 
-}
-
-class Library
-{
-public:
-    Library() = default;
-    Library(std::string filename) :Library{} { load(filename); }
-    Library(Library&& library) :Library{}
-    {
-        std::swap(library.m_dllHandle, m_dllHandle);
-        std::swap(library.m_loaded, m_loaded);
-    }
-    ~Library() {if(isLoaded()) freeLibrary(m_dllHandle); }
-
-    Library(const Library&) = delete;
-    Library& operator=(const Library&) = delete;
-
-    template<class T> T* get(std::string name) {return (T*)getFunc<T*>(m_dllHandle, name);}
-
-    operator bool() const { return isLoaded(); }
-    bool isLoaded() const { return m_loaded; }
-
-    void load(std::string filename)
-    {
-        if (isLoaded()) unload();
-        m_dllHandle = loadLibrary(filename, m_loaded);
-    }
-
-    void unload() { freeLibrary(m_dllHandle); m_loaded = false; }
-private:
     HandleType m_dllHandle;
     bool m_loaded = false;
 };

@@ -27,12 +27,12 @@ extern "C"
     {
         if (ChunkGeneratorLoaded)
         {
-            warningstream << "Ignoring multiple chunk generator";
+            warningstream << "Ignoring multiple chunk generators!";
             return 1;
         }
         ChunkGeneratorLoaded = true;
         ChunkGen = generator;
-        infostream << "Registered chunk generator";
+        debugstream << "Registered chunk generator";
         return 0;
     }
 }
