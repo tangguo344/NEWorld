@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Windows.Forms;
 
 namespace NEWorldLauncher
@@ -19,7 +14,6 @@ namespace NEWorldLauncher
 
         public MainForm()
         {
-
             InitializeComponent();
         }
 
@@ -27,6 +21,7 @@ namespace NEWorldLauncher
         {
             refreshGameList();
             webBrowser.ScriptErrorsSuppressed = true;
+            gotoTieba();
         }
 
         private void refreshGameList()
@@ -43,13 +38,14 @@ namespace NEWorldLauncher
         {
             if (e.TabPageIndex == 1 && downloadListBox.Items.Count == 0)
                 refreshDownloadList();
-            if (e.TabPageIndex == 2)
-            {
-                WindowState = FormWindowState.Maximized;
-                gotoTieba();
-            }
-            else
-                WindowState = FormWindowState.Normal;
+            // Not user-friendly
+            //if (e.TabPageIndex == 2)
+            //{
+            //    WindowState = FormWindowState.Maximized;
+            //    gotoTieba();
+            //}
+            //else
+            //    WindowState = FormWindowState.Normal;
         }
 
 
@@ -86,7 +82,7 @@ namespace NEWorldLauncher
         private void launchButton_Click(object sender, EventArgs e)
         {
             if (downloading && MessageBox.Show(
-                "正在下载，你确定要开始吗？（如果选择是则启动器不会退出）", "NEWorldLuancher",
+                "正在下载，你确定要开始吗？（如果选择是则启动器不会退出）", "NEWorldLauncher",
                 MessageBoxButtons.YesNo) != DialogResult.Yes) return;
             int index = gameListBox.SelectedIndex;
             if (index != -1)
@@ -94,7 +90,7 @@ namespace NEWorldLauncher
                 var game = new Game(gameListBox.Items[index].ToString());
                 game.Launch(debugCheckBox.Checked, commandTextBox.Text);
                 if (debugCheckBox.Checked)
-                    new DebugForm(game).ShowDialog();
+                    new DebugForm(game).Show();
                 else if (!downloading)
                     Application.Exit();
             }
@@ -128,7 +124,7 @@ namespace NEWorldLauncher
                     downloadRefreshButton.Enabled = true;
                     client.Dispose();
                 };
-            client.DownloadStringAsync(new Uri("http://pan.plyz.net/d.asp?u=3693237900&p=list.txt"));
+            client.DownloadStringAsync(new Uri(Def.downloadListUri));
             downloadRefreshButton.Text = "正在刷新";
             downloadRefreshButton.Enabled = false;
         }

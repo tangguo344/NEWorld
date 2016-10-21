@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace NEWorldLauncher
@@ -16,18 +10,19 @@ namespace NEWorldLauncher
 
         public DebugForm(Game game)
         {
-            process = game.process;
-            process.Exited += Process_Exited;
-            process.OutputDataReceived += Process_OutputDataReceived;
-            process.BeginOutputReadLine();
             InitializeComponent();
+            process = game.Process;
+            process.Exited += Process_Exited;
+            process.BeginOutputReadLine();
+            process.OutputDataReceived += Process_OutputDataReceived;
+            outTextBox.AppendText($"启动游戏，参数是[{process.StartInfo?.Arguments}]\n");
         }
 
         private void Process_Exited(object sender, EventArgs e)
         {
             Invoke((Action)delegate
             {
-                outTextBox.AppendText(string.Format("游戏退出，返回值是[{0}]\n", process.ExitCode));
+                outTextBox.AppendText($"游戏退出，返回值是[{process.ExitCode}]\n");
                 killButton.Text = "已退出";
                 killButton.Enabled = false;
             });
@@ -35,7 +30,7 @@ namespace NEWorldLauncher
 
         private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
-            if (e.Data != null)
+            if (!string.IsNullOrWhiteSpace(e.Data))
             {
                 Invoke((Action)delegate
                 {
