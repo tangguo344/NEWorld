@@ -82,7 +82,7 @@
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "DebugForm";
-            this.ShowInTaskbar = false;
+            this.ShowIcon = false;
             this.Text = "调试面板";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DebugForm_FormClosing);
             this.groupBox1.ResumeLayout(false);
