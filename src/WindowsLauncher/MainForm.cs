@@ -19,6 +19,8 @@ namespace NEWorldLauncher
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            Stat.ask();
+            Stat.collectOpenGL();
             refreshGameList();
             webBrowser.ScriptErrorsSuppressed = true;
             gotoTieba();
