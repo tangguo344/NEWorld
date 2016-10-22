@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Configuration;
 
 namespace NEWorldLauncher
 {
@@ -15,19 +16,28 @@ namespace NEWorldLauncher
         static bool allow = false;
         public static void ask()
         {
-            string path = Path.GetFullPath(Def.statSettings);
-            if (File.Exists(path))
+            if (ConfigurationManager.AppSettings["Asked"]=="True")
             {
-                allow = File.ReadAllText(path) == "True";
+                allow = ConfigurationManager.AppSettings["AllowCollect"] == "True";
                 return;
             }
             allow = MessageBox.Show("您是否允许我们收集一些匿名数据？(安全、无关隐私)", "NEWorldLauncher", MessageBoxButtons.YesNo) == DialogResult.Yes;
-            File.WriteAllText(path, allow.ToString());
+            Configuration cfa = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+           
+            cfa.AppSettings.Settings["AllowCollect"].Value = allow.ToString();
+            cfa.AppSettings.Settings["Asked"].Value = "True";
+            cfa.Save();
+            ConfigurationManager.RefreshSection(cfa.AppSettings.SectionInformation.Name);
+
         }
         public static void collectOpenGL()
         {
             if (!allow) return;
-            if (File.Exists(Path.GetFullPath(Def.glewinfoOutput))) ;
+            if (File.Exists(Path.GetFullPath(Def.glewinfoOutput)) || ConfigurationManager.AppSettings["OpenGLCollected"] == "True") return;
+            Configuration cfa = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            cfa.AppSettings.Settings["OpenGLCollected"].Value = "True";
+            cfa.Save();
+            ConfigurationManager.RefreshSection(cfa.AppSettings.SectionInformation.Name);
             var glewinfoProcess = new Process();
             glewinfoProcess.StartInfo.FileName = Path.GetFullPath(Def.glewinfo);
             glewinfoProcess.EnableRaisingEvents = true;
@@ -39,8 +49,8 @@ namespace NEWorldLauncher
 
                 var request = (HttpWebRequest)WebRequest.Create(Def.reportAddress);
 
-                var postData = "mac=" + macAddress + "&info=" + openglInfo;
-                var data = Encoding.ASCII.GetBytes(postData);
+                var postData = "mac=" + macAddress + "&data=" + openglInfo;
+                var data = Encoding.ASCII.GetBytes(postData.Replace(" ","")); //replace " " to save space
 
                 request.Method = "POST";
                 request.ContentType = "application/x-www-form-urlencoded";
@@ -50,6 +60,8 @@ namespace NEWorldLauncher
                 {
                     stream.Write(data, 0, data.Length);
                 }
+
+                MessageBox.Show("成功上传统计数据！感谢您的支持");
 
                 glewinfoProcess.Dispose();
             };

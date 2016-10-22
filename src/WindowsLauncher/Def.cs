@@ -14,6 +14,5 @@ namespace NEWorldLauncher
         public const string glewinfo = "glewinfo.exe";
         public const string glewinfoOutput = "glewinfo.txt";
         public const string reportAddress = "http://www.infinideas.org/opengl.php";
-        public const string statSettings = "stat.txt";
     }
 }
