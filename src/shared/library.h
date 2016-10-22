@@ -41,7 +41,7 @@ public:
         load(filename);
     }
 
-    Library(Library&& library) : Library{}
+    Library(Library&& library) noexcept : Library{}
     {
         std::swap(library.m_dllHandle, m_dllHandle);
         std::swap(library.m_loaded, m_loaded);
@@ -57,9 +57,9 @@ public:
 
     Library& operator=(const Library&) = delete;
 
-    template<class T> T* get(const std::string& name)
+    template<class T> auto get(const std::string& name)
     {
-        return (T*)getFunc<T*>(m_dllHandle, name);
+        return getFunc<T>(m_dllHandle, name);
     }
 
     operator bool() const
@@ -100,10 +100,10 @@ private:
         return handle;
     }
 
-    template<class T> static T* getFunc(HandleType handle, const std::string& name)
+    template<class T> static auto getFunc(HandleType handle, const std::string& name)
     {
         assert(handle != nullptr);
-        return reinterpret_cast<T*>(GetProcAddress(handle, name.c_str()));
+        return reinterpret_cast<std::decay_t<T>>(GetProcAddress(handle, name.c_str()));
     }
 
     static void freeLibrary(HandleType handle)
@@ -122,10 +122,10 @@ private:
         return handle;
     }
 
-    template<class T> static T* getFunc(HandleType handle, const std::string& name)
+    template<class T> static auto getFunc(HandleType handle, const std::string& name)
     {
         assert(handle != nullptr);
-        return reinterpret_cast<T*>(dlsym(handle, name.c_str()));
+        return reinterpret_cast<std::decay_t<T>>(dlsym(handle, name.c_str()));
     }
 
     static void freeLibrary(HandleType handle)

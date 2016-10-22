@@ -20,7 +20,7 @@
 #include "utils.h"
 #include <algorithm>
 
-std::vector<std::string> split(const std::string& src, std::string separate_character)
+std::vector<std::string> split(const std::string& src, const std::string& separate_character)
 {
     std::vector<std::string> strs;
     int separate_characterLen = separate_character.size();
@@ -47,5 +47,5 @@ void trim(std::string& s)
 
 void strtolower(std::string& s)
 {
-    std::transform(s.begin(), s.end(), s.begin(), tolower);
+    transform(s.begin(), s.end(), s.begin(), tolower);
 }

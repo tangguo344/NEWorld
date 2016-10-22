@@ -38,14 +38,14 @@ public:
         doUpdate();
     }
 
-    void addRequest(Packet& packet)
+    void addRequest(Packet const& packet)
     {
         m_packets.push(packet);
     }
 
     void addRequest(Packet&& packet)
     {
-        m_packets.push(packet);
+        m_packets.push(std::move(packet));
     }
 
 private:
