@@ -17,36 +17,21 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef JSONHELPER_H_
-#define JSONHELPER_H_
+#include "jsonhelper.h"
 
-#include <string>
-#include <fstream>
-#include "json.hpp"
 
-using Json = nlohmann::json;
-
-const std::string SettingsFilename = "settings.json";
-
-Json readJsonFromFile(std::string filename);
-
-inline void writeJsonToFile(std::string filename,Json& json)
+Json readJsonFromFile(std::string filename)
 {
-	std::ofstream(filename) << json;
+	std::ifstream file(filename);
+	std::string content = std::string((std::istreambuf_iterator<char>(file)),
+	                                  std::istreambuf_iterator<char>());
+	if (!content.empty())
+		return Json::parse(content);
+	return Json();
 }
 
-// get a json value. If it does not exist, return the default value and write it to the json
-template<class T>
-T getJsonValue(Json& json, T defaultValue=T())
+Json& getSettings()
 {
-	if (json.is_null())
-	{
-		json = defaultValue;
-		return defaultValue;
-	}
-	return json;
+	static Json settings = readJsonFromFile(SettingsFilename);
+	return settings;
 }
-
-Json& getSettings();
-
-#endif

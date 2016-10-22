@@ -37,7 +37,7 @@ std::unique_ptr<NetworkStructure> makeNetworkStructure(Packet& packet)
     {
         std::string username = tdh.getString();
         std::string password = tdh.getString();
-        uint16_t version = tdh.take<uint16_t>();
+        auto version = tdh.take<uint16_t>();
         return std::unique_ptr<LoginPacket>(new LoginPacket(username, password, version));
     }
     case Chat:

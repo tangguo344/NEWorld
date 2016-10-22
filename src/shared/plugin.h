@@ -45,7 +45,7 @@ public:
         loadFrom(filename);
     }
 
-    Plugin(Plugin&& rhs) : m_lib(std::move(rhs.m_lib)), m_data(rhs.m_data), m_status(rhs.m_status)
+    Plugin(Plugin&& rhs) noexcept : m_lib(std::move(rhs.m_lib)), m_data(rhs.m_data), m_status(rhs.m_status)
     {
         rhs.m_data = nullptr;
         rhs.m_status = -1;

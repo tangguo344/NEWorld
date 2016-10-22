@@ -47,7 +47,7 @@ public:
 
 private:
     std::chrono::steady_clock::time_point m_lastRefreshTime;
-    long long m_deltaTime;
+    long long m_deltaTime = 0ll;
     bool m_valid = false;
 };
 

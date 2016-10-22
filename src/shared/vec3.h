@@ -47,8 +47,8 @@ public:
     {
     }
 
-    template <typename U, typename = typename std::enable_if<std::is_convertible<T, U>::value>::type>
-    Vec3(const Vec3<U>& rhs) : x(U(rhs.x)), y(U(rhs.y)), z(U(rhs.z))
+    template <typename U, std::enable_if_t<std::is_convertible<T, U>::value, int> = 0>
+    Vec3(const Vec3<U>& rhs) : x(T(rhs.x)), y(T(rhs.y)), z(T(rhs.z))
     {
     }
 

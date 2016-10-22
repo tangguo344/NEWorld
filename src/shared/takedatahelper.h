@@ -31,7 +31,7 @@ public:
     }
 
     template <typename T>
-    T take()
+    std::enable_if_t<std::is_pod<T>::value, T> take()
     {
         if (m_offset + sizeof(T) > m_length) throw std::runtime_error("Failed to take! Length is too big.");
         T ret = *reinterpret_cast<T*>(m_buffer + m_offset);
