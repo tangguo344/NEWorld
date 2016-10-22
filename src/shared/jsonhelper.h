@@ -32,19 +32,19 @@ Json readJsonFromFile(std::string filename);
 
 inline void writeJsonToFile(std::string filename,Json& json)
 {
-	std::ofstream(filename) << json;
+    std::ofstream(filename) << json;
 }
 
 // get a json value. If it does not exist, return the default value and write it to the json
 template<class T>
 T getJsonValue(Json& json, T defaultValue=T())
 {
-	if (json.is_null())
-	{
-		json = defaultValue;
-		return defaultValue;
-	}
-	return json;
+    if (json.is_null())
+    {
+        json = defaultValue;
+        return defaultValue;
+    }
+    return json;
 }
 
 Json& getSettings();
