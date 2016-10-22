@@ -82,6 +82,15 @@
     <ClInclude Include="..\..\..\src\shared\library.h">
       <Filter>Source\DLL</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\shared\event.h">
+      <Filter>Source\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\shared\stringutils.h">
+      <Filter>Source\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\shared\exception.h">
+      <Filter>Source\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -136,6 +145,15 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\shared\playerobject.cpp">
       <Filter>Source\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\shared\exception.cpp">
+      <Filter>Source\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\shared\event.cpp">
+      <Filter>Source\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\shared\jsonhelper.cpp">
+      <Filter>Source\Common</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

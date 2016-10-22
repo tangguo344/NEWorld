@@ -82,7 +82,7 @@ Server::Server(std::vector<std::string> args)
     doAccept();
     initCommands();
 
-    if (std::find(args.begin(), args.end(), "--single-player-mode") != args.end())
+    if (find(args.begin(), args.end(), "--single-player-mode") != args.end())
         errorHook = [this] {m_ioService.stop(); };
 }
 
