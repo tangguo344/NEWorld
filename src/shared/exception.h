@@ -24,107 +24,107 @@
 
 namespace StringUtils
 {
-	template <typename... Args>
-	std::string FormatString(const char* lpStr, Args&&... args);
+    template <typename... Args>
+    std::string FormatString(const char* lpStr, Args&&... args);
 }
 
 namespace Exception
 {
-	namespace detail_
-	{
-		struct ExceptionStorage
-		{
-			ExceptionStorage(std::exception_ptr nestedException, std::chrono::system_clock::time_point const& time, const char* file, unsigned line, const char* src, const char* desc) noexcept
-				: m_NestedException(nestedException), m_Time(time), m_File(file), m_Line(line), m_Source(src), m_Description(desc)
-			{
-			}
+    namespace detail_
+    {
+        struct ExceptionStorage
+        {
+            ExceptionStorage(std::exception_ptr nestedException, std::chrono::system_clock::time_point const& time, const char* file, unsigned line, const char* src, const char* desc) noexcept
+                : m_NestedException(nestedException), m_Time(time), m_File(file), m_Line(line), m_Source(src), m_Description(desc)
+            {
+            }
 
-			std::exception_ptr m_NestedException;
-			std::chrono::system_clock::time_point m_Time;
-			std::string m_File;
-			unsigned m_Line;
-			std::string m_Source;
-			std::string m_Description;
-		};
-	}
+            std::exception_ptr m_NestedException;
+            std::chrono::system_clock::time_point m_Time;
+            std::string m_File;
+            unsigned m_Line;
+            std::string m_Source;
+            std::string m_Description;
+        };
+    }
 
-	class Exception
-		: protected detail_::ExceptionStorage, public virtual std::exception
-	{
-	public:
-		template <typename... Args>
-		Exception(std::exception_ptr nestedException, const char* Src, const char* File, unsigned Line, const char* Desc, Args&&... args) noexcept
-			: detail_::ExceptionStorage{ nestedException, std::chrono::system_clock::now(), File, Line, Src, StringUtils::FormatString(Desc, std::forward<Args>(args)...) }
-		{
-		}
+    class Exception
+        : protected detail_::ExceptionStorage, public virtual std::exception
+    {
+    public:
+        template <typename... Args>
+        Exception(std::exception_ptr nestedException, const char* Src, const char* File, unsigned Line, const char* Desc, Args&&... args) noexcept
+            : detail_::ExceptionStorage{ nestedException, std::chrono::system_clock::now(), File, Line, Src, StringUtils::FormatString(Desc, std::forward<Args>(args)...) }
+        {
+        }
 
-		template <typename... Args>
-		Exception(const char* Src, const char* File, unsigned Line, const char* Desc, Args&&... args) noexcept
-			: detail_::ExceptionStorage{ {}, std::chrono::system_clock::now(), File, Line, Src, StringUtils::FormatString(Desc, std::forward<Args>(args)...) }
-		{
-		}
+        template <typename... Args>
+        Exception(const char* Src, const char* File, unsigned Line, const char* Desc, Args&&... args) noexcept
+            : detail_::ExceptionStorage{ {}, std::chrono::system_clock::now(), File, Line, Src, StringUtils::FormatString(Desc, std::forward<Args>(args)...) }
+        {
+        }
 
-		~Exception();
+        ~Exception();
 
-		std::chrono::system_clock::time_point GetTime() const noexcept
-		{
-			return m_Time;
-		}
+        std::chrono::system_clock::time_point GetTime() const noexcept
+        {
+            return m_Time;
+        }
 
-		const char* GetFile() const noexcept
-		{
-			return m_File.c_str();
-		}
+        const char* GetFile() const noexcept
+        {
+            return m_File.c_str();
+        }
 
-		unsigned GetLine() const noexcept
-		{
-			return m_Line;
-		}
+        unsigned GetLine() const noexcept
+        {
+            return m_Line;
+        }
 
-		const char* GetSource() const noexcept
-		{
-			return m_Source.c_str();
-		}
+        const char* GetSource() const noexcept
+        {
+            return m_Source.c_str();
+        }
 
-		const char* GetDesc() const noexcept
-		{
-			return m_Description.c_str();
-		}
+        const char* GetDesc() const noexcept
+        {
+            return m_Description.c_str();
+        }
 
-		std::exception_ptr GetNestedException() const noexcept
-		{
-			return m_NestedException;
-		}
+        std::exception_ptr GetNestedException() const noexcept
+        {
+            return m_NestedException;
+        }
 
-		const char* what() const noexcept override
-		{
-			return m_Description.c_str();
-		}
-	};
+        const char* what() const noexcept override
+        {
+            return m_Description.c_str();
+        }
+    };
 
 #define DeclareException(ExceptionClass, ExtendException, DefaultDescription) \
 class ExceptionClass : public ExtendException\
 {\
 public:\
-	typedef ExtendException BaseException;\
-	ExceptionClass(const char* Src, const char* File, unsigned Line) noexcept\
-		: BaseException(Src, File, Line, DefaultDescription)\
-	{\
-	}\
-	ExceptionClass(std::exception_ptr nestedException, const char* Src, const char* File, unsigned Line) noexcept\
-		: BaseException(nestedException, Src, File, Line, DefaultDescription)\
-	{\
-	}\
-	template <typename... Args>\
-	ExceptionClass(const char* Src, const char* File, unsigned Line, const char* Desc, Args&&... args) noexcept\
-		: BaseException(Src, File, Line, Desc, std::forward<Args>(args)...)\
-	{\
-	}\
-	template <typename... Args>\
-	ExceptionClass(std::exception_ptr nestedException, const char* Src, const char* File, unsigned Line, const char* Desc, Args&&... args) noexcept\
-		: BaseException(nestedException, Src, File, Line, Desc, std::forward<Args>(args)...)\
-	{\
-	}\
+    typedef ExtendException BaseException;\
+    ExceptionClass(const char* Src, const char* File, unsigned Line) noexcept\
+        : BaseException(Src, File, Line, DefaultDescription)\
+    {\
+    }\
+    ExceptionClass(std::exception_ptr nestedException, const char* Src, const char* File, unsigned Line) noexcept\
+        : BaseException(nestedException, Src, File, Line, DefaultDescription)\
+    {\
+    }\
+    template <typename... Args>\
+    ExceptionClass(const char* Src, const char* File, unsigned Line, const char* Desc, Args&&... args) noexcept\
+        : BaseException(Src, File, Line, Desc, std::forward<Args>(args)...)\
+    {\
+    }\
+    template <typename... Args>\
+    ExceptionClass(std::exception_ptr nestedException, const char* Src, const char* File, unsigned Line, const char* Desc, Args&&... args) noexcept\
+        : BaseException(nestedException, Src, File, Line, Desc, std::forward<Args>(args)...)\
+    {\
+    }\
 }
 }
 

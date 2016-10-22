@@ -22,16 +22,16 @@
 
 Json readJsonFromFile(std::string filename)
 {
-	std::ifstream file(filename);
-	std::string content = std::string((std::istreambuf_iterator<char>(file)),
-	                                  std::istreambuf_iterator<char>());
-	if (!content.empty())
-		return Json::parse(content);
-	return Json();
+    std::ifstream file(filename);
+    std::string content = std::string((std::istreambuf_iterator<char>(file)),
+                                      std::istreambuf_iterator<char>());
+    if (!content.empty())
+        return Json::parse(content);
+    return Json();
 }
 
 Json& getSettings()
 {
-	static Json settings = readJsonFromFile(SettingsFilename);
-	return settings;
+    static Json settings = readJsonFromFile(SettingsFilename);
+    return settings;
 }
