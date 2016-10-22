@@ -52,37 +52,37 @@ public:
     {
     }
 
-    /// Get the square of vector length.
+    // Get the square of vector length
     T lengthSqr() const
     {
         return x * x + y * y + z * z;
     }
 
-    /// Get vector length
+    // Get vector length
     double length() const
     {
         return sqrt(double(lengthSqr()));
     }
 
-    /// Get the Euclidean Distance between vectors
+    // Get the Euclidean Distance between vectors
     double euclideanDistance(const Vec3& rhs) const
     {
         return (*this - rhs).length();
     }
 
-    /// Get the Chebyshev Distance between vectors
+    // Get the Chebyshev Distance between vectors
     T chebyshevDistance(const Vec3& rhs) const
     {
         return max(max(abs(x - rhs.x), abs(y - rhs.y)), abs(z - rhs.z));
     }
 
-    /// Get the Manhattan Distance between vectors
+    // Get the Manhattan Distance between vectors
     T manhattanDistance(const Vec3& rhs) const
     {
         return abs(x - rhs.x) + abs(y - rhs.y) + abs(z - rhs.z);
     }
 
-    /// Normalize vector
+    // Normalize vector
     void normalize()
     {
         double l = length();
