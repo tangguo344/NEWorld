@@ -24,6 +24,28 @@
 #include <vec3.h>
 #include <cstring>
 
+#ifdef NEWORLD_DEBUG
+
+// Mat4Row for range check when debugging is enabled
+template <typename T>
+class Mat4Row
+{
+public:
+    T* ptr;
+
+    explicit Mat4Row(T* p) : ptr(p)
+    {
+    }
+
+    T& operator[](size_t index)
+    {
+        assert(index < 4);
+        return ptr[index];
+    }
+};
+
+#endif
+
 template <typename T>
 class Mat4
 {
@@ -51,35 +73,42 @@ public:
         memcpy(data, src, sizeof(data));
     }
 
-    T& operator[](size_t index)
+#ifdef NEWORLD_DEBUG
+
+    Mat4Row<T> operator[](size_t index)
     {
-        return data[index];
+        assert(index < 4);
+        return Mat4Row<T>(data + index * 4);
     }
 
-    T operator[](size_t index) const
+#else
+
+    T* operator[](size_t index)
     {
-        return data[index];
+        return data + index * 4;
     }
+
+#endif
 
     Mat4 operator*(const Mat4& rhs) const
     {
         Mat4 res;
-        res[0] = data[0] * rhs[0] + data[1] * rhs[4] + data[2] * rhs[8] + data[3] * rhs[12];
-        res[1] = data[0] * rhs[1] + data[1] * rhs[5] + data[2] * rhs[9] + data[3] * rhs[13];
-        res[2] = data[0] * rhs[2] + data[1] * rhs[6] + data[2] * rhs[10] + data[3] * rhs[14];
-        res[3] = data[0] * rhs[3] + data[1] * rhs[7] + data[2] * rhs[11] + data[3] * rhs[15];
-        res[4] = data[4] * rhs[0] + data[5] * rhs[4] + data[6] * rhs[8] + data[7] * rhs[12];
-        res[5] = data[4] * rhs[1] + data[5] * rhs[5] + data[6] * rhs[9] + data[7] * rhs[13];
-        res[6] = data[4] * rhs[2] + data[5] * rhs[6] + data[6] * rhs[10] + data[7] * rhs[14];
-        res[7] = data[4] * rhs[3] + data[5] * rhs[7] + data[6] * rhs[11] + data[7] * rhs[15];
-        res[8] = data[8] * rhs[0] + data[9] * rhs[4] + data[10] * rhs[8] + data[11] * rhs[12];
-        res[9] = data[8] * rhs[1] + data[9] * rhs[5] + data[10] * rhs[9] + data[11] * rhs[13];
-        res[10] = data[8] * rhs[2] + data[9] * rhs[6] + data[10] * rhs[10] + data[11] * rhs[14];
-        res[11] = data[8] * rhs[3] + data[9] * rhs[7] + data[10] * rhs[11] + data[11] * rhs[15];
-        res[12] = data[12] * rhs[0] + data[13] * rhs[4] + data[14] * rhs[8] + data[15] * rhs[12];
-        res[13] = data[12] * rhs[1] + data[13] * rhs[5] + data[14] * rhs[9] + data[15] * rhs[13];
-        res[14] = data[12] * rhs[2] + data[13] * rhs[6] + data[14] * rhs[10] + data[15] * rhs[14];
-        res[15] = data[12] * rhs[3] + data[13] * rhs[7] + data[14] * rhs[11] + data[15] * rhs[15];
+        res.data[0] = data[0] * rhs.data[0] + data[1] * rhs.data[4] + data[2] * rhs.data[8] + data[3] * rhs.data[12];
+        res.data[1] = data[0] * rhs.data[1] + data[1] * rhs.data[5] + data[2] * rhs.data[9] + data[3] * rhs.data[13];
+        res.data[2] = data[0] * rhs.data[2] + data[1] * rhs.data[6] + data[2] * rhs.data[10] + data[3] * rhs.data[14];
+        res.data[3] = data[0] * rhs.data[3] + data[1] * rhs.data[7] + data[2] * rhs.data[11] + data[3] * rhs.data[15];
+        res.data[4] = data[4] * rhs.data[0] + data[5] * rhs.data[4] + data[6] * rhs.data[8] + data[7] * rhs.data[12];
+        res.data[5] = data[4] * rhs.data[1] + data[5] * rhs.data[5] + data[6] * rhs.data[9] + data[7] * rhs.data[13];
+        res.data[6] = data[4] * rhs.data[2] + data[5] * rhs.data[6] + data[6] * rhs.data[10] + data[7] * rhs.data[14];
+        res.data[7] = data[4] * rhs.data[3] + data[5] * rhs.data[7] + data[6] * rhs.data[11] + data[7] * rhs.data[15];
+        res.data[8] = data[8] * rhs.data[0] + data[9] * rhs.data[4] + data[10] * rhs.data[8] + data[11] * rhs.data[12];
+        res.data[9] = data[8] * rhs.data[1] + data[9] * rhs.data[5] + data[10] * rhs.data[9] + data[11] * rhs.data[13];
+        res.data[10] = data[8] * rhs.data[2] + data[9] * rhs.data[6] + data[10] * rhs.data[10] + data[11] * rhs.data[14];
+        res.data[11] = data[8] * rhs.data[3] + data[9] * rhs.data[7] + data[10] * rhs.data[11] + data[11] * rhs.data[15];
+        res.data[12] = data[12] * rhs.data[0] + data[13] * rhs.data[4] + data[14] * rhs.data[8] + data[15] * rhs.data[12];
+        res.data[13] = data[12] * rhs.data[1] + data[13] * rhs.data[5] + data[14] * rhs.data[9] + data[15] * rhs.data[13];
+        res.data[14] = data[12] * rhs.data[2] + data[13] * rhs.data[6] + data[14] * rhs.data[10] + data[15] * rhs.data[14];
+        res.data[15] = data[12] * rhs.data[3] + data[13] * rhs.data[7] + data[14] * rhs.data[11] + data[15] * rhs.data[15];
         return res;
     }
 
@@ -87,18 +116,6 @@ public:
     {
         *this = *this * rhs;
         return *this;
-    }
-
-    // Get data by position
-    int get(size_t x, size_t y) const
-    {
-        return data[y * 4 + x];
-    }
-
-    // Set data by position
-    void set(size_t x, size_t y, T v)
-    {
-        data[y * 4 + x] = v;
     }
 
     // Transpose matrix
@@ -116,10 +133,10 @@ public:
     Mat4 getTranspose() const
     {
         Mat4 res;
-        res[0] = data[0] , res[1] = data[4] , res[2] = data[8] , res[3] = data[12];
-        res[4] = data[1] , res[5] = data[5] , res[6] = data[9] , res[7] = data[13];
-        res[8] = data[2] , res[9] = data[6] , res[10] = data[10] , res[11] = data[14];
-        res[12] = data[3] , res[13] = data[7] , res[14] = data[11] , res[15] = data[15];
+        res.data[0] = data[0], res.data[1] = data[4], res.data[2] = data[8], res.data[3] = data[12];
+        res.data[4] = data[1], res.data[5] = data[5], res.data[6] = data[9], res.data[7] = data[13];
+        res.data[8] = data[2], res.data[9] = data[6], res.data[10] = data[10], res.data[11] = data[14];
+        res.data[12] = data[3], res.data[13] = data[7], res.data[14] = data[11], res.data[15] = data[15];
         return res;
     }
 
@@ -127,9 +144,9 @@ public:
     static Mat4 translation(const Vec3<T>& delta)
     {
         Mat4 res(T(1.0));
-        res[3] = delta.x;
-        res[7] = delta.y;
-        res[11] = delta.z;
+        res.data[3] = delta.x;
+        res.data[7] = delta.y;
+        res.data[11] = delta.z;
         return res;
     }
 
@@ -139,16 +156,16 @@ public:
         Mat4 res;
         vec.normalize();
         T alpha = degrees * T(M_PI) / T(180.0), s = sin(alpha), c = cos(alpha), t = 1.0f - c;
-        res[0] = t * vec.x * vec.x + c;
-        res[1] = t * vec.x * vec.y + s * vec.z;
-        res[2] = t * vec.x * vec.z - s * vec.y;
-        res[4] = t * vec.x * vec.y - s * vec.z;
-        res[5] = t * vec.y * vec.y + c;
-        res[6] = t * vec.y * vec.z + s * vec.x;
-        res[8] = t * vec.x * vec.z + s * vec.y;
-        res[9] = t * vec.y * vec.z - s * vec.x;
-        res[10] = t * vec.z * vec.z + c;
-        res[15] = T(1.0);
+        res.data[0] = t * vec.x * vec.x + c;
+        res.data[1] = t * vec.x * vec.y + s * vec.z;
+        res.data[2] = t * vec.x * vec.z - s * vec.y;
+        res.data[4] = t * vec.x * vec.y - s * vec.z;
+        res.data[5] = t * vec.y * vec.y + c;
+        res.data[6] = t * vec.y * vec.z + s * vec.x;
+        res.data[8] = t * vec.x * vec.z + s * vec.y;
+        res.data[9] = t * vec.y * vec.z - s * vec.x;
+        res.data[10] = t * vec.z * vec.z + c;
+        res.data[15] = T(1.0);
         return res;
     }
 
@@ -158,11 +175,11 @@ public:
         Mat4 res;
         T f = T(1.0) / tan(fov * T(M_PI) / T(180.0) / T(2.0));
         T a = zNear - zFar;
-        res[0] = f / aspect;
-        res[5] = f;
-        res[10] = (zFar + zNear) / a;
-        res[11] = T(2.0) * zFar * zNear / a;
-        res[14] = T(-1.0);
+        res.data[0] = f / aspect;
+        res.data[5] = f;
+        res.data[10] = (zFar + zNear) / a;
+        res.data[11] = T(2.0) * zFar * zNear / a;
+        res.data[14] = T(-1.0);
         return res;
     }
 
@@ -173,13 +190,13 @@ public:
         T b = top - bottom;
         T c = zFar - zNear;
         Mat4 res;
-        res[0] = T(2.0) / a;
-        res[3] = -(right + left) / a;
-        res[5] = T(2.0) / b;
-        res[7] = -(top + bottom) / b;
-        res[10] = T(-2.0) / c;
-        res[11] = -(zFar + zNear) / c;
-        res[15] = T(1.0);
+        res.data[0] = T(2.0) / a;
+        res.data[3] = -(right + left) / a;
+        res.data[5] = T(2.0) / b;
+        res.data[7] = -(top + bottom) / b;
+        res.data[10] = T(-2.0) / c;
+        res.data[11] = -(zFar + zNear) / c;
+        res.data[15] = T(1.0);
         return res;
     }
 
