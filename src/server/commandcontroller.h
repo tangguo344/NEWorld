@@ -21,11 +21,24 @@
 
 #include <command.h>
 #include <thread>
+#include <atomic>
+#include <future>
+
 class CommandController
 {
 public:
-    CommandController() { m_thread = std::thread([this] { mainLoop(); }); }
-    ~CommandController() { m_threadRunning = false; m_thread.join(); }
+    CommandController()
+        : m_mainloop(std::async([this] { mainLoop(); }))
+    {
+    }
+    ~CommandController()
+    {
+        m_threadRunning.store(false, std::memory_order_release);
+        if (!m_waitingForInputing.load(std::memory_order_acquire))
+        {
+            m_mainloop.wait();
+        }
+    }
 
     CommandController(const CommandController&) = delete;
     CommandController& operator=(const CommandController&) = delete;
@@ -41,8 +54,9 @@ private:
     void mainLoop();
     CommandExecuteStat handleCommand(Command cmd);
 
-    std::thread m_thread;
-    bool m_threadRunning = true;
+    std::future<void> m_mainloop;
+    std::atomic_bool m_threadRunning = true;
+    std::atomic_bool m_waitingForInputing = false;
     CommandMap m_commandMap;
 };
 

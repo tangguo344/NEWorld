@@ -27,17 +27,18 @@ CommandExecuteStat CommandController::handleCommand(Command cmd)
     auto result = m_commandMap.find(cmd.name);
     if (result != m_commandMap.end())
         return (*result).second.second(cmd);
-    else
-        return{ false,"Failed to execute the command: The command does not exist, type help for available commands." };
+    return{ false,"Failed to execute the command: The command does not exist, type help for available commands." };
 }
 
 void CommandController::mainLoop()
 {
-    while (m_threadRunning)
+    while (m_threadRunning.load(std::memory_order_acquire))
     {
         std::string input;
         //std::cout << LColorFunc::white << "$> " << LColorFunc::lwhite;
-        std::getline(std::cin, input);
+        m_waitingForInputing.store(true, std::memory_order_release);
+        getline(std::cin, input);
+        m_waitingForInputing.store(false, std::memory_order_release);
         auto result = handleCommand(Command(input));
         if (result.info != "")
             infostream << result.info;

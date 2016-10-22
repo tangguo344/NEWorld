@@ -263,6 +263,8 @@
     <ClInclude Include="..\..\..\src\shared\command.h" />
     <ClInclude Include="..\..\..\src\shared\common.h" />
     <ClInclude Include="..\..\..\src\shared\consolecolor.h" />
+    <ClInclude Include="..\..\..\src\shared\event.h" />
+    <ClInclude Include="..\..\..\src\shared\exception.h" />
     <ClInclude Include="..\..\..\src\shared\library.h" />
     <ClInclude Include="..\..\..\src\shared\identifier.h" />
     <ClInclude Include="..\..\..\src\shared\jsonhelper.h" />
@@ -276,6 +278,7 @@
     <ClInclude Include="..\..\..\src\shared\pluginmanager.h" />
     <ClInclude Include="..\..\..\src\shared\ratemeter.h" />
     <ClInclude Include="..\..\..\src\shared\session.h" />
+    <ClInclude Include="..\..\..\src\shared\stringutils.h" />
     <ClInclude Include="..\..\..\src\shared\takedatahelper.h" />
     <ClInclude Include="..\..\..\src\shared\utils.h" />
     <ClInclude Include="..\..\..\src\shared\vec3.h" />
@@ -283,6 +286,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\shared\blockmanager.cpp" />
+    <ClCompile Include="..\..\..\src\shared\event.cpp" />
+    <ClCompile Include="..\..\..\src\shared\exception.cpp" />
+    <ClCompile Include="..\..\..\src\shared\jsonhelper.cpp" />
     <ClCompile Include="..\..\..\src\shared\logger.cpp" />
     <ClCompile Include="..\..\..\src\shared\playerobject.cpp" />
     <ClCompile Include="..\..\..\src\shared\plugin.cpp" />

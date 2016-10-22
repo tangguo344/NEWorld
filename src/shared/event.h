@@ -70,7 +70,7 @@ namespace Event
         std::enable_if_t<std::is_base_of<EventBase, EventClass>::value, void> RegisterEvent()
         {
             bool Succeeded;
-            tie(std::ignore, Succeeded) = m_EventListenerMap.try_emplace(typeid(EventClass));
+            tie(std::ignore, Succeeded) = m_EventListenerMap.emplace(typeid(EventClass));
 
             if (!Succeeded)
             {
@@ -89,7 +89,7 @@ namespace Event
 
             auto&& listeners = iter->second[priority];
             auto ret = listeners.empty() ? 0u : listeners.rbegin()->first + 1u;
-            listeners.try_emplace(ret, listener);
+            listeners.emplace(ret, listener);
             return ret;
         }
 
