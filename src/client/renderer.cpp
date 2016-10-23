@@ -23,10 +23,11 @@ int Renderer::matrixMode = 0;
 
 void Renderer::init()
 {
-    glewInit();
+    if (glewInit() != GLEW_OK)
+        fatalstream << "Failed to initialize GLEW!";
     glShadeModel(GL_SMOOTH);
     glDisable(GL_DITHER);
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClearDepth(1.0f);
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);

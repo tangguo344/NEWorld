@@ -21,23 +21,28 @@
 #include "texture.h"
 #include <pluginapi.h>
 #include "window.h"
-#include "gamescene.h"
+#include "game.h"
 
 NEWorld::NEWorld() : m_plugins(true)
 {
     // Initialize
     Logger::init("client");
     infostream << "Initializing...";
+    Window mainWindow("NEWorld", 852, 480);
+    Renderer::init();
     Texture::init();
     PluginAPI::Blocks = &m_blocks;
     PluginAPI::Plugins = &m_plugins;
     m_plugins.loadPlugins();
 
     // Run
-    GameScene game(m_plugins, m_blocks);
+    Game game(m_plugins, m_blocks);
     while(true)
     {
         game.render();
+        Renderer::checkError();
+        mainWindow.swapBuffers();
+        Window::pollEvents();
     }
 
     // Terminate

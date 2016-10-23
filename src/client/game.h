@@ -17,8 +17,8 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef GAMEVIEW_H_
-#define GAMEVIEW_H_
+#ifndef GAME_H_
+#define GAME_H_
 
 #include <thread>
 #include "vec3.h"
@@ -34,12 +34,12 @@
 #include "player.h"
 #include "network.h"
 
-class GameScene
+class Game
 {
 public:
-    GameScene(const PluginManager& pm, const BlockManager& bm);
+    Game(const PluginManager& pm, const BlockManager& bm);
 
-    ~GameScene()
+    ~Game()
     {
         m_connection.disconnect();
         if (m_localServerThread.joinable()) m_localServerThread.join();
@@ -67,4 +67,4 @@ private:
     std::thread m_localServerThread;
 };
 
-#endif // !GAMEVIEW_H_
+#endif // !GAME_H_

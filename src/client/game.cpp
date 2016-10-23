@@ -17,7 +17,7 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "gamescene.h"
+#include "game.h"
 #include "renderer.h"
 #include "utils.h"
 #include <logger.h>
@@ -25,8 +25,8 @@
 #include <boost/dll/shared_library.hpp>
 #include <jsonhelper.h>
 
-GameScene::GameScene(const PluginManager& pm, const BlockManager& bm)
-    : m_blocks(bm), m_plugins(pm), m_world("TestWorld", pm, bm), //TODO: read it from settings
+Game::Game(const PluginManager& pm, const BlockManager& bm)
+    : m_blocks(bm), m_plugins(pm), m_world("TestWorld", pm, bm), // TODO: read from settings
       m_player(&m_world), m_connection("127.0.0.1", 8090)
 {
     // TODO: start the server only when it's a single player mode.
@@ -43,7 +43,7 @@ GameScene::GameScene(const PluginManager& pm, const BlockManager& bm)
     // TEMP CODE
     // Load some chunks at client side to test rendering
     m_world.setRenderDistance(4);
-    m_player.setPosition(Vec3d(-16.0, 32.0, 32.0));
+    m_player.setPosition(Vec3d(-16.0, 48.0, 32.0));
     m_player.setRotation(Vec3d(-45.0, -22.5, 0.0));
     Vec3i::for_range(-6, 6, [&](const Vec3i& pos)
     {
@@ -55,14 +55,12 @@ GameScene::GameScene(const PluginManager& pm, const BlockManager& bm)
     m_connection.connect();
 
     // Initialize rendering
-    Renderer::init();
     m_texture = Texture::loadTextureRGBA("./res/test.png");
-    glEnable(GL_TEXTURE_2D);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
 }
 
-void GameScene::render()
+void Game::render()
 {
     glClearColor(0.6f, 0.9f, 1.0f, 1.0f);
     glClearDepth(1.0f);

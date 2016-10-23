@@ -20,17 +20,41 @@
 #ifndef WINDOW_H_
 #define WINDOW_H_
 
-#include <uilib.h>
+#include <string>
+#include <SDL2/SDL.h>
 
-class MainWindow : public UI::Core::Window
+class Window
 {
 public:
-    std::shared_ptr<UI::Base::Texture> btex[6]; //What is it? --Miigon; May be the background images of the main menu, but it shouldn't be here --Null
-    MainWindow(int width, int height, const std::string& title);
+    Window(const std::string& title, int width, int height);
+    ~Window();
+
+    void makeCurrentDraw() const
+    {
+        SDL_GL_MakeCurrent(mWindow, mContext);
+    }
+
+    void swapBuffers() const
+    {
+        SDL_GL_SwapWindow(mWindow);
+    }
+
+    static void pollEvents()
+    {
+        SDL_Event e;
+        while (SDL_PollEvent(&e))
+        {
+            // TODO: Process events here
+        }
+    }
 
 private:
-    std::thread loader;
-};
+    SDL_Window* mWindow = nullptr;
+    std::string mTitle;
+    int mWidth, mHeight;
 
+    static size_t mRefCount;
+    static SDL_GLContext mContext;
+};
 
 #endif
