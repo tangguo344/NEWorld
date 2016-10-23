@@ -34,7 +34,6 @@ class PluginManager;
 class World : boost::noncopyable
 {
 public:
-
     virtual ~World()
     {
         if (m_chunks != nullptr)
@@ -173,7 +172,7 @@ public:
     void update();
 
 protected:
-    World(const std::string& name, PluginManager& plugins, BlockManager& blocks)
+    World(const std::string& name, const PluginManager& plugins, const BlockManager& blocks)
         : m_name(name), m_plugins(plugins), m_blocks(blocks), m_chunkCount(0), m_chunkArraySize(1024), m_daylightBrightness(15), m_cpa(8)
     {
         m_chunks = static_cast<Chunk**>(malloc(m_chunkArraySize * sizeof(Chunk*)));
@@ -189,9 +188,9 @@ protected:
     // World name
     std::string m_name;
     // Loaded plugins
-    PluginManager& m_plugins;
+    const PluginManager& m_plugins;
     // Loaded blocks
-    BlockManager& m_blocks;
+    const BlockManager& m_blocks;
     // Loaded chunk count
     size_t m_chunkCount;
     // Size of chunk array

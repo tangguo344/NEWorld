@@ -27,7 +27,6 @@ if(MS_VC)
     add_definitions(-DNOMINMAX)
 endif()
 
-include(${SOURCE_DIR}/uilib/${CMFILE})
 include(${SOURCE_DIR}/shared/${CMFILE})
 include(${SOURCE_DIR}/client/${CMFILE})
 include(${SOURCE_DIR}/server/${CMFILE})

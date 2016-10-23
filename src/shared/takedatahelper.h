@@ -21,7 +21,7 @@
 #define TAKEDATAHELPER_H_
 #include <memory>
 
-/// A helper class for taking data out of a byte array
+// A helper class for taking data out of a byte array
 class TakeDataHelper
 {
 public:

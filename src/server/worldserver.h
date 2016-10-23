@@ -34,27 +34,27 @@ public:
     {
     }
 
-    /// Set load range
+    // Set load range
     void setLoadRange(int x)
     {
         m_loadRange = x;
     }
 
-    /// Find the nearest chunks in load range to load, fartherest chunks out of load range to unload
+    // Find the nearest chunks in load range to load, fartherest chunks out of load range to unload
     void sortChunkLoadUnloadList(const Vec3i& centerPos);
-    /// Load & unload chunks
+    // Load & unload chunks
     void loadUnloadChunks();
 
     Chunk* addChunk(const Vec3i& chunkPos) override;
 
 private:
-    /// ChunkPointerArray used to detect unloaded chunks in load range
+    // ChunkPointerArray used to detect unloaded chunks in load range
     ChunkPointerArray& m_cpa;
 
     int m_chunkLoadCount, m_chunkUnloadCount = 0, m_loadRange = 0;
-    /// Chunk load list [position, distance]
+    // Chunk load list [position, distance]
     std::pair<Vec3i, int> m_chunkLoadList[MaxChunkLoadCount];
-    /// Chunk unload list [pointer, distance]
+    // Chunk unload list [pointer, distance]
     std::pair<Chunk*, int> m_chunkUnloadList[MaxChunkUnloadCount];
 
 };

@@ -28,11 +28,11 @@
 class ChunkPointerArray : boost::noncopyable
 {
 private:
-    /// Array
+    // Array
     Chunk** m_array;
-    /// Array size
+    // Array size
     int m_size, m_size2, m_size3;
-    /// Origin
+    // Origin
     Vec3i m_org;
 
 public:
@@ -54,7 +54,7 @@ public:
         delete[] m_array;
     }
 
-    /// Move array by delta
+    // Move array by delta
     void move(const Vec3i& delta)
     {
         Chunk** arr = new Chunk*[m_size3];
@@ -70,26 +70,26 @@ public:
         m_org += delta;
     }
 
-    /// Move array to pos
+    // Move array to pos
     void moveTo(const Vec3i& pos)
     {
         move(pos - m_org);
     }
 
-    /// Check if specific element is inside array range
+    // Check if specific element is inside array range
     bool exist(const Vec3i& pos) const
     {
         return pos.x >= 0 && pos.x < m_size && pos.z >= 0 && pos.z < m_size && pos.y >= 0 && pos.y < m_size;
     }
 
-    /// Get chunk pointer from array
+    // Get chunk pointer from array
     Chunk* get(Vec3i pos) const
     {
         pos -= m_org;
         return exist(pos) ? m_array[pos.x * m_size2 + pos.y * m_size + pos.z] : nullptr;
     }
 
-    /// Update chunk pointer in array
+    // Update chunk pointer in array
     void set(Vec3i pos, Chunk* c) const
     {
         pos -= m_org;

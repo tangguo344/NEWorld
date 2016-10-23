@@ -22,7 +22,16 @@
 
 extern "C" NWAPIEXPORT int NWAPICALL main(int, char**);
 
+class orld
+{
+public:
+    orld()
+    {
+        NEWorld neworld;
+    }
+};
+
 int NWAPICALL main(int, char**)
 {
-    Application::getApplication().run();
+    new orld();
 }

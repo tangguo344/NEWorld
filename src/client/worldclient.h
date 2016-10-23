@@ -28,7 +28,7 @@ const int MaxChunkRenderCount = 4;
 class WorldClient : public World
 {
 public:
-    WorldClient(const std::string& name, PluginManager& plugins, BlockManager& blocks)
+    WorldClient(const std::string& name, const PluginManager& plugins, const BlockManager& blocks)
         : World(name, plugins, blocks)
     {
     }

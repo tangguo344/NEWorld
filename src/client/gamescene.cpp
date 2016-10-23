@@ -25,8 +25,8 @@
 #include <boost/dll/shared_library.hpp>
 #include <jsonhelper.h>
 
-GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
-    : UI::Controls::GLContext(), m_blocks(bm), m_plugins(pm), m_world("TestWorld", pm, bm), //TODO: read it from settings
+GameScene::GameScene(const PluginManager& pm, const BlockManager& bm)
+    : m_blocks(bm), m_plugins(pm), m_world("TestWorld", pm, bm), //TODO: read it from settings
       m_player(&m_world), m_connection("127.0.0.1", 8090)
 {
     // TODO: start the server only when it's a single player mode.
@@ -54,33 +54,16 @@ GameScene::GameScene(UI::Core::Window* win, BlockManager& bm, PluginManager& pm)
     // FIXME: if the server spends too much time starting, the network thread won't be able to connect to the server.
     m_connection.connect();
 
-    keyFunc.connect([this](int scancode, UI::Core::ButtonAction)
-    {
-        onKey(scancode);
-    });
-    win->renderdelegate.push_back([this, win]() { init(win); });
-}
-
-void GameScene::init(UI::Core::Window*)
-{
+    // Initialize rendering
     Renderer::init();
-
     m_texture = Texture::loadTextureRGBA("./res/test.png");
-    UI::GameUtils::setSwapInterval(0);
-
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
-
-    onRenderF = [this]()
-    {
-        doRender();
-    };
 }
 
-void GameScene::doRender()
+void GameScene::render()
 {
-    // Overwrite UILib parameters
     glClearColor(0.6f, 0.9f, 1.0f, 1.0f);
     glClearDepth(1.0f);
     glEnable(GL_TEXTURE_2D);
@@ -89,7 +72,7 @@ void GameScene::doRender()
     m_texture.bind(Texture::Texture2D);
     Renderer::clear();
     Renderer::restoreProj();
-    Renderer::applyPerspective(70.0f, cMargin.absrect.xmax / cMargin.absrect.ymax, 0.1f, 300.0f);
+    Renderer::applyPerspective(70.0f, windowWidth / windowHeight, 0.1f, 300.0f);
     Renderer::restoreScale();
     Renderer::rotate(-m_player.getRotation().x, Vec3f(1.0f, 0.0f, 0.0f));
     Renderer::rotate(-m_player.getRotation().y, Vec3f(0.0f, 1.0f, 0.0f));
@@ -140,25 +123,4 @@ void GameScene::doRender()
     m_player.update();
     m_world.renderUpdate(Vec3i(m_player.getPosition()));
     m_world.update();
-}
-
-void GameScene::onResize(size_t w, size_t h)
-{
-    Grid::onResize(w, h);
-    windowWidth = w;
-    windowHeight = h;
-}
-
-void GameScene::onKey(int key)
-{
-    if (key == SDLK_w) m_player.accelerate(Vec3d( 0.0, 0.0,-0.06));
-    if (key == SDLK_s) m_player.accelerate(Vec3d( 0.0, 0.0, 0.06));
-    if (key == SDLK_a) m_player.accelerate(Vec3d(-0.06, 0.0, 0.0));
-    if (key == SDLK_d) m_player.accelerate(Vec3d( 0.06, 0.0, 0.0));
-    if (key == SDLK_LCTRL || key == SDLK_RCTRL) m_player.accelerate(Vec3d( 0.0,-0.1, 0.0));
-    if (key == SDLK_SPACE) m_player.accelerate(Vec3d( 0.0, 0.1, 0.0));
-    if (key == SDLK_UP) m_player.rotate(Vec3d( 2.5, 0.0, 0.0));
-    if (key == SDLK_DOWN) m_player.rotate(Vec3d(-2.5, 0.0, 0.0));
-    if (key == SDLK_LEFT) m_player.rotate(Vec3d( 0.0, 2.5, 0.0));
-    if (key == SDLK_RIGHT) m_player.rotate(Vec3d( 0.0,-2.5, 0.0));
 }
