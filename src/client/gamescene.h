@@ -21,7 +21,6 @@
 #define GAMEVIEW_H_
 
 #include <thread>
-#include <uilib.h>
 #include "vec3.h"
 #include "renderer.h"
 
@@ -35,31 +34,29 @@
 #include "player.h"
 #include "network.h"
 
-class GameScene : public UI::Controls::GLContext
+class GameScene
 {
 public:
-    GameScene(UI::Core::Window*, BlockManager& bm, PluginManager& pm);
+    GameScene(const PluginManager& pm, const BlockManager& bm);
 
     ~GameScene()
     {
-        m_plugins.unloadPlugins();
         m_connection.disconnect();
         if (m_localServerThread.joinable()) m_localServerThread.join();
     }
-    void doRender();
-    void onResize(size_t w, size_t h) override;
-    void init(UI::Core::Window* win);
-    void onKey(int key);
+
+    void render();
 
 private:
+    // Window size
     int windowWidth = 852, windowHeight = 480;
 
     // Texture test
     Texture m_texture;
     // Blocks
-    BlockManager& m_blocks;
+    const BlockManager& m_blocks;
     // Loaded plugins
-    PluginManager& m_plugins;
+    const PluginManager& m_plugins;
     // World
     WorldClient m_world;
     // Player test

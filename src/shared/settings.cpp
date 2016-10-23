@@ -21,7 +21,7 @@
 #include "logger.h"
 #include "common.h"
 
-void loadSharedSettings(Json& settings)
+void loadSharedSettings(Json&)
 {
     using Level = Logger::Level;
     /*

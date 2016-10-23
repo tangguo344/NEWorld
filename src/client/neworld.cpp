@@ -21,60 +21,27 @@
 #include "texture.h"
 #include <pluginapi.h>
 #include "window.h"
+#include "gamescene.h"
 
-Application::Application(int width, int height, const std::string& title, const std::string&) :
-    m_width(width), m_height(height), m_title(title), m_plugins(true)
+NEWorld::NEWorld() : m_plugins(true)
 {
-}
-
-void Application::beforeLaunch()
-{
-    // Initialize here
+    // Initialize
     Logger::init("client");
     infostream << "Initializing...";
-
-    // Set up hooks from UI::Logger(UILib) to Logger(NEWorld)
-    UI::Logger::setHookFunc([](size_t level, std::string msg, const char* fileName, const char *funcName, int lineNumber)
-    {
-        Logger(fileName, funcName, lineNumber, static_cast<Logger::Level>(level)) << msg;
-    });
-
-    UI::Logger::setHook(UI::Logger::Level::trace, static_cast<size_t>(Logger::Level::trace));
-    UI::Logger::setHook(UI::Logger::Level::info, static_cast<size_t>(Logger::Level::info));
-    UI::Logger::setHook(UI::Logger::Level::debug, static_cast<size_t>(Logger::Level::debug));
-    UI::Logger::setHook(UI::Logger::Level::warning, static_cast<size_t>(Logger::Level::warning));
-    UI::Logger::setHook(UI::Logger::Level::error, static_cast<size_t>(Logger::Level::error));
-    UI::Logger::setHook(UI::Logger::Level::fatal, static_cast<size_t>(Logger::Level::fatal));
-    UI::Logger::init("./logs");
-
     Texture::init();
-    UI::Font::service.addSearchPaths({ "./res/fonts" });
-
-    auto lservice = UI::Locale::Service::getInstance();
-    lservice.setBasePath("./res/langs/");
-    lservice.attachLangFiles({ "zh_CN", "en_US" });
-    lservice.setLang("zh_CN");
-
-    UI::Theme::SystemTheme.ControlDarkBrush = UIMakeSolidColorBrush(UI::Base::Color(0.2, 0.2, 0.2, 0.6));
-    UI::Theme::SystemTheme.ControlHeightLightBrush = UIMakeSolidColorBrush(UI::Base::Color(1.2 * 0.2, 1.2 * 0.2, 1.2 * 0.2, 0.8 * 0.6));
-    UI::Theme::SystemTheme.ControlOnPressBrush = UIMakeSolidColorBrush(UI::Base::Color(0.2 * 0.8, 0.2 * 0.8, 0.2 * 0.8, 0.9));
-    UI::Theme::SystemTheme.DefaultFont = UI::Font::service.getRenderer("SourceHanSansCN-Normal", 17, UI::Base::Color(1.0, 1.0, 1.0, 1.0));
-
-    // Init plugins
     PluginAPI::Blocks = &m_blocks;
     PluginAPI::Plugins = &m_plugins;
-
     m_plugins.loadPlugins();
-}
 
-void Application::afterLaunch()
-{
-    addWindow(std::make_shared<MainWindow>(m_width, m_height, m_title));
-    infostream << "Game started!";
-}
+    // Run
+    GameScene game(m_plugins, m_blocks);
+    while(true)
+    {
+        game.render();
+    }
 
-void Application::onTerminate()
-{
+    // Terminate
     infostream << "Terminating...";
+    m_plugins.unloadPlugins();
     Texture::free();
 }
