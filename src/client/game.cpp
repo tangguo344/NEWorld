@@ -24,6 +24,7 @@
 #include "network.h"
 #include <boost/dll/shared_library.hpp>
 #include <jsonhelper.h>
+#include "window.h"
 
 Game::Game(const PluginManager& pm, const BlockManager& bm)
     : m_blocks(bm), m_plugins(pm), m_world("TestWorld", pm, bm), // TODO: read from settings
@@ -60,7 +61,36 @@ Game::Game(const PluginManager& pm, const BlockManager& bm)
     glDepthFunc(GL_LEQUAL);
 }
 
-void Game::render()
+void Game::update()
+{
+    m_player.update();
+    m_world.renderUpdate(Vec3i(m_player.getPosition()));
+    m_world.update();
+
+    // TODO: Read keys from the configuration file
+    if (Window::isKeyDown(SDL_SCANCODE_UP))
+        m_player.rotate(Vec3d(0.2, 0.0, 0.0));
+    if (Window::isKeyDown(SDL_SCANCODE_DOWN))
+        m_player.rotate(Vec3d(-0.2, 0.0, 0.0));
+    if (Window::isKeyDown(SDL_SCANCODE_RIGHT))
+        m_player.rotate(Vec3d(0.0, -0.2, 0.0));
+    if (Window::isKeyDown(SDL_SCANCODE_LEFT))
+        m_player.rotate(Vec3d(0.0, 0.2, 0.0));
+    if (Window::isKeyDown(SDL_SCANCODE_W))
+        m_player.accelerate(Vec3d(0.0, 0.0, -0.05));
+    if (Window::isKeyDown(SDL_SCANCODE_S))
+        m_player.accelerate(Vec3d(0.0, 0.0, 0.05));
+    if (Window::isKeyDown(SDL_SCANCODE_A))
+        m_player.accelerate(Vec3d(-0.05, 0.0, 0.0));
+    if (Window::isKeyDown(SDL_SCANCODE_D))
+        m_player.accelerate(Vec3d(0.05, 0.0, 0.0));
+    if (Window::isKeyDown(SDL_SCANCODE_SPACE))
+        m_player.accelerate(Vec3d(0.0, 0.05, 0.0));
+    if (Window::isKeyDown(SDL_SCANCODE_LCTRL) || Window::isKeyDown(SDL_SCANCODE_RCTRL))
+        m_player.accelerate(Vec3d(0.0, -0.05, 0.0));
+}
+
+void Game::render() const
 {
     glClearColor(0.6f, 0.9f, 1.0f, 1.0f);
     glClearDepth(1.0f);
@@ -116,9 +146,4 @@ void Game::render()
     // END TEMP CODE
 
     glDisable(GL_DEPTH_TEST);
-
-    // Update
-    m_player.update();
-    m_world.renderUpdate(Vec3i(m_player.getPosition()));
-    m_world.update();
 }

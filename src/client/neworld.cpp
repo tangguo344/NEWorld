@@ -39,6 +39,7 @@ NEWorld::NEWorld() : m_plugins(true)
     Game game(m_plugins, m_blocks);
     while(true)
     {
+        game.update();
         game.render();
         Renderer::checkError();
         mainWindow.swapBuffers();

@@ -45,7 +45,8 @@ public:
         if (m_localServerThread.joinable()) m_localServerThread.join();
     }
 
-    void render();
+    void update();
+    void render() const;
 
 private:
     // Window size
