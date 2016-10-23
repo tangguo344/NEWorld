@@ -39,13 +39,21 @@ public:
         SDL_GL_SwapWindow(mWindow);
     }
 
+    static bool isKeyDown(SDL_Scancode scancode)
+    {
+        return SDL_GetKeyboardState(nullptr)[scancode];
+    }
+
     static void pollEvents()
     {
+        /*
         SDL_Event e;
         while (SDL_PollEvent(&e))
         {
             // TODO: Process events here
         }
+        */
+        SDL_PumpEvents();
     }
 
 private:
