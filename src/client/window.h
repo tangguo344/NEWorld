@@ -41,7 +41,7 @@ public:
 
     static bool isKeyDown(SDL_Scancode scancode)
     {
-        return SDL_GetKeyboardState(nullptr)[scancode];
+        return SDL_GetKeyboardState(nullptr)[scancode] == 1u;
     }
 
     static void pollEvents()

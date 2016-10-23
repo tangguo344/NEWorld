@@ -197,9 +197,9 @@ public:
     static void for_range(T begin, T end, Func func)
     {
         Vec3<T> tmp;
-        for (tmp.x = begin; tmp.x != end; ++tmp.x)
-            for (tmp.y = begin; tmp.y != end; ++tmp.y)
-                for (tmp.z = begin; tmp.z != end; ++tmp.z)
+        for (tmp.x = begin; tmp.x < end; ++tmp.x)
+            for (tmp.y = begin; tmp.y < end; ++tmp.y)
+                for (tmp.z = begin; tmp.z < end; ++tmp.z)
                     func(tmp);
     }
 
@@ -207,9 +207,9 @@ public:
     static void for_range(const Vec3<T>& begin, const Vec3<T>& end, Func func)
     {
         Vec3<T> tmp;
-        for (tmp.x = begin.x; tmp.x != end.x; ++tmp.x)
-            for (tmp.y = begin.y; tmp.y != end.y; ++tmp.y)
-                for (tmp.z = begin.z; tmp.z != end.z; ++tmp.z)
+        for (tmp.x = begin.x; tmp.x < end.x; ++tmp.x)
+            for (tmp.y = begin.y; tmp.y < end.y; ++tmp.y)
+                for (tmp.z = begin.z; tmp.z < end.z; ++tmp.z)
                     func(tmp);
     }
 

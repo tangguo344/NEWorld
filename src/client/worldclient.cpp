@@ -50,6 +50,22 @@ void WorldClient::renderUpdate(const Vec3i& position)
             if (p->isRenderBuilt()/* || p->isEmpty()*/)
                 continue;
 
+            // Check neighbor chunks
+            bool f = true;
+            Vec3i::for_range(-1, 2, [&](Vec3i& neighbor)
+            {
+                if (neighbor == Vec3i(0, 0, 0))
+                    return;
+                if (!isChunkLoaded(p->getPosition() + neighbor))
+                {
+                    // Neighbor chunk not loaded
+                    f = false;
+                    neighbor = Vec3i(2, 2, 2); // Exit for_range loop
+                }
+            });
+            if (!f)
+                continue;
+
             // Get chunk center pos
             Vec3i curPos = p->getPosition();
             curPos.for_each([](int& x)
@@ -119,4 +135,3 @@ size_t WorldClient::render(const Vec3i& position) const
     }
     return renderedChunks;
 }
-
