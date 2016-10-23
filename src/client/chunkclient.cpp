@@ -36,6 +36,7 @@ void ChunkClient::buildVertexArray()
             }
 
     va.clear();
+
     if (mergeFace)
     {
         // TODO: merge face rendering
@@ -142,6 +143,7 @@ void ChunkClient::buildVertexArray()
             }
         });
     }
+
     m_buffer = VertexBuffer(va);
     m_renderBuilt = true;
 }

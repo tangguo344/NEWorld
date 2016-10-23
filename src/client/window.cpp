@@ -18,30 +18,43 @@
 */
 
 #include "window.h"
-#include "mainmenu.h"
+#include <logger.h>
 
-MainWindow::MainWindow(int width, int height, const std::string& title) : UI::Core::Window(title, width, height, 200, 200)
+size_t Window::mRefCount;
+SDL_GLContext Window::mContext;
+
+Window::Window(const std::string& title, int width, int height)
+    : mTitle(title), mWidth(width), mHeight(height)
 {
-    background = std::make_shared<UI::Graphics::Brushes::ImageBrush>(std::make_shared<UI::Base::Image>("./res/ss.png"));
-    loader = std::thread([this]()
+    if (!mRefCount)
     {
-        btex[0] = std::make_shared<UI::Base::Texture>("./res/bkg0.png");
-        btex[1] = std::make_shared<UI::Base::Texture>("./res/bkg3.png");
-        btex[2] = std::make_shared<UI::Base::Texture>("./res/bkg2.png");
-        btex[3] = std::make_shared<UI::Base::Texture>("./res/bkg1.png");
-        btex[4] = std::make_shared<UI::Base::Texture>("./res/bkg4.png");
-        btex[5] = std::make_shared<UI::Base::Texture>("./res/bkg5.png");
+        // First window, init SDL
+        SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
+        SDL_GL_SetSwapInterval(0);
+    }
 
-        // Load Something
-        //         std::this_thread::sleep_for(2000ms);
+    mWindow = SDL_CreateWindow(mTitle.c_str(), 100, 100, mWidth, mHeight, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+    if (mWindow == nullptr)
+        fatalstream << "Failed to create SDL window!";
 
-        renderdelegate.push_back([this]()
-        {
-            background = UI::Theme::SystemTheme.WindowBrush;
-            // Load the main menu
-            pushPage(std::make_shared<BackGround>(this), false, false);
-            pushPage(std::make_shared<MainMenu>(this), false, true);
-            loader.join();
-        });
-    });
+    if (!mRefCount)
+        mContext = SDL_GL_CreateContext(mWindow);
+    else
+        makeCurrentDraw();
+
+    mRefCount++;
+}
+
+Window::~Window()
+{
+    SDL_DestroyWindow(mWindow);
+
+    mRefCount--;
+
+    if (!mRefCount)
+    {
+        // No window exists, terminate SDL
+        SDL_GL_DeleteContext(mContext);
+        SDL_Quit();
+    }
 }

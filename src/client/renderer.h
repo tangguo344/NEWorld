@@ -38,14 +38,14 @@ public:
         glLoadIdentity();
     }
 
-    // Apply translations
+    // Apply translation
     static void translate(const Vec3f& delta)
     {
         setModelMatrix();
         glTranslatef(delta.x, delta.y, delta.z);
     }
 
-    // Apply rotations
+    // Apply rotation
     static void rotate(float degrees, const Vec3f& scale)
     {
         setModelMatrix();
@@ -78,7 +78,7 @@ public:
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    static void flushCommands()
+    static void flush()
     {
         glFlush();
     }
@@ -86,6 +86,12 @@ public:
     static void waitForComplete()
     {
         glFinish();
+    }
+
+    static void checkError()
+    {
+        GLenum err = glGetError();
+        if (err) warningstream << "OpenGL Error " << err;
     }
 
 private:
