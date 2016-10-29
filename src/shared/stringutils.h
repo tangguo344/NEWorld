@@ -26,6 +26,7 @@
 #include <sstream>
 #include <iomanip>
 #include <tuple>
+#include <typeinfo>
 
 namespace StringUtils
 {
@@ -146,7 +147,7 @@ namespace StringUtils
             {
             case '%':
                 ++lpStr;
-            Begin:
+Begin:
                 switch (*lpStr)
                 {
                 case '%':

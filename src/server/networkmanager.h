@@ -40,7 +40,7 @@ public:
     template<class ProtocolType>
     void send(const flatbuffers::Offset<ProtocolType>& data, PacketPriority priority, PacketReliability reliability)
     {
-        sendRawData(static_cast<const char*>(&data), sizeof(data), priority, reliability);
+        sendRawData(reinterpret_cast<const char*>(&data), sizeof(data), priority, reliability);
     }
 private:
     Connection(NetworkManager &network,RakNet::RakPeerInterface *peer,RakNet::SystemAddress addr);

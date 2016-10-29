@@ -47,7 +47,8 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
 
     mConn.connect("127.0.0.1",9887);// TODO: get address and port from settingsmanager. --Miigon
 
-    infostream << "Connected to the server.";
+    mConn.send(c2s::CreateLoginDirect(mFbb, "test", "123456", NEWorldVersion),
+               PacketPriority::HIGH_PRIORITY, PacketReliability::RELIABLE);
 
     // TEMP CODE
     // Load some chunks at client side to test rendering

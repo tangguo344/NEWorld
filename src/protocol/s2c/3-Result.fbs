@@ -1,11 +1,11 @@
-// Reult
+// Result
 // Sent while clint is requesting result.
 
 namespace s2c;
 
 table Result
 {
-	result：ushort
+	result: ushort;
 }
 
 root_type Result;
