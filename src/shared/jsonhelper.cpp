@@ -33,5 +33,6 @@ Json readJsonFromFile(std::string filename)
 Json& getSettings()
 {
     static Json settings = readJsonFromFile(SettingsFilename);
+    static JsonSaveHelper helper(settings, SettingsFilename);
     return settings;
 }

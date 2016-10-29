@@ -24,14 +24,14 @@
 #include <atomic>
 #include <future>
 
-class CommandController
+class CommandManager
 {
 public:
-    CommandController()
-        : m_mainloop(std::async([this] { mainLoop(); }))
+    CommandManager()
+        : m_mainloop(std::async([this] { inputLoop(); }))
     {
     }
-    ~CommandController()
+    ~CommandManager()
     {
         m_threadRunning.store(false, std::memory_order_release);
         if (!m_waitingForInputing.load(std::memory_order_acquire))
@@ -40,10 +40,13 @@ public:
         }
     }
 
-    CommandController(const CommandController&) = delete;
-    CommandController& operator=(const CommandController&) = delete;
+    CommandManager(const CommandManager&) = delete;
+    CommandManager& operator=(const CommandManager&) = delete;
 
     CommandMap& getCommandMap() { return m_commandMap; }
+
+    void inputLoop();
+    void setRunningStatus(bool s);
 
     void addCommand(std::string name, CommandInfo info, CommandHandleFunction func)
     {
@@ -51,7 +54,6 @@ public:
     }
 
 private:
-    void mainLoop();
     CommandExecuteStat handleCommand(Command cmd);
 
     std::future<void> m_mainloop;

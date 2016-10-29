@@ -21,30 +21,26 @@
 #include <common.h>
 #include <logger.h>
 #include <thread>
-#include "settings.h"
+#include <jsonhelper.h>
 #include <pluginapi.h>
 
 extern "C" NWAPIEXPORT int NWAPICALL main(int, char**);
 
 int NWAPICALL main(int argc, char** argv)
 {
-    loadSettings();
     Logger::init("server");
     infostream << "\n----------------------------------------"
                << CopyrightString
                << "----------------------------------------";
-    infostream << "NEWorld Server v" << NEWorldVersion << ", Release Version:" << ReleaseVersion << ", compiled at " << __TIME__ << " " << __DATE__;
-    infostream << "Server starting...";
+    infostream << "NEWorld Server v" << NEWorldVersion;
     try
     {
         Server server(std::vector<std::string>(argv + 1, argv + argc));
-        server.run();
     }
     catch (std::exception& e)
     {
-        fatalstream << "Exception: " << e.what() << ".Press Enter to exit.";
+        fatalstream << "Unhandled exception: " << e.what() << ".Press Enter to exit.";
     }
     infostream << "Server is stopping...";
-    saveSettings();
     return 0;
 }

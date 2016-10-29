@@ -30,9 +30,9 @@ const std::string SettingsFilename = "settings.json";
 
 Json readJsonFromFile(std::string filename);
 
-inline void writeJsonToFile(std::string filename,Json& json)
+inline void writeJsonToFile(std::string filename, Json& json)
 {
-    std::ofstream(filename) << json;
+    if(!json.is_null()) std::ofstream(filename) << json.dump();
 }
 
 // get a json value. If it does not exist, return the default value and write it to the json
@@ -46,7 +46,17 @@ T getJsonValue(Json& json, T defaultValue=T())
     }
     return json;
 }
-
+class JsonSaveHelper
+{
+public:
+    JsonSaveHelper(Json& json,std::string filename) :mJson(json), mFilename(filename) {}
+    ~JsonSaveHelper()
+    {
+        writeJsonToFile(mFilename, mJson);
+    }
+private:
+    Json& mJson;
+    std::string mFilename;
+};
 Json& getSettings();
-
 #endif

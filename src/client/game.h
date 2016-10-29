@@ -37,11 +37,11 @@
 class Game
 {
 public:
-    Game(const PluginManager& pm, const BlockManager& bm);
+    Game(PluginManager& pm, const BlockManager& bm);
 
     ~Game()
     {
-        m_connection.disconnect();
+        m_plugins.unloadPlugins();
         if (m_localServerThread.joinable()) m_localServerThread.join();
     }
 
@@ -57,15 +57,14 @@ private:
     // Blocks
     const BlockManager& m_blocks;
     // Loaded plugins
-    const PluginManager& m_plugins;
+    PluginManager& m_plugins;
     // World
     WorldClient m_world;
     // Player test
     Player m_player;
-    // Network connection
-    Connection m_connection;
     // Local server thread
     std::thread m_localServerThread;
+    Connection mConn;
 };
 
 #endif // !GAME_H_
