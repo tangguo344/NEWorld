@@ -1,0 +1,1 @@
+copy ..\dependencies\dll\* ..\release
