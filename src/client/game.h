@@ -65,6 +65,8 @@ private:
     // Local server thread
     std::thread m_localServerThread;
     Connection mConn;
+    // FlatBuffer Builder
+    flatbuffers::FlatBufferBuilder mFbb;
 };
 
 #endif // !GAME_H_

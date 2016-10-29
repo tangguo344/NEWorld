@@ -43,11 +43,13 @@ bool Connection::connect(const char *addr, unsigned short port)
     {
         using CAR = RakNet::ConnectionAttemptResult;
         CAR cret = mPeer->Connect(addr, port, nullptr, 0);
-        
+
         switch(cret)
         {
         case CAR::CONNECTION_ATTEMPT_STARTED:
-            mThread = std::thread([this] {
+            mThread = std::thread([this]
+            {
+                infostream << "Connected to the server.";
                 infostream << "Start listening.";
                 loop();
             });
@@ -73,15 +75,19 @@ void Connection::loop()
         {
             switch(p->data[0])
             {
-                case ID_CONNECTION_REQUEST_ACCEPTED:
-                {
-                    debugstream << "ID_CONNECTION_REQUEST_ACCEPTED";
-                    break;
-                }
-                default:
-                    break;
+            case ID_CONNECTION_REQUEST_ACCEPTED:
+            {
+                debugstream << "ID_CONNECTION_REQUEST_ACCEPTED";
+                break;
+            }
+            default:
+                break;
             }
         }
-        
+
     }
+}
+void Connection::sendRawData(const char *data, int len, PacketPriority priority, PacketReliability reliability)
+{
+    mPeer->Send(data, len, priority, reliability, 0, mPeer->GetMyBoundAddress(), false);
 }
