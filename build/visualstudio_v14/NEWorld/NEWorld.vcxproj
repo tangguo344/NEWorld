@@ -411,7 +411,6 @@
     <ClCompile Include="..\..\..\src\client\chunkclient.cpp" />
     <ClCompile Include="..\..\..\src\client\main.cpp" />
     <ClCompile Include="..\..\..\src\client\network.cpp" />
-    <ClCompile Include="..\..\..\src\client\networkstructures.cpp" />
     <ClCompile Include="..\..\..\src\client\neworld.cpp" />
     <ClCompile Include="..\..\..\src\client\player.cpp" />
     <ClCompile Include="..\..\..\src\client\texture.cpp" />

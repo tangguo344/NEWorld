@@ -26,20 +26,28 @@
 #include <jsonhelper.h>
 #include "window.h"
 
-Game::Game(const PluginManager& pm, const BlockManager& bm)
-    : m_blocks(bm), m_plugins(pm), m_world("TestWorld", pm, bm), // TODO: read from settings
-      m_player(&m_world), m_connection("127.0.0.1", 8090)
+Game::Game(PluginManager& pm, const BlockManager& bm)
+    : m_blocks(bm), m_plugins(pm), m_world("TestWorld", pm, bm), m_player(&m_world) // TODO: read from settings
 {
     // TODO: start the server only when it's a single player mode.
+
     m_localServerThread = std::thread([]
     {
-        char* argv[] = { "","--single-player-mode" };
-        boost::dll::shared_library
-        (
-            getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver.dll"),
-            boost::dll::load_mode::append_decorations
-        ).get<void NWAPICALL(int, char**)>("main")(sizeof(argv)/sizeof(argv[0]), argv);
+        std::string file = getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver").c_str();
+        const char *argv[] = { file.c_str(),"-single-player-mode" };
+        try {
+            Library(file).get<void NWAPICALL(int, char**)>("main")(sizeof(argv) / sizeof(argv[0]), const_cast<char**>(argv));
+        }
+        catch (boost::system::system_error exception)
+        {
+            errorstream << "Failed to run the server! Error: " << exception.what();
+        }
     });
+
+
+    mConn.connect("127.0.0.1",9887);// TODO: get address and port from settingsmanager. --Miigon
+
+    infostream << "Connected to the server.";
 
     // TEMP CODE
     // Load some chunks at client side to test rendering
@@ -52,14 +60,12 @@ Game::Game(const PluginManager& pm, const BlockManager& bm)
     });
     // END TEMP CODE
 
-    // FIXME: if the server spends too much time starting, the network thread won't be able to connect to the server.
-    m_connection.connect();
-
     // Initialize rendering
     m_texture = Texture::loadTextureRGBA("./res/test.png");
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
 }
+
 
 void Game::update()
 {

@@ -10,55 +10,78 @@
 *
 * NEWorld is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* MERCHANTABILITY or FITNESSRaknet FOR A PARTICULAR PURPOSE.  See the
 * GNU Lesser General Public License for more details.
 *
 * You should have received a copy of the GNU Lesser General Public License
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #include "network.h"
 #include <logger.h>
+#include <raknet/MessageIdentifiers.h>
+#include <raknet/BitStream.h>
 
-const int UpdateInterval = 10;
-
-void errorHandle(const boost::asio::ip::tcp::socket&, boost::system::error_code ec)
+Connection::Connection()
 {
-    errorstream << "Network error, code:" << ec.value();
+    infostream << "Raknet initializating...";
+    mPeer = RakNet::RakPeerInterface::GetInstance();
+    infostream << "Raknet initialized.";
 }
 
-bool Connection::init(boost::asio::ip::tcp::socket& socket)
+Connection::~Connection()
 {
-    boost::asio::ip::tcp::resolver resolver(m_ioService);
-    try
+    RakNet::RakPeerInterface::DestroyInstance(mPeer);
+}
+
+bool Connection::connect(const char *addr, unsigned short port)
+{
+    RakNet::SocketDescriptor sd;
+    sd.socketFamily = AF_INET; // IPv4
+    RakNet::StartupResult ret = mPeer->Startup(1, &sd, 1);
+    if(ret == RakNet::StartupResult::RAKNET_STARTED)
     {
-        boost::asio::connect(socket, resolver.resolve({m_hostIP, std::to_string(m_port)}));
-        return true;
+        using CAR = RakNet::ConnectionAttemptResult;
+        CAR cret = mPeer->Connect(addr, port, nullptr, 0);
+        
+        switch(cret)
+        {
+        case CAR::CONNECTION_ATTEMPT_STARTED:
+            mThread = std::thread([this] {
+                infostream << "Start listening.";
+                loop();
+            });
+            return true;
+        default:
+            return false;
+        }
     }
-    catch (std::exception& e)
+    else
     {
-        fatalstream << "Exception: " << e.what();
+        // TODO: throw an exception
+        errorstream << "Failed to connect to" << addr << ":" << port << ". Error code: " << ret;
         return false;
     }
 }
 
-void Connection::mainLoop()
+void Connection::loop()
 {
-    boost::asio::ip::tcp::socket socket(m_ioService);
-    if (!init(socket))
-        exit(-1);
-
-    m_session = std::make_shared<Session>(std::move(socket));
-    m_session->start();
-    m_session->addRequest(std::move(LoginPacket("test", "123456", NEWorldVersion).makePacket()));
-    m_ioService.run();
-}
-
-void Session::doUpdate()
-{
-    auto self(shared_from_this());
-    m_updateTimer.expires_from_now(boost::posix_time::milliseconds(UpdateInterval));
-    m_updateTimer.async_wait([this, self](boost::system::error_code)
+    RakNet::Packet* p = nullptr;
+    while(mPeer->IsActive())
     {
-        doWrite();
-    });
+        for(p = mPeer->Receive(); p; mPeer->DeallocatePacket(p), p=mPeer->Receive())
+        {
+            switch(p->data[0])
+            {
+                case ID_CONNECTION_REQUEST_ACCEPTED:
+                {
+                    debugstream << "ID_CONNECTION_REQUEST_ACCEPTED";
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+        
+    }
 }

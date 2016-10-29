@@ -1,0 +1,10 @@
+// Kick a client from server,with reasons.
+
+namespace s2c;
+
+table Kick
+{
+    reason:string;
+}
+
+root_type Kick;

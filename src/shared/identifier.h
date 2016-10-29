@@ -20,6 +20,7 @@
 #define IDENTIFIER_H_
 
 #include <cinttypes>
+#include "../protocol/gen/protocol.h"
 
 enum Identifier :uint32_t
 {
