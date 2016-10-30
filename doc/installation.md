@@ -7,13 +7,13 @@ VS配置方法(32位)：
 
 2. Clone NEWorld
 
-3. 下载dependencies.zip(位于新创无际开发组 QQ群 308354849，有空发上去)，解压到.\
+3. 下载dependencies.zip(位于新创无际开发组 QQ群 308354849，有空发上去)，解压到./
 
 4. 安装Python(推荐Python3，但Python2也可以)
 
 5. 运行./scripts/bootstrap.bat
 
-6. 打开./build/visualstudio_v14\NEWorld.sln，设置调试设置
+6. 打开./build/visualstudio_v14/NEWorld.sln，设置调试设置
 
    RunClient调试设置：
    
