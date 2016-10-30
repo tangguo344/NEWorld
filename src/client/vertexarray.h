@@ -21,7 +21,6 @@
 #define VERTEXARRAY_H_
 
 #include <cstring>
-#include <boost/core/noncopyable.hpp>
 #include <initializer_list>
 #include <common.h>
 #include "opengl.h"
@@ -51,7 +50,6 @@ public:
 };
 
 class VertexArray
-    :boost::noncopyable
 {
 public:
     VertexArray(int maxVertexes, const VertexFormat& format)
@@ -71,6 +69,9 @@ try :
         delete[] m_data;
         delete[] m_vertexAttributes;
     }
+
+    VertexArray(const VertexArray&) = delete;
+    VertexArray& operator=(const VertexArray&) = delete;
 
     void clear()
     {
