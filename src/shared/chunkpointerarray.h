@@ -22,10 +22,9 @@
 
 #include <cstring>
 #include <algorithm>
-#include <boost/core/noncopyable.hpp>
 #include "chunk.h"
 
-class ChunkPointerArray : boost::noncopyable
+class ChunkPointerArray
 {
 private:
     // Array
@@ -53,6 +52,9 @@ public:
     {
         delete[] m_array;
     }
+
+    ChunkPointerArray(const ChunkPointerArray&) = delete;
+    ChunkPointerArray& operator=(const ChunkPointerArray&) = delete;
 
     // Move array by delta
     void move(const Vec3i& delta)

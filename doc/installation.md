@@ -1,6 +1,20 @@
 # NEWorld编译指南
 
 ### Windows(Old)
+VS配置方法：
+
+RunClient调试设置:
+
+* 命令 NEWorldLauncher.exe
+* 命令参数 client
+* 工作目录 $(SolutionDir)..\..\release\
+
+RunServer调试设置：
+
+* 命令 NEWorldLauncher.exe
+* 命令参数 server
+* 工作目录 $(SolutionDir)..\..\release\
+
 **请注意：这是一个过时的版本! 新版本仍在编写中...**
 
 1. *请下载所有所需[资源](./Notfinishedyet)，并解压到/res文件夹*
