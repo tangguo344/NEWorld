@@ -11,27 +11,25 @@ VS配置方法(32位)：
 
 4. 安装Python(推荐Python3，但Python2也可以)
 
-5. 运行.\scripts\bootstrap.bat
+5. 运行./scripts/bootstrap.bat
 
-6. 打开.\build\visualstudio_v14\NEWorld.sln，设置调试设置
+6. 打开./build/visualstudio_v14\NEWorld.sln，设置调试设置
 
-   RunClient调试设置
-
+   RunClient调试设置：
+   
    - 命令 NEWorldLauncher.exe
    - 命令参数 client
-   - 工作目录 $(SolutionDir)..\..\release\
+   - 工作目录 $(SolutionDir)../../release/
 
    RunServer调试设置：
 
    - 命令 NEWorldLauncher.exe
    - 命令参数 server
-   - 工作目录 $(SolutionDir)..\..\release\
+   - 工作目录 $(SolutionDir)../../release/
 
-7. 下载boost, 编译boost.filesystem
+7. 下载boost, 复制（或软连接）boost/boost到VC/include或dependencies/include
 
-8. 软链接boost的lib到dependencies/lib/boostlib或者复制到VC的lib目录
-
-9. 编译运行！
+8. 编译运行！
 
 
 VS配置方法(64位)：
