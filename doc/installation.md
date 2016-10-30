@@ -1,38 +1,49 @@
 # NEWorld编译指南
 
-### Windows(Old)
-VS配置方法：
+### Windows
+VS配置方法(32位)：
 
-RunClient调试设置:
+1. 安装VS2015或以上版本
 
-* 命令 NEWorldLauncher.exe
-* 命令参数 client
-* 工作目录 $(SolutionDir)..\..\release\
+2. Clone NEWorld
 
-RunServer调试设置：
+3. 下载dependencies.zip(位于新创无际开发组 QQ群 308354849，有空发上去)，解压到.\
 
-* 命令 NEWorldLauncher.exe
-* 命令参数 server
-* 工作目录 $(SolutionDir)..\..\release\
+4. 安装Python(推荐Python3，但Python2也可以)
 
-**请注意：这是一个过时的版本! 新版本仍在编写中...**
+5. 运行.\scripts\bootstrap.bat
 
-1. *请下载所有所需[资源](./Notfinishedyet)，并解压到/res文件夹*
-2. *请自行下载以下所有依赖库（或从[这里](./Notfinishedyet)直接下载Windows版本的整合包），并将头文件复制或链接到/dependencies/include文件夹，将库文件复制或链接到/dependencies/lib文件夹：*
+6. 打开.\build\visualstudio_v14\NEWorld.sln，设置调试设置
 
-    - *OpenAL 1.1 [官网](http://www.openal.org/)*
-    - *boost 1.61.0 [官网](http://www.boost.org/)*
-    - *freetype [官网](https://www.freetype.org/)*
-    - *OpenGL [官网](https://www.opengl.org/)*
-    - *libogg 1.3.2 [官网](https://www.xiph.org/)*
-    - *libvorbis 1.3.5 [官网](https://www.xiph.org/)*
+   RunClient调试设置
+
+   - 命令 NEWorldLauncher.exe
+   - 命令参数 client
+   - 工作目录 $(SolutionDir)..\..\release\
+
+   RunServer调试设置：
+
+   - 命令 NEWorldLauncher.exe
+   - 命令参数 server
+   - 工作目录 $(SolutionDir)..\..\release\
+
+7. 下载boost, 编译boost.filesystem
+
+8. 软链接boost的lib到dependencies/lib/boostlib或者复制到VC的lib目录
+
+9. 编译运行！
+
+
+VS配置方法(64位)：
+
+配置方法和32位雷同，只是将相关文件改为64位版本，请自行摸索~
 
 ### Linux
 
 Compile NEWorld in Linux
 
 1. You need have the dependences installed.
-   dependences: git,gcc/clang,cmake,boost(1.61.0+),libgl,glew,sdl2,sdl_image,freetype2,alsa
+   dependences: git,gcc/clang,cmake,boost(1.61.0+),libgl,glew,sdl2,sdl_image,freetype2,alsa,raknet,flatbuffers,gtest(optional)
 2. git clone https://github.com/Infinideastudio/NEWorld.git
 3. mkdir /build/cmake/
 4. cd /build/cmake/
