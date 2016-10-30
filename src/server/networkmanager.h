@@ -17,7 +17,7 @@ public:
     /**
      * Try to start up an server NetworkManager and start listenning on it.
      * @throw std::runtime_error if start up failed
-     * @return `true` if start up successfully,`false` if already running,otherwise throws an exception
+     * @return `true` if start up successfully,`false` if something unexcepted happened
      */
     bool run(const char *addr,unsigned short port);
 private:
@@ -40,12 +40,12 @@ public:
     template<class ProtocolType>
     void send(const flatbuffers::Offset<ProtocolType>& data, PacketPriority priority, PacketReliability reliability)
     {
-        sendRawData(reinterpret_cast<const char*>(&data), sizeof(data), priority, reliability);
+        sendRawData(ID_USER_PACKET_ENUM, reinterpret_cast<const unsigned char*>(&data), sizeof(data), priority, reliability);
     }
 private:
     Connection(NetworkManager &network,RakNet::RakPeerInterface *peer,RakNet::SystemAddress addr);
     ~Connection();
-    void sendRawData(const char *data, int len,PacketPriority priority,PacketReliability reliability);
+    void Connection::sendRawData(RakNet::MessageID id, const unsigned char *data, int len, PacketPriority priority, PacketReliability reliability);
     NetworkManager &mNetwork;
     RakNet::RakPeerInterface *mPeer;
     RakNet::SystemAddress mAddr;

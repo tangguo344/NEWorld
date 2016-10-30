@@ -49,7 +49,6 @@ bool Connection::connect(const char *addr, unsigned short port)
         case CAR::CONNECTION_ATTEMPT_STARTED:
             mThread = std::thread([this]
             {
-                infostream << "Connected to the server.";
                 infostream << "Start listening.";
                 loop();
             });
@@ -76,10 +75,13 @@ void Connection::loop()
             switch(p->data[0])
             {
             case ID_CONNECTION_REQUEST_ACCEPTED:
-            {
-                debugstream << "ID_CONNECTION_REQUEST_ACCEPTED";
+                infostream << "Connected to the server.";
+                mAddr = p->systemAddress;
+                mConnected = true;
                 break;
-            }
+            case ID_CONNECTION_ATTEMPT_FAILED:
+                errorstream << "Failed to connect to the server!";
+                break;
             default:
                 break;
             }
@@ -87,7 +89,10 @@ void Connection::loop()
 
     }
 }
-void Connection::sendRawData(const char *data, int len, PacketPriority priority, PacketReliability reliability)
+void Connection::sendRawData(RakNet::MessageID id, const unsigned char *data, int len, PacketPriority priority, PacketReliability reliability)
 {
-    mPeer->Send(data, len, priority, reliability, 0, mPeer->GetMyBoundAddress(), false);
+    RakNet::BitStream bsOut;
+    bsOut.Write(id);
+    bsOut.WriteBits(data, len);
+    mPeer->Send(&bsOut, priority, reliability, 0, mAddr, false);
 }

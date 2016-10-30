@@ -28,7 +28,7 @@ bool NetworkManager::run(const char *addr,unsigned short port)
         fatalstream << "Get RakPeerInterface failed!";
         return false;
     }
-    auto sd = RakNet::SocketDescriptor(port,addr);
+    auto sd = RakNet::SocketDescriptor(port, addr);
     sd.socketFamily = AF_INET; // IPv4
     RakNet::StartupResult ret = mPeer->Startup(max_client,&sd,1);
     mPeer->SetMaximumIncomingConnections(max_client);
@@ -61,7 +61,6 @@ void NetworkManager::loop()
             switch(p->data[0])
             {
             case ID_USER_PACKET_ENUM:
-
                 break;
             case ID_NEW_INCOMING_CONNECTION:
             {
@@ -73,6 +72,8 @@ void NetworkManager::loop()
                 deleteConnection(p->systemAddress);
                 break;
             default:
+                warningstream << "Unexcepted packet is received. Packet ID:" << static_cast<int>(p->data[0])
+                              << " From " << p->systemAddress.ToString(true);
                 break;
             }
         }
@@ -103,7 +104,10 @@ Connection::~Connection()
     infostream << inet_ntoa(mAddr.address.addr4.sin_addr) << ':' << mAddr.address.addr4.sin_port << " disconnected.";
 }
 
-void Connection::sendRawData(const char *data, int len,PacketPriority priority,PacketReliability reliability)
+void Connection::sendRawData(RakNet::MessageID id, const unsigned char *data, int len, PacketPriority priority, PacketReliability reliability)
 {
-    mPeer->Send(data, len, priority, reliability, 0, mAddr, false);
+    RakNet::BitStream bsOut;
+    bsOut.Write(id);
+    bsOut.WriteBits(data, len);
+    mPeer->Send(&bsOut, priority, reliability, 0, mAddr, false);
 }
