@@ -22,7 +22,6 @@
 #include "utils.h"
 #include <logger.h>
 #include "network.h"
-#include <boost/dll/shared_library.hpp>
 #include <jsonhelper.h>
 #include "window.h"
 
@@ -35,13 +34,7 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
     {
         std::string file = getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver").c_str();
         const char *argv[] = { file.c_str(),"-single-player-mode" };
-        try {
-            Library(file).get<void NWAPICALL(int, char**)>("main")(sizeof(argv) / sizeof(argv[0]), const_cast<char**>(argv));
-        }
-        catch (boost::system::system_error exception)
-        {
-            errorstream << "Failed to run the server! Error: " << exception.what();
-        }
+        Library(file).get<void NWAPICALL(int, char**)>("main")(sizeof(argv) / sizeof(argv[0]), const_cast<char**>(argv));
     });
 
     mConn.connect("127.0.0.1",9887);// TODO: get address and port from settingsmanager. --Miigon

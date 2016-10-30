@@ -23,7 +23,6 @@
 #include <algorithm>
 #include <string>
 #include <cstdlib> // malloc, realloc, free
-#include <boost/core/noncopyable.hpp>
 #include "aabb.h"
 #include "chunk.h"
 #include "blockmanager.h"
@@ -31,9 +30,11 @@
 
 class PluginManager;
 
-class World : boost::noncopyable
+class World
 {
 public:
+    World(const World&) = delete;
+    World& operator=(const World&) = delete;
     virtual ~World()
     {
         if (m_chunks != nullptr)
