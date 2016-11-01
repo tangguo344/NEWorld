@@ -22,7 +22,7 @@
 
 #include <string>
 #include <SDL2/SDL.h>
-#include <imgui.h>
+#include "imgui_helper.h"
 
 class Window
 {
@@ -47,14 +47,12 @@ public:
 
     void pollEvents()
     {
-        /*
         SDL_Event e;
         while (SDL_PollEvent(&e))
         {
-            // TODO: Process events here
+            imguiHelper::processEvent(&e);
+            if (e.type == SDL_QUIT) mShouldQuit = true;
         }
-        */
-        SDL_PumpEvents();
     }
 
     static Window& getInstance(const std::string& title="", int width=0, int height=0)
@@ -63,10 +61,15 @@ public:
         return win;
     }
 
+    bool shouldQuit() const { return mShouldQuit; }
+
+    void newFrame() { imguiHelper::newFrame(mWindow); }
+
 private:
     SDL_Window* mWindow = nullptr;
     std::string mTitle;
     int mWidth, mHeight;
+    bool mShouldQuit = false;
 
     Window(const std::string& title, int width, int height);
     ~Window();

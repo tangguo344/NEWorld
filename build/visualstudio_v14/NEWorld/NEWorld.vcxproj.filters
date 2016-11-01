@@ -82,6 +82,9 @@
     <ClInclude Include="..\..\..\src\client\imgui\stb_truetype.h">
       <Filter>Source\Multimedia\imgui</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\client\imgui_helper.h">
+      <Filter>Source\Multimedia</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\client\renderer.cpp">
@@ -125,6 +128,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\client\main.cpp">
       <Filter>Source\Multimedia\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\imgui_helper.cpp">
+      <Filter>Source\Multimedia</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

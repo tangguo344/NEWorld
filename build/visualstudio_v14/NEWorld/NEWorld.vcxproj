@@ -396,6 +396,7 @@
     <ClInclude Include="..\..\..\src\client\imgui\stb_rect_pack.h" />
     <ClInclude Include="..\..\..\src\client\imgui\stb_textedit.h" />
     <ClInclude Include="..\..\..\src\client\imgui\stb_truetype.h" />
+    <ClInclude Include="..\..\..\src\client\imgui_helper.h" />
     <ClInclude Include="..\..\..\src\client\mat4.h" />
     <ClInclude Include="..\..\..\src\client\network.h" />
     <ClInclude Include="..\..\..\src\client\neworld.h" />
@@ -418,6 +419,7 @@
     <ClCompile Include="..\..\..\src\client\imgui\imgui.cpp" />
     <ClCompile Include="..\..\..\src\client\imgui\imgui_demo.cpp" />
     <ClCompile Include="..\..\..\src\client\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\..\..\src\client\imgui_helper.cpp" />
     <ClCompile Include="..\..\..\src\client\main.cpp" />
     <ClCompile Include="..\..\..\src\client\network.cpp" />
     <ClCompile Include="..\..\..\src\client\neworld.cpp" />
