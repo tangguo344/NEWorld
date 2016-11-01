@@ -23,6 +23,9 @@
     <Filter Include="Source\Multimedia">
       <UniqueIdentifier>{6a35d50b-1155-4a7c-8af2-fce5c29ea559}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Multimedia\imgui">
+      <UniqueIdentifier>{389c1fc8-f71e-4bc6-9081-61ce87e4f35e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\client\renderer.h">
@@ -61,6 +64,24 @@
     <ClInclude Include="..\..\..\src\client\game.h">
       <Filter>Source\Main</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\client\imgui\imconfig.h">
+      <Filter>Source\Multimedia\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\imgui\imgui.h">
+      <Filter>Source\Multimedia\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\imgui\imgui_internal.h">
+      <Filter>Source\Multimedia\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\imgui\stb_rect_pack.h">
+      <Filter>Source\Multimedia\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\imgui\stb_textedit.h">
+      <Filter>Source\Multimedia\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\imgui\stb_truetype.h">
+      <Filter>Source\Multimedia\imgui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\client\renderer.cpp">
@@ -69,14 +90,8 @@
     <ClCompile Include="..\..\..\src\client\vertexarray.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\client\chunkrenderer.cpp">
-      <Filter>Source\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\client\network.cpp">
       <Filter>Source\Network</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\client\main.cpp">
-      <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\client\neworld.cpp">
       <Filter>Source\Main</Filter>
@@ -98,6 +113,18 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\client\game.cpp">
       <Filter>Source\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\imgui\imgui.cpp">
+      <Filter>Source\Multimedia\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\imgui\imgui_demo.cpp">
+      <Filter>Source\Multimedia\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\imgui\imgui_draw.cpp">
+      <Filter>Source\Multimedia\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\main.cpp">
+      <Filter>Source\Multimedia\imgui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
