@@ -28,7 +28,7 @@ NEWorld::NEWorld() : m_plugins(true)
     // Initialize
     Logger::init("client");
     infostream << "Initializing...";
-    Window mainWindow("NEWorld", 852, 480);
+    Window& window = Window::getInstance("NEWorld", 852, 480);
     Renderer::init();
     Texture::init();
     PluginAPI::Blocks = &m_blocks;
@@ -42,8 +42,8 @@ NEWorld::NEWorld() : m_plugins(true)
         game.update();
         game.render();
         Renderer::checkError();
-        mainWindow.swapBuffers();
-        Window::pollEvents();
+        window.swapBuffers();
+        window.pollEvents();
     }
 
     // Terminate
