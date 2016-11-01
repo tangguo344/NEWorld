@@ -25,6 +25,12 @@ Window::Window(const std::string& title, int width, int height)
 {
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
     SDL_GL_SetSwapInterval(0);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+    SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+    imguiHelper::init(mWindow);
 
     mWindow = SDL_CreateWindow(mTitle.c_str(), 100, 100, mWidth, mHeight, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
     if (mWindow == nullptr)
@@ -37,6 +43,7 @@ Window::Window(const std::string& title, int width, int height)
 
 Window::~Window()
 {
+    imguiHelper::cleanup();
     SDL_DestroyWindow(mWindow);
     SDL_GL_DeleteContext(mContext);
     SDL_Quit();

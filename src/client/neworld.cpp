@@ -37,13 +37,14 @@ NEWorld::NEWorld() : m_plugins(true)
 
     // Run
     Game game(m_plugins, m_blocks);
-    while(true)
+    while(!window.shouldQuit())
     {
+        window.pollEvents();
+        window.newFrame();
         game.update();
         game.render();
         Renderer::checkError();
         window.swapBuffers();
-        window.pollEvents();
     }
 
     // Terminate
