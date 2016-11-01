@@ -107,7 +107,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)..\..\..\src\uilib\include;$(ProjectDir)..\..\..\src\maximilian\include;$(ProjectDir)..\..\..\dependencies\include\AL;$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\src\shared;$(ProjectDir)..\..\..\UILib\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\..\..\src\client\imgui;$(ProjectDir)..\..\..\src\maximilian\include;$(ProjectDir)..\..\..\dependencies\include\AL;$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\src\shared;$(ProjectDir)..\..\..\UILib\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)..\..\..\dependencies\lib\boostlib;$(SolutionDir)bin\$(Platform)\$(Configuration)\;$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
     <CodeAnalysisRuleSet>NativeMinimumRules.ruleset</CodeAnalysisRuleSet>
     <LinkIncremental>true</LinkIncremental>
@@ -126,14 +126,14 @@
     <TargetName>nwclient</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(ProjectDir)..\..\..\src\uilib\include;$(ProjectDir)..\..\..\src\maximilian\include;$(ProjectDir)..\..\..\dependencies\include\AL;$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\src\shared;$(ProjectDir)..\..\..\UILIb\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\..\..\src\client\imgui;$(ProjectDir)..\..\..\src\maximilian\include;$(ProjectDir)..\..\..\dependencies\include\AL;$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\src\shared;$(ProjectDir)..\..\..\UILIb\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)..\..\..\dependencies\lib\boostlib;$(SolutionDir)bin\$(Platform)\$(Configuration)\;$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\..\release\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName>nwclient</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profiling|Win32'">
-    <IncludePath>$(ProjectDir)..\..\..\src\uilib\include;$(ProjectDir)..\..\..\src\maximilian\include;$(ProjectDir)..\..\..\dependencies\include\AL;$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\src\shared;$(ProjectDir)..\..\..\UILIb\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\..\..\src\client\imgui;$(ProjectDir)..\..\..\src\maximilian\include;$(ProjectDir)..\..\..\dependencies\include\AL;$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\src\shared;$(ProjectDir)..\..\..\UILIb\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)..\..\..\dependencies\lib\boostlib;$(SolutionDir)bin\$(Platform)\$(Configuration)\;$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\..\release\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
@@ -390,6 +390,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\client\chunkclient.h" />
+    <ClInclude Include="..\..\..\src\client\imgui\imconfig.h" />
+    <ClInclude Include="..\..\..\src\client\imgui\imgui.h" />
+    <ClInclude Include="..\..\..\src\client\imgui\imgui_internal.h" />
+    <ClInclude Include="..\..\..\src\client\imgui\stb_rect_pack.h" />
+    <ClInclude Include="..\..\..\src\client\imgui\stb_textedit.h" />
+    <ClInclude Include="..\..\..\src\client\imgui\stb_truetype.h" />
     <ClInclude Include="..\..\..\src\client\mat4.h" />
     <ClInclude Include="..\..\..\src\client\network.h" />
     <ClInclude Include="..\..\..\src\client\neworld.h" />
@@ -409,6 +415,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\client\chunkclient.cpp" />
+    <ClCompile Include="..\..\..\src\client\imgui\imgui.cpp" />
+    <ClCompile Include="..\..\..\src\client\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\..\..\src\client\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\..\..\src\client\main.cpp" />
     <ClCompile Include="..\..\..\src\client\network.cpp" />
     <ClCompile Include="..\..\..\src\client\neworld.cpp" />
