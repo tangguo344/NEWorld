@@ -22,12 +22,13 @@
 
 #include <string>
 #include <SDL2/SDL.h>
+#include <imgui.h>
 
 class Window
 {
 public:
-    Window(const std::string& title, int width, int height);
-    ~Window();
+    Window(const Window&) = delete;
+    Window& operator=(const Window&) = delete;
 
     void makeCurrentDraw() const
     {
@@ -39,12 +40,12 @@ public:
         SDL_GL_SwapWindow(mWindow);
     }
 
-    static bool isKeyDown(SDL_Scancode scancode)
+    bool isKeyDown(SDL_Scancode scancode)
     {
         return SDL_GetKeyboardState(nullptr)[scancode] == 1u;
     }
 
-    static void pollEvents()
+    void pollEvents()
     {
         /*
         SDL_Event e;
@@ -56,13 +57,21 @@ public:
         SDL_PumpEvents();
     }
 
+    static Window& getInstance(const std::string& title="", int width=0, int height=0)
+    {
+        static Window win(title, width, height);
+        return win;
+    }
+
 private:
     SDL_Window* mWindow = nullptr;
     std::string mTitle;
     int mWidth, mHeight;
 
-    static size_t mRefCount;
-    static SDL_GLContext mContext;
+    Window(const std::string& title, int width, int height);
+    ~Window();
+
+    SDL_GLContext mContext;
 };
 
 #endif

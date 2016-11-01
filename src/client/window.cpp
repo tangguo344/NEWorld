@@ -20,41 +20,24 @@
 #include "window.h"
 #include <logger.h>
 
-size_t Window::mRefCount;
-SDL_GLContext Window::mContext;
-
 Window::Window(const std::string& title, int width, int height)
     : mTitle(title), mWidth(width), mHeight(height)
 {
-    if (!mRefCount)
-    {
-        // First window, init SDL
-        SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
-        SDL_GL_SetSwapInterval(0);
-    }
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
+    SDL_GL_SetSwapInterval(0);
 
     mWindow = SDL_CreateWindow(mTitle.c_str(), 100, 100, mWidth, mHeight, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
     if (mWindow == nullptr)
         fatalstream << "Failed to create SDL window!";
+    assert(mWindow);
 
-    if (!mRefCount)
-        mContext = SDL_GL_CreateContext(mWindow);
-    else
-        makeCurrentDraw();
-
-    mRefCount++;
+    mContext = SDL_GL_CreateContext(mWindow);
+    makeCurrentDraw();
 }
 
 Window::~Window()
 {
     SDL_DestroyWindow(mWindow);
-
-    mRefCount--;
-
-    if (!mRefCount)
-    {
-        // No window exists, terminate SDL
-        SDL_GL_DeleteContext(mContext);
-        SDL_Quit();
-    }
+    SDL_GL_DeleteContext(mContext);
+    SDL_Quit();
 }
