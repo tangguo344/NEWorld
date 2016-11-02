@@ -155,8 +155,7 @@
       <AdditionalDependencies>ws2_32.lib;RakNetLibStaticd.lib;flatbuffers.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <PreBuildEvent>
-      <Command>copy $(SolutionDir)..\..\dependencies\dll\* $(SolutionDir)..\..\release
-python $(SolutionDir)..\..\src\protocol\make_fb.py $(SolutionDir)..\..\dependencies\tools\</Command>
+      <Command>$(SolutionDir)..\..\scripts\bootstrap.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -178,8 +177,7 @@ python $(SolutionDir)..\..\src\protocol\make_fb.py $(SolutionDir)..\..\dependenc
       <AdditionalDependencies>ws2_32.lib;RakNetLibStaticd.lib;flatbuffers.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <PreBuildEvent>
-      <Command>copy $(SolutionDir)..\..\dependencies\dll_x64\* $(SolutionDir)..\..\release
-python $(SolutionDir)..\..\src\protocol\make_fb.py $(SolutionDir)..\..\dependencies\tools\</Command>
+      <Command>$(SolutionDir)..\..\scripts\bootstrap_64.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -206,8 +204,7 @@ python $(SolutionDir)..\..\src\protocol\make_fb.py $(SolutionDir)..\..\dependenc
       <AdditionalDependencies>ws2_32.lib;RakNetLibStatic.lib;flatbuffers.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <PreBuildEvent>
-      <Command>copy $(SolutionDir)..\..\dependencies\dll\* $(SolutionDir)..\..\release
-python $(SolutionDir)..\..\src\protocol\make_fb.py $(SolutionDir)..\..\dependencies\tools\</Command>
+      <Command>$(SolutionDir)..\..\scripts\bootstrap.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profiling|Win32'">
@@ -231,8 +228,7 @@ python $(SolutionDir)..\..\src\protocol\make_fb.py $(SolutionDir)..\..\dependenc
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>copy $(SolutionDir)..\..\dependencies\dll\* $(SolutionDir)..\..\release
-python $(SolutionDir)..\..\src\protocol\make_fb.py $(SolutionDir)..\..\dependencies\tools\</Command>
+      <Command>$(SolutionDir)..\..\scripts\bootstrap.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -259,8 +255,7 @@ python $(SolutionDir)..\..\src\protocol\make_fb.py $(SolutionDir)..\..\dependenc
       <AdditionalDependencies>ws2_32.lib;RakNetLibStatic.lib;flatbuffers.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <PreBuildEvent>
-      <Command>copy $(SolutionDir)..\..\dependencies\dll_x64\* $(SolutionDir)..\..\release
-python $(SolutionDir)..\..\src\protocol\make_fb.py $(SolutionDir)..\..\dependencies\tools\</Command>
+      <Command>$(SolutionDir)..\..\scripts\bootstrap_64.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profiling|x64'">
@@ -284,8 +279,7 @@ python $(SolutionDir)..\..\src\protocol\make_fb.py $(SolutionDir)..\..\dependenc
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>copy $(SolutionDir)..\..\dependencies\dll_x64\* $(SolutionDir)..\..\release
-python $(SolutionDir)..\..\src\protocol\make_fb.py $(SolutionDir)..\..\dependencies\tools\</Command>
+      <Command>$(SolutionDir)..\..\scripts\bootstrap_64.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
