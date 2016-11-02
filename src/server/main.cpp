@@ -35,7 +35,10 @@ int NWAPICALL main(int argc, char** argv)
     infostream << "NEWorld Server v" << NEWorldVersion;
     try
     {
-        Server server(std::vector<std::string>(argv + 1, argv + argc));
+        Server server(std::vector<std::string>(argv + 1, argv + argc));    
+        if (std::string(argv[1]) == "-single-player-mode")
+            argv[2][0] = 'r';
+        server.run();
     }
     catch (std::exception& e)
     {
