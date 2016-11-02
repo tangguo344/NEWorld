@@ -1,51 +1,56 @@
 # NEWorld编译指南
 
 ### Windows
-VS配置方法(32位)：
 
-1. 安装VS2015或以上版本
+#### 如果您已经安装有Visual Studio的话
 
-2. Clone NEWorld
+Visual Studio 配置方法(32位)：
 
-3. 下载dependencies.zip(位于新创无际开发组 QQ群 308354849，有空发上去)，解压到./
+1. Clone NEWorld
 
-4. 安装Python(推荐Python3，但Python2也可以)
+2. 下载[dependencies.exe](https://raw.githubusercontent.com/Infinideastudio/NEWorld-binaries/master/dependencies.exe)，解压到./
 
-5. 运行./scripts/bootstrap.bat
+3. 安装[Python](https://www.python.org/downloads/)(Python3或Python2)
 
-6. 打开./build/visualstudio_v14/NEWorld.sln，设置调试设置
+4. 运行./scripts/bootstrap.bat
 
-   RunClient调试设置：
-   
-   - 命令 NEWorldLauncher.exe
-   
-   - 命令参数 client
-   
-   - 工作目录 $(SolutionDir)../../release/
+5. 打开./build/visualstudio_v14/NEWorld.sln，设置调试设置
 
-   RunServer调试设置：
+   RunClient调试设置：
 
-   - 命令 NEWorldLauncher.exe
-   
-   - 命令参数 server
-   
-   - 工作目录 $(SolutionDir)../../release/
+-  命令 NEWorldLauncher.exe
 
-7. 下载boost, 复制（或软连接）boost/boost到VC/include或dependencies/include
+-  命令参数 client
+
+-  工作目录 $(SolutionDir)../../release/
+
+    RunServer调试设置：
+
+-  命令 NEWorldLauncher.exe
+
+-  命令参数 server
+
+-  工作目录 $(SolutionDir)../../release/
+
+7. 下载boost, 复制（或软连接）boost/boost到VC/include或dependencies/include（无需编译boost）
 
 8. 编译运行！
 
 
 VS配置方法(64位)：
 
-配置方法和32位雷同，只是将相关文件改为64位版本，请自行摸索~
+配置方法和32位雷同，只是将相关文件改为64位版本。
+
+#### 如果您没有安装Visual Studio 2015的话
+
+您也可以使用CMake来编译NEWorld，但是我们推荐您安装[Visual Studio 2015](https://go.microsoft.com/fwlink/?LinkId=691978&clcid=0x407) (您也可以通过其它渠道获取VS2015)
 
 ### Linux
 
 Compile NEWorld in Linux
 
 1. You need have the dependences installed.
-   dependences: git,gcc/clang,cmake,boost(1.61.0+),libgl,glew,sdl2,sdl_image,freetype2,alsa,raknet,flatbuffers,gtest(optional)
+   dependences: git,gcc/clang,cmake(3.1+),boost(1.61.0+),libgl,glew,sdl2,sdl_image,alsa,raknet,flatbuffers,gtest(optional)
 2. git clone https://github.com/Infinideastudio/NEWorld.git
 3. mkdir /build/cmake/
 4. cd /build/cmake/
