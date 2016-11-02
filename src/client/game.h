@@ -33,6 +33,7 @@
 #include "texture.h"
 #include "player.h"
 #include "network.h"
+#include "widgetmanager.h"
 
 class Game
 {
@@ -46,7 +47,7 @@ public:
     }
 
     void update();
-    void render() const;
+    void render();
 
 private:
     // Window size
@@ -64,9 +65,12 @@ private:
     Player m_player;
     // Local server thread
     std::thread m_localServerThread;
+    // Connection
     Connection mConn;
     // FlatBuffer Builder
     flatbuffers::FlatBufferBuilder mFbb;
+    // Widget Manager
+    WidgetManager mWidgetManager;
 };
 
 #endif // !GAME_H_
