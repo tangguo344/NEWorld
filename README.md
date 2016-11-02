@@ -5,28 +5,32 @@
 
 全新的NEWorld!  
 
-NEWorld采用[LGPLv3许可证](http://www.gnu.org/licenses/lgpl.html)发布并受其保护。  
+NEWorld是一个3D沙盒游戏，采用[LGPLv3许可证](http://www.gnu.org/licenses/lgpl.html)发布并受其保护。  
 
-如果您想加入开发，请在SIGNOFF文件中署名。  
+如果您想加入开发，请在SIGNOFF文件中署名。  或者您也可以直接发PR到我们的Repo。
 
-## 资源文件
+New NEWorld!
 
-* [libraries](http://pan.baidu.com/s/1bIXYPo)
+NEWorld is a 3D game, which is licensed under [LGPL v3](http://www.gnu.org/licenses/lgpl.html).
 
-## 编译
+If you want to help us develop this game, please sign your name in the SIGNOFF file (You may use PR to do so). It is also welcomed to request a PR to us directly.
 
-1. 安装 CMake 3.1 及以上版本
-2. 进入`./bin/`文件夹
-3. 执行`cmake ..` 生成对应平台的工程文件
-4. 按照各个平台的编译方法编译
+## 编译 Compile
 
-* Linux:执行`make`
-* Windows:在VS控制台下执行`nmake`或者使用VS打开解决方案进行编译
-* Mac OS X:使用Xcode打开工程文件编译
+见[编译指南](doc/installation.md). 或者您可以直接从Appveyor上下载Windows上最新版本的NEWorld.
 
+See [Compile Guide](doc/installation.md), or you may download the Windows binary of NEWorld in the Appveyor.
 
-## 更多文档
+## 更多文档 More Document
 
 * 若在运行NEWorld时遇到了问题，请阅读 [用户指南](doc/usermanual.md)
+
+  If you have problem in running NEWorld, please read  [User Manual](doc/usermanual.md)
+
 * 若希望加入NEWorld的开发，请阅读 [开发者规范](doc/regulations.md), [编译指南](doc/installation.md) 和 [程序结构说明](doc/structure.md)
+
+  If you want to help us develop this game, please read  [Develop Regulations](doc/regulations.md), [Compile Guide](doc/installation.md) 和 [Program Structure](doc/structure.md)
+
 * 若想要查看NEWorld的发展计划，请阅读 [待办事项](https://github.com/Infinideastudio/NEWorld/issues/46)
+
+  If you want to see what is going to add to NEWorld, please read [To-do list](https://github.com/Infinideastudio/NEWorld/issues/46)
