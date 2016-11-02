@@ -46,7 +46,10 @@ Server::Server(std::vector<std::string> args)
     // Done
     auto done_time = steady_clock::now();
     infostream << "Done!(in " << duration_cast<milliseconds>(done_time - start_time).count() << "ms)!";
+}
 
+void Server::run()
+{
     // Process input
     m_commands.inputLoop(); // This will block the main thread
 }

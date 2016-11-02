@@ -30,12 +30,18 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
 {
     // TODO: start the server only when it's a single player mode.
 
-    m_localServerThread = std::thread([]
+    char status_port[50] = "holding";
+    m_localServerThread = std::thread([&status_port]
     {
         std::string file = getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver").c_str();
-        const char *argv[] = { file.c_str(),"-single-player-mode" };
+        const char *argv[] = { file.c_str(),"-single-player-mode", status_port};
         Library(file).get<void NWAPICALL(int, char**)>("main")(sizeof(argv) / sizeof(argv[0]), const_cast<char**>(argv));
     });
+
+    while (status_port[0] != 'r')
+    {
+        std::this_thread::yield();
+    }
 
     mConn.connect("127.0.0.1",9887);// TODO: get address and port from settingsmanager. --Miigon
 
