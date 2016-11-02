@@ -406,6 +406,8 @@
     <ClInclude Include="..\..\..\src\client\texture.h" />
     <ClInclude Include="..\..\..\src\client\vertexarray.h" />
     <ClInclude Include="..\..\..\src\client\game.h" />
+    <ClInclude Include="..\..\..\src\client\widget.h" />
+    <ClInclude Include="..\..\..\src\client\widgetmanager.h" />
     <ClInclude Include="..\..\..\src\client\window.h" />
     <ClInclude Include="..\..\..\src\client\worldclient.h" />
   </ItemGroup>

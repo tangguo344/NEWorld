@@ -64,6 +64,15 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
     mConn.waitForConnected();
     mConn.send(c2s::CreateLoginDirect(mFbb, "test", "123456", NEWorldVersion),
                PacketPriority::HIGH_PRIORITY, PacketReliability::RELIABLE);
+
+    // Initialize Widgets
+    mWidgetManager.addWidget(std::make_shared<WidgetCallback>("Debug", [this]
+    {
+        ImGui::SetNextWindowSize(ImVec2(100, 100), ImGuiSetCond_FirstUseEver);
+        ImGui::Text("Pos: x %.1f y %.1f z %.1f", m_player.getPosition().x, m_player.getPosition().y, m_player.getPosition().z);
+        ImGui::Text("%.1f FPS", ImGui::GetIO().Framerate);
+        ImGui::Text("Widgets Loaded: %d", mWidgetManager.getSize());
+    }));
 }
 
 
@@ -94,6 +103,8 @@ void Game::update()
         m_player.accelerate(Vec3d(0.0, 0.05, 0.0));
     if (win.isKeyDown(SDL_SCANCODE_LCTRL) || win.isKeyDown(SDL_SCANCODE_RCTRL))
         m_player.accelerate(Vec3d(0.0, -0.05, 0.0));
+
+    mWidgetManager.update();
 }
 // TEMP FUNCTION: drawLines
 void drawLines()
@@ -128,8 +139,9 @@ void drawLines()
     glVertex3f(0.0f, 0.0f, 256.0f);
     glEnd();
     glEnable(GL_CULL_FACE);
+
 }
-void Game::render() const
+void Game::render()
 {
     glClearColor(0.6f, 0.9f, 1.0f, 1.0f);
     glClearDepth(1.0f);
@@ -141,9 +153,9 @@ void Game::render() const
     Renderer::restoreProj();
     Renderer::applyPerspective(70.0f, float(windowWidth) / windowHeight, 0.1f, 300.0f);
     Renderer::restoreScale();
-    Renderer::rotate(-m_player.getRotation().x, Vec3f(1.0f, 0.0f, 0.0f));
-    Renderer::rotate(-m_player.getRotation().y, Vec3f(0.0f, 1.0f, 0.0f));
-    Renderer::rotate(-m_player.getRotation().z, Vec3f(0.0f, 0.0f, 1.0f));
+    Renderer::rotate(-m_player.getRotation().x, Vec3d(1.0, 0.0, 0.0));
+    Renderer::rotate(-m_player.getRotation().y, Vec3d(0.0, 1.0, 0.0));
+    Renderer::rotate(-m_player.getRotation().z, Vec3d(0.0, 0.0, 1.0));
     Renderer::translate(-m_player.getPosition());
 
     // Render
@@ -156,7 +168,6 @@ void Game::render() const
     // END TEMP CODE
 
     glDisable(GL_DEPTH_TEST);
-    glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x, (int)ImGui::GetIO().DisplaySize.y);
-    ImGui::Text("Average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-    ImGui::Render();
+
+    mWidgetManager.render();
 }
