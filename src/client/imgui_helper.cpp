@@ -35,6 +35,7 @@ namespace
     // - in your Render function, try translating your projection matrix by (0.5f,0.5f) or (0.375f,0.375f)
     void ImGui_ImplSdl_RenderDrawLists(ImDrawData* draw_data)
     {
+        glBindBufferARB(GL_ARRAY_BUFFER_ARB,0);
         // Avoid rendering when minimized, scale coordinates for retina displays (screen coordinates != framebuffer coordinates)
         ImGuiIO& io = ImGui::GetIO();
         int fb_width = (int)(io.DisplaySize.x * io.DisplayFramebufferScale.x);
