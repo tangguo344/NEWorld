@@ -42,6 +42,7 @@ class Server
 {
 public:
     Server(std::vector<std::string> args);
+    void run();
     void stop();
     ~Server();
 private:
