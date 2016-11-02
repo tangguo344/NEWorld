@@ -26,7 +26,7 @@ Server::Server(std::vector<std::string> args)
 {
     using namespace std::chrono;
     auto start_time = steady_clock::now();
-    
+
     // Plugin
     PluginAPI::Blocks = &m_blocks;
 
@@ -34,15 +34,15 @@ Server::Server(std::vector<std::string> args)
     m_plugins.loadPlugins();
 
     // World
-    World* world = m_worlds.addWorld("main_world");
+    m_worlds.addWorld("main_world");
 
     // Network
     m_network.run(getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1").c_str(),
-        getJsonValue<unsigned short>(getSettings()["server"]["port"], 9887));
-    
+                  getJsonValue<unsigned short>(getSettings()["server"]["port"], 9887));
+
     // Builtin Commands
     initBuiltinCommands();
-    
+
     // Done
     auto done_time = steady_clock::now();
     infostream << "Done!(in " << duration_cast<milliseconds>(done_time - start_time).count() << "ms)!";
