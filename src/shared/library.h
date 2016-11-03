@@ -25,7 +25,7 @@
 #include <functional>
 
 #ifndef NEWORLD_TARGET_WINDOWS
-    #include <dlfcn.h>
+#include <dlfcn.h>
 #endif
 
 #include "common.h"
@@ -41,10 +41,17 @@ public:
         load(filename);
     }
 
-    Library(Library&& library) noexcept : Library{}
+    Library(Library&& library) noexcept : Library {}
     {
         std::swap(library.m_dllHandle, m_dllHandle);
         std::swap(library.m_loaded, m_loaded);
+    }
+
+    Library&& operator=(Library&& library) noexcept
+    {
+        std::swap(library.m_dllHandle, m_dllHandle);
+        std::swap(library.m_loaded, m_loaded);
+        return std::move(*this);
     }
 
     ~Library()
