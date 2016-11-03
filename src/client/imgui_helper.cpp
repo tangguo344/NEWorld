@@ -21,7 +21,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_syswm.h>
 #include <GL/glew.h>
-#include <imgui.h>
 
 namespace
 {
