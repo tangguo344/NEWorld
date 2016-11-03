@@ -25,6 +25,11 @@
 #include <pluginapi.h>
 
 extern "C" NWAPIEXPORT int NWAPICALL main(int, char**);
+extern "C" NWAPIEXPORT void* NWAPICALL nwNewServer(int, char **);
+extern "C" NWAPIEXPORT void NWAPICALL nwRunServer(void*);
+extern "C" NWAPIEXPORT void NWAPICALL nwStopServer(void*);
+extern "C" NWAPIEXPORT void NWAPICALL nwFreeServer(void*);
+
 
 int NWAPICALL main(int argc, char** argv)
 {
@@ -36,8 +41,6 @@ int NWAPICALL main(int argc, char** argv)
     try
     {
         Server server(std::vector<std::string>(argv + 1, argv + argc));    
-        if (std::string(argv[1]) == "-single-player-mode")
-            argv[2][0] = 'r';
         server.run();
     }
     catch (std::exception& e)
@@ -47,3 +50,60 @@ int NWAPICALL main(int argc, char** argv)
     infostream << "Server is stopping...";
     return 0;
 }
+
+NWAPIEXPORT void *NWAPICALL nwNewServer(int argc, char ** argv)
+{
+    Logger::init("server");
+    infostream << "\n----------------------------------------"
+        << CopyrightString
+        << "----------------------------------------";
+    infostream << "NEWorld Server v" << NEWorldVersion;
+    Server* ret = nullptr;
+    try
+    {
+        ret = new Server(std::vector<std::string>(argv + 1, argv + argc));
+    }
+    catch (std::exception& e)
+    {
+        fatalstream << "Unhandled exception: " << e.what();
+    }
+    return ret;
+}
+
+NWAPIEXPORT void NWAPICALL nwRunServer(void * s)
+{
+    try
+    {
+        reinterpret_cast<Server*>(s)->run();
+    }
+    catch (std::exception& e)
+    {
+        fatalstream << "Unhandled exception: " << e.what();
+    }
+}
+
+NWAPIEXPORT void NWAPICALL nwStopServer(void * s)
+{
+    try
+    {
+        reinterpret_cast<Server*>(s)->stop();
+    }
+    catch (std::exception& e)
+    {
+        fatalstream << "Unhandled exception: " << e.what();
+    }
+}
+
+NWAPIEXPORT void NWAPICALL nwFreeServer(void * s)
+{
+    try
+    {
+        delete reinterpret_cast<Server*>(s);
+    }
+    catch (std::exception& e)
+    {
+        fatalstream << "Unhandled exception: " << e.what();
+    }
+}
+
+
