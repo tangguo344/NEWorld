@@ -22,16 +22,19 @@
 #include <logger.h>
 #include <thread>
 #include <jsonhelper.h>
-#include <pluginapi.h>
 
 extern "C" NWAPIEXPORT int NWAPICALL main(int, char**);
-extern "C" NWAPIEXPORT void* NWAPICALL nwNewServer(int, char **);
-extern "C" NWAPIEXPORT void NWAPICALL nwRunServer(void*);
-extern "C" NWAPIEXPORT void NWAPICALL nwStopServer(void*);
-extern "C" NWAPIEXPORT void NWAPICALL nwFreeServer(void*);
-
-
-int NWAPICALL main(int argc, char** argv)
+extern "C" NWAPIEXPORT bool NWAPICALL nwInitServer(int, char **);
+extern "C" NWAPIEXPORT void NWAPICALL nwRunServer();
+extern "C" NWAPIEXPORT void NWAPICALL nwStopServer();
+Server* server = nullptr;
+NWAPIEXPORT int NWAPICALL main(int argc, char** argv)
+{
+    nwInitServer(argc, argv);
+    nwRunServer();
+    nwStopServer();
+}
+NWAPIEXPORT bool NWAPICALL nwInitServer(int argc, char ** argv)
 {
     Logger::init("server");
     infostream << "\n----------------------------------------"
@@ -40,41 +43,20 @@ int NWAPICALL main(int argc, char** argv)
     infostream << "NEWorld Server v" << NEWorldVersion;
     try
     {
-        Server server(std::vector<std::string>(argv + 1, argv + argc));    
-        server.run();
-    }
-    catch (std::exception& e)
-    {
-        fatalstream << "Unhandled exception: " << e.what() << ".Press Enter to exit.";
-    }
-    infostream << "Server is stopping...";
-    return 0;
-}
-
-NWAPIEXPORT void *NWAPICALL nwNewServer(int argc, char ** argv)
-{
-    Logger::init("server");
-    infostream << "\n----------------------------------------"
-        << CopyrightString
-        << "----------------------------------------";
-    infostream << "NEWorld Server v" << NEWorldVersion;
-    Server* ret = nullptr;
-    try
-    {
-        ret = new Server(std::vector<std::string>(argv + 1, argv + argc));
+        server = new Server(std::vector<std::string>(argv + 1, argv + argc));
     }
     catch (std::exception& e)
     {
         fatalstream << "Unhandled exception: " << e.what();
     }
-    return ret;
+    return true;
 }
 
-NWAPIEXPORT void NWAPICALL nwRunServer(void * s)
+NWAPIEXPORT void NWAPICALL nwRunServer()
 {
     try
     {
-        reinterpret_cast<Server*>(s)->run();
+        server->run();
     }
     catch (std::exception& e)
     {
@@ -82,11 +64,12 @@ NWAPIEXPORT void NWAPICALL nwRunServer(void * s)
     }
 }
 
-NWAPIEXPORT void NWAPICALL nwStopServer(void * s)
+NWAPIEXPORT void NWAPICALL nwStopServer()
 {
     try
     {
-        reinterpret_cast<Server*>(s)->stop();
+        server->stop();
+        delete server;
         infostream << "Server is stopping...";
     }
     catch (std::exception& e)
@@ -94,17 +77,4 @@ NWAPIEXPORT void NWAPICALL nwStopServer(void * s)
         fatalstream << "Unhandled exception: " << e.what();
     }
 }
-
-NWAPIEXPORT void NWAPICALL nwFreeServer(void * s)
-{
-    try
-    {
-        delete reinterpret_cast<Server*>(s);
-    }
-    catch (std::exception& e)
-    {
-        fatalstream << "Unhandled exception: " << e.what();
-    }
-}
-
 
