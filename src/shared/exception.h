@@ -22,6 +22,8 @@
 #include <string>
 #include <chrono>
 
+#pragma warning(disable: 4673)
+
 namespace StringUtils
 {
     template <typename... Args>
@@ -34,7 +36,7 @@ namespace Exception
     {
         struct ExceptionStorage
         {
-            ExceptionStorage(std::exception_ptr nestedException, std::chrono::system_clock::time_point const& time, const char* file, unsigned line, const char* src, const char* desc) noexcept
+            ExceptionStorage(std::exception_ptr nestedException, std::chrono::system_clock::time_point const& time, std::string file, unsigned line, std::string src, std::string desc) noexcept
                 : m_NestedException(nestedException), m_Time(time), m_File(file), m_Line(line), m_Source(src), m_Description(desc)
             {
             }

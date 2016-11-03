@@ -25,9 +25,9 @@ void registerBlocks()
 {
     NWblocktype rock;
     rock.blockname = "Rock";
-    rock.solid = 1;
-    rock.translucent = 0;
-    rock.opaque = 1;
+    rock.solid = true;
+    rock.translucent = false;
+    rock.opaque = true;
     rock.explodePower = 0;
     rock.hardness = 2;
     RockID = nwRegisterBlock(&rock);
