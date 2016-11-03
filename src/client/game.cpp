@@ -24,23 +24,43 @@
 #include "network.h"
 #include <jsonhelper.h>
 #include "window.h"
+#include <atomic>
+#include <chrono>
 
 Game::Game(PluginManager& pm, const BlockManager& bm)
     : m_blocks(bm), m_plugins(pm), m_world("TestWorld", pm, bm), m_player(&m_world) // TODO: read from settings
 {
     // TODO: start the server only when it's a single player mode.
 
-    char status_port[50] = "holding";
-    m_localServerThread = std::thread([&status_port]
+    std::atomic_bool status(false);
+    m_localServerThread = std::thread([&status]
     {
         std::string file = getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver").c_str();
-        const char *argv[] = { file.c_str(),"-single-player-mode", status_port};
-        Library(file).get<void NWAPICALL(int, char**)>("main")(sizeof(argv) / sizeof(argv[0]), const_cast<char**>(argv));
+        const char *argv[] = { file.c_str(),"-single-player-mode"};
+        auto s = Library(file).get<void* NWAPICALL(int, char**)>("nwNewServer")(sizeof(argv) / sizeof(argv[0]), const_cast<char**>(argv));
+        if (s)
+        {
+            status.store(true);
+            Library(file).get<void NWAPICALL(void*)>("nwRunServer")(s);
+            Library(file).get<void NWAPICALL(void*)>("nwFreeServer")(s);
+        }
+        else
+        {
+            fatalstream << "Failed to start local server";
+        }
     });
 
-    while (status_port[0] != 'r')
+    auto t = std::chrono::system_clock::now();
+    while (!status)
     {
         std::this_thread::yield();
+        if ((std::chrono::system_clock::now() - t) > std::chrono::seconds(30))
+        {
+            fatalstream << "Local server timeout!";
+            if (m_localServerThread.joinable())
+                m_localServerThread.detach();
+            throw std::runtime_error("server timeout");
+        }
     }
 
     mConn.connect("127.0.0.1",9887);// TODO: get address and port from settingsmanager. --Miigon
