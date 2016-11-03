@@ -39,12 +39,7 @@ class Game
 {
 public:
     Game(PluginManager& pm, const BlockManager& bm);
-
-    ~Game()
-    {
-        m_plugins.unloadPlugins();
-        if (m_localServerThread.joinable()) m_localServerThread.join();
-    }
+    ~Game();
 
     void update();
     void render();
@@ -63,6 +58,8 @@ private:
     WorldClient m_world;
     // Player test
     Player m_player;
+    // Local Server
+    void* mServer;
     // Local server thread
     std::thread m_localServerThread;
     // Connection

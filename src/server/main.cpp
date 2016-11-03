@@ -87,6 +87,7 @@ NWAPIEXPORT void NWAPICALL nwStopServer(void * s)
     try
     {
         reinterpret_cast<Server*>(s)->stop();
+        infostream << "Server is stopping...";
     }
     catch (std::exception& e)
     {
