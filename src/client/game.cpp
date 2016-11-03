@@ -45,6 +45,7 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
             status.set_value();
             Library(file).get<void NWAPICALL(void*)>("nwRunServer")(mServer);
             Library(file).get<void NWAPICALL(void*)>("nwFreeServer")(mServer);
+            mServer = nullptr;
         }
         else
         {
@@ -101,7 +102,11 @@ Game::~Game()
     if (m_localServerThread.joinable())
     {
         std::string file = getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver").c_str();
-        Library(file).get<void NWAPICALL(void*)>("nwStopServer")(mServer);
+        if (mServer)
+        {
+            Library(file).get<void NWAPICALL(void*)>("nwStopServer")(mServer);
+            mServer = nullptr;
+        }
         m_localServerThread.join();
     }
 }
