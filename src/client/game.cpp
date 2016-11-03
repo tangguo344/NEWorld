@@ -33,16 +33,16 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
     // TODO: start the server only when it's a single player mode.
 
     std::atomic_bool status(false);
-    m_localServerThread = std::thread([&status]
+    m_localServerThread = std::thread([this, &status]
     {
         std::string file = getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver").c_str();
         const char *argv[] = { file.c_str(),"-single-player-mode"};
-        auto s = Library(file).get<void* NWAPICALL(int, char**)>("nwNewServer")(sizeof(argv) / sizeof(argv[0]), const_cast<char**>(argv));
-        if (s)
+        mServer = Library(file).get<void* NWAPICALL(int, char**)>("nwNewServer")(sizeof(argv) / sizeof(argv[0]), const_cast<char**>(argv));
+        if (mServer)
         {
             status.store(true);
-            Library(file).get<void NWAPICALL(void*)>("nwRunServer")(s);
-            Library(file).get<void NWAPICALL(void*)>("nwFreeServer")(s);
+            Library(file).get<void NWAPICALL(void*)>("nwRunServer")(mServer);
+            Library(file).get<void NWAPICALL(void*)>("nwFreeServer")(mServer);
         }
         else
         {
@@ -93,6 +93,17 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
         ImGui::Text("%.1f FPS", ImGui::GetIO().Framerate);
         ImGui::Text("Widgets Loaded: %d", mWidgetManager.getSize());
     }));
+}
+
+Game::~Game()
+{
+    m_plugins.unloadPlugins();
+    if (m_localServerThread.joinable())
+    {
+        std::string file = getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver").c_str();
+        Library(file).get<void NWAPICALL(void*)>("nwStopServer")(mServer);
+        m_localServerThread.join();
+    }
 }
 
 
