@@ -21,7 +21,7 @@ If you want to help us develop this game, please sign your name in the SIGNOFF f
 
 See [Compile Guide](doc/installation.md), or you may download the latest Windows binary of NEWorld in the Appveyor.
 
-## 更多文档 More Document
+## 更多文档 More Documents
 
 * 若在运行NEWorld时遇到了问题，请阅读 [用户指南](doc/usermanual.md)
 

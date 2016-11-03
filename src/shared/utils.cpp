@@ -19,21 +19,18 @@
 
 #include "utils.h"
 #include <algorithm>
+#include <sstream>
 
-std::vector<std::string> split(const std::string& src, const std::string& separate_character)
+std::vector<std::string> split(const std::string& s, char delim)
 {
-    std::vector<std::string> strs;
-    int separate_characterLen = separate_character.size();
-    int last_position = 0, index;
-    while (-1 != (index = src.find(separate_character, last_position)))
-    {
-        strs.push_back(src.substr(last_position, index - last_position));
-        last_position = index + separate_characterLen;
-    }
-    std::string lastString = src.substr(last_position);
-    if (!lastString.empty())
-        strs.push_back(lastString);
-    return strs;
+    std::vector<std::string> elems;
+    std::stringstream ss;
+    ss.str(s);
+    std::string item;
+    while (std::getline(ss, item, delim))
+        elems.push_back(item);
+
+    return elems;
 };
 
 void trim(std::string& s)
