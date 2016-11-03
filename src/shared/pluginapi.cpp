@@ -58,13 +58,13 @@ extern "C"
         return convertBlockData(CurrWorld->getBlock(*pos));
     }
 
-    NWAPIEXPORT int32_t NWAPICALL nwSetBlock(const NWvec3i* pos, NWblockdata block)
+    NWAPIEXPORT size_t NWAPICALL nwSetBlock(const NWvec3i* pos, NWblockdata block)
     {
         CurrWorld->setBlock(*pos, convertBlockData(block));
         return 0;
     }
 
-    NWAPIEXPORT int32_t NWAPICALL nwRegisterBlock(const NWblocktype* block)
+    NWAPIEXPORT size_t NWAPICALL nwRegisterBlock(const NWblocktype* block)
     {
         return Blocks->registerBlock(convertBlockType(*block));
     }

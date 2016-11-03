@@ -119,7 +119,7 @@ try :
     // Add vertex
     void addVertex(const float* coords)
     {
-        int cnt = (m_format.textureCount + m_format.colorCount + m_format.normalCount);
+        auto cnt = m_format.textureCount + m_format.colorCount + m_format.normalCount;
         memcpy(m_data + m_vertexes * m_format.vertexAttributeCount, m_vertexAttributes, cnt * sizeof(float));
         memcpy(m_data + m_vertexes * m_format.vertexAttributeCount + cnt, coords, m_format.coordinateCount * sizeof(float));
         m_vertexes++;

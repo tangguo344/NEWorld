@@ -1,5 +1,6 @@
 version: '{build}'
 cache:
+  - boost\boost.1.61.0.0\lib\native\include\boost -> build\appveyor_install.bat
   - dependencies -> build\appveyor_install.bat
 platform:
   - x86
@@ -11,8 +12,6 @@ clone_depth: 1
 install:
   # Install dependencies
   - if not exist "dependencies\" .\build\appveyor_install.bat
-  - dir C:\Libraries\boost
-  - dir C:\Libraries\boost\boost
 build:
   project: build/VisualStudio_v14/NEWorld.sln
   verbosity: minimal
