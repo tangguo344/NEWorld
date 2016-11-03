@@ -94,6 +94,9 @@
     <ClInclude Include="..\..\..\src\client\widget.h">
       <Filter>Source\Multimedia\gui</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\client\singleplaymanager.h">
+      <Filter>Source\Main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\client\renderer.cpp">

@@ -29,43 +29,17 @@
 #include <chrono>
 
 Game::Game(PluginManager& pm, const BlockManager& bm)
-    : m_blocks(bm), m_plugins(pm), m_world("TestWorld", pm, bm), m_player(&m_world) // TODO: read from settings
+    : m_blocks(bm), m_plugins(pm),
+      m_world("TestWorld", pm, bm),// TODO: read from settings
+      m_player(&m_world),
+      mSinglePlayManager([this](bool success)
 {
-    // TODO: start the server only when it's a single player mode.
-
-    using namespace std::chrono_literals;
-    std::promise<void> status;
-    m_localServerThread = std::thread([this, &status]
-    {
-        std::string file = getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver").c_str();
-        const char *argv[] = { file.c_str(),"-single-player-mode"};
-        mServer = Library(file).get<void* NWAPICALL(int, char**)>("nwNewServer")(sizeof(argv) / sizeof(argv[0]), const_cast<char**>(argv));
-        if (mServer)
-        {
-            status.set_value();
-            Library(file).get<void NWAPICALL(void*)>("nwRunServer")(mServer);
-            Library(file).get<void NWAPICALL(void*)>("nwFreeServer")(mServer);
-            mServer = nullptr;
-        }
-        else
-        {
-            fatalstream << "Failed to start local server";
-        }
-    });
-
-    {
-        auto future = status.get_future();
-        if (future.wait_for(30s) != std::future_status::ready)
-        {
-            fatalstream << "Local server timeout!";
-            if (m_localServerThread.joinable())
-                m_localServerThread.detach();
-            nw_throw(Exception::Exception, "server timeout");
-        }
-    }
-
-    mConn.connect("127.0.0.1",9887);// TODO: get address and port from settingsmanager. --Miigon
-
+    if (success)
+        mConn.connect(getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1").c_str(),
+                      getJsonValue<unsigned short>(getSettings()["server"]["port"], 9887));
+})
+{
+    mSinglePlayManager.run(); // TODO: start the server only when it's a single player mode.
     // TEMP CODE
     // Load some chunks at client side to test rendering
     m_world.setRenderDistance(4);
@@ -99,16 +73,6 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
 Game::~Game()
 {
     m_plugins.unloadPlugins();
-    if (m_localServerThread.joinable())
-    {
-        std::string file = getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver").c_str();
-        if (mServer)
-        {
-            Library(file).get<void NWAPICALL(void*)>("nwStopServer")(mServer);
-            mServer = nullptr;
-        }
-        m_localServerThread.join();
-    }
 }
 
 

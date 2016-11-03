@@ -35,6 +35,7 @@
 #include "player.h"
 #include "network.h"
 #include "widgetmanager.h"
+#include "singleplaymanager.h"
 
 class Game
 {
@@ -62,9 +63,7 @@ private:
     // Player test
     Player m_player;
     // Local Server
-    void* mServer;
-    // Local server thread
-    std::thread m_localServerThread;
+    SinglePlayManager mSinglePlayManager;
     // Connection
     Connection mConn;
     // FlatBuffer Builder
