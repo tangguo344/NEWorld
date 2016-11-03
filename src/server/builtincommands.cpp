@@ -57,7 +57,7 @@ void Server::initBuiltinCommands()
     {
         if (cmd.args.size() == 1)
         {
-            auto keys = split(cmd.args[0], ".");
+            auto keys = split(cmd.args[0], '.');
             Json now = getSettings();
             bool exist = true;
             for (auto key : keys)
@@ -96,7 +96,7 @@ void Server::initBuiltinCommands()
     });
     m_commands.addCommand("chunks.count", { "internal","Show how many chunks are loaded" }, [this](Command cmd)->CommandExecuteStat
     {
-        int sum = 0;
+        size_t sum = 0;
         for (World* world : m_worlds)
         {
             sum += world->getChunkCount();

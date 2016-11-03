@@ -19,7 +19,7 @@
 
 #ifndef IMGUI_HELPER_H
 #define IMGUI_HELPER_H
-
+#define HAVE_M_PI
 #include <imgui.h>
 #include <SDL2/SDL.h>
 namespace imguiHelper

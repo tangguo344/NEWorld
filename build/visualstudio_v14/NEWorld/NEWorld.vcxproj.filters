@@ -138,11 +138,11 @@
     <ClCompile Include="..\..\..\src\client\imgui\imgui_draw.cpp">
       <Filter>Source\Multimedia\gui\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\client\main.cpp">
-      <Filter>Source\Multimedia\gui\imgui</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\client\imgui_helper.cpp">
       <Filter>Source\Multimedia\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\main.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

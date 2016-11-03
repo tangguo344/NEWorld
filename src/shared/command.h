@@ -42,7 +42,7 @@ class Command
 public:
     explicit Command(std::string rawString)
     {
-        args = split(rawString, " ");
+        args = split(rawString, ' ');
         name = args.size() != 0 ? args[0] : "";
         if (args.size() != 0) args.erase(args.begin());
     }
