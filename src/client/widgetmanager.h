@@ -48,7 +48,8 @@ public:
         if (iter == mWidgets.end()) return nullptr;
         return iter->second;
     }
-    const std::shared_ptr<const Widget> getWidget(std::string name) const
+
+    std::shared_ptr<const Widget> getWidget(std::string name) const
     {
         auto iter = mWidgets.find(name);
         if (iter == mWidgets.end()) return nullptr;

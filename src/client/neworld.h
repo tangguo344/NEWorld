@@ -34,7 +34,6 @@ public:
 private:
     PluginManager m_plugins;
     BlockManager m_blocks;
-
 };
 
 
