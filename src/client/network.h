@@ -3,8 +3,10 @@
 
 #include <raknet/RakPeerInterface.h>
 #include <thread>
+#include <mutex>
 #include "../protocol/gen/protocol.h"
 #include <raknet/MessageIdentifiers.h>
+#include <future>
 
 class Connection
 {
@@ -19,14 +21,15 @@ public:
     }
     void waitForConnected()
     {
-        while (!mConnected);
+        auto future = mConnected.get_future();
+        future.wait();
     }
 private:
     void loop();
     void Connection::sendRawData(RakNet::MessageID id, const unsigned char *data, int len, PacketPriority priority, PacketReliability reliability);
     RakNet::RakPeerInterface *mPeer;
     std::thread mThread;
-    volatile bool mConnected = false;
+    std::promise<void> mConnected;
     RakNet::SystemAddress mAddr;
 };
 

@@ -24,6 +24,7 @@
 #include "network.h"
 #include <jsonhelper.h>
 #include "window.h"
+#include <exception.h>
 #include <atomic>
 #include <chrono>
 
@@ -32,7 +33,8 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
 {
     // TODO: start the server only when it's a single player mode.
 
-    std::atomic_bool status(false);
+    using namespace std::chrono_literals;
+    std::promise<void> status;
     m_localServerThread = std::thread([this, &status]
     {
         std::string file = getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver").c_str();
@@ -40,7 +42,7 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
         mServer = Library(file).get<void* NWAPICALL(int, char**)>("nwNewServer")(sizeof(argv) / sizeof(argv[0]), const_cast<char**>(argv));
         if (mServer)
         {
-            status.store(true);
+            status.set_value();
             Library(file).get<void NWAPICALL(void*)>("nwRunServer")(mServer);
             Library(file).get<void NWAPICALL(void*)>("nwFreeServer")(mServer);
         }
@@ -50,16 +52,14 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
         }
     });
 
-    auto t = std::chrono::system_clock::now();
-    while (!status)
     {
-        std::this_thread::yield();
-        if ((std::chrono::system_clock::now() - t) > std::chrono::seconds(30))
+        auto future = status.get_future();
+        if (future.wait_for(30s) != std::future_status::ready)
         {
             fatalstream << "Local server timeout!";
             if (m_localServerThread.joinable())
                 m_localServerThread.detach();
-            throw std::runtime_error("server timeout");
+            nw_throw(Exception::Exception, "server timeout");
         }
     }
 
@@ -201,4 +201,9 @@ void Game::render()
     glDisable(GL_DEPTH_TEST);
 
     mWidgetManager.render();
+}
+
+Event::EventBus& Game::getEventBus()
+{
+    return m_EventBus;
 }

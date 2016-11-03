@@ -57,17 +57,15 @@ bool Connection::connect(const char *addr, unsigned short port)
             return false;
         }
     }
-    else
-    {
-        // TODO: throw an exception
-        errorstream << "Failed to connect to" << addr << ":" << port << ". Error code: " << ret;
-        return false;
-    }
+    
+    // TODO: throw an exception
+    errorstream << "Failed to connect to" << addr << ":" << port << ". Error code: " << ret;
+    return false;
 }
 
 void Connection::loop()
 {
-    RakNet::Packet* p = nullptr;
+    RakNet::Packet* p;
     while(mPeer->IsActive())
     {
         for(p = mPeer->Receive(); p; mPeer->DeallocatePacket(p), p=mPeer->Receive())
@@ -77,7 +75,7 @@ void Connection::loop()
             case ID_CONNECTION_REQUEST_ACCEPTED:
                 infostream << "Connected to the server.";
                 mAddr = p->systemAddress;
-                mConnected = true;
+                mConnected.set_value();
                 break;
             case ID_CONNECTION_ATTEMPT_FAILED:
                 errorstream << "Failed to connect to the server!";

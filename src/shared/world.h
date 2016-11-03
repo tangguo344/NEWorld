@@ -174,14 +174,14 @@ public:
 
 protected:
     World(const std::string& name, const PluginManager& plugins, const BlockManager& blocks)
-        : m_name(name), m_plugins(plugins), m_blocks(blocks), m_chunkCount(0), m_chunkArraySize(1024), m_daylightBrightness(15), m_cpa(8)
+        : m_name(name), m_plugins(plugins), m_blocks(blocks), m_chunkCount(0), m_chunkArraySize(1024), m_cpa(8), m_daylightBrightness(15)
     {
         m_chunks = static_cast<Chunk**>(malloc(m_chunkArraySize * sizeof(Chunk*)));
     }
 
-    World(World&& rhs)
+    World(World&& rhs) noexcept
         : m_name(std::move(rhs.m_name)), m_plugins(rhs.m_plugins), m_blocks(rhs.m_blocks),
-          m_chunkCount(rhs.m_chunkCount), m_chunkArraySize(rhs.m_chunkArraySize), m_daylightBrightness(rhs.m_daylightBrightness), m_cpa(std::move(rhs.m_cpa))
+          m_chunkCount(rhs.m_chunkCount), m_chunkArraySize(rhs.m_chunkArraySize), m_cpa(std::move(rhs.m_cpa)), m_daylightBrightness(rhs.m_daylightBrightness)
     {
         std::swap(m_chunks, rhs.m_chunks);
     }
