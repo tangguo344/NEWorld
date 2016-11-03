@@ -31,6 +31,10 @@ Connection::Connection()
 
 Connection::~Connection()
 {
+    infostream << "Disconnecting...";
+    mPeer->Shutdown(5000, 0, PacketPriority::HIGH_PRIORITY);
+    if (mThread.joinable())
+        mThread.join();
     RakNet::RakPeerInterface::DestroyInstance(mPeer);
 }
 
