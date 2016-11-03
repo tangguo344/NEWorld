@@ -403,6 +403,7 @@
     <ClInclude Include="..\..\..\src\client\opengl.h" />
     <ClInclude Include="..\..\..\src\client\player.h" />
     <ClInclude Include="..\..\..\src\client\renderer.h" />
+    <ClInclude Include="..\..\..\src\client\singleplaymanager.h" />
     <ClInclude Include="..\..\..\src\client\texture.h" />
     <ClInclude Include="..\..\..\src\client\vertexarray.h" />
     <ClInclude Include="..\..\..\src\client\game.h" />

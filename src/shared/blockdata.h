@@ -30,9 +30,8 @@ private:
             uint32_t id : 12; // Block ID
             uint32_t brightness : 4; // Brightness
             uint32_t state : 16; // Block state
-            uint32_t bin : 32;
         } data;
-        uint64_t allData;
+        uint32_t allData;
     } u;
 
 public:
