@@ -57,8 +57,8 @@ private:
     CommandExecuteStat handleCommand(Command cmd);
 
     std::future<void> m_mainloop;
-    std::atomic_bool m_threadRunning = true;
-    std::atomic_bool m_waitingForInputing = false;
+    std::atomic_bool m_threadRunning{true};
+    std::atomic_bool m_waitingForInputing{false};
     CommandMap m_commandMap;
 };
 

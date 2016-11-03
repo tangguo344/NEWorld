@@ -26,7 +26,7 @@ public:
     }
 private:
     void loop();
-    void Connection::sendRawData(RakNet::MessageID id, const unsigned char *data, int len, PacketPriority priority, PacketReliability reliability);
+    void sendRawData(RakNet::MessageID id, const unsigned char *data, int len, PacketPriority priority, PacketReliability reliability);
     RakNet::RakPeerInterface *mPeer;
     std::thread mThread;
     std::promise<void> mConnected;
