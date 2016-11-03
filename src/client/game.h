@@ -29,6 +29,7 @@
 #include <pluginapi.h>
 #include <blockmanager.h>
 #include <pluginmanager.h>
+#include <event.h>
 #include "worldclient.h"
 #include "texture.h"
 #include "player.h"
@@ -43,6 +44,8 @@ public:
 
     void update();
     void render();
+
+    Event::EventBus& getEventBus();
 
 private:
     // Window size
@@ -68,6 +71,8 @@ private:
     flatbuffers::FlatBufferBuilder mFbb;
     // Widget Manager
     WidgetManager mWidgetManager;
+    // Main event bus
+    Event::EventBus m_EventBus;
 };
 
 #endif // !GAME_H_
