@@ -90,7 +90,7 @@ private:
     // Local Server Thread
     std::thread m_localServerThread;
     // Is Ready
-    std::atomic_bool mReady = false;
+    std::atomic_bool mReady{false};
     // Timeout Time (sec)
     int mTimeout;
     // The Start Time

@@ -5,6 +5,7 @@
 #include <thread>
 #include <raknet/RakPeerInterface.h>
 #include <identifier.h>
+#include <raknet/MessageIdentifiers.h>
 
 class Connection;
 
@@ -40,12 +41,12 @@ public:
     template<class ProtocolType>
     void send(const flatbuffers::Offset<ProtocolType>& data, PacketPriority priority, PacketReliability reliability)
     {
-        sendRawData(ID_USER_PACKET_ENUM, reinterpret_cast<const unsigned char*>(&data), sizeof(data), priority, reliability);
+        sendRawData(static_cast<RakNet::MessageID>(ID_USER_PACKET_ENUM), reinterpret_cast<const unsigned char*>(&data), sizeof(data), priority, reliability);
     }
 private:
     Connection(NetworkManager &network,RakNet::RakPeerInterface *peer,RakNet::SystemAddress addr);
     ~Connection();
-    void Connection::sendRawData(RakNet::MessageID id, const unsigned char *data, int len, PacketPriority priority, PacketReliability reliability);
+    void sendRawData(RakNet::MessageID id, const unsigned char *data, int len, PacketPriority priority, PacketReliability reliability);
     NetworkManager &mNetwork;
     RakNet::RakPeerInterface *mPeer;
     RakNet::SystemAddress mAddr;

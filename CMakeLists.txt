@@ -7,6 +7,10 @@ set(CMFILE CMakeLists.txt)
 option(LINK_BOOST "Enable link compiler switch of Boost library instead of auto-link" OFF)
 option(EXECUTABLE "Link the executable for client and server" OFF)
 
+if (LINUX)
+    set(LINK_BOOST "ON")
+endif()
+
 if(LINK_BOOST STREQUAL "ON")
     link_libraries(boost_system boost_filesystem boost_date_time)
 endif()
