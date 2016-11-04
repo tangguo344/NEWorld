@@ -40,17 +40,17 @@ public:
     }
     ~SinglePlayManager()
     {
-        if (m_localServerThread.joinable())
+        if (mLocalServerThread.joinable())
         {
             mLib.get<void NWAPICALL()>("nwStopServer")();
-            m_localServerThread.join();
+            mLocalServerThread.join();
         }
     }
 
     void run()
     {
         mLib = std::move(Library(mPath));
-        m_localServerThread = std::thread([this]
+        mLocalServerThread = std::thread([this]
         {
             const char *argv[] = { mPath.c_str(),"-single-player-mode" };
             bool opened = mLib.get<bool NWAPICALL(int, char**)>("nwInitServer")(sizeof(argv) / sizeof(argv[0]), const_cast<char**>(argv));
@@ -74,7 +74,7 @@ public:
             if (mTimeout != -1 && std::chrono::system_clock::now() - mStartTime > std::chrono::seconds(mTimeout))
             {
                 fatalstream << "Local server timeout!";
-                m_localServerThread.detach();
+                mLocalServerThread.detach();
                 mCallback(false);
                 return;
             }
@@ -88,7 +88,7 @@ private:
     // Library Path
     std::string mPath;
     // Local Server Thread
-    std::thread m_localServerThread;
+    std::thread mLocalServerThread;
     // Is Ready
     std::atomic_bool mReady{false};
     // Timeout Time (sec)

@@ -14,11 +14,11 @@ void Event::EventBase::SetCancel(bool value) noexcept
 {
 	if (CanCancel())
 	{
-		m_Canceled = value;
+		mCanceled = value;
 	}
 }
 
 bool Event::EventBase::IsCanceled() const noexcept
 {
-	return m_Canceled;
+	return mCanceled;
 }

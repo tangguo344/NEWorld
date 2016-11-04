@@ -43,8 +43,8 @@ public:
     void unloadPlugins();
 
 private:
-    std::vector<Plugin> m_plugins;
-    bool m_isClient;
+    std::vector<Plugin> mPlugins;
+    bool mIsClient;
 };
 
 #endif // !PLUGINMANAGER_H_

@@ -53,15 +53,15 @@ private:
     int windowWidth = 852, windowHeight = 480;
 
     // Texture test
-    Texture m_texture;
+    Texture mTexture;
     // Blocks
-    const BlockManager& m_blocks;
+    const BlockManager& mBlocks;
     // Loaded plugins
-    PluginManager& m_plugins;
+    PluginManager& mPlugins;
     // World
-    WorldClient m_world;
+    WorldClient mWorld;
     // Player test
-    Player m_player;
+    Player mPlayer;
     // Local Server
     SinglePlayManager mSinglePlayManager;
     // Connection
@@ -71,7 +71,7 @@ private:
     // Widget Manager
     WidgetManager mWidgetManager;
     // Main event bus
-    Event::EventBus m_EventBus;
+    Event::EventBus mEventBus;
 };
 
 #endif // !GAME_H_

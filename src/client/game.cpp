@@ -29,9 +29,9 @@
 #include <chrono>
 
 Game::Game(PluginManager& pm, const BlockManager& bm)
-    : m_blocks(bm), m_plugins(pm),
-      m_world("TestWorld", pm, bm),// TODO: read from settings
-      m_player(&m_world),
+    : mBlocks(bm), mPlugins(pm),
+      mWorld("TestWorld", pm, bm),// TODO: read from settings
+      mPlayer(&mWorld),
       mSinglePlayManager([this](bool success)
 {
     if (success)
@@ -42,17 +42,17 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
     mSinglePlayManager.run(); // TODO: start the server only when it's a single player mode.
     // TEMP CODE
     // Load some chunks at client side to test rendering
-    m_world.setRenderDistance(4);
-    m_player.setPosition(Vec3d(-16.0, 48.0, 32.0));
-    m_player.setRotation(Vec3d(-45.0, -22.5, 0.0));
+    mWorld.setRenderDistance(4);
+    mPlayer.setPosition(Vec3d(-16.0, 48.0, 32.0));
+    mPlayer.setRotation(Vec3d(-45.0, -22.5, 0.0));
     Vec3i::for_range(-6, 6, [&](const Vec3i& pos)
     {
-        m_world.addChunk(pos);
+        mWorld.addChunk(pos);
     });
     // END TEMP CODE
 
     // Initialize rendering
-    m_texture = Texture::loadTextureRGBA("./res/test.png");
+    mTexture = Texture::loadTextureRGBA("./res/test.png");
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
 
@@ -65,45 +65,45 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
     {
         ImGui::Text("NEWorld %s(%u)", NEWorldStringVersion, NEWorldVersion);
         ImGui::Text("FPS %.1f", ImGui::GetIO().Framerate);
-        ImGui::Text("Pos: x %.1f y %.1f z %.1f", m_player.getPosition().x, m_player.getPosition().y, m_player.getPosition().z);
+        ImGui::Text("Pos: x %.1f y %.1f z %.1f", mPlayer.getPosition().x, mPlayer.getPosition().y, mPlayer.getPosition().z);
         ImGui::Text("Widgets Loaded: %zu", mWidgetManager.getSize());
-        ImGui::Text("Chunks Loaded: %zu/%zu", m_world.getChunkCount(), m_world.getReservedChunkCount());
+        ImGui::Text("Chunks Loaded: %zu/%zu", mWorld.getChunkCount(), mWorld.getReservedChunkCount());
     }));
 }
 
 Game::~Game()
 {
-    m_plugins.unloadPlugins();
+    mPlugins.unloadPlugins();
 }
 
 
 void Game::update()
 {
-    m_player.update();
-    m_world.renderUpdate(Vec3i(m_player.getPosition()));
-    m_world.update();
+    mPlayer.update();
+    mWorld.renderUpdate(Vec3i(mPlayer.getPosition()));
+    mWorld.update();
     Window& win=win.getInstance();
     // TODO: Read keys from the configuration file
     if (win.isKeyDown(SDL_SCANCODE_UP))
-        m_player.rotate(Vec3d(1.5, 0.0, 0.0));
+        mPlayer.rotate(Vec3d(1.5, 0.0, 0.0));
     if (win.isKeyDown(SDL_SCANCODE_DOWN))
-        m_player.rotate(Vec3d(-1.5, 0.0, 0.0));
+        mPlayer.rotate(Vec3d(-1.5, 0.0, 0.0));
     if (win.isKeyDown(SDL_SCANCODE_RIGHT))
-        m_player.rotate(Vec3d(0.0, -1.5, 0.0));
+        mPlayer.rotate(Vec3d(0.0, -1.5, 0.0));
     if (win.isKeyDown(SDL_SCANCODE_LEFT))
-        m_player.rotate(Vec3d(0.0, 1.5, 0.0));
+        mPlayer.rotate(Vec3d(0.0, 1.5, 0.0));
     if (win.isKeyDown(SDL_SCANCODE_W))
-        m_player.accelerate(Vec3d(0.0, 0.0, -0.03));
+        mPlayer.accelerate(Vec3d(0.0, 0.0, -0.03));
     if (win.isKeyDown(SDL_SCANCODE_S))
-        m_player.accelerate(Vec3d(0.0, 0.0, 0.03));
+        mPlayer.accelerate(Vec3d(0.0, 0.0, 0.03));
     if (win.isKeyDown(SDL_SCANCODE_A))
-        m_player.accelerate(Vec3d(-0.03, 0.0, 0.0));
+        mPlayer.accelerate(Vec3d(-0.03, 0.0, 0.0));
     if (win.isKeyDown(SDL_SCANCODE_D))
-        m_player.accelerate(Vec3d(0.03, 0.0, 0.0));
+        mPlayer.accelerate(Vec3d(0.03, 0.0, 0.0));
     if (win.isKeyDown(SDL_SCANCODE_SPACE))
-        m_player.accelerate(Vec3d(0.0, 0.05, 0.0));
+        mPlayer.accelerate(Vec3d(0.0, 0.05, 0.0));
     if (win.isKeyDown(SDL_SCANCODE_LCTRL) || win.isKeyDown(SDL_SCANCODE_RCTRL))
-        m_player.accelerate(Vec3d(0.0, -0.05, 0.0));
+        mPlayer.accelerate(Vec3d(0.0, -0.05, 0.0));
 
     mWidgetManager.update();
 }
@@ -149,18 +149,18 @@ void Game::render()
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_DEPTH_TEST);
 
-    m_texture.bind(Texture::Texture2D);
+    mTexture.bind(Texture::Texture2D);
     Renderer::clear();
     Renderer::restoreProj();
     Renderer::applyPerspective(70.0f, float(windowWidth) / windowHeight, 0.1f, 300.0f);
     Renderer::restoreScale();
-    Renderer::rotate(-m_player.getRotation().x, Vec3d(1.0, 0.0, 0.0));
-    Renderer::rotate(-m_player.getRotation().y, Vec3d(0.0, 1.0, 0.0));
-    Renderer::rotate(-m_player.getRotation().z, Vec3d(0.0, 0.0, 1.0));
-    Renderer::translate(-m_player.getPosition());
+    Renderer::rotate(-mPlayer.getRotation().x, Vec3d(1.0, 0.0, 0.0));
+    Renderer::rotate(-mPlayer.getRotation().y, Vec3d(0.0, 1.0, 0.0));
+    Renderer::rotate(-mPlayer.getRotation().z, Vec3d(0.0, 0.0, 1.0));
+    Renderer::translate(-mPlayer.getPosition());
 
     // Render
-    m_world.render(Vec3i(m_player.getPosition()));
+    mWorld.render(Vec3i(mPlayer.getPosition()));
 
     glDisable(GL_TEXTURE_2D);
 
@@ -175,5 +175,5 @@ void Game::render()
 
 Event::EventBus& Game::getEventBus()
 {
-    return m_EventBus;
+    return mEventBus;
 }

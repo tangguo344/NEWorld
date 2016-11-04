@@ -33,12 +33,12 @@ public:
 
     void accelerate(const Vec3d& acceleration)
     {
-        m_speed += acceleration;
+        mSpeed += acceleration;
     }
 
     void setSpeed(const Vec3d& speed)
     {
-        m_speed = speed;
+        mSpeed = speed;
     }
 
     void update() override
@@ -47,7 +47,7 @@ public:
     }
 
 private:
-    Vec3d m_speed;
+    Vec3d mSpeed;
 
     void move();
 };
