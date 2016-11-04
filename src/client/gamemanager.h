@@ -17,8 +17,8 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SIGNLE_PLAYER_MANAGER_H_
-#define SIGNLE_PLAYER_MANAGER_H_
+#ifndef GAMEMANAGER_H_
+#define GAMEMANAGER_H_
 
 #include <thread>
 #include <logger.h>
@@ -28,7 +28,15 @@
 #include <chrono>
 #include <functional>
 
-class SinglePlayManager
+class GameManager
+{
+public:
+    virtual void run() = 0;
+    virtual void stop() = 0;
+    virtual ~GameManager() = default;
+};
+
+class SinglePlayManager:public GameManager
 {
 public:
     explicit SinglePlayManager(std::function<void(bool)> callback) :
@@ -38,16 +46,24 @@ public:
     {
 
     }
+
     ~SinglePlayManager()
     {
-        if (mLocalServerThread.joinable())
+        if (mReady)
+            stop();
+    }
+    
+    void stop() override
+    {
+        if (m_localServerThread.joinable())
         {
             mLib.get<void NWAPICALL()>("nwStopServer")();
-            mLocalServerThread.join();
+            m_localServerThread.join();
+            mReady.store(false);
         }
     }
 
-    void run()
+    void run() override
     {
         mLib = std::move(Library(mPath));
         mLocalServerThread = std::thread([this]
