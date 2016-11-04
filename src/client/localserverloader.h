@@ -17,8 +17,8 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SIGNLE_PLAY_MANAGER_H_
-#define SIGNLE_PLAY_MANAGER_H_
+#ifndef LOCAL_SERVER_LOADER_H_
+#define LOCAL_SERVER_LOADER_H_
 
 #include <thread>
 #include <logger.h>
@@ -28,17 +28,17 @@
 #include <chrono>
 #include <functional>
 
-class SinglePlayManager
+class LocalServerLoader
 {
 public:
-    explicit SinglePlayManager(std::function<void(bool)> callback) :
+    explicit LocalServerLoader(std::function<void(bool)> callback) :
         mPath(getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver").c_str()),
         mTimeout(getJsonValue<int>(getSettings()["client"]["server_start_timeout"], 30)),
         mCallback(callback)
     {
 
     }
-    ~SinglePlayManager()
+    ~LocalServerLoader()
     {
         if (mLocalServerThread.joinable())
         {
@@ -99,4 +99,4 @@ private:
     std::function<void(bool)> mCallback;
 };
 
-#endif // !SIGNLE_PLAY_MANAGER_H_
+#endif // !LOCAL_SERVER_LOADER_H_

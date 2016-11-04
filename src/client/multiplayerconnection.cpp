@@ -16,23 +16,17 @@
 * You should have received a copy of the GNU Lesser General Public License
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
+#include "gameconnection.h"
 
-#ifndef NEWORLD_H_
-#define NEWORLD_H_
-
-#include <pluginmanager.h>
-#include <blockmanager.h>
-
-class NEWorld
+void MultiplayerConnection::connect()
 {
-public:
-    NEWorld();
+}
 
-private:
-    PluginManager mPlugins;
-    BlockManager mBlocks;
-};
+void MultiplayerConnection::disconnect()
+{
+}
 
-
-
-#endif // !NEWORLD_H_
+World* MultiplayerConnection::getWorld(size_t id)
+{
+    return nullptr;
+}
