@@ -37,6 +37,23 @@
 #include "widgetmanager.h"
 #include "singleplaymanager.h"
 
+class GameConnection
+{
+public:
+    virtual void connect() = 0;
+    virtual void disconnect() = 0;
+    virtual World* getWorld(size_t id) = 0;
+    virtual ~GameConnection() = default;
+};
+
+class SinglePlayerConnection : public GameConnection
+{
+public:
+    void connect() override;
+    void disconnect() override;
+    World* getWorld(size_t id) override;
+};
+
 class Game
 {
 public:
