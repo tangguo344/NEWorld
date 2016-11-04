@@ -37,13 +37,11 @@ install:
   - sudo cp -r /usr/include/freetype2/* /usr/include/
   - sudo cp -r /usr/include/freetype2 /usr/include/freetype
   - |
-    if [ ! -f ./boost_1_61_0/cached_mark ];
+    if [ ! -f ./boost_1_61_0/boost/any.hpp ];
     then
-    mkdir release
     wget http://downloads.sourceforge.net/project/boost/boost/1.61.0/boost_1_61_0.7z
     p7zip -d ./boost_1_61_0.7z > 7zlog.txt
     cd ./boost_1_61_0
-    touch cached_mark
     ./bootstrap.sh --with-libraries=filesystem,system
     ./b2
     cd ..
