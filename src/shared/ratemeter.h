@@ -21,10 +21,12 @@
 #define RATEMETER_H_
 
 #include <chrono>
+#include <thread>
 
 class RateMeter
 {
 public:
+    explicit RateMeter(int limit = -1):mLimit(limit) {}
     void refresh()
     {
         if (!mValid)
@@ -36,18 +38,38 @@ public:
         mDeltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(now - mLastRefreshTime).count();
         mLastRefreshTime = now;
     }
-    double getRate()
+    double getRate() const
     {
         return 1000.0 / mDeltaTime;
     }
-    long long getDeltaTimeMs()
+    long long getDeltaTimeMs() const
     {
         return mDeltaTime;
+    }
+    // notice that this function will not call refresh()!
+    void wait() const
+    {
+        if (mLimit == 0) return;
+        auto now = std::chrono::steady_clock::now();
+        auto stdDelta = std::chrono::milliseconds(1000 / mLimit);
+        auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(now - mLastRefreshTime);
+        if (stdDelta > deltaTime) std::this_thread::sleep_for(stdDelta - deltaTime);
+    }
+
+    // notice that this function will not call refresh()!
+    bool shouldRun() const
+    {
+        if (mLimit == 0) return true;
+        auto now = std::chrono::steady_clock::now();
+        auto stdDelta = std::chrono::milliseconds(1000 / mLimit);
+        auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(now - mLastRefreshTime);
+        return stdDelta <= deltaTime;
     }
 
 private:
     std::chrono::steady_clock::time_point mLastRefreshTime;
     long long mDeltaTime = 0ll;
+    int mLimit = 0ll;
     bool mValid = false;
 };
 

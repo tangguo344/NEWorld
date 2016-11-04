@@ -36,6 +36,7 @@
 #include "network.h"
 #include "widgetmanager.h"
 #include "singleplaymanager.h"
+#include <ratemeter.h>
 
 class GameConnection
 {
@@ -89,6 +90,8 @@ private:
     WidgetManager mWidgetManager;
     // Main event bus
     Event::EventBus mEventBus;
+    // Ups
+    RateMeter mUps{60};
 };
 
 #endif // !GAME_H_
