@@ -61,12 +61,13 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
                PacketPriority::HIGH_PRIORITY, PacketReliability::RELIABLE);
 
     // Initialize Widgets
-    mWidgetManager.addWidget(std::make_shared<WidgetCallback>("Debug", [this]
+    mWidgetManager.addWidget(std::make_shared<WidgetCallback>("Debug", ImVec2(100,200), [this]
     {
-        ImGui::SetNextWindowSize(ImVec2(100, 100), ImGuiSetCond_FirstUseEver);
+        ImGui::Text("NEWorld %s(%u)", NEWorldStringVersion, NEWorldVersion);
+        ImGui::Text("FPS %.1f", ImGui::GetIO().Framerate);
         ImGui::Text("Pos: x %.1f y %.1f z %.1f", m_player.getPosition().x, m_player.getPosition().y, m_player.getPosition().z);
-        ImGui::Text("%.1f FPS", ImGui::GetIO().Framerate);
-        ImGui::Text("Widgets Loaded: %d", mWidgetManager.getSize());
+        ImGui::Text("Widgets Loaded: %zu", mWidgetManager.getSize());
+        ImGui::Text("Chunks Loaded: %zu/%zu", m_world.getChunkCount(), m_world.getReservedChunkCount());
     }));
 }
 

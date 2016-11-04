@@ -27,11 +27,12 @@
 class Widget
 {
 public:
-    Widget(std::string name) : mName(name) {}
+    Widget(std::string name, ImVec2 size) : mName(name), mSize(size) {}
     virtual ~Widget() {}
     void _render()
     {
         if (!mOpen) return;
+        ImGui::SetNextWindowSize(mSize, ImGuiSetCond_FirstUseEver);
         ImGui::Begin(mName.c_str(), &mOpen);
         render();
         ImGui::End();
@@ -46,6 +47,7 @@ protected:
 private:
     std::string mName;
     bool mOpen = true;
+    ImVec2 mSize;
 };
 
 // callback style widget
@@ -53,8 +55,8 @@ class WidgetCallback : public Widget
 {
 public:
     using Callback = std::function<void(void)>;
-    WidgetCallback(std::string name, Callback renderFunc, Callback updateFunc = nullptr) :
-        Widget(name), mRenderFunc(renderFunc), mUpdateFunc(updateFunc) {}
+    WidgetCallback(std::string name, ImVec2 size, Callback renderFunc, Callback updateFunc = nullptr) :
+        Widget(name, size), mRenderFunc(renderFunc), mUpdateFunc(updateFunc) {}
 
     void render() override { mRenderFunc(); }
     void update() override { if(mUpdateFunc) mUpdateFunc(); }
