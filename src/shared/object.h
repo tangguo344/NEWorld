@@ -27,12 +27,12 @@
 class Object
 {
 public:
-    Object() : m_world(nullptr), m_scale(1.0)
+    Object() : mWorld(nullptr), mScale(1.0)
     {
     }
 
     Object(const World* world, const Vec3d& position, const Vec3d& rotation, const Vec3d& scale, const AABB& hitbox)
-        : m_world(world), m_position(position), m_rotation(rotation), m_scale(scale), m_hitbox(hitbox)
+        : mWorld(world), mPosition(position), mRotation(rotation), mScale(scale), mHitbox(hitbox)
     {
     }
 
@@ -42,66 +42,66 @@ public:
 
     void setWorldPtr(const World* world)
     {
-        m_world = world;
+        mWorld = world;
     }
 
     const World* getWorldPtr() const
     {
-        return m_world;
+        return mWorld;
     }
 
     const Vec3d& getPosition() const
     {
-        return m_position;
+        return mPosition;
     }
 
     void setPosition(const Vec3d& val)
     {
-        m_hitbox.move(val - m_position);
-        m_position = val;
+        mHitbox.move(val - mPosition);
+        mPosition = val;
     }
 
     const Vec3d& getRotation() const
     {
-        return m_rotation;
+        return mRotation;
     }
 
     void setRotation(const Vec3d& val)
     {
-        m_rotation = val;
+        mRotation = val;
     }
 
     const Vec3d& getScale() const
     {
-        return m_scale;
+        return mScale;
     }
 
     void setScale(const Vec3d& val)
     {
-        m_scale = val;
+        mScale = val;
     }
 
     const AABB& getHitbox() const
     {
-        return m_hitbox;
+        return mHitbox;
     }
 
     void setHitbox(const AABB& aabb)
     {
-        m_hitbox = aabb;
+        mHitbox = aabb;
     }
 
     void moveHitbox(const Vec3d& delta)
     {
-        m_hitbox.move(delta);
+        mHitbox.move(delta);
     }
 
     virtual void update() = 0;
 
 protected:
-    const World* m_world;
-    Vec3d m_position, m_rotation, m_scale;
-    AABB m_hitbox;
+    const World* mWorld;
+    Vec3d mPosition, mRotation, mScale;
+    AABB mHitbox;
 
 };
 

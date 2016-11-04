@@ -47,7 +47,7 @@ public:
     template <typename T>
     Logger& operator<<(const T& rhs)
     {
-        m_content << rhs;
+        mContent << rhs;
         return *this;
     }
 
@@ -58,12 +58,12 @@ public:
     static bool fileOnly;
 
 private:
-    std::stringstream m_content;
+    std::stringstream mContent;
 
-    Level m_level;
-    const char *m_fileName;
-    const char *m_funcName;
-    int m_lineNumber;
+    Level mLevel;
+    const char *mFileName;
+    const char *mFuncName;
+    int mLineNumber;
 
     static std::vector<std::ofstream> fsink;
 

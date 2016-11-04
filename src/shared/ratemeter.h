@@ -27,28 +27,28 @@ class RateMeter
 public:
     void refresh()
     {
-        if (!m_valid)
+        if (!mValid)
         {
-            m_valid = true;
+            mValid = true;
             return;
         }
         auto now = std::chrono::steady_clock::now();
-        m_deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_lastRefreshTime).count();
-        m_lastRefreshTime = now;
+        mDeltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(now - mLastRefreshTime).count();
+        mLastRefreshTime = now;
     }
     double getRate()
     {
-        return 1000.0 / m_deltaTime;
+        return 1000.0 / mDeltaTime;
     }
     long long getDeltaTimeMs()
     {
-        return m_deltaTime;
+        return mDeltaTime;
     }
 
 private:
-    std::chrono::steady_clock::time_point m_lastRefreshTime;
-    long long m_deltaTime = 0ll;
-    bool m_valid = false;
+    std::chrono::steady_clock::time_point mLastRefreshTime;
+    long long mDeltaTime = 0ll;
+    bool mValid = false;
 };
 
 #endif // !RATEMETER_H_

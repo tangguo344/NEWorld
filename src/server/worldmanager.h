@@ -31,28 +31,28 @@ class WorldManager
 {
 public:
     WorldManager(PluginManager& plugins, BlockManager& blocks) :
-        m_plugins(plugins), m_blocks(blocks)
+        mPlugins(plugins), mBlocks(blocks)
     {
     }
 
     ~WorldManager()
     {
-        m_worlds.clear();
+        mWorlds.clear();
     }
 
     WorldServer* addWorld(const std::string& name)
     {
-        m_worlds.emplace_back(new WorldServer(name, m_plugins, m_blocks, 16));
-        return m_worlds[m_worlds.size() - 1];
+        mWorlds.emplace_back(new WorldServer(name, mPlugins, mBlocks, 16));
+        return mWorlds[mWorlds.size() - 1];
     }
 
-    std::vector<WorldServer*>::iterator begin() { return m_worlds.begin(); }
-    std::vector<WorldServer*>::iterator end() { return m_worlds.end(); }
+    std::vector<WorldServer*>::iterator begin() { return mWorlds.begin(); }
+    std::vector<WorldServer*>::iterator end() { return mWorlds.end(); }
 
 private:
-    std::vector<WorldServer*> m_worlds;
-    PluginManager& m_plugins;
-    BlockManager& m_blocks;
+    std::vector<WorldServer*> mWorlds;
+    PluginManager& mPlugins;
+    BlockManager& mBlocks;
 };
 
 #endif

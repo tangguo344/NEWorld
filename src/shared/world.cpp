@@ -23,29 +23,29 @@
 
 void World::expandChunkArray(size_t c)
 {
-    m_chunkCount += c;
-    if (m_chunkCount > m_chunkArraySize)
+    mChunkCount += c;
+    if (mChunkCount > mChunkArraySize)
     {
-        m_chunkArraySize *= 2;
-        Chunk** newChunks = static_cast<Chunk**>(realloc(m_chunks, m_chunkArraySize * sizeof(Chunk*)));
+        mChunkArraySize *= 2;
+        Chunk** newChunks = static_cast<Chunk**>(realloc(mChunks, mChunkArraySize * sizeof(Chunk*)));
         assert(newChunks != nullptr);
         if (newChunks == nullptr)
         {
-            fatalstream << "Failed to create chunks, size:" << m_chunkArraySize;
+            fatalstream << "Failed to create chunks, size:" << mChunkArraySize;
             // TODO: exit
         }
-        else m_chunks = newChunks;
+        else mChunks = newChunks;
     }
 }
 
 size_t World::getChunkIndex(const Vec3i& pos) const
 {
     // Binary search
-    int first = 0, last = m_chunkCount - 1;
+    int first = 0, last = mChunkCount - 1;
     while (first <= last)
     {
         int mid = (first + last) / 2;
-        const Vec3i& curr = m_chunks[mid]->getPosition();
+        const Vec3i& curr = mChunks[mid]->getPosition();
         if (curr < pos) first = mid + 1;
         else last = mid - 1;
     }
@@ -55,12 +55,12 @@ size_t World::getChunkIndex(const Vec3i& pos) const
 int World::deleteChunk(const Vec3i& chunkPos)
 {
     size_t index = getChunkIndex(chunkPos);
-    if (index >= m_chunkCount || m_chunks[index]->getPosition() != chunkPos)
+    if (index >= mChunkCount || mChunks[index]->getPosition() != chunkPos)
     {
         assert(false);
         return 1;
     }
-    delete m_chunks[index];
+    delete mChunks[index];
     eraseChunkPtr(index);
     // Update chunk pointer array
     return 0;

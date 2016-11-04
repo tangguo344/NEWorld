@@ -22,23 +22,23 @@
 #include "commandmanager.h"
 
 Server::Server(std::vector<std::string> args)
-    : m_worlds(m_plugins, m_blocks), m_plugins(false), m_args(args)
+    : mWorlds(mPlugins, mBlocks), mPlugins(false), mArgs(args)
 {
     using namespace std::chrono;
     auto start_time = steady_clock::now();
 
     // Plugin
-    PluginAPI::Blocks = &m_blocks;
+    PluginAPI::Blocks = &mBlocks;
 
     infostream << "Initializing plugins...";
-    m_plugins.loadPlugins();
+    mPlugins.loadPlugins();
 
     // World
-    m_worlds.addWorld("main_world");
+    mWorlds.addWorld("main_world");
 
     // Network
-    m_network.run(getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1").c_str(),
-                  getJsonValue<unsigned short>(getSettings()["server"]["port"], 9887));
+    mNetwork.run(getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1").c_str(),
+                 getJsonValue<unsigned short>(getSettings()["server"]["port"], 9887));
 
     // Builtin Commands
     initBuiltinCommands();
@@ -51,13 +51,13 @@ Server::Server(std::vector<std::string> args)
 void Server::run()
 {
     // Process input
-    m_commands.inputLoop(); // This will block the main thread
+    mCommands.inputLoop(); // This will block the main thread
 }
 
 void Server::stop()
 {
-    m_network.close();
-    m_commands.setRunningStatus(false);
+    mNetwork.close();
+    mCommands.setRunningStatus(false);
 }
 
 Server::~Server()

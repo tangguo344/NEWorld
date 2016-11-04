@@ -28,38 +28,38 @@ class CommandManager
 {
 public:
     CommandManager()
-        : m_mainloop(std::async([this] { inputLoop(); }))
+        : mMainloop(std::async([this] { inputLoop(); }))
     {
     }
     ~CommandManager()
     {
-        m_threadRunning.store(false, std::memory_order_release);
-        if (!m_waitingForInputing.load(std::memory_order_acquire))
+        mThreadRunning.store(false, std::memory_order_release);
+        if (!mWaitingForInputing.load(std::memory_order_acquire))
         {
-            m_mainloop.wait();
+            mMainloop.wait();
         }
     }
 
     CommandManager(const CommandManager&) = delete;
     CommandManager& operator=(const CommandManager&) = delete;
 
-    CommandMap& getCommandMap() { return m_commandMap; }
+    CommandMap& getCommandMap() { return mCommandMap; }
 
     void inputLoop();
     void setRunningStatus(bool s);
 
     void addCommand(std::string name, CommandInfo info, CommandHandleFunction func)
     {
-        m_commandMap.insert({name, {info, func}});
+        mCommandMap.insert({name, {info, func}});
     }
 
 private:
     CommandExecuteStat handleCommand(Command cmd);
 
-    std::future<void> m_mainloop;
-    std::atomic_bool m_threadRunning{true};
-    std::atomic_bool m_waitingForInputing{false};
-    CommandMap m_commandMap;
+    std::future<void> mMainloop;
+    std::atomic_bool mThreadRunning{true};
+    std::atomic_bool mWaitingForInputing{false};
+    CommandMap mCommandMap;
 };
 
 #endif //!COMMANDCONTROLLER_H_

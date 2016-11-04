@@ -37,16 +37,16 @@ namespace Exception
         struct ExceptionStorage
         {
             ExceptionStorage(std::exception_ptr nestedException, std::chrono::system_clock::time_point const& time, std::string file, unsigned line, std::string src, std::string desc) noexcept
-                : m_NestedException(nestedException), m_Time(time), m_File(file), m_Line(line), m_Source(src), m_Description(desc)
+                : mNestedException(nestedException), mTime(time), mFile(file), mLine(line), mSource(src), mDescription(desc)
             {
             }
 
-            std::exception_ptr m_NestedException;
-            std::chrono::system_clock::time_point m_Time;
-            std::string m_File;
-            unsigned m_Line;
-            std::string m_Source;
-            std::string m_Description;
+            std::exception_ptr mNestedException;
+            std::chrono::system_clock::time_point mTime;
+            std::string mFile;
+            unsigned mLine;
+            std::string mSource;
+            std::string mDescription;
         };
     }
 
@@ -70,37 +70,37 @@ namespace Exception
 
         std::chrono::system_clock::time_point GetTime() const noexcept
         {
-            return m_Time;
+            return mTime;
         }
 
         const char* GetFile() const noexcept
         {
-            return m_File.c_str();
+            return mFile.c_str();
         }
 
         unsigned GetLine() const noexcept
         {
-            return m_Line;
+            return mLine;
         }
 
         const char* GetSource() const noexcept
         {
-            return m_Source.c_str();
+            return mSource.c_str();
         }
 
         const char* GetDesc() const noexcept
         {
-            return m_Description.c_str();
+            return mDescription.c_str();
         }
 
         std::exception_ptr GetNestedException() const noexcept
         {
-            return m_NestedException;
+            return mNestedException;
         }
 
         const char* what() const noexcept override
         {
-            return m_Description.c_str();
+            return mDescription.c_str();
         }
     };
 

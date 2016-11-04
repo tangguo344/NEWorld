@@ -23,7 +23,7 @@
 #include "window.h"
 #include "game.h"
 
-NEWorld::NEWorld() : m_plugins(true)
+NEWorld::NEWorld() : mPlugins(true)
 {
     // Initialize
     Logger::init("client");
@@ -31,12 +31,12 @@ NEWorld::NEWorld() : m_plugins(true)
     Window& window = Window::getInstance("NEWorld", 852, 480);
     Renderer::init();
     Texture::init();
-    PluginAPI::Blocks = &m_blocks;
-    PluginAPI::Plugins = &m_plugins;
-    m_plugins.loadPlugins();
+    PluginAPI::Blocks = &mBlocks;
+    PluginAPI::Plugins = &mPlugins;
+    mPlugins.loadPlugins();
 
     // Run
-    Game game(m_plugins, m_blocks);
+    Game game(mPlugins, mBlocks);
     while(!window.shouldQuit())
     {
         window.pollEvents();
@@ -49,6 +49,6 @@ NEWorld::NEWorld() : m_plugins(true)
 
     // Terminate
     infostream << "Terminating...";
-    m_plugins.unloadPlugins();
+    mPlugins.unloadPlugins();
     Texture::free();
 }

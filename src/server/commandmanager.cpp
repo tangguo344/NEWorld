@@ -24,21 +24,21 @@
 CommandExecuteStat CommandManager::handleCommand(Command cmd)
 {
     strtolower(cmd.name);
-    auto result = m_commandMap.find(cmd.name);
-    if (result != m_commandMap.end())
+    auto result = mCommandMap.find(cmd.name);
+    if (result != mCommandMap.end())
         return (*result).second.second(cmd);
     return{ false,"Command not exists, type help for available commands." };
 }
 
 void CommandManager::inputLoop()
 {
-    while (m_threadRunning.load(std::memory_order_acquire))
+    while (mThreadRunning.load(std::memory_order_acquire))
     {
         std::string input;
         //std::cout << LColorFunc::white << "$> " << LColorFunc::lwhite;
-        m_waitingForInputing.store(true, std::memory_order_release);
+        mWaitingForInputing.store(true, std::memory_order_release);
         getline(std::cin, input);
-        m_waitingForInputing.store(false, std::memory_order_release);
+        mWaitingForInputing.store(false, std::memory_order_release);
         auto result = handleCommand(Command(input));
         if (result.info != "")
             infostream << result.info;
@@ -47,5 +47,5 @@ void CommandManager::inputLoop()
 
 void CommandManager::setRunningStatus(bool s)
 {
-    m_threadRunning = s;
+    mThreadRunning = s;
 }

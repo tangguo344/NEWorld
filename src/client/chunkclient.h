@@ -27,7 +27,7 @@
 class ChunkClient : public Chunk
 {
 public:
-    ChunkClient(const Vec3i& position, World& world) : Chunk(position), m_world(world)
+    ChunkClient(const Vec3i& position, World& world) : Chunk(position), mWorld(world)
     {
         // TEMP CODE
         // Generate terrain at client side to test rendering
@@ -44,7 +44,7 @@ public:
     // Is render built
     bool isRenderBuilt() const
     {
-        return m_renderBuilt;
+        return mRenderBuilt;
     }
 
     // Build VBO
@@ -53,23 +53,23 @@ public:
     // Destroy VBO
     void destroyVertexArray()
     {
-        m_buffer.destroy();
-        m_renderBuilt = false;
+        mBuffer.destroy();
+        mRenderBuilt = false;
     }
 
     // Draw call
     void render() const
     {
-        m_buffer.render();
+        mBuffer.render();
     }
 
 private:
     // Target world
-    World& m_world;
+    World& mWorld;
     // Vertex buffer object
-    VertexBuffer m_buffer;
+    VertexBuffer mBuffer;
     // Render built
-    bool m_renderBuilt = false;
+    bool mRenderBuilt = false;
 
     // Vertex array
     static VertexArray va;
@@ -79,7 +79,7 @@ private:
     bool adjacentTest(BlockData a, BlockData b) const
     {
         if (a.getID() == 0) return false;
-        if (m_world.getBlockTypes().getType(b.getID()).isOpaque()) return false;
+        if (mWorld.getBlockTypes().getType(b.getID()).isOpaque()) return false;
         return true;
     }
 };
