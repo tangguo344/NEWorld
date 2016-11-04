@@ -12,7 +12,7 @@ if (LINUX)
 endif()
 
 if(LINK_BOOST STREQUAL "ON")
-    link_libraries(boost_system boost_filesystem boost_date_time)
+    link_libraries(boost_system boost_filesystem)
 endif()
 
 if(EXTRA_INCDIR)
