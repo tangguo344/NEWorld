@@ -230,6 +230,9 @@
     <PreBuildEvent>
       <Command>$(SolutionDir)..\..\scripts\bootstrap.bat</Command>
     </PreBuildEvent>
+    <Lib>
+      <AdditionalDependencies>ws2_32.lib;RakNetLibStatic.lib;flatbuffers.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

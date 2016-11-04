@@ -28,7 +28,15 @@ using Json = nlohmann::json;
 
 const std::string SettingsFilename = "settings.json";
 
-Json readJsonFromFile(std::string filename);
+inline Json readJsonFromFile(std::string filename)
+{
+    std::ifstream file(filename);
+    std::string content = std::string((std::istreambuf_iterator<char>(file)),
+                                      std::istreambuf_iterator<char>());
+    if (!content.empty())
+        return Json::parse(content);
+    return Json();
+}
 
 inline void writeJsonToFile(std::string filename, Json& json)
 {
