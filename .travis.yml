@@ -2,9 +2,11 @@ language: generic
 sudo: required
 dist: trusty
 cache:
-  directories:
-    - boost_1_61_0/stage
-    - boost_1_61_0/boost
+  directories:		
+    - boost_1_61_0/stage		
+    - boost_1_61_0/boost		
+    - RakNet		
+    - flatbuffers		
     - bin/CMakeFiles/
 matrix:
   include:
@@ -35,18 +37,46 @@ install:
   - sudo cp -r /usr/include/freetype2/* /usr/include/
   - sudo cp -r /usr/include/freetype2 /usr/include/freetype
   - |
-    if [ ! -f ./boost_1_61_0/boost/dll/shared_library.hpp ];
+    if [ ! -f ./boost_1_61_0/cached_mark ];
     then
+    mkdir release
     wget http://downloads.sourceforge.net/project/boost/boost/1.61.0/boost_1_61_0.7z
     p7zip -d ./boost_1_61_0.7z > 7zlog.txt
     cd ./boost_1_61_0
     touch cached_mark
-    ./bootstrap.sh --with-libraries=date_time,filesystem,system
+    ./bootstrap.sh --with-libraries=filesystem,system
     ./b2
     cd ..
     fi
+  - |
+    if [ ! -f ./RakNet/cached_mark ];
+    then
+    git clone https://github.com/OculusVR/RakNet.git
+    cd ./RakNet
+    cmake .
+    make
+    make install
+    touch cached_mark
+    cd ..
+    fi
+  - |
+    if [ ! -f ./flatbuffers/cached_mark ];
+    then
+    git clone https://github.com/google/flatbuffers.git
+    cd ./flatbuffers
+    cmake .
+    make
+    touch cached_mark
+    cd ..
+    fi
+  - export NEWORLD_PATH=/home/travis/build/Infinideastudio/NEWorld
+  - export CPLUS_INCLUDE_PATH=$NEWORLD_PATH/boost_1_61_0/:$NEWORLD_PATH/RakNet/include:$NEWORLD_PATH/flatbuffers/include/
+  - export LIBRARY_PATH=$NEWORLD_PATH/boost_1_61_0/stage/lib/:$NEWORLD_PATH/flatbuffers/:$NEWORLD_PATH/RakNet/Lib/DLL/
 script:
-  - cd ./bin/
-  - cmake .. -DLINK_BOOST=ON -DEXTRA_LIBDIR=./boost_1_61_0/stage/lib/ -DEXTRA_INCDIR=./boost_1_61_0/ -Wno-dev
+  - cd ./src/protocol
+  - python ./make_fb.py ../../flatbuffers/
+  - cd ../../
+  - cd ./release/
+  - cmake .. -DLINK_BOOST=ON -Wno-dev
   - make
   - cd ..
