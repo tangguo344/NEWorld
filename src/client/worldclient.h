@@ -41,7 +41,7 @@ public:
 
     void setRenderDistance(int x)
     {
-        m_renderDist = x;
+        mRenderDist = x;
     }
 
     // Build/Destroy VBO
@@ -52,9 +52,9 @@ public:
 
 private:
     // Render distance
-    int m_renderDist = 0;
+    int mRenderDist = 0;
     // Render build list
-    std::pair<ChunkClient*, int> m_chunkRenderList[MaxChunkRenderCount];
+    std::pair<ChunkClient*, int> mChunkRenderList[MaxChunkRenderCount];
 
 };
 

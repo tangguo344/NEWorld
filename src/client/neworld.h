@@ -32,8 +32,8 @@ public:
     NEWorld();
 
 private:
-    PluginManager m_plugins;
-    BlockManager m_blocks;
+    PluginManager mPlugins;
+    BlockManager mBlocks;
 };
 
 

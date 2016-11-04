@@ -21,7 +21,7 @@
 
 void BlockManager::showInfo(size_t id) const
 {
-    BlockType block = m_blocks[id];
+    BlockType block = mBlocks[id];
     debugstream << "Block \"" << block.getName() << "\"(ID = " << id << ") = {"
                 << "Solid: " << block.isSolid()
                 << ", Translucent: " << block.isTranslucent()

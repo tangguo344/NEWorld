@@ -31,12 +31,12 @@ using PlayerID = std::string; // Player ID is player's name
 
 struct PlayerData
 {
-    PlayerID m_uid;
-    bool m_online;
-    std::string m_key;
+    PlayerID mUid;
+    bool mOnline;
+    std::string mKey;
 
-    Vec3d m_speed, m_direction, m_position, m_rotation, m_scale;
-    AABB m_hitbox;
+    Vec3d mSpeed, mDirection, mPosition, mRotation, mScale;
+    AABB mHitbox;
 };
 
 class PlayerManager
@@ -44,8 +44,8 @@ class PlayerManager
 public:
     PlayerData* getPlayer(const PlayerID& uid)
     {
-        auto player = m_players.find(uid);
-        if (player == m_players.end())
+        auto player = mPlayers.find(uid);
+        if (player == mPlayers.end())
         {
             warningstream << "Failed to find player:" << uid;
             return nullptr;
@@ -55,24 +55,24 @@ public:
 
     PlayerData* loginOrRegister(const PlayerID& uid, const std::string& key)
     {
-        auto& player = m_players[uid];
-        if (player.m_uid.empty())   // new user
+        auto& player = mPlayers[uid];
+        if (player.mUid.empty())   // new user
         {
-            player.m_uid = uid;
+            player.mUid = uid;
             // init player data
         }
         else
         {
-            if (player.m_key != key) //wrong password
+            if (player.mKey != key) //wrong password
                 return nullptr;
         }
 
-        player.m_online = true;
+        player.mOnline = true;
         return &player;
     }
 
 private:
-    std::unordered_map<PlayerID, PlayerData> m_players;
+    std::unordered_map<PlayerID, PlayerData> mPlayers;
 };
 
 #endif // !PLAYER_MANAGER_H_

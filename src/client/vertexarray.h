@@ -54,9 +54,9 @@ class VertexArray
 public:
     VertexArray(int maxVertexes, const VertexFormat& format)
 try :
-        m_maxVertexes(maxVertexes), m_vertexes(0), m_format(format),
-                      m_data(new float[m_maxVertexes * format.vertexAttributeCount]),
-                      m_vertexAttributes(new float[format.vertexAttributeCount])
+        mMaxVertexes(maxVertexes), mVertexes(0), mFormat(format),
+                      mData(new float[mMaxVertexes * format.vertexAttributeCount]),
+                      mVertexAttributes(new float[format.vertexAttributeCount])
     {
     }
     catch (std::bad_alloc)
@@ -66,8 +66,8 @@ try :
 
     ~VertexArray()
     {
-        delete[] m_data;
-        delete[] m_vertexAttributes;
+        delete[] mData;
+        delete[] mVertexAttributes;
     }
 
     VertexArray(const VertexArray&) = delete;
@@ -75,16 +75,16 @@ try :
 
     void clear()
     {
-        memset(m_data, 0, m_maxVertexes * m_format.vertexAttributeCount * sizeof(float));
-        memset(m_vertexAttributes, 0, m_format.vertexAttributeCount * sizeof(float));
-        m_vertexes = 0;
+        memset(mData, 0, mMaxVertexes * mFormat.vertexAttributeCount * sizeof(float));
+        memset(mVertexAttributes, 0, mFormat.vertexAttributeCount * sizeof(float));
+        mVertexes = 0;
     }
 
     // Set texture coordinates
     void setTexture(size_t size, const float* texture)
     {
-        assert(size <= m_format.textureCount);
-        memcpy(m_vertexAttributes, texture, size * sizeof(float));
+        assert(size <= mFormat.textureCount);
+        memcpy(mVertexAttributes, texture, size * sizeof(float));
     }
 
     void setTexture(std::initializer_list<float> texture)
@@ -95,8 +95,8 @@ try :
     // Set color value
     void setColor(size_t size, const float* color)
     {
-        assert(size <= m_format.colorCount);
-        memcpy(m_vertexAttributes + m_format.textureCount, color, size * sizeof(float));
+        assert(size <= mFormat.colorCount);
+        memcpy(mVertexAttributes + mFormat.textureCount, color, size * sizeof(float));
     }
 
     void setColor(std::initializer_list<float> color)
@@ -107,8 +107,8 @@ try :
     // Set normal vector
     void setNormal(size_t size, const float* normal)
     {
-        assert(size <= m_format.normalCount);
-        memcpy(m_vertexAttributes + m_format.textureCount + m_format.colorCount, normal, size * sizeof(float));
+        assert(size <= mFormat.normalCount);
+        memcpy(mVertexAttributes + mFormat.textureCount + mFormat.colorCount, normal, size * sizeof(float));
     }
 
     void setNormal(std::initializer_list<float> normal)
@@ -119,10 +119,10 @@ try :
     // Add vertex
     void addVertex(const float* coords)
     {
-        auto cnt = m_format.textureCount + m_format.colorCount + m_format.normalCount;
-        memcpy(m_data + m_vertexes * m_format.vertexAttributeCount, m_vertexAttributes, cnt * sizeof(float));
-        memcpy(m_data + m_vertexes * m_format.vertexAttributeCount + cnt, coords, m_format.coordinateCount * sizeof(float));
-        m_vertexes++;
+        auto cnt = mFormat.textureCount + mFormat.colorCount + mFormat.normalCount;
+        memcpy(mData + mVertexes * mFormat.vertexAttributeCount, mVertexAttributes, cnt * sizeof(float));
+        memcpy(mData + mVertexes * mFormat.vertexAttributeCount + cnt, coords, mFormat.coordinateCount * sizeof(float));
+        mVertexes++;
     }
 
     void addVertex(std::initializer_list<float> coords)
@@ -133,32 +133,32 @@ try :
     // Get current vertex format
     const VertexFormat& getFormat() const
     {
-        return m_format;
+        return mFormat;
     }
 
     // Get current vertex data
     const float* getData() const
     {
-        return m_data;
+        return mData;
     }
 
     // Get current vertex count
     int getVertexCount() const
     {
-        return m_vertexes;
+        return mVertexes;
     }
 
 private:
     // Max vertex count
-    const int m_maxVertexes;
+    const int mMaxVertexes;
     // Vertex count
-    int m_vertexes;
+    int mVertexes;
     // Vertex array format
-    VertexFormat m_format;
+    VertexFormat mFormat;
     // Vertex array
-    float* m_data;
+    float* mData;
     // Current vertex attributes
-    float* m_vertexAttributes;
+    float* mVertexAttributes;
 };
 
 class VertexBuffer

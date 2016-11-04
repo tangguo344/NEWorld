@@ -22,17 +22,17 @@
 Chunk* WorldClient::addChunk(const Vec3i& chunkPos)
 {
     size_t index = getChunkIndex(chunkPos);
-    if (index < m_chunkCount && m_chunks[index]->getPosition() == chunkPos)
+    if (index < mChunkCount && mChunks[index]->getPosition() == chunkPos)
     {
         assert(false);
         return nullptr;
     }
     newChunkPtr(index);
-    m_chunks[index] = static_cast<Chunk*>(new ChunkClient(chunkPos,*this));
+    mChunks[index] = static_cast<Chunk*>(new ChunkClient(chunkPos,*this));
     // TODO: Update chunk pointer cache
     // TODO: Update chunk pointer array
     // Return pointer
-    return m_chunks[index];
+    return mChunks[index];
 }
 
 void WorldClient::renderUpdate(const Vec3i& position)
@@ -45,7 +45,7 @@ void WorldClient::renderUpdate(const Vec3i& position)
         ChunkClient* p = static_cast<ChunkClient*>(getChunkPtr(i));
 
         // In render range, pending to render
-        if (chunkpos.chebyshevDistance(p->getPosition()) <= m_renderDist)
+        if (chunkpos.chebyshevDistance(p->getPosition()) <= mRenderDist)
         {
             if (p->isRenderBuilt()/* || p->isEmpty()*/)
                 continue;
@@ -81,7 +81,7 @@ void WorldClient::renderUpdate(const Vec3i& position)
             while (first <= last)
             {
                 int middle = (first + last) / 2;
-                if (distsqr < m_chunkRenderList[middle].second)
+                if (distsqr < mChunkRenderList[middle].second)
                     last = middle - 1;
                 else
                     first = middle + 1;
@@ -93,10 +93,10 @@ void WorldClient::renderUpdate(const Vec3i& position)
 
             // Move elements to make prace
             for (int j = MaxChunkRenderCount - 1; j > first; j--)
-                m_chunkRenderList[j] = m_chunkRenderList[j - 1];
+                mChunkRenderList[j] = mChunkRenderList[j - 1];
 
             // Insert into list
-            m_chunkRenderList[first] = { p, distsqr };
+            mChunkRenderList[first] = { p, distsqr };
 
             // Add counter
             if (pr < MaxChunkRenderCount) pr++;
@@ -112,7 +112,7 @@ void WorldClient::renderUpdate(const Vec3i& position)
 
     for (int i = 0; i < pr; i++)
     {
-        m_chunkRenderList[i].first->buildVertexArray();
+        mChunkRenderList[i].first->buildVertexArray();
     }
 
 }
@@ -126,7 +126,7 @@ size_t WorldClient::render(const Vec3i& position) const
         ChunkClient* p = static_cast<ChunkClient*>(getChunkPtr(i));
         if (!p->isRenderBuilt())
             continue;
-        if (chunkpos.chebyshevDistance(p->getPosition()) > m_renderDist)
+        if (chunkpos.chebyshevDistance(p->getPosition()) > mRenderDist)
             continue;
         Renderer::translate(Vec3f(p->getPosition() * ChunkSize));
         p->render();

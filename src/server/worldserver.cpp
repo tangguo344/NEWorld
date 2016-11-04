@@ -23,17 +23,17 @@
 Chunk* WorldServer::addChunk(const Vec3i& chunkPos)
 {
     size_t index = getChunkIndex(chunkPos);
-    if (index < m_chunkCount && m_chunks[index]->getPosition() == chunkPos)
+    if (index < mChunkCount && mChunks[index]->getPosition() == chunkPos)
     {
         assert(false);
         return nullptr;
     }
     newChunkPtr(index);
-    m_chunks[index] = static_cast<Chunk*>(new ChunkServer(chunkPos));
+    mChunks[index] = static_cast<Chunk*>(new ChunkServer(chunkPos));
     // TODO: Update chunk pointer cache
     // TODO: Update chunk pointer array
     // Return pointer
-    return m_chunks[index];
+    return mChunks[index];
 }
 
 void WorldServer::sortChunkLoadUnloadList(const Vec3i& centerPos)
@@ -43,7 +43,7 @@ void WorldServer::sortChunkLoadUnloadList(const Vec3i& centerPos)
     int distsqr, first, middle, last;
 
     // centerPos to chunk coords
-    //centerCPos = m_world->getChunkPos(centerPos);
+    //centerCPos = mWorld->getChunkPos(centerPos);
 
     for (size_t ci = 0; ci < getChunkCount(); ci++)
     {
@@ -55,7 +55,7 @@ void WorldServer::sortChunkLoadUnloadList(const Vec3i& centerPos)
         });
 
         // Out of load range, pending to unload
-        if (centerPos.chebyshevDistance(curPos) > m_loadRange)
+        if (centerPos.chebyshevDistance(curPos) > mLoadRange)
         {
             // Distance from centerPos
             distsqr = (curPos - centerPos).lengthSqr();
@@ -66,7 +66,7 @@ void WorldServer::sortChunkLoadUnloadList(const Vec3i& centerPos)
             while (first <= last)
             {
                 middle = (first + last) / 2;
-                if (distsqr > m_chunkUnloadList[middle].second)
+                if (distsqr > mChunkUnloadList[middle].second)
                     last = middle - 1;
                 else
                     first = middle + 1;
@@ -77,22 +77,22 @@ void WorldServer::sortChunkLoadUnloadList(const Vec3i& centerPos)
 
             // Move elements to make place
             for (int j = MaxChunkUnloadCount - 1; j > first; j--)
-                m_chunkUnloadList[j] = m_chunkUnloadList[j - 1];
+                mChunkUnloadList[j] = mChunkUnloadList[j - 1];
 
             // Insert into list
-            m_chunkUnloadList[first] = { getChunkPtr(ci), distsqr };
+            mChunkUnloadList[first] = { getChunkPtr(ci), distsqr };
 
             // Add counter
             if (pl < MaxChunkUnloadCount) pl++;
         }
     }
-    m_chunkUnloadCount = pl;
+    mChunkUnloadCount = pl;
 
-    for (int x = centerPos.x - m_loadRange; x <= centerPos.x + m_loadRange; x++)
-        for (int y = centerPos.y - m_loadRange; y <= centerPos.y + m_loadRange; y++)
-            for (int z = centerPos.z - m_loadRange; z <= centerPos.z + m_loadRange; z++)
+    for (int x = centerPos.x - mLoadRange; x <= centerPos.x + mLoadRange; x++)
+        for (int y = centerPos.y - mLoadRange; y <= centerPos.y + mLoadRange; y++)
+            for (int z = centerPos.z - mLoadRange; z <= centerPos.z + mLoadRange; z++)
                 // In load range, pending to load
-                if (!isChunkLoaded(Vec3i(x, y, z))) // if (m_cpa.get(Vec3i(x, y, z)) == nullptr)
+                if (!isChunkLoaded(Vec3i(x, y, z))) // if (mCpa.get(Vec3i(x, y, z)) == nullptr)
                 {
                     Vec3i curPos(x, y, z);
                     // Get chunk center pos
@@ -110,7 +110,7 @@ void WorldServer::sortChunkLoadUnloadList(const Vec3i& centerPos)
                     while (first <= last)
                     {
                         middle = (first + last) >> 1;
-                        if (distsqr < m_chunkLoadList[middle].second)
+                        if (distsqr < mChunkLoadList[middle].second)
                             last = middle - 1;
                         else
                             first = middle + 1;
@@ -121,27 +121,27 @@ void WorldServer::sortChunkLoadUnloadList(const Vec3i& centerPos)
 
                     // Move elements to make place
                     for (int j = MaxChunkLoadCount - 1; j > first; j--)
-                        m_chunkLoadList[j] = m_chunkLoadList[j - 1];
+                        mChunkLoadList[j] = mChunkLoadList[j - 1];
 
                     // Insert into list
-                    m_chunkLoadList[first] = { Vec3i(x, y, z),distsqr };
+                    mChunkLoadList[first] = { Vec3i(x, y, z),distsqr };
 
                     // Add counter
                     if (pu < MaxChunkLoadCount) pu++;
                 }
-    m_chunkLoadCount = pu;
+    mChunkLoadCount = pu;
 }
 
 void WorldServer::loadUnloadChunks()
 {
-    for (int i = 0; i < m_chunkLoadCount; i++)
+    for (int i = 0; i < mChunkLoadCount; i++)
     {
         // TODO: Try to read in file
-        static_cast<ChunkServer*>(addChunk(m_chunkLoadList[i].first))->build(getDaylightBrightness());
+        static_cast<ChunkServer*>(addChunk(mChunkLoadList[i].first))->build(getDaylightBrightness());
     }
-    for (int i = 0; i < m_chunkUnloadCount; i++)
+    for (int i = 0; i < mChunkUnloadCount; i++)
     {
         // TODO: Save chunk
-        deleteChunk(m_chunkUnloadList[i].first->getPosition());
+        deleteChunk(mChunkUnloadList[i].first->getPosition());
     }
 }

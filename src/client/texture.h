@@ -46,15 +46,15 @@ public:
 
     static Texture loadBlock3DTexture(std::string filename);
 
-    TextureID getTextureID() const { return m_id; }
+    TextureID getTextureID() const { return mId; }
 
-    void bind(GLenum target) const { glBindTexture(target, m_id); }
+    void bind(GLenum target) const { glBindTexture(target, mId); }
 
 private:
 
-    explicit Texture(TextureID id) :m_id(id) {}
+    explicit Texture(TextureID id) :mId(id) {}
 
-    TextureID m_id;
+    TextureID mId;
 
     static void build2DMipmaps(GLenum format, int w, int h, int level, const ubyte* src);
 
