@@ -21,6 +21,7 @@
 #ifndef LIBRARY_H_
 #define LIBRARY_H_
 
+#include <common.h>
 #include <string>
 #include <functional>
 
