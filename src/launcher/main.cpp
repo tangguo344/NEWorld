@@ -53,7 +53,15 @@ int main(int argc, char** argv)
     std::string clientFilename = getJsonValue<std::string>(settings["client"]["file"], "nwclient.dll");
     std::string serverFilename = getJsonValue<std::string>(settings["server"]["file"], "nwserver.dll");
 
-    file = in == "server" ? serverFilename : clientFilename;
+    if (argc == 2)
+    {
+        file = in == "server" ? serverFilename : clientFilename;
+    }
+    else
+    {
+        infostream << "Opening file:" << argv[2] << " directly";
+        file = argv[2];
+    }
 
     Library(file).get<MainFunction>("main")(argc, argv);
 }
