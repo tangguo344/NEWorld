@@ -35,25 +35,8 @@
 #include "player.h"
 #include "network.h"
 #include "widgetmanager.h"
-#include "singleplaymanager.h"
+#include "localserverloader.h"
 #include <ratemeter.h>
-
-class GameConnection
-{
-public:
-    virtual void connect() = 0;
-    virtual void disconnect() = 0;
-    virtual World* getWorld(size_t id) = 0;
-    virtual ~GameConnection() = default;
-};
-
-class SinglePlayerConnection : public GameConnection
-{
-public:
-    void connect() override;
-    void disconnect() override;
-    World* getWorld(size_t id) override;
-};
 
 class Game
 {
@@ -81,7 +64,7 @@ private:
     // Player test
     Player mPlayer;
     // Local Server
-    SinglePlayManager mSinglePlayManager;
+    LocalServerLoader mSinglePlayManager;
     // Connection
     Connection mConn;
     // FlatBuffer Builder
