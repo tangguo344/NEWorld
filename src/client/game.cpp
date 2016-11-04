@@ -30,13 +30,13 @@
 
 Game::Game(PluginManager& pm, const BlockManager& bm)
     : mBlocks(bm), mPlugins(pm),
-    mWorld("TestWorld", pm, bm),// TODO: read from settings
-    mPlayer(&mWorld),
-    mSinglePlayManager([this](bool success)
+      mWorld("TestWorld", pm, bm),// TODO: read from settings
+      mPlayer(&mWorld),
+      mSinglePlayManager([this](bool success)
 {
     if (success)
         mConn.connect(getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1").c_str(),
-            getJsonValue<unsigned short>(getSettings()["server"]["port"], 9887));
+                      getJsonValue<unsigned short>(getSettings()["server"]["port"], 9887));
 })
 {
     mSinglePlayManager.run(); // TODO: start the server only when it's a single player mode.
@@ -58,7 +58,7 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
 
     mConn.waitForConnected();
     mConn.send(c2s::CreateLoginDirect(mFbb, "test", "123456", NEWorldVersion),
-        PacketPriority::HIGH_PRIORITY, PacketReliability::RELIABLE);
+               PacketPriority::HIGH_PRIORITY, PacketReliability::RELIABLE);
 
     // Initialize Widgets
     mWidgetManager.addWidget(std::make_shared<WidgetCallback>("Debug", ImVec2(100, 200), [this]
@@ -79,10 +79,7 @@ Game::~Game()
 
 void Game::update()
 {
-    mPlayer.update();
-    mWorld.renderUpdate(Vec3i(mPlayer.getPosition()));
-    mWorld.update();
-    Window& win=win.getInstance();
+    Window& win = win.getInstance();
     // TODO: Read keys from the configuration file
     if (win.isKeyDown(SDL_SCANCODE_UP))
         mPlayer.rotate(Vec3d(1.5, 0.0, 0.0));
@@ -105,22 +102,17 @@ void Game::update()
     if (win.isKeyDown(SDL_SCANCODE_LCTRL) || win.isKeyDown(SDL_SCANCODE_RCTRL))
         mPlayer.accelerate(Vec3d(0.0, -0.05, 0.0));
 
+    mPlayer.update();
+    mWorld.renderUpdate(Vec3i(mPlayer.getPosition()));
+    mWorld.update();
     mWidgetManager.update();
 }
-// TEMP FUNCTION: drawLines
-void drawLines()
+
+// TEMP FUNCTION: to show the world coordinates
+void drawAxes()
 {
-    // To show the world coordinates
     glDisable(GL_CULL_FACE);
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-    /*
-    glBegin(GL_QUADS);
-    glVertex3f(0.0f, 0.0f, 0.0f);
-    glVertex3f(0.0f, 0.0f, 32.0f);
-    glVertex3f(32.0f, 0.0f, 32.0f);
-    glVertex3f(32.0f, 0.0f, 0.0f);
-    glEnd();
-    */
     // X
     glColor3f(1.0f, 0.0f, 0.0f);
     glBegin(GL_LINES);
@@ -140,8 +132,8 @@ void drawLines()
     glVertex3f(0.0f, 0.0f, 256.0f);
     glEnd();
     glEnable(GL_CULL_FACE);
-
 }
+
 void Game::render()
 {
     glClearColor(0.6f, 0.9f, 1.0f, 1.0f);
@@ -165,7 +157,7 @@ void Game::render()
     glDisable(GL_TEXTURE_2D);
 
     // TEMP CODE
-    drawLines();
+    drawAxes();
     // END TEMP CODE
 
     glDisable(GL_DEPTH_TEST);
