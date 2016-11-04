@@ -30,26 +30,26 @@ class BlockManager
 public:
     BlockManager()
     {
-        m_blocks.push_back(BlockType("Air", false, false, false, 0, 0));
+        mBlocks.push_back(BlockType("Air", false, false, false, 0, 0));
     }
 
     size_t registerBlock(const BlockType& block)
     {
-        m_blocks.push_back(block);
+        mBlocks.push_back(block);
         debugstream << "Registered block:";
-        showInfo(m_blocks.size() - 1);
-        return m_blocks.size() - 1;
+        showInfo(mBlocks.size() - 1);
+        return mBlocks.size() - 1;
     }
 
     const BlockType& getType(int id) const
     {
-        return m_blocks[id];
+        return mBlocks[id];
     }
 
     void showInfo(size_t id) const;
 
 private:
-    std::vector<BlockType> m_blocks;
+    std::vector<BlockType> mBlocks;
 
 };
 

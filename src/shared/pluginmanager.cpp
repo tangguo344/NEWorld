@@ -25,17 +25,17 @@
 #include "logger.h"
 
 PluginManager::PluginManager(bool isClient)
-    : m_isClient(isClient)
+    : mIsClient(isClient)
 {
 }
 
 void PluginManager::loadPlugin(const std::string& filename)
 {
-    m_plugins.emplace_back(Plugin(filename));
-    Plugin& plugin = m_plugins[m_plugins.size() - 1];
-    if (plugin.getData().isClientPlugin != m_isClient)
+    mPlugins.emplace_back(Plugin(filename));
+    Plugin& plugin = mPlugins[mPlugins.size() - 1];
+    if (plugin.getData().isClientPlugin != mIsClient)
     {
-        m_plugins.pop_back();
+        mPlugins.pop_back();
         return;
     }
 
@@ -43,7 +43,7 @@ void PluginManager::loadPlugin(const std::string& filename)
 
     if (!plugin.isLoaded())
     {
-        m_plugins.pop_back();
+        mPlugins.pop_back();
         warningstream << "Failed to load plugin from \"" << filename << "\", skipping";
         return;
     }
@@ -74,5 +74,5 @@ void PluginManager::loadPlugins()
 
 void PluginManager::unloadPlugins()
 {
-    m_plugins.clear();
+    mPlugins.clear();
 }

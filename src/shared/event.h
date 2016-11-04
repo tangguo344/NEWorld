@@ -46,7 +46,7 @@ namespace Event
     {
     public:
         constexpr EventBase() noexcept
-            : m_Canceled(false)
+            : mCanceled(false)
         {
         }
         virtual ~EventBase();
@@ -56,7 +56,7 @@ namespace Event
         virtual bool IsCanceled() const noexcept;
 
     private:
-        bool m_Canceled;
+        bool mCanceled;
     };
 
     class EventBus final
@@ -70,7 +70,7 @@ namespace Event
         std::enable_if_t<std::is_base_of<EventBase, EventClass>::value, void> RegisterEvent()
         {
             bool Succeeded;
-            tie(std::ignore, Succeeded) = m_EventListenerMap.emplace(typeid(EventClass));
+            tie(std::ignore, Succeeded) = mEventListenerMap.emplace(typeid(EventClass));
 
             if (!Succeeded)
             {
@@ -81,8 +81,8 @@ namespace Event
         template <typename EventClass>
         ListenerIDType RegisterEventListener(EventListenerDelegate const& listener, PriorityType priority = Priority::Normal)
         {
-            auto iter = m_EventListenerMap.find(typeid(EventClass));
-            if (iter == m_EventListenerMap.end())
+            auto iter = mEventListenerMap.find(typeid(EventClass));
+            if (iter == mEventListenerMap.end())
             {
                 nw_throw(Exception::Exception, "Unregistered event.");
             }
@@ -96,8 +96,8 @@ namespace Event
         template <typename EventClass>
         void UnregisterEventListener(PriorityType priority, ListenerIDType ListenerID)
         {
-            auto iter = m_EventListenerMap.find(typeid(EventClass));
-            if (iter == m_EventListenerMap.end())
+            auto iter = mEventListenerMap.find(typeid(EventClass));
+            if (iter == mEventListenerMap.end())
             {
                 nw_throw(Exception::Exception, "Unregistered event.");
             }
@@ -112,8 +112,8 @@ namespace Event
         template <typename EventClass>
         bool Post(EventClass& event)
         {
-            auto iter = m_EventListenerMap.find(typeid(EventClass));
-            if (iter == m_EventListenerMap.end())
+            auto iter = mEventListenerMap.find(typeid(EventClass));
+            if (iter == mEventListenerMap.end())
             {
                 nw_throw(Exception::Exception, "Unregistered event.");
             }
@@ -130,7 +130,7 @@ namespace Event
         }
 
     private:
-        std::unordered_map<std::type_index, std::map<PriorityType, std::map<ListenerIDType, EventListenerDelegate>>> m_EventListenerMap;
+        std::unordered_map<std::type_index, std::map<PriorityType, std::map<ListenerIDType, EventListenerDelegate>>> mEventListenerMap;
     };
 }
 

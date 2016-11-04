@@ -30,14 +30,14 @@ class WorldServer : public World
 {
 public:
     WorldServer(const std::string& name, PluginManager& plugins, BlockManager& blocks, int loadRange)
-        : World(name,plugins,blocks),m_cpa(getChunkPointerArray()), m_loadRange(loadRange)
+        : World(name,plugins,blocks),mCpa(getChunkPointerArray()), mLoadRange(loadRange)
     {
     }
 
     // Set load range
     void setLoadRange(int x)
     {
-        m_loadRange = x;
+        mLoadRange = x;
     }
 
     // Find the nearest chunks in load range to load, fartherest chunks out of load range to unload
@@ -49,13 +49,13 @@ public:
 
 private:
     // ChunkPointerArray used to detect unloaded chunks in load range
-    ChunkPointerArray& m_cpa;
+    ChunkPointerArray& mCpa;
 
-    int m_chunkLoadCount, m_chunkUnloadCount = 0, m_loadRange = 0;
+    int mChunkLoadCount, mChunkUnloadCount = 0, mLoadRange = 0;
     // Chunk load list [position, distance]
-    std::pair<Vec3i, int> m_chunkLoadList[MaxChunkLoadCount];
+    std::pair<Vec3i, int> mChunkLoadList[MaxChunkLoadCount];
     // Chunk unload list [pointer, distance]
-    std::pair<Chunk*, int> m_chunkUnloadList[MaxChunkUnloadCount];
+    std::pair<Chunk*, int> mChunkUnloadList[MaxChunkUnloadCount];
 
 };
 

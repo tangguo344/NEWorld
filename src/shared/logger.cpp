@@ -108,15 +108,15 @@ void Logger::init(const std::string& prefix)
 }
 
 Logger::Logger(const char* fileName, const char *funcName, int lineNumber, Level level)
-    : m_level(level)
+    : mLevel(level)
 {
-    if (m_level >= lineLevel)
+    if (mLevel >= lineLevel)
     {
-        m_fileName = fileName;
-        m_funcName = funcName;
-        m_lineNumber = lineNumber;
+        mFileName = fileName;
+        mFuncName = funcName;
+        mLineNumber = lineNumber;
     }
-    m_content << LColor::white << getTimeString('-', ' ', ':') << LevelTags[static_cast<size_t>(level)];
+    mContent << LColor::white << getTimeString('-', ' ', ':') << LevelTags[static_cast<size_t>(level)];
 }
 
 void Logger::writeOstream(std::ostream& ostream, bool noColor) const
@@ -130,7 +130,7 @@ void Logger::writeOstream(std::ostream& ostream, bool noColor) const
         {'8',lblack},{'9',lred},{'a',lyellow},{'b',lgreen},
         {'c',lcyan},{'d',lblue},{'e',lmagenta},{'f',lwhite},
     };
-    std::string str = m_content.str();
+    std::string str = mContent.str();
     std::string::size_type pos1 = 0, pos2 = str.find(stylechar);
     for (;;)
     {
@@ -161,28 +161,28 @@ void Logger::writeOstream(std::ostream& ostream, bool noColor) const
 
 Logger::~Logger()
 {
-    if (m_level >= lineLevel)
+    if (mLevel >= lineLevel)
     {
-        m_content << std::endl
-                  << "\tSource :\t" << m_fileName << std::endl
-                  << "\tAt Line :\t" << m_lineNumber << std::endl
-                  << "\tFunction :\t" << m_funcName << std::endl
+        mContent << std::endl
+                  << "\tSource :\t" << mFileName << std::endl
+                  << "\tAt Line :\t" << mLineNumber << std::endl
+                  << "\tFunction :\t" << mFuncName << std::endl
                   ;
     }
-    m_content << std::endl;
+    mContent << std::endl;
     if (!fileOnly)
     {
-        if (m_level >= cerrLevel)
+        if (mLevel >= cerrLevel)
             writeOstream(std::cerr);
-        else if (m_level >= coutLevel)
+        else if (mLevel >= coutLevel)
             writeOstream(std::cout);
     }
-    if (m_level >= fileLevel)
+    if (mLevel >= fileLevel)
     {
         for (auto& it : fsink)
         {
             writeOstream(it, true);
-            if (m_level >= cerrLevel) it.flush();
+            if (mLevel >= cerrLevel) it.flush();
         }
     }
 }

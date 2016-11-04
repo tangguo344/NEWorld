@@ -29,16 +29,16 @@ int Plugin::init()
     InitFunction* init = nullptr;
     try
     {
-        init = m_lib.get<InitFunction>("init");
+        init = mLib.get<InitFunction>("init");
         init();
     }
     catch (std::exception& e)
     {
-        if (!m_lib.isLoaded()) return m_status = 1; // Failed: could not load
-        if (init == nullptr) return m_status = 2; // Failed: entry not found
+        if (!mLib.isLoaded()) return mStatus = 1; // Failed: could not load
+        if (init == nullptr) return mStatus = 2; // Failed: entry not found
         warningstream << "Failed: unhandled exception: " << e.what();
     }
-    return m_status = 0;
+    return mStatus = 0;
 }
 
 int Plugin::loadFrom(const std::string& filename)
@@ -46,36 +46,36 @@ int Plugin::loadFrom(const std::string& filename)
     GetInfoFunction* getinfo = nullptr;
     try
     {
-        m_lib.load(filename);
-        getinfo = m_lib.get<GetInfoFunction>("getInfo");
-        m_data = getinfo();
+        mLib.load(filename);
+        getinfo = mLib.get<GetInfoFunction>("getInfo");
+        mData = getinfo();
     }
     catch (std::exception& e)
     {
-        if (!m_lib.isLoaded()) return m_status = 1; // Failed: could not load
-        if (getinfo == nullptr) return m_status = 2; // Failed: entry not found
+        if (!mLib.isLoaded()) return mStatus = 1; // Failed: could not load
+        if (getinfo == nullptr) return mStatus = 2; // Failed: entry not found
         warningstream << "Failed: unhandled exception: " << e.what();
     }
-    return m_status = 0;
+    return mStatus = 0;
 }
 
 void Plugin::unload()
 {
-    if (m_status != 0) return;
-    m_status = -1;
+    if (mStatus != 0) return;
+    mStatus = -1;
     UnloadFunction* unload = nullptr;
     try
     {
-        unload = m_lib.get<UnloadFunction>("unload");
+        unload = mLib.get<UnloadFunction>("unload");
         unload();
-        m_lib.unload();
+        mLib.unload();
     }
     catch (std::exception& e)
     {
         if (unload == nullptr)
         {
             // Warning: entry not found
-            warningstream << "Subroutine unload() not found in plugin " << m_data->internalName << ", skipped unloading!";
+            warningstream << "Subroutine unload() not found in plugin " << mData->internalName << ", skipped unloading!";
             return;
         }
         warningstream << "Failed: unhandled exception: " << e.what();

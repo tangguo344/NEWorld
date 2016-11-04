@@ -43,21 +43,21 @@ public:
 
     Library(Library&& library) noexcept : Library {}
     {
-        std::swap(library.m_dllHandle, m_dllHandle);
-        std::swap(library.m_loaded, m_loaded);
+        std::swap(library.mDllHandle, mDllHandle);
+        std::swap(library.mLoaded, mLoaded);
     }
 
     Library&& operator=(Library&& library) noexcept
     {
-        std::swap(library.m_dllHandle, m_dllHandle);
-        std::swap(library.m_loaded, m_loaded);
+        std::swap(library.mDllHandle, mDllHandle);
+        std::swap(library.mLoaded, mLoaded);
         return std::move(*this);
     }
 
     ~Library()
     {
         if(isLoaded())
-            freeLibrary(m_dllHandle);
+            freeLibrary(mDllHandle);
     }
 
     Library(const Library&) = delete;
@@ -66,7 +66,7 @@ public:
 
     template<class T> auto get(const std::string& name)
     {
-        return getFunc<T>(m_dllHandle, name);
+        return getFunc<T>(mDllHandle, name);
     }
 
     operator bool() const
@@ -76,20 +76,20 @@ public:
 
     bool isLoaded() const
     {
-        return m_loaded;
+        return mLoaded;
     }
 
     void load(const std::string& filename)
     {
         if (isLoaded())
             unload();
-        m_dllHandle = loadLibrary(filename, m_loaded);
+        mDllHandle = loadLibrary(filename, mLoaded);
     }
 
     void unload()
     {
-        freeLibrary(m_dllHandle);
-        m_loaded = false;
+        freeLibrary(mDllHandle);
+        mLoaded = false;
     }
 
 private:
@@ -142,8 +142,8 @@ private:
 
 #endif
 
-    HandleType m_dllHandle;
-    bool m_loaded = false;
+    HandleType mDllHandle;
+    bool mLoaded = false;
 };
 
 #endif

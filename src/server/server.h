@@ -49,18 +49,18 @@ private:
 
     void initBuiltinCommands();
 
-    RateMeter m_ups;
+    RateMeter mUps;
 
-    boost::timer m_updateTimer;
+    boost::timer mUpdateTimer;
 
     // Managers
-    WorldManager m_worlds;
-    BlockManager m_blocks;
-    PluginManager m_plugins;
-    NetworkManager m_network;
-    CommandManager m_commands;
+    WorldManager mWorlds;
+    BlockManager mBlocks;
+    PluginManager mPlugins;
+    NetworkManager mNetwork;
+    CommandManager mCommands;
 
-    std::vector<std::string> m_args;
+    std::vector<std::string> mArgs;
 };
 
 #endif

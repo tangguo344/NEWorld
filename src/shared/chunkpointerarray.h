@@ -28,29 +28,29 @@ class ChunkPointerArray
 {
 private:
     // Array
-    Chunk** m_array;
+    Chunk** mArray;
     // Array size
-    int m_size, m_size2, m_size3;
+    int mSize, mSize2, mSize3;
     // Origin
-    Vec3i m_org;
+    Vec3i mOrg;
 
 public:
     explicit ChunkPointerArray(int size)
-        : m_size(size), m_size2(size * size), m_size3(size * size * size), m_org(-size / 2, -size / 2, -size / 2)
+        : mSize(size), mSize2(size * size), mSize3(size * size * size), mOrg(-size / 2, -size / 2, -size / 2)
     {
-        m_array = new Chunk*[m_size3];
-        //memset(m_array, 0, m_size3 * sizeof(Chunk*));
+        mArray = new Chunk*[mSize3];
+        //memset(mArray, 0, mSize3 * sizeof(Chunk*));
     }
 
     ChunkPointerArray(ChunkPointerArray&& rhs)
-        : m_size(rhs.m_size), m_size2(rhs.m_size2), m_size3(rhs.m_size3), m_org(rhs.m_org)
+        : mSize(rhs.mSize), mSize2(rhs.mSize2), mSize3(rhs.mSize3), mOrg(rhs.mOrg)
     {
-        std::swap(m_array, rhs.m_array);
+        std::swap(mArray, rhs.mArray);
     }
 
     ~ChunkPointerArray()
     {
-        delete[] m_array;
+        delete[] mArray;
     }
 
     ChunkPointerArray(const ChunkPointerArray&) = delete;
@@ -59,44 +59,44 @@ public:
     // Move array by delta
     void move(const Vec3i& delta)
     {
-        Chunk** arr = new Chunk*[m_size3];
-        Vec3i::for_range(0, m_size, [this, arr, delta](const Vec3i& pos)
+        Chunk** arr = new Chunk*[mSize3];
+        Vec3i::for_range(0, mSize, [this, arr, delta](const Vec3i& pos)
         {
-            arr[pos.x * m_size2 + pos.y * m_size + pos.z] =
+            arr[pos.x * mSize2 + pos.y * mSize + pos.z] =
                 exist(pos + delta) ?
-                m_array[(pos.x + delta.x) * m_size2 + (pos.y + delta.y) * m_size + (pos.z + delta.z)] :
+                mArray[(pos.x + delta.x) * mSize2 + (pos.y + delta.y) * mSize + (pos.z + delta.z)] :
                 nullptr;
         });
-        delete[] m_array;
-        m_array = arr;
-        m_org += delta;
+        delete[] mArray;
+        mArray = arr;
+        mOrg += delta;
     }
 
     // Move array to pos
     void moveTo(const Vec3i& pos)
     {
-        move(pos - m_org);
+        move(pos - mOrg);
     }
 
     // Check if specific element is inside array range
     bool exist(const Vec3i& pos) const
     {
-        return pos.x >= 0 && pos.x < m_size && pos.z >= 0 && pos.z < m_size && pos.y >= 0 && pos.y < m_size;
+        return pos.x >= 0 && pos.x < mSize && pos.z >= 0 && pos.z < mSize && pos.y >= 0 && pos.y < mSize;
     }
 
     // Get chunk pointer from array
     Chunk* get(Vec3i pos) const
     {
-        pos -= m_org;
-        return exist(pos) ? m_array[pos.x * m_size2 + pos.y * m_size + pos.z] : nullptr;
+        pos -= mOrg;
+        return exist(pos) ? mArray[pos.x * mSize2 + pos.y * mSize + pos.z] : nullptr;
     }
 
     // Update chunk pointer in array
     void set(Vec3i pos, Chunk* c) const
     {
-        pos -= m_org;
+        pos -= mOrg;
         if (exist(pos))
-            m_array[pos.x * m_size2 + pos.y * m_size + pos.z] = c;
+            mArray[pos.x * mSize2 + pos.y * mSize + pos.z] = c;
     }
 };
 

@@ -39,12 +39,12 @@ void ChunkClient::buildVertexArray()
             BlockData curr = getBlock(pos);
             BlockData neighbors[6] =
             {
-                pos.x == ChunkSize - 1 ? m_world.getBlock(Vec3i(worldpos.x + 1, worldpos.y, worldpos.z)) : getBlock(Vec3i(pos.x + 1, pos.y, pos.z)),
-                pos.x == 0 ? m_world.getBlock(Vec3i(worldpos.x - 1, worldpos.y, worldpos.z)) : getBlock(Vec3i(pos.x - 1, pos.y, pos.z)),
-                pos.y == ChunkSize - 1 ? m_world.getBlock(Vec3i(worldpos.x, worldpos.y + 1, worldpos.z)) : getBlock(Vec3i(pos.x, pos.y + 1, pos.z)),
-                pos.y == 0 ? m_world.getBlock(Vec3i(worldpos.x, worldpos.y - 1, worldpos.z)) : getBlock(Vec3i(pos.x, pos.y - 1, pos.z)),
-                pos.z == ChunkSize - 1 ? m_world.getBlock(Vec3i(worldpos.x, worldpos.y, worldpos.z + 1)) : getBlock(Vec3i(pos.x, pos.y, pos.z + 1)),
-                pos.z == 0 ? m_world.getBlock(Vec3i(worldpos.x, worldpos.y, worldpos.z - 1)) : getBlock(Vec3i(pos.x, pos.y, pos.z - 1)),
+                pos.x == ChunkSize - 1 ? mWorld.getBlock(Vec3i(worldpos.x + 1, worldpos.y, worldpos.z)) : getBlock(Vec3i(pos.x + 1, pos.y, pos.z)),
+                pos.x == 0 ? mWorld.getBlock(Vec3i(worldpos.x - 1, worldpos.y, worldpos.z)) : getBlock(Vec3i(pos.x - 1, pos.y, pos.z)),
+                pos.y == ChunkSize - 1 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y + 1, worldpos.z)) : getBlock(Vec3i(pos.x, pos.y + 1, pos.z)),
+                pos.y == 0 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y - 1, worldpos.z)) : getBlock(Vec3i(pos.x, pos.y - 1, pos.z)),
+                pos.z == ChunkSize - 1 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y, worldpos.z + 1)) : getBlock(Vec3i(pos.x, pos.y, pos.z + 1)),
+                pos.z == 0 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y, worldpos.z - 1)) : getBlock(Vec3i(pos.x, pos.y, pos.z - 1)),
             };
 
             // Right
@@ -133,6 +133,6 @@ void ChunkClient::buildVertexArray()
         });
     }
 
-    m_buffer = VertexBuffer(va);
-    m_renderBuilt = true;
+    mBuffer = VertexBuffer(va);
+    mRenderBuilt = true;
 }

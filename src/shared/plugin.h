@@ -40,15 +40,15 @@ struct PluginData
 class Plugin
 {
 public:
-    explicit Plugin(const std::string& filename) : m_status(-1)
+    explicit Plugin(const std::string& filename) : mStatus(-1)
     {
         loadFrom(filename);
     }
 
-    Plugin(Plugin&& rhs) noexcept : m_lib(std::move(rhs.m_lib)), m_data(rhs.m_data), m_status(rhs.m_status)
+    Plugin(Plugin&& rhs) noexcept : mLib(std::move(rhs.mLib)), mData(rhs.mData), mStatus(rhs.mStatus)
     {
-        rhs.m_data = nullptr;
-        rhs.m_status = -1;
+        rhs.mData = nullptr;
+        rhs.mStatus = -1;
     }
 
     Plugin(const Plugin&) = delete;
@@ -65,19 +65,19 @@ public:
     // Get plugin data
     const PluginData& getData() const
     {
-        return *m_data;
+        return *mData;
     }
 
     // Get load status
     int getStatus() const
     {
-        return m_status;
+        return mStatus;
     }
 
     // Is loaded
     bool isLoaded() const
     {
-        return m_status == 0;
+        return mStatus == 0;
     }
 
     // Load plugin, return 0 for success
@@ -87,11 +87,11 @@ public:
 
 private:
     // Plugin DLL
-    Library m_lib;
+    Library mLib;
     // Plugin Data
-    const PluginData* m_data;
+    const PluginData* mData;
     // Load status
-    int m_status = -1;
+    int mStatus = -1;
 };
 
 #endif // !PLUGIN_H_

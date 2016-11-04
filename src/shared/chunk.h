@@ -33,53 +33,53 @@ public:
     /// Get chunk position
     const Vec3i& getPosition() const
     {
-        return m_position;
+        return mPosition;
     }
 
     /// Get chunk updated flag
     bool isUpdated() const
     {
-        return m_updated;
+        return mUpdated;
     }
 
     /// Set chunk updated flag
     void setUpdated(bool updated)
     {
-        m_updated = updated;
+        mUpdated = updated;
     }
 
     /// Get block data in this chunk
     BlockData getBlock(const Vec3i& pos) const
     {
         assert(pos.x >= 0 && pos.x < ChunkSize && pos.y >= 0 && pos.y < ChunkSize && pos.z >= 0 && pos.z < ChunkSize);
-        return m_blocks[pos.x * ChunkSize * ChunkSize + pos.y * ChunkSize + pos.z];
+        return mBlocks[pos.x * ChunkSize * ChunkSize + pos.y * ChunkSize + pos.z];
     }
 
     /// Get block reference in this chunk
     BlockData& getBlock(const Vec3i& pos)
     {
         assert(pos.x >= 0 && pos.x < ChunkSize && pos.y >= 0 && pos.y < ChunkSize && pos.z >= 0 && pos.z < ChunkSize);
-        return m_blocks[pos.x * ChunkSize * ChunkSize + pos.y * ChunkSize + pos.z];
+        return mBlocks[pos.x * ChunkSize * ChunkSize + pos.y * ChunkSize + pos.z];
     }
 
     /// Get block pointer
-    BlockData* getBlocks() { return m_blocks; }
-    const BlockData* getBlocks() const { return m_blocks; }
+    BlockData* getBlocks() { return mBlocks; }
+    const BlockData* getBlocks() const { return mBlocks; }
 
     /// Set block data in this chunk
     void setBlock(const Vec3i& pos, BlockData block)
     {
         assert(pos.x >= 0 && pos.x < ChunkSize && pos.y >= 0 && pos.y < ChunkSize && pos.z >= 0 && pos.z < ChunkSize);
-        m_blocks[pos.x * ChunkSize * ChunkSize + pos.y * ChunkSize + pos.z] = block;
-        m_updated = true;
+        mBlocks[pos.x * ChunkSize * ChunkSize + pos.y * ChunkSize + pos.z] = block;
+        mUpdated = true;
     }
 protected:
-    explicit Chunk(const Vec3i& position) : m_position(position) {}
+    explicit Chunk(const Vec3i& position) : mPosition(position) {}
 
 private:
-    Vec3i m_position;
-    BlockData m_blocks[ChunkSize * ChunkSize * ChunkSize];
-    bool m_updated = false;
+    Vec3i mPosition;
+    BlockData mBlocks[ChunkSize * ChunkSize * ChunkSize];
+    bool mUpdated = false;
 
 };
 
