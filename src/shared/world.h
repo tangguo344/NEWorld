@@ -56,6 +56,12 @@ public:
         return m_chunkCount;
     }
 
+    // Get reserved chunk count
+    size_t getReservedChunkCount() const
+    {
+        return m_chunkArraySize;
+    }
+
     // Get chunk pointer by index
     Chunk* getChunkPtr(size_t index) const
     {
