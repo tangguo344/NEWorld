@@ -390,20 +390,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\client\chunkclient.h" />
+    <ClInclude Include="..\..\..\src\client\gameconnection.h" />
     <ClInclude Include="..\..\..\src\client\imgui\imconfig.h" />
     <ClInclude Include="..\..\..\src\client\imgui\imgui.h" />
     <ClInclude Include="..\..\..\src\client\imgui\imgui_internal.h" />
     <ClInclude Include="..\..\..\src\client\imgui\stb_rect_pack.h" />
     <ClInclude Include="..\..\..\src\client\imgui\stb_textedit.h" />
     <ClInclude Include="..\..\..\src\client\imgui\stb_truetype.h" />
-    <ClInclude Include="..\..\..\src\client\imgui_helper.h" />
+    <ClInclude Include="..\..\..\src\client\imguihelper.h" />
     <ClInclude Include="..\..\..\src\client\mat4.h" />
     <ClInclude Include="..\..\..\src\client\network.h" />
     <ClInclude Include="..\..\..\src\client\neworld.h" />
     <ClInclude Include="..\..\..\src\client\opengl.h" />
     <ClInclude Include="..\..\..\src\client\player.h" />
     <ClInclude Include="..\..\..\src\client\renderer.h" />
-    <ClInclude Include="..\..\..\src\client\singleplaymanager.h" />
+    <ClInclude Include="..\..\..\src\client\localserverloader.h" />
     <ClInclude Include="..\..\..\src\client\texture.h" />
     <ClInclude Include="..\..\..\src\client\vertexarray.h" />
     <ClInclude Include="..\..\..\src\client\game.h" />
@@ -419,10 +420,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\client\chunkclient.cpp" />
+    <ClCompile Include="..\..\..\src\client\multiplayerconnection.cpp" />
     <ClCompile Include="..\..\..\src\client\imgui\imgui.cpp" />
     <ClCompile Include="..\..\..\src\client\imgui\imgui_demo.cpp" />
     <ClCompile Include="..\..\..\src\client\imgui\imgui_draw.cpp" />
-    <ClCompile Include="..\..\..\src\client\imgui_helper.cpp" />
+    <ClCompile Include="..\..\..\src\client\imguihelper.cpp" />
     <ClCompile Include="..\..\..\src\client\main.cpp" />
     <ClCompile Include="..\..\..\src\client\network.cpp" />
     <ClCompile Include="..\..\..\src\client\neworld.cpp" />

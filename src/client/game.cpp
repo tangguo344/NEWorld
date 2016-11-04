@@ -80,7 +80,7 @@ Game::~Game()
 void Game::update()
 {
     if (!mUps.shouldRun()) return;
-    mUps.refresh();
+    auto& win = Window::getInstance();
     // TODO: Read keys from the configuration file
     if (win.isKeyDown(SDL_SCANCODE_UP))
         mPlayer.rotate(Vec3d(1.5, 0.0, 0.0));
@@ -107,6 +107,7 @@ void Game::update()
     mWorld.renderUpdate(Vec3i(mPlayer.getPosition()));
     mWorld.update();
     mWidgetManager.update();
+    mUps.refresh();
 }
 
 // TEMP FUNCTION: to show the world coordinates
@@ -169,17 +170,4 @@ void Game::render()
 Event::EventBus& Game::getEventBus()
 {
     return mEventBus;
-}
-
-void SinglePlayerConnection::connect()
-{
-}
-
-void SinglePlayerConnection::disconnect()
-{
-}
-
-World * SinglePlayerConnection::getWorld(size_t id)
-{
-    return nullptr;
 }

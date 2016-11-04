@@ -22,7 +22,7 @@
 
 #include <string>
 #include <SDL2/SDL.h>
-#include "imgui_helper.h"
+#include "imguihelper.h"
 
 class Window
 {
