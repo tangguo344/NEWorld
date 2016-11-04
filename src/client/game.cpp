@@ -64,7 +64,7 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
     mWidgetManager.addWidget(std::make_shared<WidgetCallback>("Debug", ImVec2(100, 200), [this]
     {
         ImGui::Text("NEWorld %s(%u)", NEWorldStringVersion, NEWorldVersion);
-        ImGui::Text("FPS %.1f", ImGui::GetIO().Framerate);
+        ImGui::Text("FPS %.1f, UPS %.1f", ImGui::GetIO().Framerate, mUps.getRate());
         ImGui::Text("Pos: x %.1f y %.1f z %.1f", mPlayer.getPosition().x, mPlayer.getPosition().y, mPlayer.getPosition().z);
         ImGui::Text("Widgets Loaded: %zu", mWidgetManager.getSize());
         ImGui::Text("Chunks Loaded: %zu/%zu", mWorld.getChunkCount(), mWorld.getReservedChunkCount());
@@ -79,7 +79,8 @@ Game::~Game()
 
 void Game::update()
 {
-    Window& win = win.getInstance();
+    if (!mUps.shouldRun()) return;
+    mUps.refresh();
     // TODO: Read keys from the configuration file
     if (win.isKeyDown(SDL_SCANCODE_UP))
         mPlayer.rotate(Vec3d(1.5, 0.0, 0.0));
