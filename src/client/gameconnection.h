@@ -17,22 +17,25 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NEWORLD_H_
-#define NEWORLD_H_
+#ifndef GAME_CONNECTION_H_
+#define GAME_CONNECTION_H_
 
-#include <pluginmanager.h>
-#include <blockmanager.h>
+class World;
 
-class NEWorld
+class GameConnection
 {
 public:
-    NEWorld();
-
-private:
-    PluginManager mPlugins;
-    BlockManager mBlocks;
+    virtual void connect() = 0;
+    virtual void disconnect() = 0;
+    virtual World* getWorld(size_t id) = 0;
+    virtual ~GameConnection() = default;
 };
 
-
-
-#endif // !NEWORLD_H_
+class MultiplayerConnection : public GameConnection
+{
+public:
+    void connect() override;
+    void disconnect() override;
+    World* getWorld(size_t id) override;
+};
+#endif

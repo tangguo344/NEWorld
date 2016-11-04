@@ -85,16 +85,19 @@
     <ClInclude Include="..\..\..\src\client\imgui\stb_truetype.h">
       <Filter>Source\Multimedia\gui\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\client\imgui_helper.h">
-      <Filter>Source\Multimedia\gui</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\client\widgetmanager.h">
       <Filter>Source\Multimedia\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\client\widget.h">
       <Filter>Source\Multimedia\gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\client\singleplaymanager.h">
+    <ClInclude Include="..\..\..\src\client\imguihelper.h">
+      <Filter>Source\Multimedia\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\gameconnection.h">
+      <Filter>Source\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\localserverloader.h">
       <Filter>Source\Main</Filter>
     </ClInclude>
   </ItemGroup>
@@ -138,11 +141,14 @@
     <ClCompile Include="..\..\..\src\client\imgui\imgui_draw.cpp">
       <Filter>Source\Multimedia\gui\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\client\imgui_helper.cpp">
-      <Filter>Source\Multimedia\gui</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\client\main.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\imguihelper.cpp">
+      <Filter>Source\Multimedia\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\multiplayerconnection.cpp">
+      <Filter>Source\Network</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
