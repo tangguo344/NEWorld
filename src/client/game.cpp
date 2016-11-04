@@ -30,13 +30,13 @@
 
 Game::Game(PluginManager& pm, const BlockManager& bm)
     : mBlocks(bm), mPlugins(pm),
-      mWorld("TestWorld", pm, bm),// TODO: read from settings
-      mPlayer(&mWorld),
-      mSinglePlayManager([this](bool success)
+    mWorld("TestWorld", pm, bm),// TODO: read from settings
+    mPlayer(&mWorld),
+    mSinglePlayManager([this](bool success)
 {
     if (success)
         mConn.connect(getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1").c_str(),
-                      getJsonValue<unsigned short>(getSettings()["server"]["port"], 9887));
+            getJsonValue<unsigned short>(getSettings()["server"]["port"], 9887));
 })
 {
     mSinglePlayManager.run(); // TODO: start the server only when it's a single player mode.
@@ -58,10 +58,10 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
 
     mConn.waitForConnected();
     mConn.send(c2s::CreateLoginDirect(mFbb, "test", "123456", NEWorldVersion),
-               PacketPriority::HIGH_PRIORITY, PacketReliability::RELIABLE);
+        PacketPriority::HIGH_PRIORITY, PacketReliability::RELIABLE);
 
     // Initialize Widgets
-    mWidgetManager.addWidget(std::make_shared<WidgetCallback>("Debug", ImVec2(100,200), [this]
+    mWidgetManager.addWidget(std::make_shared<WidgetCallback>("Debug", ImVec2(100, 200), [this]
     {
         ImGui::Text("NEWorld %s(%u)", NEWorldStringVersion, NEWorldVersion);
         ImGui::Text("FPS %.1f", ImGui::GetIO().Framerate);
@@ -176,4 +176,17 @@ void Game::render()
 Event::EventBus& Game::getEventBus()
 {
     return mEventBus;
+}
+
+void SinglePlayerConnection::connect()
+{
+}
+
+void SinglePlayerConnection::disconnect()
+{
+}
+
+World * SinglePlayerConnection::getWorld(size_t id)
+{
+    return nullptr;
 }
