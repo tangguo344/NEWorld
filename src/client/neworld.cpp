@@ -42,7 +42,7 @@ NEWorld::NEWorld() : mPlugins(true)
     {
         window.pollEvents();
         window.newFrame();
-        game.update();
+        game.multiUpdate();
         game.render();
         Renderer::checkError();
         window.swapBuffers();
