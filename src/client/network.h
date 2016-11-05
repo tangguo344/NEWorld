@@ -7,8 +7,8 @@
 #include "../protocol/gen/protocol.h"
 #include <raknet/MessageIdentifiers.h>
 #include <future>
-#include <limits.h>
 #include <logger.h>
+#include <climits>
 
 class Connection
 {
