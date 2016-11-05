@@ -25,8 +25,9 @@ double WorldGen::NoiseScaleX = 64;
 double WorldGen::NoiseScaleZ = 64;
 
 // Chunk generator
-void NWAPICALL generator(const NWvec3i * pos, NWblockdata * blocks, int daylightBrightness)
+void NWAPICALL generator(const NWvec3i *pos, NWblockdata * blocks, int daylightBrightness)
 {
+    /*
     for (int x = 0; x < ChunkSize; x++)
         for (int z = 0; z < ChunkSize; z++)
         {
@@ -47,6 +48,30 @@ void NWAPICALL generator(const NWvec3i * pos, NWblockdata * blocks, int daylight
                 }
             }
         }
+    */
+    if (pos->y < 0)
+    {
+        for (int x = 0; x < ChunkSize; x++)
+            for (int y = 0; y < ChunkSize; y++)
+                for (int z = 0; z < ChunkSize; z++)
+                {
+                    NWblockdata &block = blocks[x*ChunkSize*ChunkSize + y*ChunkSize + z];
+                    block.id = RockID;
+                    block.brightness = block.state = 0;
+                }
+    }
+    else
+    {
+        for (int x = 0; x < ChunkSize; x++)
+            for (int y = 0; y < ChunkSize; y++)
+                for (int z = 0; z < ChunkSize; z++)
+                {
+                    NWblockdata &block = blocks[x*ChunkSize*ChunkSize + y*ChunkSize + z];
+                    block.id = AirID;
+                    block.brightness = daylightBrightness;
+                    block.state = 0;
+                }
+    }
 }
 
 double WorldGen::InterpolatedNoise(double x, double y)
