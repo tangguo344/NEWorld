@@ -61,7 +61,7 @@ bool Connection::connect(const char *addr, unsigned short port)
             return false;
         }
     }
-    
+
     // TODO: throw an exception
     errorstream << "Failed to connect to" << addr << ":" << port << ". Error code: " << ret;
     return false;
@@ -91,10 +91,10 @@ void Connection::loop()
 
     }
 }
-void Connection::sendRawData(RakNet::MessageID id, const unsigned char *data, int len, PacketPriority priority, PacketReliability reliability)
+void Connection::sendRawData(Identifier id, const unsigned char *data, int len, PacketPriority priority, PacketReliability reliability)
 {
     RakNet::BitStream bsOut;
-    bsOut.Write(id);
+    bsOut.Write(static_cast<RakNet::MessageID>(id));
     bsOut.WriteBits(data, len);
     mPeer->Send(&bsOut, priority, reliability, 0, mAddr, false);
 }

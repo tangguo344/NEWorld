@@ -37,6 +37,7 @@
 #include "widgetmanager.h"
 #include "localserverloader.h"
 #include <ratemeter.h>
+#include "gameconnection.h"
 
 class Game
 {
@@ -65,16 +66,14 @@ private:
     Player mPlayer;
     // Local Server
     LocalServerLoader mSinglePlayManager;
-    // Connection
-    Connection mConn;
-    // FlatBuffer Builder
-    flatbuffers::FlatBufferBuilder mFbb;
     // Widget Manager
     WidgetManager mWidgetManager;
     // Main event bus
     Event::EventBus mEventBus;
     // Ups
     RateMeter mUps{60};
+    // Game Connection
+    std::shared_ptr<GameConnection> mConnection;
 };
 
 #endif // !GAME_H_
