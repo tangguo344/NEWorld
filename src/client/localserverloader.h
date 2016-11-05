@@ -38,6 +38,7 @@ public:
     {
 
     }
+
     ~LocalServerLoader()
     {
         if (mLocalServerThread.joinable())

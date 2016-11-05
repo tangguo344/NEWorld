@@ -36,16 +36,6 @@ class ChunkClient : public Chunk
 public:
     ChunkClient(const Vec3i& position, World& world) : Chunk(position), mWorld(world)
     {
-        // TEMP CODE
-        // Generate terrain at client side to test rendering
-        if (position.y < 0 && position.x >= -4 && position.x < 4 && position.z >= -4 && position.z < 4)
-        {
-            Vec3i::for_range(0, ChunkSize, [&](const Vec3i& curr)
-            {
-                setBlock(curr, BlockData(1, 0, 0));
-            });
-        }
-        // END TEMP CODE
     }
 
     // Is render built
@@ -71,7 +61,6 @@ public:
     }
 
     static Chunk* getFromFlatbuffers(const s2c::Chunk* fbChunk, WorldClient& worlds);
-
 
 private:
     // Target world
