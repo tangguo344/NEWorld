@@ -1,18 +1,39 @@
-#ifndef NetworkManager_H
-#define NetworkManager_H
-
+/*
+* NEWorld: A free game with similar rules to Minecraft.
+* Copyright (C) 2016 NEWorld Team
+*
+* This file is part of NEWorld.
+* NEWorld is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* NEWorld is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
+*/
+#ifndef NETWORKMANAGER_H_
+#define NETWORKMANAGER_H_
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include <stdexcept>
 #include <thread>
 #include <raknet/RakPeerInterface.h>
 #include <raknet/MessageIdentifiers.h>
+#include <raknet/BitStream.h>
 #include "../protocol/gen/protocol.h"
 #include <functional>
-class Connection;
+#include <limits.h>
+#include "worldmanager.h"
+class GameConnection;
 
 class NetworkManager
 {
 public:
-    NetworkManager(std::function<void(Identifier, unsigned char*)> userDataCallback);
+    NetworkManager(WorldManager& wm);
     ~NetworkManager();
     void close();
     /**
@@ -23,34 +44,13 @@ public:
     bool run(const char *addr,unsigned short port);
 private:
     void loop();
-    Connection *newConnection(RakNet::SystemAddress addr);
+    GameConnection* newConnection(RakNet::SystemAddress addr);
     void deleteConnection(RakNet::SystemAddress addr);
     RakNet::RakPeerInterface *mPeer;
     std::thread mThread;
-    std::vector<Connection*> mConns;
-    std::function<void(Identifier, unsigned char*)> mUserDataCallback;
+    std::vector<GameConnection*> mConns;
+    WorldManager& mWorlds;//TODO: 回头再改,弄个event之类的代替吧
 };
 
-/** The base class of any Connection class to it's NetworkManager
- *  @see NetworkManager
- *  @see NetworkManager
- */
-class Connection
-{
-public:
-    friend class NetworkManager;
-    template<class ProtocolType>
-    void send(const flatbuffers::Offset<ProtocolType>& data, PacketPriority priority, PacketReliability reliability)
-    {
-        sendRawData(static_cast<RakNet::MessageID>(ID_USER_PACKET_ENUM), reinterpret_cast<const unsigned char*>(&data), sizeof(data), priority, reliability);
-    }
-private:
-    Connection(NetworkManager &network,RakNet::RakPeerInterface *peer,RakNet::SystemAddress addr);
-    ~Connection();
-    void sendRawData(RakNet::MessageID id, const unsigned char *data, int len, PacketPriority priority, PacketReliability reliability);
-    NetworkManager &mNetwork;
-    RakNet::RakPeerInterface *mPeer;
-    RakNet::SystemAddress mAddr;
-};
 
 #endif

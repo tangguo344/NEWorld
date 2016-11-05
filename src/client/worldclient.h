@@ -22,9 +22,10 @@
 
 #include <world.h>
 #include "chunkclient.h"
+class GameConnection;
 
 const int MaxChunkRenderCount = 4;
-
+constexpr int MaxChunkLoadCount = 64, MaxChunkUnloadCount = 64;
 class WorldClient : public World
 {
 public:
@@ -49,13 +50,24 @@ public:
 
     // Render all chunks
     size_t render(const Vec3i& position) const;
+    // Set load range
+    void setLoadRange(int x);
 
+    // Find the nearest chunks in load range to load, fartherest chunks out of load range to unload
+    void sortChunkLoadUnloadList(const Vec3i& centerPos);
+
+    void tryLoadChunks(GameConnection& conn);
 private:
     // Render distance
     int mRenderDist = 0;
     // Render build list
     std::pair<ChunkClient*, int> mChunkRenderList[MaxChunkRenderCount];
 
+    int mChunkLoadCount, mChunkUnloadCount = 0, mLoadRange = 0;
+    // Chunk load list [position, distance]
+    std::pair<Vec3i, int> mChunkLoadList[MaxChunkLoadCount];
+    // Chunk unload list [pointer, distance]
+    std::pair<Chunk*, int> mChunkUnloadList[MaxChunkUnloadCount];
 };
 
 #endif // !WORLDCLIENT_H_

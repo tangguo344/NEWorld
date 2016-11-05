@@ -24,6 +24,13 @@
 #include <world.h>
 #include "renderer.h"
 
+class WorldClient;
+
+namespace s2c
+{
+    struct Chunk;
+}
+
 class ChunkClient : public Chunk
 {
 public:
@@ -62,6 +69,9 @@ public:
     {
         mBuffer.render();
     }
+
+    static Chunk* getFromFlatbuffers(const s2c::Chunk* fbChunk, WorldClient& worlds);
+
 
 private:
     // Target world

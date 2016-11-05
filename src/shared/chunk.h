@@ -73,6 +73,7 @@ public:
         mBlocks[pos.x * ChunkSize * ChunkSize + pos.y * ChunkSize + pos.z] = block;
         mUpdated = true;
     }
+
 protected:
     explicit Chunk(const Vec3i& position) : mPosition(position) {}
 
