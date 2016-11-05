@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.1)
 
+set(CMAKE_MACOSX_RPATH ON)
 set(CMAKE_CXX_STANDARD 14)
 set(SOURCE_DIR ./src)
-set(CMFILE CMakeLists.txt)
 
 option(LINK_BOOST "Enable link compiler switch of Boost library instead of auto-link" OFF)
 option(EXECUTABLE "Link the executable for client and server" OFF)
@@ -31,10 +31,10 @@ if(MS_VC)
     add_definitions(-DNOMINMAX)
 endif()
 
-include(${SOURCE_DIR}/shared/${CMFILE})
-include(${SOURCE_DIR}/client/${CMFILE})
-include(${SOURCE_DIR}/server/${CMFILE})
-include(${SOURCE_DIR}/launcher/${CMFILE})
+include(${SOURCE_DIR}/shared/CMakeLists.txt)
+include(${SOURCE_DIR}/client/CMakeLists.txt)
+include(${SOURCE_DIR}/server/CMakeLists.txt)
+include(${SOURCE_DIR}/launcher/CMakeLists.txt)
 
 add_dependencies(nwclient nwshared)
 add_dependencies(nwserver nwshared)

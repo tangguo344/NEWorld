@@ -5,7 +5,7 @@
 
 void Server::initBuiltinCommands()
 {
-    mCommands.addCommand("help", { "internal","Help" }, [this](Command cmd)->CommandExecuteStat
+    mCommands.registerCommand("help", { "internal","Help" }, [this](Command cmd)->CommandExecuteStat
     {
         std::string helpString = "\nAvailable commands:\n";
         for (const auto& command : mCommands.getCommandMap())
@@ -14,18 +14,18 @@ void Server::initBuiltinCommands()
         }
         return{ true, helpString };
     });
-    mCommands.addCommand("test.hello", { "internal","Say hello" }, [this](Command cmd)->CommandExecuteStat
+    mCommands.registerCommand("test.hello", { "internal","Say hello" }, [this](Command cmd)->CommandExecuteStat
     {
         return{ true, "Hello!" };
     });
-    mCommands.addCommand("test.log", { "internal","test the logger." }, [this](Command cmd)->CommandExecuteStat
+    mCommands.registerCommand("test.log", { "internal","test the logger." }, [this](Command cmd)->CommandExecuteStat
     {
         fatalstream << "execute test.fatal!";
         errorstream << "execute test.error!";
         warningstream << "Your computer will explode in three seconds!!!";
         return{ true , "" };
     });
-    mCommands.addCommand("test.rainbow", { "internal","test colors." }, [this](Command cmd)->CommandExecuteStat
+    mCommands.registerCommand("test.rainbow", { "internal","test colors." }, [this](Command cmd)->CommandExecuteStat
     {
         infostream << "Grayscales:";
         infostream << LColor::black << "2333333333 [0%]";
@@ -48,12 +48,12 @@ void Server::initBuiltinCommands()
         infostream << LColor::lmagenta << "2333333333 [magenta]";
         return{ true , "" };
     });
-    mCommands.addCommand("server.stop", { "internal","Stop the server." }, [this](Command cmd)->CommandExecuteStat
+    mCommands.registerCommand("server.stop", { "internal","Stop the server." }, [this](Command cmd)->CommandExecuteStat
     {
         stop();
         return{ true, "" };
     });
-    mCommands.addCommand("conf.get", { "internal","Get one configuration item. Usage: conf.get <confname>" }, [this](Command cmd)->CommandExecuteStat
+    mCommands.registerCommand("conf.get", { "internal","Get one configuration item. Usage: conf.get <confname>" }, [this](Command cmd)->CommandExecuteStat
     {
         if (cmd.args.size() == 1)
         {
@@ -81,20 +81,20 @@ void Server::initBuiltinCommands()
             return{ false, "Usage: conf.get <confname>" };
         }
     });
-    mCommands.addCommand("conf.show", { "internal","Show the configuration." }, [this](Command cmd)->CommandExecuteStat
+    mCommands.registerCommand("conf.show", { "internal","Show the configuration." }, [this](Command cmd)->CommandExecuteStat
     {
         return{ true, getSettings().dump() };
     });
-    mCommands.addCommand("conf.save", { "internal","Save the configuration." }, [this](Command cmd)->CommandExecuteStat
+    mCommands.registerCommand("conf.save", { "internal","Save the configuration." }, [this](Command cmd)->CommandExecuteStat
     {
         writeJsonToFile(SettingsFilename, getSettings());
         return{ true,"Done!" };
     });
-    mCommands.addCommand("server.ups", { "internal","Show the ups." }, [this](Command cmd)->CommandExecuteStat
+    mCommands.registerCommand("server.ups", { "internal","Show the ups." }, [this](Command cmd)->CommandExecuteStat
     {
         return{ true,"Ups: " + std::to_string(mUps.getRate()) };
     });
-    mCommands.addCommand("chunks.count", { "internal","Show how many chunks are loaded" }, [this](Command cmd)->CommandExecuteStat
+    mCommands.registerCommand("chunks.count", { "internal","Show how many chunks are loaded" }, [this](Command cmd)->CommandExecuteStat
     {
         size_t sum = 0;
         for (World* world : mWorlds)

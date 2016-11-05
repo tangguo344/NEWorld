@@ -26,12 +26,15 @@
 #endif
 
 // OS flags
-#if defined _WIN32 || defined __CYGWIN__
+#if defined _WIN32
     #define NEWORLD_TARGET_WINDOWS
     #define NEWORLD_USE_WINAPI // Windows native API
+#elif defined __MACOSX__ || (defined __APPLE__ && defined __GNUC__)
+    #define NEWORLD_TARGET_MACOSX
+    #define NEWORLD_TARGET_POISX
 #else
-    //#    define NEWORLD_TARGET_LINUX
-    //#    define NEWORLD_TARGET_MACOSX
+    #define NEWORLD_TARGET_LINUX
+    #define NEWORLD_TARGET_POISX
 #endif
 
 #ifdef _DEBUG
@@ -89,11 +92,11 @@ For details see "LICENSE".
 )";
 
 #if defined(NEWORLD_TARGET_WINDOWS)
-    constexpr const char* DLLSuffix = "dll";
+    constexpr const char* LibSuffix = "dll";
 #elif defined(NEWORLD_TARGET_MACOSX)
-    constexpr const char* DLLSuffix = "dylib";
-#else
-    constexpr const char* DLLSuffix = "so";
+    constexpr const char* LibSuffix = "dylib";
+#elif defined(NEWORLD_TARGET_LINUX)
+    constexpr const char* LibSuffix = "so";
 #endif
 
 #endif // !COMMON_H_
