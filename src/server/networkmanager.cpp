@@ -7,16 +7,17 @@
 
 constexpr static const unsigned int max_client = 100; // TODO: get it from settingsmanager.
 
-NetworkManager::NetworkManager()
+NetworkManager::NetworkManager(std::function<void(Identifier, unsigned char*)> userDataCallback)
+    :mUserDataCallback(userDataCallback)
 {
-    infostream << "Raknet initializating...";
+    debugstream << "Raknet initializating...";
     mPeer = RakNet::RakPeerInterface::GetInstance();
     infostream << "Raknet initialized.";
 }
 
 NetworkManager::~NetworkManager()
 {
-    infostream << "Waiting for the raknet thread.";
+    debugstream << "Waiting for the raknet thread.";
     mThread.join();
     RakNet::RakPeerInterface::DestroyInstance(mPeer);
 }
@@ -38,12 +39,9 @@ bool NetworkManager::run(const char *addr,unsigned short port)
         mThread = std::thread([this] {loop();});
         return true;
     }
-    else
-    {
-        fatalstream << "Failed to start Network Manager. Error code: " << ret;
-        assert(false);
-        return false;
-    }
+    fatalstream << "Failed to start Network Manager. Error code: " << ret;
+    assert(false);
+    return false;
 }
 
 void NetworkManager::close()
@@ -60,8 +58,6 @@ void NetworkManager::loop()
         {
             switch(p->data[0])
             {
-            case ID_USER_PACKET_ENUM:
-                break;
             case ID_NEW_INCOMING_CONNECTION:
             {
                 newConnection(p->systemAddress);
@@ -72,8 +68,14 @@ void NetworkManager::loop()
                 deleteConnection(p->systemAddress);
                 break;
             default:
-                warningstream << "Unexcepted packet is received. Packet ID:" << static_cast<int>(p->data[0])
-                              << " From " << p->systemAddress.ToString(true);
+                auto identifier = static_cast<Identifier>(p->data[0]);
+                if(identifier<=Identifier::Unknown|| identifier>=Identifier::EndIdentifier)
+                {
+                    warningstream << "Unexcepted packet is received. Packet ID:" << static_cast<int>(p->data[0])
+                                  << " From " << p->systemAddress.ToString(true);
+                    break;
+                }
+                mUserDataCallback(identifier, p->data+1);
                 break;
             }
         }

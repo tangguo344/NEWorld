@@ -37,9 +37,6 @@
     <ClInclude Include="..\..\..\src\shared\aabb.h">
       <Filter>Source\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\identifier.h">
-      <Filter>Source\Network</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\shared\blockmanager.h">
       <Filter>Source\World</Filter>
     </ClInclude>
@@ -83,9 +80,6 @@
     </Filter>
     <Filter Include="Source\Common">
       <UniqueIdentifier>{d8ff50ba-254a-4417-a46d-0bfbfa05819f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Network">
-      <UniqueIdentifier>{84937af5-654e-442b-93b7-8c2f8bb5c802}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Object">
       <UniqueIdentifier>{1b541d8d-7466-461f-98b9-194f998a9f7f}</UniqueIdentifier>

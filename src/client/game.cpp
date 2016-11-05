@@ -32,12 +32,10 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
     : mBlocks(bm), mPlugins(pm),
       mWorld("TestWorld", pm, bm),// TODO: read from settings
       mPlayer(&mWorld),
-      mSinglePlayManager([this](bool success)
-{
-    if (success)
-        mConn.connect(getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1").c_str(),
-                      getJsonValue<unsigned short>(getSettings()["server"]["port"], 9887));
-})
+      mConnection(std::make_shared<MultiplayerConnection>( // TODO: single-player mode.
+                      getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1"),
+                      getJsonValue<unsigned short>(getSettings()["server"]["port"], 9887))),
+      mSinglePlayManager([this](bool success) {if (success) mConnection->connect();})
 {
     mSinglePlayManager.run(); // TODO: start the server only when it's a single player mode.
     // TEMP CODE
@@ -56,10 +54,8 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
 
-    mConn.waitForConnected();
-    mConn.send(c2s::CreateLoginDirect(mFbb, "test", "123456", NEWorldVersion),
-               PacketPriority::HIGH_PRIORITY, PacketReliability::RELIABLE);
-
+    mConnection->waitForConnected();
+    mConnection->login("test", "123456");
     // Initialize Widgets
     mWidgetManager.addWidget(std::make_shared<WidgetCallback>("Debug", ImVec2(100, 200), [this]
     {
@@ -69,6 +65,7 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
         ImGui::Text("Widgets Loaded: %zu", mWidgetManager.getSize());
         ImGui::Text("Chunks Loaded: %zu/%zu", mWorld.getChunkCount(), mWorld.getReservedChunkCount());
     }));
+
 }
 
 Game::~Game()
