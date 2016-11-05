@@ -22,7 +22,8 @@
 #include <raknet/MessageIdentifiers.h>
 #include <raknet/BitStream.h>
 
-Connection::Connection()
+Connection::Connection(std::function<void(Identifier, unsigned char*)> userDataCallback)
+    :mUserDataCallback(userDataCallback)
 {
     infostream << "Raknet initializating...";
     mPeer = RakNet::RakPeerInterface::GetInstance();
@@ -85,6 +86,14 @@ void Connection::loop()
                 errorstream << "Failed to connect to the server!";
                 break;
             default:
+                auto identifier = static_cast<Identifier>(p->data[0]);
+                if (identifier <= Identifier::Unknown || identifier >= Identifier::EndIdentifier)
+                {
+                    warningstream << "Unexcepted packet is received. Packet ID:" << static_cast<int>(p->data[0])
+                                  << " From " << p->systemAddress.ToString(true);
+                    break;
+                }
+                mUserDataCallback(identifier, p->data + 1);
                 break;
             }
         }

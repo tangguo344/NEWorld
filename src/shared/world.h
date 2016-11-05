@@ -50,6 +50,12 @@ public:
         return mName;
     }
 
+    // Get world id
+    size_t getWorldID() const
+    {
+        return mID;
+    }
+
     // Get chunk count
     size_t getChunkCount() const
     {
@@ -180,7 +186,7 @@ public:
 
 protected:
     World(const std::string& name, const PluginManager& plugins, const BlockManager& blocks)
-        : mName(name), mPlugins(plugins), mBlocks(blocks), mChunkCount(0), mChunkArraySize(1024), mCpa(8), mDaylightBrightness(15)
+        : mName(name), mID(IDCount++),mPlugins(plugins), mBlocks(blocks), mChunkCount(0), mChunkArraySize(1024), mCpa(8), mDaylightBrightness(15)
     {
         mChunks = static_cast<Chunk**>(malloc(mChunkArraySize * sizeof(Chunk*)));
     }
@@ -194,6 +200,9 @@ protected:
 
     // World name
     std::string mName;
+    // World ID
+    size_t mID;
+    static size_t IDCount;
     // Loaded plugins
     const PluginManager& mPlugins;
     // Loaded blocks

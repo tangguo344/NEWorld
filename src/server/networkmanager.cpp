@@ -1,14 +1,31 @@
-#define _WINSOCK_DEPRECATED_NO_WARNINGS
+/*
+* NEWorld: A free game with similar rules to Minecraft.
+* Copyright (C) 2016 NEWorld Team
+*
+* This file is part of NEWorld.
+* NEWorld is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* NEWorld is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
+*/
 #include "logger.h"
 #include "networkmanager.h"
 #include <raknet/MessageIdentifiers.h>
 #include <raknet/BitStream.h>
 #include <raknet/RakSleep.h>
+#include "gameconnection.h"
 
 constexpr static const unsigned int max_client = 100; // TODO: get it from settingsmanager.
 
-NetworkManager::NetworkManager(std::function<void(Identifier, unsigned char*)> userDataCallback)
-    :mUserDataCallback(userDataCallback)
+NetworkManager::NetworkManager(WorldManager& wm):mWorlds(wm)
 {
     debugstream << "Raknet initializating...";
     mPeer = RakNet::RakPeerInterface::GetInstance();
@@ -75,7 +92,7 @@ void NetworkManager::loop()
                                   << " From " << p->systemAddress.ToString(true);
                     break;
                 }
-                mUserDataCallback(identifier, p->data+1);
+                mConns[mPeer->GetIndexFromSystemAddress(p->systemAddress)]->handleReceivedData(identifier, p->data + 1);
                 break;
             }
         }
@@ -83,9 +100,9 @@ void NetworkManager::loop()
     }
 }
 
-Connection* NetworkManager::newConnection(RakNet::SystemAddress addr)
+GameConnection* NetworkManager::newConnection(RakNet::SystemAddress addr)
 {
-    Connection *c = new Connection(*this,mPeer,addr);
+    GameConnection *c = new MultiplayerConnection(mWorlds,*this,mPeer,addr);
     mConns.insert(mConns.begin()+mPeer->GetIndexFromSystemAddress(addr), c);
     return c;
 }
@@ -93,23 +110,4 @@ Connection* NetworkManager::newConnection(RakNet::SystemAddress addr)
 void NetworkManager::deleteConnection(RakNet::SystemAddress addr)
 {
     delete mConns[mPeer->GetIndexFromSystemAddress(addr)];
-}
-
-Connection::Connection(NetworkManager &network,RakNet::RakPeerInterface *peer, RakNet::SystemAddress addr)
-    :mNetwork(network),mPeer(peer),mAddr(addr)
-{
-    infostream << inet_ntoa(mAddr.address.addr4.sin_addr) << ':' << mAddr.address.addr4.sin_port << " connected.";
-}
-
-Connection::~Connection()
-{
-    infostream << inet_ntoa(mAddr.address.addr4.sin_addr) << ':' << mAddr.address.addr4.sin_port << " disconnected.";
-}
-
-void Connection::sendRawData(RakNet::MessageID id, const unsigned char *data, int len, PacketPriority priority, PacketReliability reliability)
-{
-    RakNet::BitStream bsOut;
-    bsOut.Write(id);
-    bsOut.WriteBits(data, len);
-    mPeer->Send(&bsOut, priority, reliability, 0, mAddr, false);
 }

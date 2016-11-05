@@ -34,7 +34,7 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
       mPlayer(&mWorld),
       mConnection(std::make_shared<MultiplayerConnection>( // TODO: single-player mode.
                       getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1"),
-                      getJsonValue<unsigned short>(getSettings()["server"]["port"], 9887))),
+                      getJsonValue<unsigned short>(getSettings()["server"]["port"], 9887), &mWorld)),
       mSinglePlayManager([this](bool success) {if (success) mConnection->connect();})
 {
     mSinglePlayManager.run(); // TODO: start the server only when it's a single player mode.
@@ -43,10 +43,6 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
     mWorld.setRenderDistance(4);
     mPlayer.setPosition(Vec3d(-16.0, 48.0, 32.0));
     mPlayer.setRotation(Vec3d(-45.0, -22.5, 0.0));
-    Vec3i::for_range(-6, 6, [&](const Vec3i& pos)
-    {
-        mWorld.addChunk(pos);
-    });
     // END TEMP CODE
 
     // Initialize rendering
@@ -54,8 +50,6 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
 
-    mConnection->waitForConnected();
-    mConnection->login("test", "123456");
     // Initialize Widgets
     mWidgetManager.addWidget(std::make_shared<WidgetCallback>("Debug", ImVec2(100, 200), [this]
     {
@@ -66,6 +60,16 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
         ImGui::Text("Chunks Loaded: %zu/%zu", mWorld.getChunkCount(), mWorld.getReservedChunkCount());
     }));
 
+    mConnection->waitForConnected();
+    mConnection->login("test", "123456");
+    debugstream << "Now, test time!";
+    debugstream << "There is a client, he wants a chunk!";
+    debugstream << "Client: Hey server, I wanna a chunk!";
+    mConnection->setChunkCallback([](Chunk*)
+    {
+        debugstream << "Client: Yeah! I got my chunk!";
+    });
+    mConnection->getChunk(mWorld.getWorldID(), {0,0,0});
 }
 
 Game::~Game()
