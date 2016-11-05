@@ -232,6 +232,12 @@ public:
         return Vec3<T>(-vec.x, -vec.y, -vec.z);
     }
 
+    template<class Vec3Type>
+    Vec3Type conv() const
+    {
+        return Vec3Type(x, y, z);
+    }
+
 private:
     // to solve problems about `abs`, we need this.
     static T abs(param_type arg)

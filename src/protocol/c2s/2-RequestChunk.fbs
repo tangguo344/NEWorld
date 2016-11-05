@@ -1,0 +1,12 @@
+// Request a chunk
+namespace c2s;
+
+table RequestChunk
+{
+	x:int;
+	y:int;
+	z:int;
+	worldID:int;
+}
+
+root_type RequestChunk;

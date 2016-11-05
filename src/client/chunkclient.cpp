@@ -18,6 +18,8 @@
 */
 
 #include "chunkclient.h"
+#include "../protocol/gen/s2c/2-Chunk_generated.h"
+#include "worldclient.h"
 
 VertexArray ChunkClient::va(262144, VertexFormat(2, 3, 0, 3));
 bool ChunkClient::mergeFace;
@@ -135,4 +137,13 @@ void ChunkClient::buildVertexArray()
 
     mBuffer = VertexBuffer(va);
     mRenderBuilt = true;
+}
+
+Chunk* ChunkClient::getFromFlatbuffers(const s2c::Chunk * fbChunk, WorldClient& worlds)
+{
+    //TODO: 有空再优化吧
+    Chunk* nwChunk = new ChunkClient({ fbChunk->pos()->x(), fbChunk->pos()->y(), fbChunk->pos()->z() }, worlds);
+    for (auto i = 0; i < ChunkSize*ChunkSize*ChunkSize; ++i)
+        nwChunk->getBlocks()[i] = BlockData(fbChunk->blocks()->Get(i));
+    return nwChunk;
 }
