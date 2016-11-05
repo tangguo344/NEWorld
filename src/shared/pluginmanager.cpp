@@ -64,9 +64,9 @@ void PluginManager::loadPlugins()
             if (!is_directory(*item))
             {
                 std::string pluginPath = item->path().string();
-                std::string suffix = pluginPath.substr(pluginPath.size() - std::string(DLLSuffix).size());
+                std::string suffix = pluginPath.substr(pluginPath.size() - std::string(LibSuffix).size());
                 strtolower(suffix);
-                if (suffix != DLLSuffix) continue;
+                if (suffix != LibSuffix) continue;
                 loadPlugin(pluginPath);
             }
     }
