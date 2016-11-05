@@ -19,7 +19,6 @@ public:
     template<class ProtocolType>
     void send(const flatbuffers::FlatBufferBuilder& fbb, const flatbuffers::Offset<ProtocolType>& data, PacketPriority priority, PacketReliability reliability)
     {
-        debugstream << "Sent a packet!"<<static_cast<int>(packetType2Id<ProtocolType>());
         sendRawData(packetType2Id<ProtocolType>(),fbb.GetBufferPointer() , fbb.GetSize()*CHAR_BIT, priority, reliability);
     }
     void waitForConnected()

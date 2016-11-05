@@ -63,14 +63,10 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
 
     mConnection->waitForConnected();
     mConnection->login("test", "123456");
-    debugstream << "Now, test time!";
-    debugstream << "There is a client, he wants a chunk!";
-    debugstream << "Client: Hey server, I wanna a chunk!";
     mConnection->setChunkCallback([&](Chunk* chunk)
     {
-        debugstream << "Client: Yeah! I got my chunk!";
         Chunk* target = mWorld.getChunkPtr(chunk->getPosition());
-        assert(target != nullptr);
+        if (target == nullptr) return;
         memcpy(target->getBlocks(), chunk->getBlocks(), sizeof(BlockData)*ChunkSize*ChunkSize*ChunkSize);
         target->setUpdated(true);
     });

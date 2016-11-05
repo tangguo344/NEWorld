@@ -58,11 +58,11 @@ void MultiplayerConnection::handleReceivedData(Identifier id, unsigned char* dat
     }
     case Identifier::c2sRequestChunk:
     {
-        debugstream << "It seems that someone need a chunk!";
         auto req = c2s::GetRequestChunk(data);
-        auto chunk = mWorlds.getWorld(req->worldID())->addChunk({ req->x(), req->y(), req->z() });
+        World* world = mWorlds.getWorld(req->worldID());
+        Chunk* chunk = world->getChunkPtr({ req->x(), req->y(), req->z() });
+        if (chunk == nullptr) chunk = world->addChunk({ req->x(), req->y(), req->z() });
         sendChunk(chunk);
-        debugstream << "Do not worry! I have sent a chunk for you!";
         break;
     }
     default:

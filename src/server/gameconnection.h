@@ -19,9 +19,11 @@
 
 #ifndef GAME_CONNECTION_SERVER_H_
 #define GAME_CONNECTION_SERVER_H_
+
 #include "networkmanager.h"
 #include "connection.h"
 #include "worldmanager.h"
+
 class World;
 class Chunk;
 
