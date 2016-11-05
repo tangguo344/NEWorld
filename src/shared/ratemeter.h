@@ -27,7 +27,7 @@
 class RateMeter
 {
 public:
-    explicit RateMeter(int limit = -1) : mLastRefreshTime(getTimeNow()), mLimit(limit)
+    explicit RateMeter(int limit = 0) : mOnlineTimer(getTimeNow()), mOfflineTimer(getTimeNow()), mLimit(limit)
     {
 #ifdef NEWORLD_USE_WINAPI
         LARGE_INTEGER num;
@@ -38,27 +38,29 @@ public:
 
     void refresh()
     {
-        if (!mValid)
-        {
-            mValid = true;
-            return;
-        }
-        auto now = getTimeNow();
-#ifndef NEWORLD_USE_WINAPI
-        mDeltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(now - mLastRefreshTime).count();
+        mOnlineTimer = getTimeNow();
+#ifdef NEWORLD_USE_WINAPI
+        mDeltaTime = mOnlineTimer - mOfflineTimer;
 #else
-        mDeltaTime = now - mLastRefreshTime;
+        mDeltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(mOnlineTimer - mOfflineTimer).count();
 #endif
-        mLastRefreshTime = now;
     }
+
+    void sync()
+    {
+        mOfflineTimer = mOnlineTimer;
+        mDeltaTime = 0;
+    }
+
     double getRate() const
     {
 #ifndef NEWORLD_USE_WINAPI
-        return 1000 / mDeltaTime;
+        return 1000.0 / mDeltaTime;
 #else
         return 1.0 / mDeltaTime * mFrequency;
 #endif
     }
+
     long long getDeltaTimeMs() const
     {
 #ifndef NEWORLD_USE_WINAPI
@@ -67,57 +69,58 @@ public:
         return mDeltaTime / mFrequency;
 #endif
     }
-    // notice that this function will not call refresh()!
-    void wait() const
-    {
-        if (mLimit == 0) return;
-        auto now = getTimeNow();
-#ifndef NEWORLD_USE_WINAPI
-        auto stdDelta = std::chrono::milliseconds(1000 / mLimit);
-        auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(now - mLastRefreshTime);
-        if (stdDelta > deltaTime) std::this_thread::sleep_for(stdDelta - deltaTime);
-#else
-        auto stdDelta = 1000 / mLimit; //ms
-        auto deltaTime = static_cast<double>(now - mLastRefreshTime) / mFrequency * 1000;
-        if (stdDelta > deltaTime) Sleep(static_cast<unsigned long>(stdDelta - deltaTime));
-#endif
-    }
 
-    // notice that this function will not call refresh()!
+    // Notice: this function will not call refresh()!
     bool shouldRun() const
     {
         if (mLimit == 0) return true;
-        auto now = getTimeNow();
 #ifndef NEWORLD_USE_WINAPI
         auto stdDelta = std::chrono::milliseconds(1000 / mLimit);
-        auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(now - mLastRefreshTime);
+        auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(mOnlineTimer - mOfflineTimer);
 #else
-        auto stdDelta = 1000.0 / mLimit; //ms
-        auto deltaTime = static_cast<double>(now - mLastRefreshTime) / mFrequency * 1000; //ms
+        double stdDelta = 1.0 / mLimit;
+        double deltaTime = static_cast<double>(mOnlineTimer - mOfflineTimer) / mFrequency;
 #endif
         return stdDelta <= deltaTime;
     }
 
+    void increaseTimer()
+    {
+        if (mLimit == 0) return;
+#ifndef NEWORLD_USE_WINAPI
+        mOfflineTimer += std::chrono::milliseconds(1000 / mLimit);
+        mDeltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(mOnlineTimer - mOfflineTimer).count();
+#else
+        mOfflineTimer += mFrequency / mLimit;
+        mDeltaTime = mOnlineTimer - mOfflineTimer;
+#endif
+    }
+
 private:
 #ifndef NEWORLD_USE_WINAPI
-    std::chrono::steady_clock::time_point mLastRefreshTime;
+    std::chrono::steady_clock::time_point mOnlineTimer;
+    std::chrono::steady_clock::time_point mOfflineTimer;
     long long mDeltaTime = 0ll;
+
     static std::chrono::steady_clock::time_point getTimeNow()
     {
         return std::chrono::steady_clock::now();
     }
 #else
+    __int64 mOnlineTimer;
+    __int64 mOfflineTimer;
+    __int64 mFrequency;
+    __int64 mDeltaTime = 0ll;
+
     static __int64 getTimeNow()
     {
         LARGE_INTEGER num;
         QueryPerformanceCounter(&num);
         return num.QuadPart;
     }
-    __int64 mLastRefreshTime;
-    __int64 mFrequency;
-    __int64 mDeltaTime = 0ll;
 #endif
-    int mLimit = 0ll;
+
+    int mLimit;
     bool mValid = false;
 };
 

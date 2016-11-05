@@ -36,6 +36,7 @@ NWAPIEXPORT int NWAPICALL main(int argc, char** argv)
 }
 NWAPIEXPORT bool NWAPICALL nwInitServer(int argc, char ** argv)
 {
+    getSettings("server");
     Logger::init("server");
     infostream << "\n----------------------------------------"
                << CopyrightString

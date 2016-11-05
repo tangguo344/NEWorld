@@ -20,7 +20,9 @@
 #include "logger.h"
 #include "world.h"
 #include "chunk.h"
+
 size_t World::IDCount = 0;
+
 void World::expandChunkArray(size_t c)
 {
     mChunkCount += c;

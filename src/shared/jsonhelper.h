@@ -26,7 +26,7 @@
 
 using Json = nlohmann::json;
 
-const std::string SettingsFilename = "settings.json";
+const std::string SettingsFilename = "settings";
 
 inline Json readJsonFromFile(std::string filename)
 {
@@ -66,5 +66,5 @@ private:
     Json& mJson;
     std::string mFilename;
 };
-Json& getSettings();
+Json& getSettings(const std::string& suffix = "");
 #endif

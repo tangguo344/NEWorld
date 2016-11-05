@@ -186,7 +186,7 @@ public:
 
 protected:
     World(const std::string& name, const PluginManager& plugins, const BlockManager& blocks)
-        : mName(name), mID(IDCount++),mPlugins(plugins), mBlocks(blocks), mChunkCount(0), mChunkArraySize(1024), mCpa(8), mDaylightBrightness(15)
+        : mName(name), mID(0),mPlugins(plugins), mBlocks(blocks), mChunkCount(0), mChunkArraySize(1024), mCpa(8), mDaylightBrightness(15)
     {
         mChunks = static_cast<Chunk**>(malloc(mChunkArraySize * sizeof(Chunk*)));
     }
