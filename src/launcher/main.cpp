@@ -29,10 +29,9 @@ typedef void NWAPICALL MainFunction(int, char**);
 
 int main(int argc, char** argv)
 {
+    getSettings("launcher");
     Logger::init("launcher");
     std::string file;
-
-    Json settings = readJsonFromFile(SettingsFilename);
 
     std::string in;
     if (argc == 1)
@@ -50,8 +49,8 @@ int main(int argc, char** argv)
         in = argv[1];
     }
 
-    std::string clientFilename = getJsonValue<std::string>(settings["client"]["file"], "nwclient.dll");
-    std::string serverFilename = getJsonValue<std::string>(settings["server"]["file"], "nwserver.dll");
+    std::string clientFilename = getJsonValue<std::string>(getSettings()["client"]["file"], "nwclient.dll");
+    std::string serverFilename = getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver.dll");
 
     if (argc == 2)
     {
