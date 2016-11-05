@@ -16,6 +16,7 @@
 * You should have received a copy of the GNU Lesser General Public License
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #include "gameconnection.h"
 #include <logger.h>
 #include <vec3.h>
@@ -46,7 +47,7 @@ void MultiplayerConnection::handleReceivedData(Identifier id, unsigned char* dat
             reason = "Mismatched version. Server:" + std::to_string(NEWorldVersion) + " Player:" + std::to_string(login->versionId());
         }
 
-        //TODO: validate password
+        // TODO: validate password
 
         if (success)
             infostream << "Player " << login->username()->str() << " login!";

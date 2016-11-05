@@ -17,16 +17,17 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <string.h>
+#include <atomic>
+#include <chrono>
 #include "game.h"
 #include "renderer.h"
 #include "utils.h"
 #include <logger.h>
 #include "network.h"
 #include <jsonhelper.h>
-#include "window.h"
 #include <exception.h>
-#include <atomic>
-#include <chrono>
+#include "window.h"
 
 Game::Game(PluginManager& pm, const BlockManager& bm)
     : mBlocks(bm), mPlugins(pm),
@@ -65,11 +66,14 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
     debugstream << "Now, test time!";
     debugstream << "There is a client, he wants a chunk!";
     debugstream << "Client: Hey server, I wanna a chunk!";
-    mConnection->setChunkCallback([](Chunk*)
+    mConnection->setChunkCallback([&](Chunk* chunk)
     {
         debugstream << "Client: Yeah! I got my chunk!";
+        Chunk* target = mWorld.getChunkPtr(chunk->getPosition());
+        assert(target != nullptr);
+        memcpy(target->getBlocks(), chunk->getBlocks(), sizeof(BlockData)*ChunkSize*ChunkSize*ChunkSize);
+        target->setUpdated(true);
     });
-    mConnection->getChunk(mWorld.getWorldID(), {0,0,0});
 }
 
 Game::~Game()
@@ -103,14 +107,16 @@ void Game::update()
         mPlayer.accelerate(Vec3d(0.0, -0.05, 0.0));
 
     mPlayer.update();
-    mWorld.renderUpdate(Vec3i(mPlayer.getPosition()));
+    mWorld.sortChunkLoadUnloadList(Vec3i(mPlayer.getPosition()));
+    mWorld.tryLoadChunks(*mConnection);
     mWorld.update();
+    mWorld.renderUpdate(Vec3i(mPlayer.getPosition()));
     mWidgetManager.update();
 }
 
 void Game::multiUpdate()
 {
-    const int updateTimeout = 4000;
+    const long long updateTimeout = 4000;
     mUpdateScheduler.refresh();
     if (mUpdateScheduler.getDeltaTimeMs() >= updateTimeout)
     {

@@ -19,12 +19,14 @@
 
 #ifndef GAME_CONNECTION_CLIENT_H_
 #define GAME_CONNECTION_CLIENT_H_
+
 #include <string>
 #include "network.h"
 #include <common.h>
 #include <functional>
 #include <vec3.h>
 #include "worldclient.h"
+
 class World;
 class Chunk;
 
@@ -62,6 +64,7 @@ public:
 
     // Callbacks
     void setChunkCallback(ChunkCallback callback) override { mChunkCallback = callback; };
+
 private:
     void handleReceivedData(Identifier id, unsigned char* data);
     Connection mConn;
@@ -71,4 +74,5 @@ private:
     ChunkCallback mChunkCallback;
     WorldClient* mWorld;
 };
+
 #endif

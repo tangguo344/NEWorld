@@ -30,43 +30,44 @@ class Chunk
 {
 public:
     virtual ~Chunk() {}
-    /// Get chunk position
+
+    // Get chunk position
     const Vec3i& getPosition() const
     {
         return mPosition;
     }
 
-    /// Get chunk updated flag
+    // Get chunk updated flag
     bool isUpdated() const
     {
         return mUpdated;
     }
 
-    /// Set chunk updated flag
+    // Set chunk updated flag
     void setUpdated(bool updated)
     {
         mUpdated = updated;
     }
 
-    /// Get block data in this chunk
+    // Get block data in this chunk
     BlockData getBlock(const Vec3i& pos) const
     {
         assert(pos.x >= 0 && pos.x < ChunkSize && pos.y >= 0 && pos.y < ChunkSize && pos.z >= 0 && pos.z < ChunkSize);
         return mBlocks[pos.x * ChunkSize * ChunkSize + pos.y * ChunkSize + pos.z];
     }
 
-    /// Get block reference in this chunk
+    // Get block reference in this chunk
     BlockData& getBlock(const Vec3i& pos)
     {
         assert(pos.x >= 0 && pos.x < ChunkSize && pos.y >= 0 && pos.y < ChunkSize && pos.z >= 0 && pos.z < ChunkSize);
         return mBlocks[pos.x * ChunkSize * ChunkSize + pos.y * ChunkSize + pos.z];
     }
 
-    /// Get block pointer
+    // Get block pointer
     BlockData* getBlocks() { return mBlocks; }
     const BlockData* getBlocks() const { return mBlocks; }
 
-    /// Set block data in this chunk
+    // Set block data in this chunk
     void setBlock(const Vec3i& pos, BlockData block)
     {
         assert(pos.x >= 0 && pos.x < ChunkSize && pos.y >= 0 && pos.y < ChunkSize && pos.z >= 0 && pos.z < ChunkSize);
