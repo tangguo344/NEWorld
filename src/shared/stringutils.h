@@ -353,7 +353,7 @@ Begin:
                 ++lpStr;
                 while (*lpStr)
                 {
-                    if (std::isblank(*lpStr, std::locale{}))
+                    if (std::isblank(*lpStr))
                     {
                         ++lpStr;
                         continue;
@@ -368,7 +368,7 @@ Begin:
                     break;
                 }
 
-                while (std::isblank(*lpStr, std::locale{})) { ++lpStr; }
+                while (std::isblank(*lpStr)) { ++lpStr; }
                 if (*lpStr != '}')
                 {
                     nw_throw(Exception::Exception, "Expected '}', got '%c'", *lpStr);
