@@ -29,7 +29,9 @@ Chunk* WorldServer::addChunk(const Vec3i& chunkPos)
         return nullptr;
     }
     newChunkPtr(index);
-    mChunks[index] = static_cast<Chunk*>(new ChunkServer(chunkPos));
+    ChunkServer* c = new ChunkServer(chunkPos);
+    c->build(15);
+    mChunks[index] = static_cast<Chunk*>(c);
     // TODO: Update chunk pointer cache
     // TODO: Update chunk pointer array
     // Return pointer
