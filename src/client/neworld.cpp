@@ -26,6 +26,7 @@
 NEWorld::NEWorld() : mPlugins(true)
 {
     // Initialize
+    getSettings("client");
     Logger::init("client");
     infostream << "Initializing...";
     Window& window = Window::getInstance("NEWorld", 852, 480);
@@ -41,7 +42,7 @@ NEWorld::NEWorld() : mPlugins(true)
     {
         window.pollEvents();
         window.newFrame();
-        game.update();
+        game.multiUpdate();
         game.render();
         Renderer::checkError();
         window.swapBuffers();
