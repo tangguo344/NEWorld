@@ -126,6 +126,8 @@ private:
     static HandleType loadLibrary(const std::string& filename, bool& success)
     {
         HandleType handle = dlopen(filename.c_str(), RTLD_LAZY);
+        if (handle == nullptr)
+            fatalstream << dlerror();
         success = handle != nullptr;
         return handle;
     }
