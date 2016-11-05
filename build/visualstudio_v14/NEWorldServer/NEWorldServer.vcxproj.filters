@@ -49,6 +49,12 @@
     <ClCompile Include="..\..\..\src\server\chunkserver.cpp">
       <Filter>Source\World</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\server\multiplayerconnection.cpp">
+      <Filter>Source\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\server\connection.cpp">
+      <Filter>Source\Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\server\server.h">
@@ -74,6 +80,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\server\worldmanager.h">
       <Filter>Source\World</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\server\gameconnection.h">
+      <Filter>Source\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\server\connection.h">
+      <Filter>Source\Network</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

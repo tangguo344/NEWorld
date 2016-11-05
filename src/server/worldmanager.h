@@ -49,6 +49,22 @@ public:
     std::vector<WorldServer*>::iterator begin() { return mWorlds.begin(); }
     std::vector<WorldServer*>::iterator end() { return mWorlds.end(); }
 
+    WorldServer* getWorld(const std::string& name)
+    {
+        for(WorldServer* world : *this)
+        {
+            if (world->getWorldName() == name) return world;
+        }
+        return nullptr;
+    }
+    WorldServer* getWorld(int id)
+    {
+        for (WorldServer* world : *this)
+        {
+            if (world->getWorldID() == id) return world;
+        }
+        return nullptr;
+    }
 private:
     std::vector<WorldServer*> mWorlds;
     PluginManager& mPlugins;

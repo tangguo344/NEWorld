@@ -46,8 +46,6 @@ public:
     void stop();
     ~Server();
 
-    void handleData(Identifier id, unsigned char* data);
-
 private:
 
     void initBuiltinCommands();

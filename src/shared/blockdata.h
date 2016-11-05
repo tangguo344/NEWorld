@@ -43,6 +43,10 @@ public:
         : u{ id_, brightness_, state_ }
     {
     }
+    BlockData(uint32_t allData)
+    {
+        u.allData = allData;
+    }
 
     BlockData(const BlockData& rhs) : u(rhs.u)
     {
@@ -52,7 +56,10 @@ public:
     {
         return u.allData == rhs.u.allData;
     }
-
+    uint32_t getData() const
+    {
+        return u.allData;
+    }
     uint32_t getID() const
     {
         return u.data.id;

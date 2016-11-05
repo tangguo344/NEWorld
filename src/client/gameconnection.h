@@ -17,13 +17,16 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef GAME_CONNECTION_H_
-#define GAME_CONNECTION_H_
+#ifndef GAME_CONNECTION_CLIENT_H_
+#define GAME_CONNECTION_CLIENT_H_
 #include <string>
 #include "network.h"
 #include <common.h>
-
+#include <functional>
+#include <vec3.h>
+#include "worldclient.h"
 class World;
+class Chunk;
 
 class GameConnection
 {
@@ -35,13 +38,19 @@ public:
 
     // Functions
     virtual void login(const char* username, const char* password) = 0;
+    using ChunkCallback = std::function<void(Chunk*)>;
+    virtual void getChunk(size_t worldID, Vec3i pos) = 0;
     virtual World* getWorld(size_t id) = 0;
+
+    // Callbacks
+    virtual void setChunkCallback(ChunkCallback callback) = 0;
 };
 
 class MultiplayerConnection : public GameConnection
 {
 public:
-    MultiplayerConnection(std::string host,unsigned int port):mHost(host),mPort(port) {}
+    MultiplayerConnection(std::string host,unsigned int port, WorldClient* worldNow)
+        :mHost(host),mPort(port),mConn([this](Identifier id, unsigned char* data) {handleReceivedData(id, data); }),mWorld(worldNow) {}
     void connect() override;
     void disconnect() override;
     World* getWorld(size_t id) override;
@@ -49,10 +58,17 @@ public:
 
     // Functions
     void login(const char* username, const char* password) override;
+    void getChunk(size_t worldID, Vec3i pos) override;
+
+    // Callbacks
+    void setChunkCallback(ChunkCallback callback) override { mChunkCallback = callback; };
 private:
+    void handleReceivedData(Identifier id, unsigned char* data);
     Connection mConn;
     std::string mHost;
     unsigned int mPort;
     flatbuffers::FlatBufferBuilder mFbb;
+    ChunkCallback mChunkCallback;
+    WorldClient* mWorld;
 };
 #endif
