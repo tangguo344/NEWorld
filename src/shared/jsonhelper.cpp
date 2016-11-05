@@ -19,9 +19,9 @@
 
 #include "jsonhelper.h"
 
-Json& getSettings()
+Json& getSettings(const std::string& suffix)
 {
-    static Json settings = readJsonFromFile(SettingsFilename);
-    static JsonSaveHelper helper(settings, SettingsFilename);
+    static Json settings = readJsonFromFile(SettingsFilename + "_" + suffix + ".json");
+    static JsonSaveHelper helper(settings, SettingsFilename + "_" + suffix + ".json");
     return settings;
 }
