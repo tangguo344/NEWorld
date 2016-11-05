@@ -46,6 +46,7 @@ public:
     ~Game();
 
     void update();
+    void multiUpdate();
     void render();
 
     Event::EventBus& getEventBus();
@@ -64,15 +65,15 @@ private:
     WorldClient mWorld;
     // Player test
     Player mPlayer;
-    // Local Server
+    // Local server
     LocalServerLoader mSinglePlayManager;
-    // Widget Manager
+    // Widget manager
     WidgetManager mWidgetManager;
     // Main event bus
     Event::EventBus mEventBus;
-    // Ups
-    RateMeter mUps{60};
-    // Game Connection
+    // Update scheduler
+    RateMeter mUpdateScheduler{60};
+    // Game connection
     std::shared_ptr<GameConnection> mConnection;
 };
 
