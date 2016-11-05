@@ -22,7 +22,8 @@
 #include "commandmanager.h"
 
 Server::Server(std::vector<std::string> args)
-    : mWorlds(mPlugins, mBlocks), mPlugins(false), mArgs(args)
+    : mWorlds(mPlugins, mBlocks), mPlugins(false), mArgs(args),
+      mNetwork([this](Identifier id, unsigned char* data) {handleData(id, data); })
 {
     using namespace std::chrono;
     auto start_time = steady_clock::now();
@@ -63,4 +64,29 @@ void Server::stop()
 Server::~Server()
 {
     // TODO: Terminate here
+}
+
+void Server::handleData(Identifier id, unsigned char* data)
+{
+    switch(id)
+    {
+    case Identifier::c2sLogin:
+    {
+        auto login=c2s::GetLogin(data);
+        bool success = true;
+        std::string reason = "";
+        if (login->versionId() != NEWorldVersion)
+        {
+            success = false;
+            reason = "Mismatched version. Server:" + std::to_string(NEWorldVersion) + " Player:" + std::to_string(login->versionId());
+        }
+
+        //TODO: validate password
+
+        if (success)
+            infostream << "Player " << login->username()->str() << " login!";
+        else
+            warningstream << "Player " << login->username()->str() << " failed to login: " << reason;
+    }
+    }
 }

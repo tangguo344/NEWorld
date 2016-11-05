@@ -4,15 +4,15 @@
 #include <stdexcept>
 #include <thread>
 #include <raknet/RakPeerInterface.h>
-#include <identifier.h>
 #include <raknet/MessageIdentifiers.h>
-
+#include "../protocol/gen/protocol.h"
+#include <functional>
 class Connection;
 
 class NetworkManager
 {
 public:
-    NetworkManager();
+    NetworkManager(std::function<void(Identifier, unsigned char*)> userDataCallback);
     ~NetworkManager();
     void close();
     /**
@@ -28,6 +28,7 @@ private:
     RakNet::RakPeerInterface *mPeer;
     std::thread mThread;
     std::vector<Connection*> mConns;
+    std::function<void(Identifier, unsigned char*)> mUserDataCallback;
 };
 
 /** The base class of any Connection class to it's NetworkManager

@@ -17,16 +17,36 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "gameconnection.h"
+#include <logger.h>
 
 void MultiplayerConnection::connect()
 {
+    mConn.connect(mHost.c_str(), mPort);
 }
 
 void MultiplayerConnection::disconnect()
 {
+    //not implement
+    warningstream << "Function not implement";
+    assert(false);
 }
 
-World* MultiplayerConnection::getWorld(size_t id)
+World* MultiplayerConnection::getWorld(size_t)
 {
+    //not implement
+    warningstream << "Function not implement";
+    assert(false);
     return nullptr;
+}
+
+void MultiplayerConnection::waitForConnected()
+{
+    mConn.waitForConnected();
+}
+
+void MultiplayerConnection::login(const char * username, const char * password)
+{
+    auto login = c2s::CreateLoginDirect(mFbb, username, password, NEWorldVersion);
+    c2s::FinishLoginBuffer(mFbb, login);
+    mConn.send(mFbb, login,PacketPriority::HIGH_PRIORITY, PacketReliability::RELIABLE);
 }
