@@ -26,6 +26,7 @@ class GameConnection;
 
 const int MaxChunkRenderCount = 4;
 constexpr int MaxChunkLoadCount = 64, MaxChunkUnloadCount = 64;
+
 class WorldClient : public World
 {
 public:
@@ -47,16 +48,15 @@ public:
 
     // Build/Destroy VBO
     void renderUpdate(const Vec3i& position);
-
     // Render all chunks
     size_t render(const Vec3i& position) const;
     // Set load range
     void setLoadRange(int x);
-
     // Find the nearest chunks in load range to load, fartherest chunks out of load range to unload
     void sortChunkLoadUnloadList(const Vec3i& centerPos);
 
     void tryLoadChunks(GameConnection& conn);
+
 private:
     // Render distance
     int mRenderDist = 0;
