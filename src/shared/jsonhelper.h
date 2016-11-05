@@ -23,18 +23,26 @@
 #include <string>
 #include <fstream>
 #include "json.hpp"
+#include "logger.h"
 
 using Json = nlohmann::json;
 
-const std::string SettingsFilename = "settings";
+const std::string SettingsFilename = "./settings";
 
 inline Json readJsonFromFile(std::string filename)
 {
     std::ifstream file(filename);
-    std::string content = std::string((std::istreambuf_iterator<char>(file)),
-                                      std::istreambuf_iterator<char>());
-    if (!content.empty())
-        return Json::parse(content);
+    if (file.good())
+    {
+        std::string content = std::string((std::istreambuf_iterator<char>(file)),
+                                          std::istreambuf_iterator<char>());
+        if (!content.empty())
+            return Json::parse(content);
+    }
+    else
+    {
+        fatalstream << "Can't open file\"" << filename << "\"for reading\n";
+    }
     return Json();
 }
 
