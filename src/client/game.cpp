@@ -54,7 +54,7 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
     mWidgetManager.addWidget(std::make_shared<WidgetCallback>("Debug", ImVec2(100, 200), [this]
     {
         ImGui::Text("NEWorld %s(%u)", NEWorldStringVersion, NEWorldVersion);
-        ImGui::Text("FPS %.1f, UPS %.1f", ImGui::GetIO().Framerate, mUps.getRate());
+        ImGui::Text("FPS %.1f, UPS %.1f", ImGui::GetIO().Framerate, mUpdateScheduler.getRate());
         ImGui::Text("Pos: x %.1f y %.1f z %.1f", mPlayer.getPosition().x, mPlayer.getPosition().y, mPlayer.getPosition().z);
         ImGui::Text("Widgets Loaded: %zu", mWidgetManager.getSize());
         ImGui::Text("Chunks Loaded: %zu/%zu", mWorld.getChunkCount(), mWorld.getReservedChunkCount());
@@ -77,10 +77,8 @@ Game::~Game()
     mPlugins.unloadPlugins();
 }
 
-
 void Game::update()
 {
-    if (!mUps.shouldRun()) return;
     auto& win = Window::getInstance();
     // TODO: Read keys from the configuration file
     if (win.isKeyDown(SDL_SCANCODE_UP))
@@ -108,7 +106,22 @@ void Game::update()
     mWorld.renderUpdate(Vec3i(mPlayer.getPosition()));
     mWorld.update();
     mWidgetManager.update();
-    mUps.refresh();
+}
+
+void Game::multiUpdate()
+{
+    const int updateTimeout = 4000;
+    mUpdateScheduler.refresh();
+    if (mUpdateScheduler.getDeltaTimeMs() >= updateTimeout)
+    {
+        warningstream << "Can't keep up! " << mUpdateScheduler.getDeltaTimeMs() << "ms skipped.";
+        mUpdateScheduler.sync();
+    }
+    while (mUpdateScheduler.shouldRun())
+    {
+        update();
+        mUpdateScheduler.increaseTimer();
+    }
 }
 
 // TEMP FUNCTION: to show the world coordinates
