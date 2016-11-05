@@ -40,7 +40,7 @@ public:
         SDL_GL_SwapWindow(mWindow);
     }
 
-    bool isKeyDown(SDL_Scancode scancode)
+    static bool isKeyDown(SDL_Scancode scancode)
     {
         return SDL_GetKeyboardState(nullptr)[scancode] == 1u;
     }
@@ -61,9 +61,15 @@ public:
         return win;
     }
 
-    bool shouldQuit() const { return mShouldQuit; }
+    bool shouldQuit() const
+    {
+        return mShouldQuit;
+    }
 
-    void newFrame() { imguiHelper::newFrame(mWindow); }
+    void newFrame() const
+    {
+        imguiHelper::newFrame(mWindow);
+    }
 
 private:
     SDL_Window* mWindow = nullptr;
