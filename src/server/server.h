@@ -45,13 +45,16 @@ public:
     void run();
     void stop();
     ~Server();
+
+    void handleData(Identifier id, unsigned char* data);
+
 private:
 
     void initBuiltinCommands();
 
     RateMeter mUps;
-
     boost::timer mUpdateTimer;
+    std::vector<std::string> mArgs;
 
     // Managers
     WorldManager mWorlds;
@@ -59,8 +62,6 @@ private:
     PluginManager mPlugins;
     NetworkManager mNetwork;
     CommandManager mCommands;
-
-    std::vector<std::string> mArgs;
 };
 
 #endif

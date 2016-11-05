@@ -19,23 +19,40 @@
 
 #ifndef GAME_CONNECTION_H_
 #define GAME_CONNECTION_H_
+#include <string>
+#include "network.h"
+#include <common.h>
 
 class World;
 
 class GameConnection
 {
 public:
+    virtual ~GameConnection() = default;
     virtual void connect() = 0;
     virtual void disconnect() = 0;
+    virtual void waitForConnected() = 0;
+
+    // Functions
+    virtual void login(const char* username, const char* password) = 0;
     virtual World* getWorld(size_t id) = 0;
-    virtual ~GameConnection() = default;
 };
 
 class MultiplayerConnection : public GameConnection
 {
 public:
+    MultiplayerConnection(std::string host,unsigned int port):mHost(host),mPort(port) {}
     void connect() override;
     void disconnect() override;
     World* getWorld(size_t id) override;
+    void waitForConnected() override;
+
+    // Functions
+    void login(const char* username, const char* password) override;
+private:
+    Connection mConn;
+    std::string mHost;
+    unsigned int mPort;
+    flatbuffers::FlatBufferBuilder mFbb;
 };
 #endif
