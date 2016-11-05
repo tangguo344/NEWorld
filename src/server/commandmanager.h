@@ -46,7 +46,7 @@ private:
 
     std::future<void> mMainloop;
     std::atomic_bool mThreadRunning{true};
-    std::atomic_bool mWaitingForInputing{false};
+    std::atomic_bool mWaitingForInput{false};
     CommandMap mCommandMap;
 };
 
