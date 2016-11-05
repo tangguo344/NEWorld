@@ -49,6 +49,7 @@ void MultiplayerConnection::waitForConnected()
 
 void MultiplayerConnection::login(const char * username, const char * password)
 {
+    mFbb.Clear();
     auto login = c2s::CreateLoginDirect(mFbb, username, password, NEWorldVersion);
     c2s::FinishLoginBuffer(mFbb, login);
     mConn.send(mFbb, login,PacketPriority::HIGH_PRIORITY, PacketReliability::RELIABLE);
@@ -56,7 +57,8 @@ void MultiplayerConnection::login(const char * username, const char * password)
 
 void MultiplayerConnection::getChunk(size_t worldID, Vec3i pos)
 {
-    auto req = c2s::CreateRequestChunk(mFbb, worldID, pos.x, pos.y, pos.z);
+    mFbb.Clear();
+    auto req = c2s::CreateRequestChunk(mFbb, pos.x, pos.y, pos.z, worldID);
     c2s::FinishRequestChunkBuffer(mFbb, req);
     mConn.send(mFbb, req, PacketPriority::MEDIUM_PRIORITY, PacketReliability::UNRELIABLE);
 }

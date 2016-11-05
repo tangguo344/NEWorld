@@ -23,6 +23,7 @@
 
 void MultiplayerConnection::sendChunk(Chunk* chunk)
 {
+    mFbb.Clear();
     auto pos = chunk->getPosition().conv<s2c::Vec3>();
     std::vector<int> blocks;
     for (auto i = 0; i < ChunkSize*ChunkSize*ChunkSize; ++i)
