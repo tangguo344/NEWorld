@@ -30,15 +30,29 @@ CommandExecuteStat CommandManager::handleCommand(Command cmd)
     return{ false,"Command not exists, type help for available commands." };
 }
 
+CommandManager::CommandManager()
+    : mMainloop(std::async([this] { inputLoop(); }))
+{
+}
+
+CommandManager::~CommandManager()
+{
+    mThreadRunning.store(false, std::memory_order_release);
+    if (!mWaitingForInput.load(std::memory_order_acquire))
+    {
+        mMainloop.wait();
+    }
+}
+
 void CommandManager::inputLoop()
 {
     while (mThreadRunning.load(std::memory_order_acquire))
     {
         std::string input;
         //std::cout << LColorFunc::white << "$> " << LColorFunc::lwhite;
-        mWaitingForInputing.store(true, std::memory_order_release);
+        mWaitingForInput.store(true, std::memory_order_release);
         getline(std::cin, input);
-        mWaitingForInputing.store(false, std::memory_order_release);
+        mWaitingForInput.store(false, std::memory_order_release);
         auto result = handleCommand(Command(input));
         if (result.info != "")
             infostream << result.info;

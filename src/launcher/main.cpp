@@ -20,7 +20,7 @@
 #include <iostream>
 #include <string>
 #include <climits>
-#include <common.h> // For NWAPICALL
+#include <common.h>
 #include <library.h>
 #include <logger.h>
 #include <jsonhelper.h>
@@ -48,19 +48,19 @@ int main(int argc, char** argv)
     {
         in = argv[1];
     }
-
-    std::string clientFilename = getJsonValue<std::string>(getSettings()["client"]["file"], "nwclient.dll");
-    std::string serverFilename = getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver.dll");
+		
+    std::string clientFilename = getJsonValue<std::string>(getSettings()["client"]["file"], "nwclient");
+    std::string serverFilename = getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver");
 
     if (argc == 2)
     {
         file = in == "server" ? serverFilename : clientFilename;
     }
-    else
+    else if (argc == 3)
     {
-        infostream << "Opening file:" << argv[2] << " directly";
         file = argv[2];
     }
 
+    debugstream << "Load:" << file;
     Library(file).get<MainFunction>("main")(argc, argv);
 }

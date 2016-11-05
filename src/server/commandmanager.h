@@ -27,18 +27,8 @@
 class CommandManager
 {
 public:
-    CommandManager()
-        : mMainloop(std::async([this] { inputLoop(); }))
-    {
-    }
-    ~CommandManager()
-    {
-        mThreadRunning.store(false, std::memory_order_release);
-        if (!mWaitingForInputing.load(std::memory_order_acquire))
-        {
-            mMainloop.wait();
-        }
-    }
+    CommandManager();
+    ~CommandManager();
 
     CommandManager(const CommandManager&) = delete;
     CommandManager& operator=(const CommandManager&) = delete;
@@ -48,10 +38,8 @@ public:
     void inputLoop();
     void setRunningStatus(bool s);
 
-    void addCommand(std::string name, CommandInfo info, CommandHandleFunction func)
-    {
-        mCommandMap.insert({name, {info, func}});
-    }
+    void registerCommand(std::string name, CommandInfo info, CommandHandleFunction func)
+    { mCommandMap.insert({name, {info, func}}); }
 
 private:
     CommandExecuteStat handleCommand(Command cmd);
