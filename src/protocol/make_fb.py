@@ -17,7 +17,7 @@ all_protocols=[]
 
 for dirpath, dirs, files in os.walk("."):
     for filename in files:
-    name,suffix = os.path.splitext(filename)
+        name,suffix = os.path.splitext(filename)
         if suffix == ".fbs":
             type = dirpath.replace("."+os.sep,"")
             cmd = '%sflatc -c -o "./gen/%s" "./%s/%s"'%(flatc_path,type,type,filename)
