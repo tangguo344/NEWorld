@@ -32,7 +32,7 @@ class LocalServerLoader
 {
 public:
     explicit LocalServerLoader(std::function<void(bool)> callback) :
-        mPath(getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver").c_str()),
+        mPath(getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver.dll").c_str()),
         mTimeout(getJsonValue<int>(getSettings()["client"]["server_start_timeout"], 30)),
         mCallback(callback)
     {
