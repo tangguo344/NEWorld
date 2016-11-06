@@ -18,6 +18,7 @@
 */
 
 #include "gameconnection.h"
+#include "chunkserver.h"
 #include <logger.h>
 #include <vec3.h>
 
@@ -27,7 +28,7 @@ void MultiplayerConnection::sendChunk(Chunk* chunk)
     auto pos = chunk->getPosition().conv<s2c::Vec3>();
     std::vector<int> blocks;
     for (auto i = 0; i < ChunkSize*ChunkSize*ChunkSize; ++i)
-        blocks.push_back(chunk->getBlocks()[i].getData()); //Âï£¬ÓÐ¿ÕÔÙÓÅ»¯°É
+        blocks.push_back(chunk->getBlocks()[i].getData()); //ï¿½ï£¬ï¿½Ð¿ï¿½ï¿½ï¿½ï¿½Å»ï¿½ï¿½ï¿½
     auto c = s2c::CreateChunkDirect(mFbb, &pos, &blocks);
     s2c::FinishChunkBuffer(mFbb, c);
     mConn.send(mFbb, c, PacketPriority::MEDIUM_PRIORITY, PacketReliability::RELIABLE);
@@ -56,12 +57,12 @@ void MultiplayerConnection::handleReceivedData(Identifier id, unsigned char* dat
             warningstream << "Player " << login->username()->str() << " failed to login: " << reason;
         break;
     }
-    case Identifier::c2sRequestChunk:
-    {
+    case Identifier::c2sRequestChunk: {
         auto req = c2s::GetRequestChunk(data);
-        World* world = mWorlds.getWorld(req->worldID());
-        Chunk* chunk = world->getChunkPtr({ req->x(), req->y(), req->z() });
-        if (chunk == nullptr) chunk = world->addChunk({ req->x(), req->y(), req->z() });
+        World *world = mWorlds.getWorld(req->worldID());
+        Chunk *chunk = world->getChunkPtr({req->x(), req->y(), req->z()});
+        if (chunk == nullptr) chunk = world->addChunk({req->x(), req->y(), req->z()});
+        static_cast<ChunkServer*>(chunk)->increaseWeakRef();
         sendChunk(chunk);
         break;
     }
