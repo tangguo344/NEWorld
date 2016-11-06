@@ -32,7 +32,8 @@ extern ChunkGenerator *ChunkGen;
 class ChunkServer : public Chunk
 {
 public:
-    explicit ChunkServer(const Vec3i& position) : Chunk(position) {}
+    explicit ChunkServer(const Vec3i& position) :
+            Chunk(position), mRefrenceCount(0), mWeakRefrenceCount(0) {}
 
     ChunkServer(const ChunkServer&) = delete;
     ChunkServer& operator=(const ChunkServer&) = delete;

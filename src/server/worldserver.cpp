@@ -64,7 +64,7 @@ void WorldServer::updateChunkLoadStatus()
 {
     for (size_t i = 0; i < mChunkCount; ++i)
     {
-        auto c = static_cast<ChunkServer*>(getChunkPointerArray().get(i));
+        auto c = static_cast<ChunkServer*>(getChunkPtr(i));
         if (c)
         {
             c->decreaseStrongRef();
@@ -72,6 +72,10 @@ void WorldServer::updateChunkLoadStatus()
             if (c->checkReleaseable() && (mChunkUnloadCount < MaxChunkUnloadCount))
                 mChunkUnloadList[mChunkUnloadCount++] = std::pair<Chunk *, int>(c, i);
         }
+    }
+    if (mChunkUnloadCount > 0)
+    {
+        infostream << "Going to unload " << mChunkUnloadCount << "chunks";
         loadUnloadChunks();
         infostream << "Chunk Release Triggered. Size is now:" << mChunkCount;
     }
