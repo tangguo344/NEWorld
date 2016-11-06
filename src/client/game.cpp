@@ -41,7 +41,7 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
     mSinglePlayManager.run(); // TODO: start the server only when it's a single player mode.
     // TEMP CODE
     // Load some chunks at client side to test rendering
-    mWorld.setRenderDistance(4);
+    mWorld.setRenderDistance(2);
     mPlayer.setPosition(Vec3d(-16.0, 48.0, 32.0));
     mPlayer.setRotation(Vec3d(-45.0, -22.5, 0.0));
     // END TEMP CODE
