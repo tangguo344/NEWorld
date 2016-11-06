@@ -28,13 +28,14 @@
     #include <unistd.h>
     #include <sys/types.h>
     #include <sys/stat.h>
+    #include <sys/dir.h>
 #endif
 
 namespace filesystem
 {
     inline bool exists(const std::string& path)
     {
-        return _access(path.c_str(), 0) == 0;
+        return access(path.c_str(), 0) == 0;
     }
     inline void create_directories(const std::string& path)
     {
@@ -58,12 +59,12 @@ namespace filesystem
         while (FindNextFileA(hFind, &ffd) != 0);
         FindClose(hFind);
 #else
-        DIR* pDir = opendir(path.c_str());
+        auto pDir = opendir(path.c_str());
         struct dirent *ent;
         while ((ent = readdir(pDir)) != nullptr)
         {
             if (ent->d_type & DT_DIR) continue;
-            callback(ent->d_name);
+            callback(path + ent->d_name);
         }
 #endif
     }

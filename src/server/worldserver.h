@@ -34,25 +34,12 @@ public:
     {
     }
 
-
-    // Load & unload chunks
-    void loadUnloadChunks();
-
-    void pendingLoadChunk(const Vec3i& chunkPos);
-
     Chunk* addChunk(const Vec3i& chunkPos) override;
 
     void updateChunkLoadStatus();
 private:
     // ChunkPointerArray used to detect unloaded chunks in load range
     ChunkPointerArray& mCpa;
-
-    int mChunkLoadCount, mChunkUnloadCount = 0, mLoadRange = 0;
-    // Chunk load list
-    Vec3i mChunkLoadList[MaxChunkLoadCount];
-    // Chunk unload list [pointer, distance]
-    std::pair<Chunk*, int> mChunkUnloadList[MaxChunkUnloadCount];
-
 };
 
 #endif // !WORLDSERVER_H_
