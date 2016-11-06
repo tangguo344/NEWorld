@@ -155,7 +155,7 @@
       <AdditionalDependencies>ws2_32.lib;RakNetLibStaticd.lib;flatbuffers.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <PreBuildEvent>
-      <Command>$(SolutionDir)..\..\scripts\bootstrap.bat</Command>
+      <Command>"$(SolutionDir)..\..\scripts\bootstrap.bat"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -177,7 +177,7 @@
       <AdditionalDependencies>ws2_32.lib;RakNetLibStaticd.lib;flatbuffers.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <PreBuildEvent>
-      <Command>$(SolutionDir)..\..\scripts\bootstrap_64.bat</Command>
+      <Command>"$(SolutionDir)..\..\scripts\bootstrap_64.bat"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -228,7 +228,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>$(SolutionDir)..\..\scripts\bootstrap.bat</Command>
+      <Command>"$(SolutionDir)..\..\scripts\bootstrap.bat"</Command>
     </PreBuildEvent>
     <Lib>
       <AdditionalDependencies>ws2_32.lib;RakNetLibStatic.lib;flatbuffers.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -258,7 +258,7 @@
       <AdditionalDependencies>ws2_32.lib;RakNetLibStatic.lib;flatbuffers.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <PreBuildEvent>
-      <Command>$(SolutionDir)..\..\scripts\bootstrap_64.bat</Command>
+      <Command>"$(SolutionDir)..\..\scripts\bootstrap_64.bat"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profiling|x64'">
@@ -282,7 +282,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PreBuildEvent>
-      <Command>$(SolutionDir)..\..\scripts\bootstrap_64.bat</Command>
+      <Command>"$(SolutionDir)..\..\scripts\bootstrap_64.bat"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
