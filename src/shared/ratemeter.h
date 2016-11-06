@@ -52,15 +52,6 @@ public:
         mDeltaTime = 0;
     }
 
-    double getRate() const
-    {
-#ifndef NEWORLD_USE_WINAPI
-        return 1000.0 / mDeltaTime;
-#else
-        return 1.0 / mDeltaTime * mFrequency;
-#endif
-    }
-
     long long getDeltaTimeMs() const
     {
 #ifndef NEWORLD_USE_WINAPI

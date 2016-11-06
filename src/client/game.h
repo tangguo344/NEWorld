@@ -73,6 +73,9 @@ private:
     Event::EventBus mEventBus;
     // Update scheduler
     RateMeter mUpdateScheduler{60};
+    // Rate counters
+    int mFpsCounter, mUpsCounter, mFpsLatest, mUpsLatest;
+    RateMeter mRateCounterTimer{1};
     // Game connection
     std::shared_ptr<GameConnection> mConnection;
 };

@@ -82,7 +82,7 @@
     #define NWAPIEXPORT __attribute__((visibility("default")))
 #endif
 
-constexpr const char* NEWorldStringVersion = "Beta 0.1";
+constexpr const char* NEWorldVersionName = "Beta 0.1";
 constexpr unsigned short NEWorldVersion = 41u;
 constexpr const char* CopyrightString = R"(
 NEWorld  Copyright (C) 2016  NEWorld Team
