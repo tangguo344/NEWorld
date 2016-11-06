@@ -57,7 +57,7 @@ public:
         }
         return nullptr;
     }
-    WorldServer* getWorld(int id)
+    WorldServer* getWorld(size_t id)
     {
         for (WorldServer* world : *this)
         {

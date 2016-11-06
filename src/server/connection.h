@@ -29,7 +29,7 @@ class Connection
 public:
     friend class MultiplayerConnection;
     template<class ProtocolType>
-    void send(const flatbuffers::FlatBufferBuilder& fbb, const flatbuffers::Offset<ProtocolType>& data, PacketPriority priority, PacketReliability reliability)
+    void send(const flatbuffers::FlatBufferBuilder& fbb, const flatbuffers::Offset<ProtocolType>&, PacketPriority priority, PacketReliability reliability)
     {
         sendRawData(packetType2Id<ProtocolType>(), fbb.GetBufferPointer(), fbb.GetSize()*CHAR_BIT, priority, reliability);
     }
