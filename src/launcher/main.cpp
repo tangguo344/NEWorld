@@ -52,14 +52,8 @@ int main(int argc, char** argv)
     std::string clientFilename = getJsonValue<std::string>(getSettings()["client"]["file"], "nwclient");
     std::string serverFilename = getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver");
 
-    if (argc == 2)
-    {
-        file = in == "server" ? serverFilename : clientFilename;
-    }
-    else if (argc == 3)
-    {
-        file = argv[2];
-    }
+    file = in == "server" ? serverFilename : clientFilename;
+
 
     debugstream << "Load:" << file;
     Library(file).get<MainFunction>("main")(argc, argv);

@@ -10,7 +10,7 @@ if(EXECUTABLE)
 else()
     add_library(nwclient SHARED ${SRC_CLIENT})
 endif()
-target_link_libraries(nwclient pthread nwshared freetype RakNetDLL SDL2 SDL2_image glew )
+target_link_libraries(nwclient pthread nwshared freetype RakNetDLL SDL2 SDL2_image GLEW)
 
 if(CMAKE_SYSTEM_NAME MATCHES Darwin)
     target_link_libraries(nwclient "-framework OpenGL")
