@@ -34,7 +34,6 @@
 #include "commandmanager.h"
 #include "networkmanager.h"
 #include "networkmanager.h"
-#include <boost/timer.hpp>
 
 constexpr int UpdateInterval = 1000 / 60, GlobalUpdateInterval = 1000 / 60; // unit: ms
 
@@ -51,7 +50,6 @@ private:
     void initBuiltinCommands();
 
     RateMeter mUps;
-    boost::timer mUpdateTimer;
     std::vector<std::string> mArgs;
 
     // Managers

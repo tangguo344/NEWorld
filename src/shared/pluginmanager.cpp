@@ -17,12 +17,11 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <boost/filesystem/operations.hpp>
-#include <boost/filesystem/path.hpp>
 #include "common.h"
 #include "utils.h"
 #include "pluginmanager.h"
 #include "logger.h"
+#include <fs.h>
 
 PluginManager::PluginManager(bool isClient)
     : mIsClient(isClient)
@@ -55,20 +54,17 @@ void PluginManager::loadPlugin(const std::string& filename)
 
 void PluginManager::loadPlugins()
 {
-    using namespace boost::filesystem;
+    using namespace filesystem;
     std::string path = "plugins/";
     if (exists(path))
     {
-        directory_iterator itemEnd;
-        for (directory_iterator item(path); item != itemEnd; ++item)
-            if (!is_directory(*item))
-            {
-                std::string pluginPath = item->path().string();
-                std::string suffix = pluginPath.substr(pluginPath.size() - std::string(LibSuffix).size());
-                strtolower(suffix);
-                if (suffix != LibSuffix) continue;
-                loadPlugin(pluginPath);
-            }
+        files_in_dir(path, [this](std::string filename)
+        {
+            std::string suffix = filename.substr(filename.size() - std::string(LibSuffix).size());
+            strtolower(suffix);
+            if (suffix != LibSuffix) return; //TODO: FIXME: may ignore linux plugins
+            loadPlugin(filename);
+        });
     }
 }
 
