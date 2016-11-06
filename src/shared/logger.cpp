@@ -23,8 +23,7 @@
 #include <ctime>
 #include <map>
 #include <array>
-#include <boost/filesystem/operations.hpp>
-#include <boost/filesystem/path.hpp>
+#include <fs.h>
 
 static std::array<std::string,6> LevelTags;
 
@@ -68,7 +67,7 @@ void Logger::addFileSink(const std::string& path, const std::string& prefix)
 
 void Logger::init(const std::string& prefix)
 {
-    using namespace boost::filesystem;
+    using namespace filesystem;
     const char* path = "./logs/";
     if (!exists(path))
     {
@@ -164,10 +163,10 @@ Logger::~Logger()
     if (mLevel >= lineLevel)
     {
         mContent << std::endl
-                  << "\tSource :\t" << mFileName << std::endl
-                  << "\tAt Line :\t" << mLineNumber << std::endl
-                  << "\tFunction :\t" << mFuncName << std::endl
-                  ;
+                 << "\tSource :\t" << mFileName << std::endl
+                 << "\tAt Line :\t" << mLineNumber << std::endl
+                 << "\tFunction :\t" << mFuncName << std::endl
+                 ;
     }
     mContent << std::endl;
     if (!fileOnly)
