@@ -23,6 +23,7 @@
 #include <common.h>
 #include <chunk.h>
 #include <atomic>
+#include <ratemeter.h>
 
 using ChunkGenerator = void NWAPICALL(const Vec3i*, BlockData*, int);
 
