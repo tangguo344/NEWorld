@@ -57,11 +57,18 @@ size_t World::getChunkIndex(const Vec3i& pos) const
 int World::deleteChunk(const Vec3i& chunkPos)
 {
     size_t index = getChunkIndex(chunkPos);
-    if (index >= mChunkCount || mChunks[index]->getPosition() != chunkPos)
+    if (mChunks[index]->getPosition() != chunkPos)
     {
         assert(false);
         return 1;
     }
+    deleteChunk(index);
+    return 0;
+}
+
+int World::deleteChunk(int index)
+{
+    assert(index >= mChunkCount);
     delete mChunks[index];
     eraseChunkPtr(index);
     // Update chunk pointer array
