@@ -79,27 +79,26 @@ Game::~Game()
 
 void Game::update()
 {
-    auto& win = Window::getInstance();
     // TODO: Read keys from the configuration file
-    if (win.isKeyDown(SDL_SCANCODE_UP))
+    if (Window::isKeyDown(SDL_SCANCODE_UP))
         mPlayer.rotate(Vec3d(1.5, 0.0, 0.0));
-    if (win.isKeyDown(SDL_SCANCODE_DOWN))
+    if (Window::isKeyDown(SDL_SCANCODE_DOWN))
         mPlayer.rotate(Vec3d(-1.5, 0.0, 0.0));
-    if (win.isKeyDown(SDL_SCANCODE_RIGHT))
+    if (Window::isKeyDown(SDL_SCANCODE_RIGHT))
         mPlayer.rotate(Vec3d(0.0, -1.5, 0.0));
-    if (win.isKeyDown(SDL_SCANCODE_LEFT))
+    if (Window::isKeyDown(SDL_SCANCODE_LEFT))
         mPlayer.rotate(Vec3d(0.0, 1.5, 0.0));
-    if (win.isKeyDown(SDL_SCANCODE_W))
+    if (Window::isKeyDown(SDL_SCANCODE_W))
         mPlayer.accelerate(Vec3d(0.0, 0.0, -0.03));
-    if (win.isKeyDown(SDL_SCANCODE_S))
+    if (Window::isKeyDown(SDL_SCANCODE_S))
         mPlayer.accelerate(Vec3d(0.0, 0.0, 0.03));
-    if (win.isKeyDown(SDL_SCANCODE_A))
+    if (Window::isKeyDown(SDL_SCANCODE_A))
         mPlayer.accelerate(Vec3d(-0.03, 0.0, 0.0));
-    if (win.isKeyDown(SDL_SCANCODE_D))
+    if (Window::isKeyDown(SDL_SCANCODE_D))
         mPlayer.accelerate(Vec3d(0.03, 0.0, 0.0));
-    if (win.isKeyDown(SDL_SCANCODE_SPACE))
+    if (Window::isKeyDown(SDL_SCANCODE_SPACE))
         mPlayer.accelerate(Vec3d(0.0, 0.05, 0.0));
-    if (win.isKeyDown(SDL_SCANCODE_LCTRL) || win.isKeyDown(SDL_SCANCODE_RCTRL))
+    if (Window::isKeyDown(SDL_SCANCODE_LCTRL) || Window::isKeyDown(SDL_SCANCODE_RCTRL))
         mPlayer.accelerate(Vec3d(0.0, -0.05, 0.0));
 
     mPlayer.update();
