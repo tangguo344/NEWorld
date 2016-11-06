@@ -59,7 +59,6 @@ public:
             {
                 mReady.store(true);
                 mLib.get<void NWAPICALL()>("nwRunServer")();
-                mLib.get<void NWAPICALL()>("nwFreeServer")();
             }
             else
             {
