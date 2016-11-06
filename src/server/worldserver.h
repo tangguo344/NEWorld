@@ -24,13 +24,11 @@
 #include <world.h>
 #include <chunkpointerarray.h>
 
-constexpr int MaxChunkLoadCount = 64, MaxChunkUnloadCount = 64;
-
 class WorldServer : public World
 {
 public:
     WorldServer(const std::string& name, PluginManager& plugins, BlockManager& blocks, int loadRange)
-        : World(name,plugins,blocks),mCpa(getChunkPointerArray()), mLoadRange(loadRange)
+        : World(name,plugins,blocks),mCpa(getChunkPointerArray())
     {
     }
 

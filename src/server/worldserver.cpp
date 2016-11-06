@@ -47,7 +47,7 @@ void WorldServer::updateChunkLoadStatus()
         {
             c->decreaseWeakRef();
             if (c->checkReleaseable())
-                deleteChunk(c->getPosition());
+                deleteChunk(i);
             else
                 ++i;
         }
