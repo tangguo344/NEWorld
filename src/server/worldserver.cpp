@@ -74,9 +74,5 @@ void WorldServer::updateChunkLoadStatus()
         }
     }
     if (mChunkUnloadCount > 0)
-    {
-        infostream << "Going to unload " << mChunkUnloadCount << "chunks";
         loadUnloadChunks();
-        infostream << "Chunk Release Triggered. Size is now:" << mChunkCount;
-    }
 }

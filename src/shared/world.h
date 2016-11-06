@@ -174,6 +174,11 @@ public:
         return mBlocks;
     }
 
+    const BlockType& getType(int id) const
+    {
+        return mBlocks.getType(id);
+    }
+
     ChunkPointerArray& getChunkPointerArray()
     {
         return mCpa;

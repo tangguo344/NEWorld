@@ -80,6 +80,7 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
         memcpy(target->getBlocks(), chunk->getBlocks(), sizeof(BlockData)*ChunkSize*ChunkSize*ChunkSize);
         target->setUpdated(true);
     });
+    update();
 }
 
 Game::~Game()
