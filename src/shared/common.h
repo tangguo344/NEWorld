@@ -83,7 +83,7 @@
 #endif
 
 constexpr const char* NEWorldVersionName = "Beta 0.1";
-constexpr unsigned short NEWorldVersion = 41u;
+constexpr unsigned short NEWorldVersion = 40u;
 constexpr const char* CopyrightString = R"(
 NEWorld  Copyright (C) 2016  NEWorld Team
 This program comes with ABSOLUTELY NO WARRANTY.
