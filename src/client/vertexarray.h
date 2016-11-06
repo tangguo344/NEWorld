@@ -130,6 +130,12 @@ try :
         addVertex(coords.begin());
     }
 
+    void addPatch(size_t size, std::initializer_list<float> d)
+    {
+        memcpy(mData + mVertexes * mFormat.vertexAttributeCount, d.begin(), size * mFormat.vertexAttributeCount * sizeof(float));
+        mVertexes += size;
+    }
+
     // Get current vertex format
     const VertexFormat& getFormat() const
     {

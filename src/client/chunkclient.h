@@ -38,6 +38,12 @@ public:
     {
     }
 
+    ~ChunkClient()
+    {
+        if (mRenderBuilt)
+            destroyVertexArray();
+    }
+
     // Is render built
     bool isRenderBuilt() const
     {
@@ -77,9 +83,7 @@ private:
 
     bool adjacentTest(BlockData a, BlockData b) const
     {
-        if (a.getID() == 0) return false;
-        if (mWorld.getBlockTypes().getType(b.getID()).isOpaque()) return false;
-        return true;
+        return (a.getID()) && !mWorld.getType(b.getID()).isOpaque();
     }
 };
 
