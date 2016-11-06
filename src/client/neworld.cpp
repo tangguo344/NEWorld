@@ -42,7 +42,7 @@ NEWorld::NEWorld() : mPlugins(true)
               std::make_shared<LocalConnectionByNetWork>(
                   getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1"),
                   getJsonValue<unsigned short>(getSettings()["server"]["port"], 31111)),
-              mPlugins, mBlocks);
+              window, mPlugins, mBlocks);
     while(!window.shouldQuit())
     {
         // Update

@@ -38,6 +38,7 @@
 #include "widgetmanager.h"
 #include <ratemeter.h>
 #include "gameconnection.h"
+#include "window.h"
 
 class Game
 {
@@ -46,7 +47,7 @@ public:
     static constexpr int UpdateFrequency = 30;
 
     Game(const std::string& name, std::shared_ptr<GameConnection> connection,
-         PluginManager& pm, const BlockManager& bm);
+        const Window& window, PluginManager& pm, const BlockManager& bm);
     ~Game();
 
     void update();
@@ -56,9 +57,7 @@ public:
     Event::EventBus& getEventBus();
 
 private:
-    // Window size
-    int windowWidth = 852, windowHeight = 480;
-
+    const Window& mWindow;
     // Texture test
     Texture mTexture;
     // Blocks
