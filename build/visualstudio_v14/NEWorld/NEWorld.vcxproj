@@ -108,7 +108,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(ProjectDir)..\..\..\src\client\imgui;$(ProjectDir)..\..\..\src\maximilian\include;$(ProjectDir)..\..\..\dependencies\include\AL;$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\src\shared;$(ProjectDir)..\..\..\UILib\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)..\..\..\dependencies\lib\boostlib;$(SolutionDir)bin\$(Platform)\$(Configuration)\;$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)bin\$(Platform)\$(Configuration)\;$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
     <CodeAnalysisRuleSet>NativeMinimumRules.ruleset</CodeAnalysisRuleSet>
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)..\..\release\</OutDir>
@@ -118,7 +118,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(ProjectDir)..\..\..\src\client\imgui;$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\src\shared;$(ProjectDir)..\..\..\UILib\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)bin\$(Platform)\$(Configuration)\;$(ProjectDir)..\..\..\dependencies\lib_x64;$(ProjectDir)..\..\..\dependencies\lib_x64\boostlib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)bin\$(Platform)\$(Configuration)\;$(ProjectDir)..\..\..\dependencies\lib_x64;$(LibraryPath)</LibraryPath>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)..\..\release\</OutDir>
@@ -127,28 +127,28 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(ProjectDir)..\..\..\src\client\imgui;$(ProjectDir)..\..\..\src\maximilian\include;$(ProjectDir)..\..\..\dependencies\include\AL;$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\src\shared;$(ProjectDir)..\..\..\UILIb\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)..\..\..\dependencies\lib\boostlib;$(SolutionDir)bin\$(Platform)\$(Configuration)\;$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)bin\$(Platform)\$(Configuration)\;$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\..\release\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName>nwclient</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profiling|Win32'">
     <IncludePath>$(ProjectDir)..\..\..\src\client\imgui;$(ProjectDir)..\..\..\src\maximilian\include;$(ProjectDir)..\..\..\dependencies\include\AL;$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\src\shared;$(ProjectDir)..\..\..\UILIb\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)..\..\..\dependencies\lib\boostlib;$(SolutionDir)bin\$(Platform)\$(Configuration)\;$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)bin\$(Platform)\$(Configuration)\;$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\..\release\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName>nwclient</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(ProjectDir)..\..\..\src\client\imgui;$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\src\shared;$(ProjectDir)..\..\..\UILIb\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)bin\$(Platform)\$(Configuration)\;$(ProjectDir)..\..\..\dependencies\lib_x64;$(ProjectDir)..\..\..\dependencies\lib_x64\boostlib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)bin\$(Platform)\$(Configuration)\;$(ProjectDir)..\..\..\dependencies\lib_x64;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\..\release\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName>nwclient</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profiling|x64'">
     <IncludePath>$(ProjectDir)..\..\..\src\client\imgui;$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\src\shared;$(ProjectDir)..\..\..\UILIb\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)bin\$(Platform)\$(Configuration)\;$(ProjectDir)..\..\..\dependencies\lib_x64;$(ProjectDir)..\..\..\dependencies\lib_x64\boostlib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)bin\$(Platform)\$(Configuration)\;$(ProjectDir)..\..\..\dependencies\lib_x64;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\..\release\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName>nwclient</TargetName>
@@ -182,7 +182,7 @@
       </EntryPointSymbol>
       <OptimizeReferences>false</OptimizeReferences>
       <EnableCOMDATFolding>false</EnableCOMDATFolding>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\dependencies\lib\boostlib;$(ProjectDir)..\..\..\dependencies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(TargetName).lib</ImportLibrary>
     </Link>
@@ -257,7 +257,7 @@
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\dependencies\lib\boostlib;$(ProjectDir)..\..\..\dependencies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(TargetName).lib</ImportLibrary>
     </Link>
@@ -299,7 +299,7 @@
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\dependencies\lib\boostlib;$(ProjectDir)..\..\..\dependencies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(TargetName).lib</ImportLibrary>
     </Link>
