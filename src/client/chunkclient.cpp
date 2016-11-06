@@ -49,6 +49,7 @@ void ChunkClient::buildVertexArray()
                 pos.z == 0 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y, worldpos.z - 1)) : getBlock(Vec3i(pos.x, pos.y, pos.z - 1)),
             };
 
+            /*
             // Right
             if (adjacentTest(curr, neighbors[0]))
             {
@@ -132,6 +133,61 @@ void ChunkClient::buildVertexArray()
                 va.setTexture({ 1.0f, 0.0f });
                 va.addVertex({ pos.x + 0.0f, pos.y + 1.0f, pos.z + 0.0f });
             }
+             */
+            // Patch add
+            // Right
+            if (adjacentTest(curr, neighbors[0]))
+                va.addPatch(4, {
+                        0.0f, 0.0f, 0.5f, 0.5f, 0.5f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 1.0f,
+                        1.0f, 1.0f, 0.5f, 0.5f, 0.5f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 1.0f,
+                        1.0f, 1.0f, 0.5f, 0.5f, 0.5f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 0.0f,
+                        1.0f, 0.0f, 0.5f, 0.5f, 0.5f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 0.0f
+                });
+
+            // Left
+            if (adjacentTest(curr, neighbors[1]))
+                va.addPatch(4, {
+                        0.0f, 0.0f, 0.5f, 0.5f, 0.5f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 0.0f,
+                        0.0f, 1.0f, 0.5f, 0.5f, 0.5f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 0.0f,
+                        1.0f, 1.0f, 0.5f, 0.5f, 0.5f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 1.0f,
+                        1.0f, 0.0f, 0.5f, 0.5f, 0.5f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 1.0f
+                });
+
+            // Top
+            if (adjacentTest(curr, neighbors[2]))
+                va.addPatch(4, {
+                        0.0f, 0.0f, 1.0f, 1.0f, 1.0f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 0.0f,
+                        0.0f, 1.0f, 1.0f, 1.0f, 1.0f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 1.0f,
+                        1.0f, 1.0f, 1.0f, 1.0f, 1.0f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 1.0f,
+                        1.0f, 0.0f, 1.0f, 1.0f, 1.0f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 0.0f
+                });
+
+            // Bottom
+            if (adjacentTest(curr, neighbors[3]))
+                va.addPatch(4, {
+                        0.0f, 0.0f, 1.0f, 1.0f, 1.0f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 1.0f,
+                        0.0f, 1.0f, 1.0f, 1.0f, 1.0f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 0.0f,
+                        1.0f, 1.0f, 1.0f, 1.0f, 1.0f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 0.0f,
+                        1.0f, 0.0f, 1.0f, 1.0f, 1.0f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 1.0f
+                });
+
+            // Front
+            if (adjacentTest(curr, neighbors[4]))
+                va.addPatch(4, {
+                        0.0f, 0.0f, 0.7f, 0.7f, 0.7f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 1.0f,
+                        0.0f, 1.0f, 0.7f, 0.7f, 0.7f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 1.0f,
+                        1.0f, 1.0f, 0.7f, 0.7f, 0.7f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 1.0f,
+                        1.0f, 0.0f, 0.7f, 0.7f, 0.7f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 1.0f
+                });
+
+            // Back
+            if (adjacentTest(curr, neighbors[5]))
+                va.addPatch(4, {
+                        0.0f, 0.0f, 0.7f, 0.7f, 0.7f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 0.0f,
+                        0.0f, 1.0f, 0.7f, 0.7f, 0.7f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 0.0f,
+                        1.0f, 1.0f, 0.7f, 0.7f, 0.7f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 0.0f,
+                        1.0f, 0.0f, 0.7f, 0.7f, 0.7f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 0.0f
+                });
         });
     }
 
@@ -141,7 +197,7 @@ void ChunkClient::buildVertexArray()
 
 Chunk* ChunkClient::getFromFlatbuffers(const s2c::Chunk * fbChunk, WorldClient& worlds)
 {
-    //TODO: сп©утысе╩╞╟и
+    //TODO: О©╫п©О©╫О©╫О©╫О©╫е╩О©╫О©╫О©╫
     Chunk* nwChunk = new ChunkClient({ fbChunk->pos()->x(), fbChunk->pos()->y(), fbChunk->pos()->z() }, worlds);
     for (auto i = 0; i < ChunkSize*ChunkSize*ChunkSize; ++i)
         nwChunk->getBlocks()[i] = BlockData(fbChunk->blocks()->Get(i));
