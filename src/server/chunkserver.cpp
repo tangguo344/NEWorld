@@ -19,7 +19,7 @@
 
 #include "chunkserver.h"
 #include "pluginmanager.h"
-
+#include <algorithm>
 void NWAPICALL DefaultChunkGen(const Vec3i*, BlockData* blocks, int32_t daylightBrightness)
 {
     // This is the default terrain generator. Use this when no generators were loaded from plugins.
