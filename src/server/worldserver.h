@@ -42,6 +42,7 @@ public:
 
     Chunk* addChunk(const Vec3i& chunkPos) override;
 
+    void updateChunkLoadStatus();
 private:
     // ChunkPointerArray used to detect unloaded chunks in load range
     ChunkPointerArray& mCpa;

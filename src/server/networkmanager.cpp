@@ -96,6 +96,10 @@ void NetworkManager::loop()
                 break;
             }
         }
+        for (auto& w : mWorlds)
+        {
+            w->updateChunkLoadStatus();
+        }
         RakSleep(30);
     }
 }

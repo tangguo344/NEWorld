@@ -45,15 +45,34 @@ void WorldServer::loadUnloadChunks()
         // TODO: Try to read in file
         static_cast<ChunkServer*>(addChunk(mChunkLoadList[i]))->build(getDaylightBrightness());
     }
+    mChunkLoadCount = 0;
     for (int i = 0; i < mChunkUnloadCount; i++)
     {
         // TODO: Save chunk
         deleteChunk(mChunkUnloadList[i].first->getPosition());
     }
+    mChunkUnloadCount = 0;
 }
 
 void WorldServer::pendingLoadChunk(const Vec3i& chunkPos)
 {
     if (mChunkLoadCount < MaxChunkLoadCount)
         mChunkLoadList[mChunkLoadCount++] = chunkPos;
+}
+
+void WorldServer::updateChunkLoadStatus()
+{
+    for (size_t i = 0; i < mChunkCount; ++i)
+    {
+        auto c = static_cast<ChunkServer*>(getChunkPointerArray().get(i));
+        if (c)
+        {
+            c->decreaseStrongRef();
+            c->decreaseWeakRef();
+            if (c->checkReleaseable() && (mChunkUnloadCount < MaxChunkUnloadCount))
+                mChunkUnloadList[mChunkUnloadCount++] = std::pair<Chunk *, int>(c, i);
+        }
+        loadUnloadChunks();
+        infostream << "Chunk Release Triggered. Size is now:" << mChunkCount;
+    }
 }
