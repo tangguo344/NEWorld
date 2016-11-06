@@ -26,8 +26,8 @@
 #include "blockrenderer.h"
 
 Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
-           PluginManager& pm, const BlockManager& bm):
-    mBlocks(bm), mPlugins(pm), mWorld(name, pm, bm), mPlayer(&mWorld), mConnection(connection)
+           const Window& window, PluginManager& pm, const BlockManager& bm):
+    mBlocks(bm), mWindow(window), mPlugins(pm), mWorld(name, pm, bm), mPlayer(&mWorld), mConnection(connection)
 {
     mWorld.setRenderDistance(2);
     mPlayer.setPosition(Vec3d(-16.0, 48.0, 32.0));
@@ -171,8 +171,9 @@ void Game::render()
 
     mTexture.bind(Texture::Texture2D);
     Renderer::clear();
+    Renderer::setViewport(0, 0, mWindow.getWidth(), mWindow.getHeight());
     Renderer::restoreProj();
-    Renderer::applyPerspective(70.0f, float(windowWidth) / windowHeight, 0.1f, 300.0f);
+    Renderer::applyPerspective(70.0f, float(mWindow.getWidth()) / mWindow.getHeight(), 0.1f, 300.0f);
     Renderer::restoreScale();
     Renderer::rotate(float(-mPlayer.getRotation().x), Vec3f(1.0f, 0.0f, 0.0f));
     Renderer::rotate(float(-mPlayer.getRotation().y), Vec3f(0.0f, 1.0f, 0.0f));
