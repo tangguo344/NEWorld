@@ -43,7 +43,7 @@ void World::expandChunkArray(size_t c)
 size_t World::getChunkIndex(const Vec3i& pos) const
 {
     // Binary search
-    int first = 0, last = mChunkCount - 1;
+    int first = 0, last = int(mChunkCount) - 1;
     while (first <= last)
     {
         int mid = (first + last) / 2;
