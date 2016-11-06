@@ -54,10 +54,20 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
     // Initialize Widgets
     mWidgetManager.addWidget(std::make_shared<WidgetCallback>("Debug", ImVec2(100, 200), [this]
     {
-        ImGui::Text("NEWorld %s(%u)", NEWorldStringVersion, NEWorldVersion);
-        ImGui::Text("FPS %.1f, UPS %.1f", ImGui::GetIO().Framerate, mUpdateScheduler.getRate());
-        ImGui::Text("Pos: x %.1f y %.1f z %.1f", mPlayer.getPosition().x, mPlayer.getPosition().y, mPlayer.getPosition().z);
-        ImGui::Text("Widgets Loaded: %zu", mWidgetManager.getSize());
+        mRateCounterTimer.refresh();
+        if (mRateCounterTimer.shouldRun())
+        {
+            // Update FPS & UPS
+            mFpsLatest = mFpsCounter;
+            mUpsLatest = mUpsCounter;
+            mFpsCounter = 0;
+            mUpsCounter = 0;
+            mRateCounterTimer.increaseTimer();
+        }
+        ImGui::Text("NEWorld %s(%u)", NEWorldVersionName, NEWorldVersion);
+        ImGui::Text("FPS %d, UPS %d", mFpsLatest, mUpsLatest);
+        ImGui::Text("Position: x %.1f y %.1f z %.1f", mPlayer.getPosition().x, mPlayer.getPosition().y, mPlayer.getPosition().z);
+        ImGui::Text("GUI Widgets: %zu", mWidgetManager.getSize());
         ImGui::Text("Chunks Loaded: %zu/%zu", mWorld.getChunkCount(), mWorld.getReservedChunkCount());
     }));
 
@@ -79,6 +89,8 @@ Game::~Game()
 
 void Game::update()
 {
+    mUpsCounter++;
+
     // TODO: Read keys from the configuration file
     if (Window::isKeyDown(SDL_SCANCODE_UP)&&mPlayer.getRotation().x<90)
         mPlayer.rotate(Vec3d(1.5, 0.0, 0.0));
@@ -153,6 +165,8 @@ void drawAxes()
 
 void Game::render()
 {
+    mFpsCounter++;
+
     glClearColor(0.6f, 0.9f, 1.0f, 1.0f);
     glClearDepth(1.0f);
     glEnable(GL_TEXTURE_2D);

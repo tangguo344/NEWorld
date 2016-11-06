@@ -92,7 +92,8 @@ void Server::initBuiltinCommands()
     });
     mCommands.registerCommand("server.ups", { "internal","Show the ups." }, [this](Command cmd)->CommandExecuteStat
     {
-        return{ true,"Ups: " + std::to_string(mUps.getRate()) };
+        // TODO: Add UPS counter for server
+        return{ true,"[Server UPS counter not finished yet!]" };
     });
     mCommands.registerCommand("chunks.count", { "internal","Show how many chunks are loaded" }, [this](Command cmd)->CommandExecuteStat
     {
