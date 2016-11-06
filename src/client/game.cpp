@@ -64,7 +64,7 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
             mUpsCounter = 0;
             mRateCounterTimer.increaseTimer();
         }
-        ImGui::Text("NEWorld %s(%u)", NEWorldVersionName, NEWorldVersion);
+        ImGui::Text("NEWorld %s (v%u)", NEWorldVersionName, NEWorldVersion);
         ImGui::Text("FPS %d, UPS %d", mFpsLatest, mUpsLatest);
         ImGui::Text("Position: x %.1f y %.1f z %.1f", mPlayer.getPosition().x, mPlayer.getPosition().y, mPlayer.getPosition().z);
         ImGui::Text("GUI Widgets: %zu", mWidgetManager.getSize());
