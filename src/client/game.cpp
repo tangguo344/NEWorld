@@ -27,7 +27,7 @@
 
 Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
            const Window& window, PluginManager& pm, const BlockManager& bm):
-    mBlocks(bm), mWindow(window), mPlugins(pm), mWorld(name, pm, bm), mPlayer(&mWorld), mConnection(connection)
+    mWindow(window), mBlocks(bm), mPlugins(pm), mWorld(name, pm, bm), mPlayer(&mWorld), mConnection(connection)
 {
     mWorld.setRenderDistance(2);
     mPlayer.setPosition(Vec3d(-16.0, 48.0, 32.0));
@@ -104,28 +104,29 @@ void Game::update()
     mUpsCounter++;
 
     // TODO: Read keys from the configuration file
-    if (Window::isKeyDown(SDL_SCANCODE_UP) && mPlayer.getRotation().x < 90)
+    auto state = Window::getKeyBoardState();
+    if (state[SDL_SCANCODE_UP] && mPlayer.getRotation().x < 90)
         mPlayer.rotate(Vec3d(1.5, 0.0, 0.0));
-    if (Window::isKeyDown(SDL_SCANCODE_DOWN) && mPlayer.getRotation().x > -90)
+    if (state[SDL_SCANCODE_DOWN] && mPlayer.getRotation().x > -90)
         mPlayer.rotate(Vec3d(-1.5, 0.0, 0.0));
-    if (Window::isKeyDown(SDL_SCANCODE_RIGHT))
+    if (state[SDL_SCANCODE_RIGHT])
         mPlayer.rotate(Vec3d(0.0, -2.5, 0.0));
-    if (Window::isKeyDown(SDL_SCANCODE_LEFT))
+    if (state[SDL_SCANCODE_LEFT])
         mPlayer.rotate(Vec3d(0.0, 2.5, 0.0));
-    if (Window::isKeyDown(SDL_SCANCODE_W))
+    if (state[SDL_SCANCODE_W])
         mPlayer.accelerate(Vec3d(0.0, 0.0, -0.05));
-    if (Window::isKeyDown(SDL_SCANCODE_S))
+    if (state[SDL_SCANCODE_S])
         mPlayer.accelerate(Vec3d(0.0, 0.0, 0.05));
-    if (Window::isKeyDown(SDL_SCANCODE_A))
+    if (state[SDL_SCANCODE_A])
         mPlayer.accelerate(Vec3d(-0.05, 0.0, 0.0));
-    if (Window::isKeyDown(SDL_SCANCODE_D))
+    if (state[SDL_SCANCODE_D])
         mPlayer.accelerate(Vec3d(0.05, 0.0, 0.0));
-    if (Window::isKeyDown(SDL_SCANCODE_SPACE))
+    if (state[SDL_SCANCODE_SPACE])
         mPlayer.accelerate(Vec3d(0.0, 0.1, 0.0));
 #ifdef NEWORLD_TARGET_MACOSX
-    if (Window::isKeyDown(SDL_SCANCODE_LGUI) || Window::isKeyDown(SDL_SCANCODE_RGUI))
+    if (state[SDL_SCANCODE_LGUI] || state[SDL_SCANCODE_RGUI])
 #else
-    if (Window::isKeyDown(SDL_SCANCODE_LCTRL) || Window::isKeyDown(SDL_SCANCODE_RCTRL))
+    if (state[SDL_SCANCODE_LCTRL] || state[SDL_SCANCODE_RCTRL])
 #endif
         mPlayer.accelerate(Vec3d(0.0, -0.1, 0.0));
 

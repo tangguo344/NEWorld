@@ -40,9 +40,9 @@ public:
         SDL_GL_SwapWindow(mWindow);
     }
 
-    static bool isKeyDown(SDL_Scancode scancode)
+    static const Uint8* getKeyBoardState()
     {
-        return SDL_GetKeyboardState(nullptr)[scancode] == 1u;
+        return SDL_GetKeyboardState(nullptr);
     }
 
     int getWidth() const
