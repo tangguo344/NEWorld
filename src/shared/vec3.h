@@ -21,17 +21,13 @@
 #define VEC3_H_
 
 #include <cmath>
+#include <type_traits>
 #include <boost/operators.hpp>
-#include <boost/call_traits.hpp>
-#include <boost/concept_check.hpp>
-#include <boost/concept/requires.hpp>
-#include <boost/core/swap.hpp>
-
 template <typename T>
-class Vec3 :boost::totally_ordered<Vec3<T>, boost::arithmetic<Vec3<T>>>
+class Vec3
 {
 public:
-    using param_type = typename boost::call_traits<T>::param_type;
+    using param_type = T;
 
     T x, y, z;
 
@@ -91,11 +87,7 @@ public:
         z /= l;
     }
 
-    BOOST_CONCEPT_REQUIRES(
-        ((boost::LessThanComparable<T>)),
-        (bool)
-    )
-    operator< (const Vec3& rhs) const
+    bool operator< (const Vec3& rhs) const
     {
         if (x != rhs.x)
             return x < rhs.x;
@@ -106,11 +98,7 @@ public:
         return false;
     }
 
-    BOOST_CONCEPT_REQUIRES(
-        ((boost::EqualityComparable<T>)),
-        (bool)
-    )
-    operator== (const Vec3& rhs) const
+    bool operator== (const Vec3& rhs) const
     {
         return x == rhs.x && y == rhs.y && z == rhs.z;
     }
@@ -157,11 +145,44 @@ public:
         return Vec3<T>(x / value, y / value, z / value);
     }
 
+    bool operator!= (const Vec3& rhs) const
+    {
+        return !(rhs == *this);
+    }
+
+    const Vec3<T> operator+ (const Vec3<T>& rhs) const
+    {
+        Vec3<T> tmp(*this);
+        tmp += rhs;
+        return tmp;
+    };
+
+    const Vec3<T> operator- (const Vec3<T>& rhs) const
+    {
+        Vec3<T> tmp(*this);
+        tmp -= rhs;
+        return tmp;
+    };
+
+    const Vec3<T> operator* (const Vec3<T>& rhs) const
+    {
+        Vec3<T> tmp(*this);
+        tmp *= rhs;
+        return tmp;
+    };
+
+    const Vec3<T> operator/ (const Vec3<T>& rhs) const
+    {
+        Vec3<T> tmp(*this);
+        tmp /= rhs;
+        return tmp;
+    };
+
     void swap(Vec3& rhs)
     {
-        boost::swap(x, rhs.x);
-        boost::swap(y, rhs.y);
-        boost::swap(z, rhs.z);
+        std::swap(x, rhs.x);
+        std::swap(y, rhs.y);
+        std::swap(z, rhs.z);
     }
 
     template <typename... ArgType, typename Func>
