@@ -105,6 +105,7 @@ public:
     virtual Chunk* addChunk(const Vec3i& chunkPos) = 0;
 
     // Delete chunk
+    int deleteChunk(int index);
     int deleteChunk(const Vec3i& chunkPos);
 
 #ifdef NEWORLD_COMPILER_RSHIFT_ARITH
