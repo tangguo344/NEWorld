@@ -22,6 +22,7 @@
 
 #include <common.h>
 #include <chunk.h>
+#include <atomic>
 
 using ChunkGenerator = void NWAPICALL(const Vec3i*, BlockData*, int);
 
@@ -38,6 +39,14 @@ public:
 
     // Build chunk
     void build(int daylightBrightness);
+    //Reference Counting
+    void increaseWeakRef();
+    void decreaseWeakRef();
+    void increaseStrongRef();
+    void decreaseStrongRef();
+    bool checkReleaseable() const;
+protected:
+    std::atomic<int16_t> mRefrenceCount, mWeakRefrenceCount;
 };
 
 #endif // !CHUNKSERVER_H_
