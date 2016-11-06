@@ -55,7 +55,7 @@ void PluginManager::loadPlugin(const std::string& filename)
 void PluginManager::loadPlugins()
 {
     using namespace filesystem;
-    std::string path = "plugins/";
+    std::string path = "./plugins/";
     if (exists(path))
     {
         files_in_dir(path, [this](std::string filename)

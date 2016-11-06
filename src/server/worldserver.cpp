@@ -30,34 +30,12 @@ Chunk* WorldServer::addChunk(const Vec3i& chunkPos)
     }
     newChunkPtr(index);
     ChunkServer* c = new ChunkServer(chunkPos);
-    c->build(15);
+    c->build(15);//getDaylightBrightness());
     mChunks[index] = static_cast<Chunk*>(c);
     // TODO: Update chunk pointer cache
     // TODO: Update chunk pointer array
-    // Return pointer
+    // NOTE: The load/save process should be implemented in the ctor/dtor of ChunkServer
     return mChunks[index];
-}
-
-void WorldServer::loadUnloadChunks()
-{
-    for (int i = 0; i < mChunkLoadCount; i++)
-    {
-        // TODO: Try to read in file
-        static_cast<ChunkServer*>(addChunk(mChunkLoadList[i]))->build(getDaylightBrightness());
-    }
-    mChunkLoadCount = 0;
-    for (int i = 0; i < mChunkUnloadCount; i++)
-    {
-        // TODO: Save chunk
-        deleteChunk(mChunkUnloadList[i].first->getPosition());
-    }
-    mChunkUnloadCount = 0;
-}
-
-void WorldServer::pendingLoadChunk(const Vec3i& chunkPos)
-{
-    if (mChunkLoadCount < MaxChunkLoadCount)
-        mChunkLoadList[mChunkLoadCount++] = chunkPos;
 }
 
 void WorldServer::updateChunkLoadStatus()
@@ -67,12 +45,11 @@ void WorldServer::updateChunkLoadStatus()
         auto c = static_cast<ChunkServer*>(getChunkPtr(i));
         if (c)
         {
-            c->decreaseStrongRef();
             c->decreaseWeakRef();
-            if (c->checkReleaseable() && (mChunkUnloadCount < MaxChunkUnloadCount))
-                mChunkUnloadList[mChunkUnloadCount++] = std::pair<Chunk *, int>(c, i);
+            if (c->checkReleaseable())
+                deleteChunk(c->getPosition());
+            else
+                ++i;
         }
     }
-    if (mChunkUnloadCount > 0)
-        loadUnloadChunks();
 }
