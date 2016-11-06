@@ -34,6 +34,8 @@ include(${SOURCE_DIR}/launcher/CMakeLists.txt)
 
 add_dependencies(nwclient nwshared)
 add_dependencies(nwserver nwshared)
+add_dependencies(launcher nwclient)
+add_dependencies(launcher nwserver)
 
 include(${SOURCE_DIR}/main/CMakeLists.txt)
 
