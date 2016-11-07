@@ -20,6 +20,8 @@
 #ifndef BLOCKDATA_H_
 #define BLOCKDATA_H_
 
+#include <stdint.h>
+
 class BlockData
 {
 private:

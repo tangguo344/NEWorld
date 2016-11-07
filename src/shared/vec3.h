@@ -22,7 +22,7 @@
 
 #include <cmath>
 #include <type_traits>
-#include <boost/operators.hpp>
+
 template <typename T>
 class Vec3
 {
