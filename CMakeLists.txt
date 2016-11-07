@@ -7,10 +7,6 @@ set(SOURCE_DIR ./src)
 option(LINK_BOOST "Enable link compiler switch of Boost library instead of auto-link" ON)
 option(EXECUTABLE "Link the executable for client and server" OFF)
 
-if(LINK_BOOST STREQUAL "ON")
-    link_libraries(boost_system boost_filesystem)
-endif()
-
 if(EXTRA_INCDIR)
     include_directories(BEFORE ${EXTRA_INCDIR})
 endif()
