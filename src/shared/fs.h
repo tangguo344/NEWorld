@@ -35,7 +35,11 @@ namespace filesystem
 {
     inline bool exists(const std::string& path)
     {
+#ifdef NEWORLD_TARGET_WINDOWS
         return _access(path.c_str(), 0) == 0;
+#else
+        return access(path.c_str(), 0) == 0;
+#endif
     }
     inline void create_directories(const std::string& path)
     {
@@ -50,7 +54,7 @@ namespace filesystem
     {
 #ifdef NEWORLD_TARGET_WINDOWS
         WIN32_FIND_DATA ffd;
-        HANDLE hFind = FindFirstFileA((path+"\\*").c_str(), &ffd);
+        HANDLE hFind = FindFirstFileA((path + "\\*").c_str(), &ffd);
         do
         {
             if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
