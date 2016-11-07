@@ -130,7 +130,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\dependencies\include\asio;$(ProjectDir)..\..\..\src\shared;$(IncludePath)</IncludePath>
     <CodeAnalysisRuleSet>NativeMinimumRules.ruleset</CodeAnalysisRuleSet>
-    <LibraryPath>$(SolutionDir)bin\$(Platform)\$(Configuration);$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)..\..\release;$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\..\release\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName>nwserver</TargetName>
@@ -148,7 +148,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\dependencies\include\asio;$(ProjectDir)..\..\..\src\shared;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)bin\$(Platform)\$(Configuration);$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)..\..\release;$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\..\release\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName>nwserver</TargetName>
@@ -156,7 +156,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profiling|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\dependencies\include\asio;$(ProjectDir)..\..\..\src\shared;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)bin\$(Platform)\$(Configuration);$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)..\..\release;$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\..\release\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName>nwserver</TargetName>
