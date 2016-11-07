@@ -108,7 +108,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(ProjectDir)..\..\..\src\client\imgui;$(ProjectDir)..\..\..\src\maximilian\include;$(ProjectDir)..\..\..\dependencies\include\AL;$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\src\shared;$(ProjectDir)..\..\..\UILib\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)..\..\release;$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)bin\$(Platform)\$(Configuration)\;$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
     <CodeAnalysisRuleSet>NativeMinimumRules.ruleset</CodeAnalysisRuleSet>
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)..\..\release\</OutDir>
@@ -127,14 +127,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(ProjectDir)..\..\..\src\client\imgui;$(ProjectDir)..\..\..\src\maximilian\include;$(ProjectDir)..\..\..\dependencies\include\AL;$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\src\shared;$(ProjectDir)..\..\..\UILIb\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)..\..\release;$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)bin\$(Platform)\$(Configuration)\;$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\..\release\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName>nwclient</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profiling|Win32'">
     <IncludePath>$(ProjectDir)..\..\..\src\client\imgui;$(ProjectDir)..\..\..\src\maximilian\include;$(ProjectDir)..\..\..\dependencies\include\AL;$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\src\shared;$(ProjectDir)..\..\..\UILIb\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)..\..\release;$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)bin\$(Platform)\$(Configuration)\;$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\..\release\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName>nwclient</TargetName>
