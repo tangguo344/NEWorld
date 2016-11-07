@@ -22,6 +22,7 @@
 
 #include <cmath>
 #include <type_traits>
+#include <utility>
 
 template <typename T>
 class Vec3
