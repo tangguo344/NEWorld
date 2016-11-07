@@ -55,8 +55,8 @@ public:
     VertexArray(int maxVertexes, const VertexFormat& format)
 try :
         mMaxVertexes(maxVertexes), mVertexes(0), mFormat(format),
-                      mData(new float[mMaxVertexes * format.vertexAttributeCount]),
-                      mVertexAttributes(new float[format.vertexAttributeCount])
+                     mData(new float[mMaxVertexes * format.vertexAttributeCount]),
+                     mVertexAttributes(new float[format.vertexAttributeCount])
     {
     }
     catch (std::bad_alloc)
@@ -130,7 +130,7 @@ try :
         addVertex(coords.begin());
     }
 
-    void addPatch(size_t size, std::initializer_list<float> d)
+    void addPrimitive(size_t size, std::initializer_list<float> d)
     {
         memcpy(mData + mVertexes * mFormat.vertexAttributeCount, d.begin(), size * mFormat.vertexAttributeCount * sizeof(float));
         mVertexes += size;
