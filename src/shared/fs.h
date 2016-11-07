@@ -35,7 +35,7 @@ namespace filesystem
 {
     inline bool exists(const std::string& path)
     {
-        return access(path.c_str(), 0) == 0;
+        return _access(path.c_str(), 0) == 0;
     }
     inline void create_directories(const std::string& path)
     {
