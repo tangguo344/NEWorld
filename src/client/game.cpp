@@ -75,10 +75,12 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
     mConnection->login("test", "123456");
     mConnection->setChunkCallback([&](Chunk* chunk)
     {
+        mMutex.lock();
         Chunk* target = mWorld.getChunkPtr(chunk->getPosition());
         if (target == nullptr) return;
         memcpy(target->getBlocks(), chunk->getBlocks(), sizeof(BlockData)*ChunkSize*ChunkSize*ChunkSize);
         target->setUpdated(true);
+        mMutex.unlock();
     });
     update();
 }
@@ -90,6 +92,8 @@ Game::~Game()
 
 void Game::update()
 {
+    mMutex.lock();
+
     mUpsCounter++;
 
     // TODO: Read keys from the configuration file
@@ -120,6 +124,8 @@ void Game::update()
     mWorld.update();
     mWorld.renderUpdate(Vec3i(mPlayer.getPosition()));
     mWidgetManager.update();
+
+    mMutex.unlock();
 }
 
 void Game::multiUpdate()
@@ -166,6 +172,8 @@ void drawAxes()
 
 void Game::render()
 {
+    mMutex.lock();
+
     mFpsCounter++;
 
     glClearColor(0.6f, 0.9f, 1.0f, 1.0f);
@@ -195,6 +203,8 @@ void Game::render()
     glDisable(GL_DEPTH_TEST);
 
     mWidgetManager.render();
+
+    mMutex.unlock();
 }
 
 Event::EventBus& Game::getEventBus()
