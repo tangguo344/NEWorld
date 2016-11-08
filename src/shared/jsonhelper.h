@@ -32,16 +32,12 @@ const std::string SettingsFilename = "./settings";
 inline Json readJsonFromFile(std::string filename)
 {
     std::ifstream file(filename);
-    if (file.good())
+    if (file)
     {
         std::string content = std::string((std::istreambuf_iterator<char>(file)),
                                           std::istreambuf_iterator<char>());
         if (!content.empty())
             return Json::parse(content);
-    }
-    else
-    {
-        fatalstream << "Can't open file\"" << filename << "\"for reading\n";
     }
     return Json();
 }
@@ -66,6 +62,8 @@ class JsonSaveHelper
 {
 public:
     JsonSaveHelper(Json& json,std::string filename) :mJson(json), mFilename(filename) {}
+    JsonSaveHelper(const JsonSaveHelper&) = delete;
+    JsonSaveHelper& operator=(const JsonSaveHelper&) = delete;
     ~JsonSaveHelper()
     {
         writeJsonToFile(mFilename, mJson);

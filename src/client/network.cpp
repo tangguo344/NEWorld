@@ -33,6 +33,7 @@ Connection::Connection(std::function<void(Identifier, unsigned char*)> userDataC
 Connection::~Connection()
 {
     infostream << "Disconnecting...";
+    mUserClosed.store(true);
     mPeer->Shutdown(5000, 0, PacketPriority::HIGH_PRIORITY);
     if (mThread.joinable())
         mThread.join();
@@ -84,6 +85,12 @@ void Connection::loop()
                 break;
             case ID_CONNECTION_ATTEMPT_FAILED:
                 errorstream << "Failed to connect to the server!";
+                break;
+            case ID_DISCONNECTION_NOTIFICATION:
+                if(mUserClosed)
+                    infostream << "Disconnected to the server.";
+                else
+                    errorstream << "Disconnected to the server!";
                 break;
             default:
                 auto identifier = static_cast<Identifier>(p->data[0]);
