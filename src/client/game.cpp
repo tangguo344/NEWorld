@@ -200,6 +200,8 @@ void Game::render()
     drawAxes();
     // END TEMP CODE
 
+	mPlayer.render();
+
     glDisable(GL_DEPTH_TEST);
 
     mWidgetManager.render();

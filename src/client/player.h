@@ -23,6 +23,7 @@
 #include <world.h>
 #include <playerobject.h>
 #include "mat4.h"
+#include "renderer.h"
 
 class Player : public PlayerObject
 {
@@ -40,6 +41,8 @@ public:
     {
         mSpeed = speed;
     }
+
+	void render() override;
 
     void update() override
     {
