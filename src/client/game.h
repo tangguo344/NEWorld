@@ -21,6 +21,7 @@
 #define GAME_H_
 
 #include <thread>
+#include <mutex>
 #include "vec3.h"
 #include "renderer.h"
 
@@ -78,6 +79,8 @@ private:
     RateMeter mRateCounterTimer{1};
     // Game connection
     std::shared_ptr<GameConnection> mConnection;
+
+    std::mutex mMutex;
 };
 
 #endif // !GAME_H_
