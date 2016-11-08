@@ -44,3 +44,15 @@ void Player::move()
     mSpeed *= 0.8;
     //mSpeed += Vec3d(0.0, -0.05, 0.0);
 }
+
+void Player::render() 
+{
+	glDisable(GL_CULL_FACE);
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	// X
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glBegin(GL_LINES);
+	glVertex3f(mPosition.x - 2.0f, mPosition.y, mPosition.z);
+	glVertex3f(mPosition.x + 2.0f, mPosition.y, mPosition.z);
+	glEnd();
+}
