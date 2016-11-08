@@ -68,7 +68,7 @@ int World::deleteChunk(const Vec3i& chunkPos)
 
 int World::deleteChunk(int index)
 {
-    assert(index >= mChunkCount);
+    assert(index < mChunkCount);
     delete mChunks[index];
     eraseChunkPtr(index);
     // Update chunk pointer array
