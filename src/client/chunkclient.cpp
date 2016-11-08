@@ -133,8 +133,8 @@ void ChunkClient::buildVertexArray()
                 va.setTexture({ 1.0f, 0.0f });
                 va.addVertex({ pos.x + 0.0f, pos.y + 1.0f, pos.z + 0.0f });
             }
-             */
-            // Patch add
+            */
+
             // Right
             if (adjacentTest(curr, neighbors[0]))
                 va.addPrimitive(4,
