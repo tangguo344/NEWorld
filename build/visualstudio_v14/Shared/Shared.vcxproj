@@ -100,7 +100,7 @@
     <CodeAnalysisRuleSet>NativeMinimumRules.ruleset</CodeAnalysisRuleSet>
     <IncludePath>$(ProjectDir)..\..\..\src\shared;$(ProjectDir)..\..\..\dependencies\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)bin\$(Platform)\$(Configuration);$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)..\..\release\</OutDir>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
@@ -114,13 +114,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(ProjectDir)..\..\..\src\shared;$(ProjectDir)..\..\..\dependencies\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)bin\$(Platform)\$(Configuration);$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)..\..\release\</OutDir>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profiling|Win32'">
     <IncludePath>$(ProjectDir)..\..\..\src\shared;$(ProjectDir)..\..\..\dependencies\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)bin\$(Platform)\$(Configuration);$(ProjectDir)..\..\..\dependencies\lib;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)..\..\release\</OutDir>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
