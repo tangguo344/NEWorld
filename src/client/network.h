@@ -53,7 +53,7 @@ private:
     std::promise<void> mConnected;
     RakNet::SystemAddress mAddr;
     std::function<void(Identifier, unsigned char*)> mUserDataCallback;
-    std::atomic<bool> mUserClosed = false;
+    std::atomic<bool> mUserClosed{false};
 };
 
 #endif // NETWORK_H__
