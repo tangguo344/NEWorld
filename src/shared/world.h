@@ -71,7 +71,7 @@ public:
     // Get chunk pointer by index
     Chunk* getChunkPtr(size_t index) const
     {
-        assert(index < mChunkCount);
+        Assert(index < mChunkCount);
         return mChunks[index];
     }
 
@@ -92,7 +92,8 @@ public:
     {
         // TODO: Try chunk pointer array
         size_t index = getChunkIndex(chunkPos);
-        if (index >= mChunkCount || mChunks[index]->getPosition() != chunkPos) return nullptr;
+        if (index >= mChunkCount || mChunks[index]->getPosition() != chunkPos)
+            return nullptr;
         return mChunks[index];
     }
 
@@ -118,7 +119,8 @@ public:
     // Convert world position to chunk coordinate (one axis)
     static int getChunkPos(int pos)
     {
-        if (pos >= 0) return pos / ChunkSize;
+        if (pos >= 0)
+            return pos / ChunkSize;
         return (pos - ChunkSize + 1) / ChunkSize;
     }
 #endif
@@ -145,7 +147,7 @@ public:
     BlockData getBlock(const Vec3i& pos) const
     {
         Chunk* chunk = getChunkPtr(getChunkPos(pos));
-        assert(chunk != nullptr);
+        Assert(chunk != nullptr);
         return chunk->getBlock(getBlockPos(pos));
     }
 
@@ -153,7 +155,7 @@ public:
     BlockData& getBlock(const Vec3i& pos)
     {
         Chunk* chunk = getChunkPtr(getChunkPos(pos));
-        assert(chunk != nullptr);
+        Assert(chunk != nullptr);
         return chunk->getBlock(getBlockPos(pos));
     }
 
@@ -161,7 +163,7 @@ public:
     void setBlock(const Vec3i& pos, BlockData block) const
     {
         Chunk* chunk = getChunkPtr(getChunkPos(pos));
-        assert(chunk != nullptr);
+        Assert(chunk != nullptr);
         chunk->setBlock(getBlockPos(pos), block);
     }
 
@@ -230,7 +232,7 @@ protected:
     // Reduce chunk array
     void reduceChunkArray(size_t reduceCount)
     {
-        assert(mChunkCount >= reduceCount);
+        Assert(mChunkCount >= reduceCount);
         mChunkCount -= reduceCount;
     }
 

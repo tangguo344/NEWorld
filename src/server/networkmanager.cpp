@@ -16,6 +16,7 @@
 * You should have received a copy of the GNU Lesser General Public License
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #include "logger.h"
 #include "networkmanager.h"
 #include <raknet/MessageIdentifiers.h>
@@ -57,7 +58,7 @@ bool NetworkManager::run(const char *addr,unsigned short port)
         return true;
     }
     fatalstream << "Failed to start Network Manager. Error code: " << ret;
-    assert(false);
+    Assert(false);
     return false;
 }
 
@@ -97,9 +98,7 @@ void NetworkManager::loop()
             }
         }
         for (auto& w : mWorlds)
-        {
             w->updateChunkLoadStatus();
-        }
         RakSleep(30);
     }
 }

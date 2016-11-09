@@ -31,14 +31,14 @@ void MultiplayerConnection::disconnect()
 {
     //not implement
     warningstream << "Function not implemented";
-    assert(false);
+    Assert(false);
 }
 
 World* MultiplayerConnection::getWorld(size_t)
 {
     //not implement
     warningstream << "Function not implemented";
-    assert(false);
+    Assert(false);
     return nullptr;
 }
 
