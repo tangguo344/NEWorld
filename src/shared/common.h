@@ -31,22 +31,14 @@
     #define NEWORLD_USE_WINAPI // Windows native API
 #elif defined __MACOSX__ || (defined __APPLE__ && defined __GNUC__)
     #define NEWORLD_TARGET_MACOSX
-    #define NEWORLD_TARGET_POISX
+    #define NEWORLD_TARGET_POSIX
 #else
     #define NEWORLD_TARGET_LINUX
-    #define NEWORLD_TARGET_POISX
+    #define NEWORLD_TARGET_POSIX
 #endif
 
 #ifdef _DEBUG
     #define NEWORLD_DEBUG // Main debug flag
-#endif
-
-#ifdef NEWORLD_DEBUG
-    //    ...
-#else
-    #ifndef NDEBUG
-        #define NDEBUG // NDEBUG flag for cassert
-    #endif
 #endif
 
 #ifdef NEWORLD_USE_WINAPI
@@ -55,8 +47,6 @@
 #else
     //#    include <pthread.h> // Or <thread> <mutex>
 #endif
-
-#include <cassert>
 
 #if (-1)>>1 == -1
     #define NEWORLD_COMPILER_RSHIFT_ARITH // Arithmetic shift right

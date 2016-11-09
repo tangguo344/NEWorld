@@ -17,6 +17,9 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#ifndef FILESYS_H_
+#define FILESYS_H_
+
 #include <common.h>
 #include <string>
 #include <functional>
@@ -31,7 +34,7 @@
     #include <sys/dir.h>
 #endif
 
-namespace filesystem
+namespace FileSystem
 {
     inline bool exists(const std::string& path)
     {
@@ -41,7 +44,8 @@ namespace filesystem
         return access(path.c_str(), 0) == 0;
 #endif
     }
-    inline void create_directories(const std::string& path)
+
+    inline void createDirectory(const std::string& path)
     {
 #ifdef NEWORLD_TARGET_WINDOWS
         _mkdir(path.c_str());
@@ -50,7 +54,7 @@ namespace filesystem
 #endif
     }
 
-    inline void files_in_dir(std::string path, std::function<void(std::string)> callback)
+    inline void forInDirectory(const std::string& path, std::function<void(std::string)> callback)
     {
 #ifdef NEWORLD_TARGET_WINDOWS
         WIN32_FIND_DATA ffd;
@@ -73,3 +77,5 @@ namespace filesystem
 #endif
     }
 }
+
+#endif

@@ -25,7 +25,7 @@ Chunk* WorldClient::addChunk(const Vec3i& chunkPos)
     size_t index = getChunkIndex(chunkPos);
     if (index < mChunkCount && mChunks[index]->getPosition() == chunkPos)
     {
-        assert(false);
+        Assert(false);
         return nullptr;
     }
     newChunkPtr(index);
@@ -100,7 +100,8 @@ void WorldClient::renderUpdate(const Vec3i& position)
             mChunkRenderList[first] = { p, distsqr };
 
             // Add counter
-            if (pr < MaxChunkRenderCount) pr++;
+            if (pr < MaxChunkRenderCount)
+                pr++;
         }
         else
         {
@@ -112,9 +113,7 @@ void WorldClient::renderUpdate(const Vec3i& position)
     }
 
     for (int i = 0; i < pr; i++)
-    {
         mChunkRenderList[i].first->buildVertexArray();
-    }
 
 }
 
@@ -175,7 +174,8 @@ void WorldClient::sortChunkLoadUnloadList(const Vec3i& centerPos)
             }
 
             // Not very far, don't unload now
-            if (first > pl || first >= MaxChunkUnloadCount) continue;
+            if (first > pl || first >= MaxChunkUnloadCount)
+                continue;
 
             // Move elements to make place
             for (int j = MaxChunkUnloadCount - 1; j > first; j--)
@@ -185,7 +185,8 @@ void WorldClient::sortChunkLoadUnloadList(const Vec3i& centerPos)
             mChunkUnloadList[first] = { getChunkPtr(ci), distsqr };
 
             // Add counter
-            if (pl < MaxChunkUnloadCount) pl++;
+            if (pl < MaxChunkUnloadCount)
+                pl++;
         }
     }
     mChunkUnloadCount = pl;
@@ -219,7 +220,8 @@ void WorldClient::sortChunkLoadUnloadList(const Vec3i& centerPos)
                     }
 
                     // Not very near, don't load now
-                    if (first > pu || first >= MaxChunkLoadCount) continue;
+                    if (first > pu || first >= MaxChunkLoadCount)
+                        continue;
 
                     // Move elements to make place
                     for (int j = MaxChunkLoadCount - 1; j > first; j--)
@@ -229,7 +231,8 @@ void WorldClient::sortChunkLoadUnloadList(const Vec3i& centerPos)
                     mChunkLoadList[first] = { Vec3i(x, y, z), distsqr };
 
                     // Add counter
-                    if (pu < MaxChunkLoadCount) pu++;
+                    if (pu < MaxChunkLoadCount)
+                        pu++;
                 }
     mChunkLoadCount = pu;
 }
@@ -242,9 +245,7 @@ void WorldClient::tryLoadChunks(GameConnection& conn)
         conn.getChunk(mID, mChunkLoadList[i].first);
     }
     for (int i = 0; i < mChunkUnloadCount; i++)
-    {
         deleteChunk(mChunkUnloadList[i].first->getPosition());
-    }
 }
 
 

@@ -23,9 +23,9 @@
 #include <ctime>
 #include <map>
 #include <array>
-#include <fs.h>
+#include <filesys.h>
 
-static std::array<std::string,6> LevelTags;
+static std::array<std::string, 6> LevelTags;
 
 Logger::Level Logger::coutLevel = Level::trace;
 Logger::Level Logger::cerrLevel = Level::fatal;
@@ -67,12 +67,10 @@ void Logger::addFileSink(const std::string& path, const std::string& prefix)
 
 void Logger::init(const std::string& prefix)
 {
-    using namespace filesystem;
+    using namespace FileSystem;
     const char* path = "./logs/";
     if (!exists(path))
-    {
-        create_directories(path);
-    }
+        createDirectory(path);
 
     addFileSink(path, prefix);
 
@@ -145,11 +143,18 @@ void Logger::writeOstream(std::ostream& ostream, bool noColor) const
             if (!noColor)
             {
                 colorfunc cf = cmap[(ch >= 'A' && ch <= 'F') ? ch - 'A' + 'a' : ch];
-                if (cf) ostream << cf;
+                if (cf)
+                    ostream << cf;
                 else
                 {
-                    if (ch == stylechar) ostream << stylechar; // Escaped to `stylechar`
-                    else ostream << stylechar << ch; // Wrong color code
+                    if (ch == stylechar)
+                    {
+                        ostream << stylechar;    // Escaped to `stylechar`
+                    }
+                    else
+                    {
+                        ostream << stylechar << ch;    // Wrong color code
+                    }
                 }
             }
         }
@@ -181,7 +186,8 @@ Logger::~Logger()
         for (auto& it : fsink)
         {
             writeOstream(it, true);
-            if (mLevel >= cerrLevel) it.flush();
+            if (mLevel >= cerrLevel)
+                it.flush();
         }
     }
 }
