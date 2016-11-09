@@ -73,7 +73,10 @@
     <ClInclude Include="..\..\..\src\shared\exception.h">
       <Filter>Source\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\fs.h">
+    <ClInclude Include="..\..\..\src\shared\filesys.h">
+      <Filter>Source\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\shared\debug.h">
       <Filter>Source\Common</Filter>
     </ClInclude>
   </ItemGroup>

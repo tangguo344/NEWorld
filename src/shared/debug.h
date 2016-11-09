@@ -17,21 +17,29 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef IMGUI_HELPER_H
-#define IMGUI_HELPER_H
+#ifndef DEBUG_H_
+#define DEBUG_H_
 
-#include <SDL2/SDL.h>
-#include <debug.h>
+#include "logger.h"
 
-#define HAVE_M_PI
-#define IM_ASSERT(expr) Assert(expr)
-#include "./imgui/imgui.h"
-
-namespace imguiHelper
+// Assertion uses C++ exception
+inline void AssertFunc(bool expr, const char* file, const char* fname, int line)
 {
-    void init(SDL_Window* window);
-    void cleanup();
-    void newFrame(SDL_Window* window);
-    bool processEvent(SDL_Event* e);
+    if (!expr)
+    {
+        fatalstream << "Assertion failed!";
+        fatalstream << "At line " << line << " in \"" << file << "\", function " << fname;
+        throw;
+    }
 }
+
+#ifdef NEWORLD_DEBUG
+    #define Assert(expr) AssertFunc((expr), __FILE__, __FUNCTION__, __LINE__)
+#else
+    #define Assert(expr) nullptr
+#endif
+
+// A notice that would cause conpilation error / redefinition 2333
+#define assert Do not #include <cassert> or #include <assert.h>! Use Assert(expression) instead.
+
 #endif

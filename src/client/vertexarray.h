@@ -24,7 +24,7 @@
 #include <initializer_list>
 #include <common.h>
 #include "opengl.h"
-#include <logger.h>
+#include <debug.h>
 
 class VertexFormat
 {
@@ -42,10 +42,10 @@ public:
         : textureCount(textureElementCount), colorCount(colorElementCount), normalCount(normalElementCount), coordinateCount(coordinateElementCount),
           vertexAttributeCount(textureElementCount + colorElementCount + normalElementCount + coordinateElementCount)
     {
-        assert(textureCount <= 3);
-        assert(colorCount <= 4);
-        assert(normalCount == 0 || normalCount == 3);
-        assert(coordinateCount <= 4 && coordinateCount >= 1);
+        Assert(textureCount <= 3);
+        Assert(colorCount <= 4);
+        Assert(normalCount == 0 || normalCount == 3);
+        Assert(coordinateCount <= 4 && coordinateCount >= 1);
     }
 };
 
@@ -83,7 +83,7 @@ try :
     // Set texture coordinates
     void setTexture(size_t size, const float* texture)
     {
-        assert(size <= mFormat.textureCount);
+        Assert(size <= mFormat.textureCount);
         memcpy(mVertexAttributes, texture, size * sizeof(float));
     }
 
@@ -95,7 +95,7 @@ try :
     // Set color value
     void setColor(size_t size, const float* color)
     {
-        assert(size <= mFormat.colorCount);
+        Assert(size <= mFormat.colorCount);
         memcpy(mVertexAttributes + mFormat.textureCount, color, size * sizeof(float));
     }
 
@@ -107,7 +107,7 @@ try :
     // Set normal vector
     void setNormal(size_t size, const float* normal)
     {
-        assert(size <= mFormat.normalCount);
+        Assert(size <= mFormat.normalCount);
         memcpy(mVertexAttributes + mFormat.textureCount + mFormat.colorCount, normal, size * sizeof(float));
     }
 
