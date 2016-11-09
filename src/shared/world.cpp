@@ -30,13 +30,14 @@ void World::expandChunkArray(size_t c)
     {
         mChunkArraySize *= 2;
         Chunk** newChunks = static_cast<Chunk**>(realloc(mChunks, mChunkArraySize * sizeof(Chunk*)));
-        assert(newChunks != nullptr);
+        Assert(newChunks != nullptr);
         if (newChunks == nullptr)
         {
             fatalstream << "Failed to create chunks, size:" << mChunkArraySize;
             // TODO: exit
         }
-        else mChunks = newChunks;
+        else
+            mChunks = newChunks;
     }
 }
 
@@ -61,7 +62,7 @@ int World::deleteChunk(const Vec3i& chunkPos)
     size_t index = getChunkIndex(chunkPos);
     if (mChunks[index]->getPosition() != chunkPos)
     {
-        assert(false);
+        Assert(false);
         return 1;
     }
     deleteChunk(index);
@@ -70,7 +71,7 @@ int World::deleteChunk(const Vec3i& chunkPos)
 
 int World::deleteChunk(int index)
 {
-    assert(index < mChunkCount);
+    Assert(index < mChunkCount);
     delete mChunks[index];
     eraseChunkPtr(index);
     // Update chunk pointer array
@@ -86,8 +87,10 @@ std::vector<AABB> World::getHitboxes(const AABB& range) const
             for (curr.z = int(floor(range.min.z)); curr.z < int(ceil(range.max.z)); curr.z++)
             {
                 // TODO: BlockType::getAABB
-                if (!isChunkLoaded(getChunkPos(curr))) continue;
-                if (getBlock(curr).getID() == 0) continue;
+                if (!isChunkLoaded(getChunkPos(curr)))
+                    continue;
+                if (getBlock(curr).getID() == 0)
+                    continue;
                 Vec3d currd = curr;
                 res.push_back(AABB(currd, currd + Vec3d(1.0, 1.0, 1.0)));
             }

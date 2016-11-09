@@ -26,11 +26,12 @@
 #include <functional>
 
 #ifndef NEWORLD_TARGET_WINDOWS
-#include <dlfcn.h>
+    #include <dlfcn.h>
 #endif
 
 #include "common.h"
 #include "logger.h"
+#include "debug.h"
 
 class Library
 {
@@ -110,7 +111,7 @@ private:
 
     template<class T> static auto getFunc(HandleType handle, const std::string& name)
     {
-        assert(handle != nullptr);
+        Assert(handle != nullptr);
         return reinterpret_cast<std::decay_t<T>>(GetProcAddress(handle, name.c_str()));
     }
 
@@ -134,7 +135,7 @@ private:
 
     template<class T> static auto getFunc(HandleType handle, const std::string& name)
     {
-        assert(handle != nullptr);
+        Assert(handle != nullptr);
         return reinterpret_cast<std::decay_t<T>>(dlsym(handle, name.c_str()));
     }
 
