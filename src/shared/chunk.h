@@ -20,9 +20,9 @@
 #ifndef CHUNK_H_
 #define CHUNK_H_
 
-#include "common.h"
 #include "vec3.h"
 #include "blockdata.h"
+#include "debug.h"
 
 constexpr int ChunkSizeLog2 = 5, ChunkSize = 1 << ChunkSizeLog2; // 2 ^ ChunkSizeLog2 == 32
 
@@ -52,25 +52,31 @@ public:
     // Get block data in this chunk
     BlockData getBlock(const Vec3i& pos) const
     {
-        assert(pos.x >= 0 && pos.x < ChunkSize && pos.y >= 0 && pos.y < ChunkSize && pos.z >= 0 && pos.z < ChunkSize);
+        Assert(pos.x >= 0 && pos.x < ChunkSize && pos.y >= 0 && pos.y < ChunkSize && pos.z >= 0 && pos.z < ChunkSize);
         return mBlocks[pos.x * ChunkSize * ChunkSize + pos.y * ChunkSize + pos.z];
     }
 
     // Get block reference in this chunk
     BlockData& getBlock(const Vec3i& pos)
     {
-        assert(pos.x >= 0 && pos.x < ChunkSize && pos.y >= 0 && pos.y < ChunkSize && pos.z >= 0 && pos.z < ChunkSize);
+        Assert(pos.x >= 0 && pos.x < ChunkSize && pos.y >= 0 && pos.y < ChunkSize && pos.z >= 0 && pos.z < ChunkSize);
         return mBlocks[pos.x * ChunkSize * ChunkSize + pos.y * ChunkSize + pos.z];
     }
 
     // Get block pointer
-    BlockData* getBlocks() { return mBlocks; }
-    const BlockData* getBlocks() const { return mBlocks; }
+    BlockData* getBlocks()
+    {
+        return mBlocks;
+    }
+    const BlockData* getBlocks() const
+    {
+        return mBlocks;
+    }
 
     // Set block data in this chunk
     void setBlock(const Vec3i& pos, BlockData block)
     {
-        assert(pos.x >= 0 && pos.x < ChunkSize && pos.y >= 0 && pos.y < ChunkSize && pos.z >= 0 && pos.z < ChunkSize);
+        Assert(pos.x >= 0 && pos.x < ChunkSize && pos.y >= 0 && pos.y < ChunkSize && pos.z >= 0 && pos.z < ChunkSize);
         mBlocks[pos.x * ChunkSize * ChunkSize + pos.y * ChunkSize + pos.z] = block;
         mUpdated = true;
     }

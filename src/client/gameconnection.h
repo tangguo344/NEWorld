@@ -52,7 +52,10 @@ class MultiplayerConnection : public GameConnection
 {
 public:
     MultiplayerConnection(std::string host,unsigned int port, WorldClient* worldNow)
-        :mHost(host),mPort(port),mConn([this](Identifier id, unsigned char* data) {handleReceivedData(id, data); }),mWorld(worldNow) {}
+        :mHost(host),mPort(port),mConn([this](Identifier id, unsigned char* data)
+    {
+        handleReceivedData(id, data);
+    }),mWorld(worldNow) {}
     void connect() override;
     void disconnect() override;
     World* getWorld(size_t id) override;
@@ -63,7 +66,10 @@ public:
     void getChunk(size_t worldID, Vec3i pos) override;
 
     // Callbacks
-    void setChunkCallback(ChunkCallback callback) override { mChunkCallback = callback; };
+    void setChunkCallback(ChunkCallback callback) override
+    {
+        mChunkCallback = callback;
+    };
 
 private:
     void handleReceivedData(Identifier id, unsigned char* data);

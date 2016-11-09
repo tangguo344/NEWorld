@@ -25,7 +25,7 @@ Chunk* WorldServer::addChunk(const Vec3i& chunkPos)
     size_t index = getChunkIndex(chunkPos);
     if (index < mChunkCount && mChunks[index]->getPosition() == chunkPos)
     {
-        assert(false);
+        Assert(false);
         return nullptr;
     }
     newChunkPtr(index);

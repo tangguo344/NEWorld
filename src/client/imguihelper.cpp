@@ -16,6 +16,7 @@
 * You should have received a copy of the GNU Lesser General Public License
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #include "imguihelper.h"
 
 #include <SDL2/SDL.h>
@@ -87,9 +88,7 @@ namespace
             {
                 const ImDrawCmd* pcmd = &cmd_list->CmdBuffer[cmd_i];
                 if (pcmd->UserCallback)
-                {
                     pcmd->UserCallback(cmd_list, pcmd);
-                }
                 else
                 {
                     glBindTexture(GL_TEXTURE_2D, (GLuint)(intptr_t)pcmd->TextureId);
@@ -204,8 +203,14 @@ namespace
         io.KeyMap[ImGuiKey_Z] = SDLK_z;
 
         io.RenderDrawListsFn = ImGui_ImplSdl_RenderDrawLists;   // Alternatively you can set this to NULL and call ImGui::GetDrawData() after ImGui::Render() to get the same ImDrawData pointer.
-        io.SetClipboardTextFn = [](void*, const char* text) { SDL_SetClipboardText(text); };
-        io.GetClipboardTextFn = [](void*)->const char* { return SDL_GetClipboardText(); };
+        io.SetClipboardTextFn = [](void*, const char* text)
+        {
+            SDL_SetClipboardText(text);
+        };
+        io.GetClipboardTextFn = [](void*)->const char*
+        {
+            return SDL_GetClipboardText();
+        };
         io.ClipboardUserData = NULL;
 
 #ifdef _WIN32
@@ -249,7 +254,7 @@ namespace
         io.DisplayFramebufferScale = ImVec2(w > 0 ? ((float)display_w / w) : 0, h > 0 ? ((float)display_h / h) : 0);
 
         // Setup time step
-        Uint32	time = SDL_GetTicks();
+        Uint32  time = SDL_GetTicks();
         double current_time = time / 1000.0;
 
         static double lastTime = 0.0f;
@@ -265,7 +270,7 @@ namespace
         else
             io.MousePos = ImVec2(-1, -1);
 
-        io.MouseDown[0] = g_MousePressed[0] || (mouseMask & SDL_BUTTON(SDL_BUTTON_LEFT)) != 0;		// If a mouse press event came, always pass it as "mouse held this frame", so we don't miss click-release events that are shorter than 1 frame.
+        io.MouseDown[0] = g_MousePressed[0] || (mouseMask & SDL_BUTTON(SDL_BUTTON_LEFT)) != 0;      // If a mouse press event came, always pass it as "mouse held this frame", so we don't miss click-release events that are shorter than 1 frame.
         io.MouseDown[1] = g_MousePressed[1] || (mouseMask & SDL_BUTTON(SDL_BUTTON_RIGHT)) != 0;
         io.MouseDown[2] = g_MousePressed[2] || (mouseMask & SDL_BUTTON(SDL_BUTTON_MIDDLE)) != 0;
         g_MousePressed[0] = g_MousePressed[1] = g_MousePressed[2] = false;

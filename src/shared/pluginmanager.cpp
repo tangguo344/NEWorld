@@ -21,7 +21,7 @@
 #include "utils.h"
 #include "pluginmanager.h"
 #include "logger.h"
-#include <fs.h>
+#include <filesys.h>
 
 PluginManager::PluginManager(bool isClient)
     : mIsClient(isClient)
@@ -54,11 +54,11 @@ void PluginManager::loadPlugin(const std::string& filename)
 
 void PluginManager::loadPlugins()
 {
-    using namespace filesystem;
+    using namespace FileSystem;
     std::string path = "./plugins/";
     if (exists(path))
     {
-        files_in_dir(path, [this](std::string filename)
+        forInDirectory(path, [this](std::string filename)
         {
             std::string suffix = filename.substr(filename.size() - std::string(LibSuffix).size());
             strtolower(suffix);

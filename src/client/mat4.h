@@ -21,12 +21,13 @@
 #define MAT4_H_
 
 #include <cmath>
-#include <vec3.h>
 #include <cstring>
+#include <vec3.h>
+#include <debug.h>
 
 #ifdef NEWORLD_DEBUG
 
-// Mat4Row for range check when debugging is enabled
+// Mat4Row for range checking when debugging is enabled
 template <typename T>
 class Mat4Row
 {
@@ -39,7 +40,7 @@ public:
 
     T& operator[](size_t index)
     {
-        assert(index < 4);
+        Assert(index < 4);
         return ptr[index];
     }
 };
@@ -77,7 +78,7 @@ public:
 
     Mat4Row<T> operator[](size_t index)
     {
-        assert(index < 4);
+        Assert(index < 4);
         return Mat4Row<T>(data + index * 4);
     }
 
