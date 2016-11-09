@@ -21,12 +21,12 @@
 #define STRINGUTILS_H_
 
 #include "exception.h"
-#include <cassert>
 #include <locale>
 #include <sstream>
 #include <iomanip>
 #include <tuple>
 #include <typeinfo>
+#include "debug.h"
 
 namespace StringUtils
 {
@@ -38,8 +38,10 @@ namespace StringUtils
             template <typename T, typename F>
             static void visit(T&& tup, size_t idx, F fun)
             {
-                if (idx == I - 1) fun(std::get<I - 1>(tup));
-                else visit_impl<I - 1>::visit(tup, idx, fun);
+                if (idx == I - 1)
+                    fun(std::get<I - 1>(tup));
+                else
+                    visit_impl<I - 1>::visit(tup, idx, fun);
             }
         };
 
@@ -123,14 +125,14 @@ namespace StringUtils
     template <typename F, template <typename...> class T, typename... Ts>
     void visit_at(T<Ts...> const& tup, size_t idx, F fun)
     {
-        assert(idx < sizeof...(Ts));
+        Assert(idx < sizeof...(Ts));
         detail_::visit_impl<sizeof...(Ts)>::visit(tup, idx, fun);
     }
 
     template <typename F, template <typename...> class T, typename... Ts>
     void visit_at(T<Ts...>&& tup, size_t idx, F fun)
     {
-        assert(idx < sizeof...(Ts));
+        Assert(idx < sizeof...(Ts));
         detail_::visit_impl<sizeof...(Ts)>::visit(tup, idx, fun);
     }
 
@@ -154,83 +156,183 @@ Begin:
                     ss << '%';
                     break;
                 case 'c':
-                    visit_at(argsTuple, index++, [&ss](auto&& item) { ss << Expect<char>::Get(item); });
+                    visit_at(argsTuple, index++, [&ss](auto&& item)
+                    {
+                        ss << Expect<char>::Get(item);
+                    });
                     break;
                 case 's':
-                    visit_at(argsTuple, index++, [&ss](auto&& item) { ss << Expect<std::string>::Get(item); });
+                    visit_at(argsTuple, index++, [&ss](auto&& item)
+                    {
+                        ss << Expect<std::string>::Get(item);
+                    });
                     break;
                 case 'd':
                 case 'i':
-                    visit_at(argsTuple, index++, [&ss](auto&& item) { ss << Expect<int>::Get(item); });
+                    visit_at(argsTuple, index++, [&ss](auto&& item)
+                    {
+                        ss << Expect<int>::Get(item);
+                    });
                     break;
                 case 'o':
-                    visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::oct, std::ios_base::basefield); ss << Expect<unsigned>::Get(item); ss.setf(fmt); });
+                    visit_at(argsTuple, index++, [&ss](auto&& item)
+                    {
+                        auto fmt = ss.setf(std::ios_base::oct, std::ios_base::basefield);
+                        ss << Expect<unsigned>::Get(item);
+                        ss.setf(fmt);
+                    });
                     break;
                 case 'x':
-                    visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::hex, std::ios_base::basefield); ss << Expect<unsigned>::Get(item); ss.setf(fmt); });
+                    visit_at(argsTuple, index++, [&ss](auto&& item)
+                    {
+                        auto fmt = ss.setf(std::ios_base::hex, std::ios_base::basefield);
+                        ss << Expect<unsigned>::Get(item);
+                        ss.setf(fmt);
+                    });
                     break;
                 case 'X':
-                    visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::hex, std::ios_base::basefield); ss.setf(std::ios_base::uppercase); ss << Expect<unsigned>::Get(item); ss.setf(fmt); });
+                    visit_at(argsTuple, index++, [&ss](auto&& item)
+                    {
+                        auto fmt = ss.setf(std::ios_base::hex, std::ios_base::basefield);
+                        ss.setf(std::ios_base::uppercase);
+                        ss << Expect<unsigned>::Get(item);
+                        ss.setf(fmt);
+                    });
                     break;
                 case 'u':
-                    visit_at(argsTuple, index++, [&ss](auto&& item) { ss << Expect<unsigned>::Get(item); });
+                    visit_at(argsTuple, index++, [&ss](auto&& item)
+                    {
+                        ss << Expect<unsigned>::Get(item);
+                    });
                     break;
                 case 'f':
                 case 'F':
-                    visit_at(argsTuple, index++, [&ss](auto&& item) { ss << Expect<float>::Get(item); });
+                    visit_at(argsTuple, index++, [&ss](auto&& item)
+                    {
+                        ss << Expect<float>::Get(item);
+                    });
                     break;
                 case 'e':
-                    visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::scientific, std::ios_base::floatfield); ss << Expect<float>::Get(item); ss.setf(fmt); });
+                    visit_at(argsTuple, index++, [&ss](auto&& item)
+                    {
+                        auto fmt = ss.setf(std::ios_base::scientific, std::ios_base::floatfield);
+                        ss << Expect<float>::Get(item);
+                        ss.setf(fmt);
+                    });
                     break;
                 case 'E':
-                    visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::scientific, std::ios_base::floatfield); ss.setf(std::ios_base::uppercase); ss << Expect<float>::Get(item); ss.setf(fmt); });
+                    visit_at(argsTuple, index++, [&ss](auto&& item)
+                    {
+                        auto fmt = ss.setf(std::ios_base::scientific, std::ios_base::floatfield);
+                        ss.setf(std::ios_base::uppercase);
+                        ss << Expect<float>::Get(item);
+                        ss.setf(fmt);
+                    });
                     break;
                 case 'a':
-                    visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::fixed | std::ios_base::scientific, std::ios_base::floatfield); ss << Expect<float>::Get(item); ss.setf(fmt); });
+                    visit_at(argsTuple, index++, [&ss](auto&& item)
+                    {
+                        auto fmt = ss.setf(std::ios_base::fixed | std::ios_base::scientific, std::ios_base::floatfield);
+                        ss << Expect<float>::Get(item);
+                        ss.setf(fmt);
+                    });
                     break;
                 case 'A':
-                    visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::fixed | std::ios_base::scientific, std::ios_base::floatfield); ss.setf(std::ios_base::uppercase); ss << Expect<float>::Get(item); ss.setf(fmt); });
+                    visit_at(argsTuple, index++, [&ss](auto&& item)
+                    {
+                        auto fmt = ss.setf(std::ios_base::fixed | std::ios_base::scientific, std::ios_base::floatfield);
+                        ss.setf(std::ios_base::uppercase);
+                        ss << Expect<float>::Get(item);
+                        ss.setf(fmt);
+                    });
                     break;
                 case 'p':
-                    visit_at(argsTuple, index++, [&ss](auto&& item) { ss << Expect<const void*>::Get(item); });
+                    visit_at(argsTuple, index++, [&ss](auto&& item)
+                    {
+                        ss << Expect<const void*>::Get(item);
+                    });
                     break;
                 case 'h':
                     switch (*++lpStr)
                     {
                     case 'd':
                     case 'i':
-                        visit_at(argsTuple, index++, [&ss](auto&& item) { ss << Expect<short>::Get(item); });
+                        visit_at(argsTuple, index++, [&ss](auto&& item)
+                        {
+                            ss << Expect<short>::Get(item);
+                        });
                         break;
                     case 'o':
-                        visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::oct, std::ios_base::basefield); ss << Expect<unsigned short>::Get(item); ss.setf(fmt); });
+                        visit_at(argsTuple, index++, [&ss](auto&& item)
+                        {
+                            auto fmt = ss.setf(std::ios_base::oct, std::ios_base::basefield);
+                            ss << Expect<unsigned short>::Get(item);
+                            ss.setf(fmt);
+                        });
                         break;
                     case 'x':
-                        visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::hex, std::ios_base::basefield); ss << Expect<unsigned short>::Get(item); ss.setf(fmt); });
+                        visit_at(argsTuple, index++, [&ss](auto&& item)
+                        {
+                            auto fmt = ss.setf(std::ios_base::hex, std::ios_base::basefield);
+                            ss << Expect<unsigned short>::Get(item);
+                            ss.setf(fmt);
+                        });
                         break;
                     case 'X':
-                        visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::hex, std::ios_base::basefield); ss.setf(std::ios_base::uppercase); ss << Expect<unsigned short>::Get(item); ss.setf(fmt); });
+                        visit_at(argsTuple, index++, [&ss](auto&& item)
+                        {
+                            auto fmt = ss.setf(std::ios_base::hex, std::ios_base::basefield);
+                            ss.setf(std::ios_base::uppercase);
+                            ss << Expect<unsigned short>::Get(item);
+                            ss.setf(fmt);
+                        });
                         break;
                     case 'u':
-                        visit_at(argsTuple, index++, [&ss](auto&& item) { ss << Expect<unsigned short>::Get(item); });
+                        visit_at(argsTuple, index++, [&ss](auto&& item)
+                        {
+                            ss << Expect<unsigned short>::Get(item);
+                        });
                         break;
                     case 'h':
                         switch (*++lpStr)
                         {
                         case 'd':
                         case 'i':
-                            visit_at(argsTuple, index++, [&ss](auto&& item) { ss << Expect<int8_t>::Get(item); });
+                            visit_at(argsTuple, index++, [&ss](auto&& item)
+                            {
+                                ss << Expect<int8_t>::Get(item);
+                            });
                             break;
                         case 'o':
-                            visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::oct, std::ios_base::basefield); ss << Expect<uint8_t>::Get(item); ss.setf(fmt); });
+                            visit_at(argsTuple, index++, [&ss](auto&& item)
+                            {
+                                auto fmt = ss.setf(std::ios_base::oct, std::ios_base::basefield);
+                                ss << Expect<uint8_t>::Get(item);
+                                ss.setf(fmt);
+                            });
                             break;
                         case 'x':
-                            visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::hex, std::ios_base::basefield); ss << Expect<uint8_t>::Get(item); ss.setf(fmt); });
+                            visit_at(argsTuple, index++, [&ss](auto&& item)
+                            {
+                                auto fmt = ss.setf(std::ios_base::hex, std::ios_base::basefield);
+                                ss << Expect<uint8_t>::Get(item);
+                                ss.setf(fmt);
+                            });
                             break;
                         case 'X':
-                            visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::hex, std::ios_base::basefield); ss.setf(std::ios_base::uppercase); ss << Expect<uint8_t>::Get(item); ss.setf(fmt); });
+                            visit_at(argsTuple, index++, [&ss](auto&& item)
+                            {
+                                auto fmt = ss.setf(std::ios_base::hex, std::ios_base::basefield);
+                                ss.setf(std::ios_base::uppercase);
+                                ss << Expect<uint8_t>::Get(item);
+                                ss.setf(fmt);
+                            });
                             break;
                         case 'u':
-                            visit_at(argsTuple, index++, [&ss](auto&& item) { ss << Expect<uint8_t>::Get(item); });
+                            visit_at(argsTuple, index++, [&ss](auto&& item)
+                            {
+                                ss << Expect<uint8_t>::Get(item);
+                            });
                             break;
                         default:
                             nw_throw(Exception::Exception, "Unknown token '%c'", *lpStr);
@@ -245,54 +347,123 @@ Begin:
                     {
                     case 'd':
                     case 'i':
-                        visit_at(argsTuple, index++, [&ss](auto&& item) { ss << Expect<long>::Get(item); });
+                        visit_at(argsTuple, index++, [&ss](auto&& item)
+                        {
+                            ss << Expect<long>::Get(item);
+                        });
                         break;
                     case 'o':
-                        visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::oct, std::ios_base::basefield); ss << Expect<unsigned long>::Get(item); ss.setf(fmt); });
+                        visit_at(argsTuple, index++, [&ss](auto&& item)
+                        {
+                            auto fmt = ss.setf(std::ios_base::oct, std::ios_base::basefield);
+                            ss << Expect<unsigned long>::Get(item);
+                            ss.setf(fmt);
+                        });
                         break;
                     case 'x':
-                        visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::hex, std::ios_base::basefield); ss << Expect<unsigned long>::Get(item); ss.setf(fmt); });
+                        visit_at(argsTuple, index++, [&ss](auto&& item)
+                        {
+                            auto fmt = ss.setf(std::ios_base::hex, std::ios_base::basefield);
+                            ss << Expect<unsigned long>::Get(item);
+                            ss.setf(fmt);
+                        });
                         break;
                     case 'X':
-                        visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::hex, std::ios_base::basefield); ss.setf(std::ios_base::uppercase); ss << Expect<unsigned long>::Get(item); ss.setf(fmt); });
+                        visit_at(argsTuple, index++, [&ss](auto&& item)
+                        {
+                            auto fmt = ss.setf(std::ios_base::hex, std::ios_base::basefield);
+                            ss.setf(std::ios_base::uppercase);
+                            ss << Expect<unsigned long>::Get(item);
+                            ss.setf(fmt);
+                        });
                         break;
                     case 'u':
-                        visit_at(argsTuple, index++, [&ss](auto&& item) { ss << Expect<unsigned long>::Get(item); });
+                        visit_at(argsTuple, index++, [&ss](auto&& item)
+                        {
+                            ss << Expect<unsigned long>::Get(item);
+                        });
                         break;
                     case 'f':
                     case 'F':
-                        visit_at(argsTuple, index++, [&ss](auto&& item) { ss << Expect<double>::Get(item); });
+                        visit_at(argsTuple, index++, [&ss](auto&& item)
+                        {
+                            ss << Expect<double>::Get(item);
+                        });
                         break;
                     case 'e':
-                        visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::scientific, std::ios_base::floatfield); ss << Expect<double>::Get(item); ss.setf(fmt); });
+                        visit_at(argsTuple, index++, [&ss](auto&& item)
+                        {
+                            auto fmt = ss.setf(std::ios_base::scientific, std::ios_base::floatfield);
+                            ss << Expect<double>::Get(item);
+                            ss.setf(fmt);
+                        });
                         break;
                     case 'E':
-                        visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::scientific, std::ios_base::floatfield); ss.setf(std::ios_base::uppercase); ss << Expect<double>::Get(item); ss.setf(fmt); });
+                        visit_at(argsTuple, index++, [&ss](auto&& item)
+                        {
+                            auto fmt = ss.setf(std::ios_base::scientific, std::ios_base::floatfield);
+                            ss.setf(std::ios_base::uppercase);
+                            ss << Expect<double>::Get(item);
+                            ss.setf(fmt);
+                        });
                         break;
                     case 'a':
-                        visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::fixed | std::ios_base::scientific, std::ios_base::floatfield); ss << Expect<double>::Get(item); ss.setf(fmt); });
+                        visit_at(argsTuple, index++, [&ss](auto&& item)
+                        {
+                            auto fmt = ss.setf(std::ios_base::fixed | std::ios_base::scientific, std::ios_base::floatfield);
+                            ss << Expect<double>::Get(item);
+                            ss.setf(fmt);
+                        });
                         break;
                     case 'A':
-                        visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::fixed | std::ios_base::scientific, std::ios_base::floatfield); ss.setf(std::ios_base::uppercase); ss << Expect<double>::Get(item); ss.setf(fmt); });
+                        visit_at(argsTuple, index++, [&ss](auto&& item)
+                        {
+                            auto fmt = ss.setf(std::ios_base::fixed | std::ios_base::scientific, std::ios_base::floatfield);
+                            ss.setf(std::ios_base::uppercase);
+                            ss << Expect<double>::Get(item);
+                            ss.setf(fmt);
+                        });
                         break;
                     case 'l':
                         switch (*++lpStr)
                         {
                         case 'd':
                         case 'i':
-                            visit_at(argsTuple, index++, [&ss](auto&& item) { ss << Expect<long long>::Get(item); });
+                            visit_at(argsTuple, index++, [&ss](auto&& item)
+                            {
+                                ss << Expect<long long>::Get(item);
+                            });
                             break;
                         case 'o':
-                            visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::oct, std::ios_base::basefield); ss << Expect<unsigned long long>::Get(item); ss.setf(fmt); });
+                            visit_at(argsTuple, index++, [&ss](auto&& item)
+                            {
+                                auto fmt = ss.setf(std::ios_base::oct, std::ios_base::basefield);
+                                ss << Expect<unsigned long long>::Get(item);
+                                ss.setf(fmt);
+                            });
                             break;
                         case 'x':
-                            visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::hex, std::ios_base::basefield); ss << Expect<unsigned long long>::Get(item); ss.setf(fmt); });
+                            visit_at(argsTuple, index++, [&ss](auto&& item)
+                            {
+                                auto fmt = ss.setf(std::ios_base::hex, std::ios_base::basefield);
+                                ss << Expect<unsigned long long>::Get(item);
+                                ss.setf(fmt);
+                            });
                             break;
                         case 'X':
-                            visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::hex, std::ios_base::basefield); ss.setf(std::ios_base::uppercase); ss << Expect<unsigned long long>::Get(item); ss.setf(fmt); });
+                            visit_at(argsTuple, index++, [&ss](auto&& item)
+                            {
+                                auto fmt = ss.setf(std::ios_base::hex, std::ios_base::basefield);
+                                ss.setf(std::ios_base::uppercase);
+                                ss << Expect<unsigned long long>::Get(item);
+                                ss.setf(fmt);
+                            });
                             break;
                         case 'u':
-                            visit_at(argsTuple, index++, [&ss](auto&& item) { ss << Expect<unsigned long long>::Get(item); });
+                            visit_at(argsTuple, index++, [&ss](auto&& item)
+                            {
+                                ss << Expect<unsigned long long>::Get(item);
+                            });
                             break;
                         default:
                             break;
@@ -307,19 +478,44 @@ Begin:
                     {
                     case 'f':
                     case 'F':
-                        visit_at(argsTuple, index++, [&ss](auto&& item) { ss << Expect<long double>::Get(item); });
+                        visit_at(argsTuple, index++, [&ss](auto&& item)
+                        {
+                            ss << Expect<long double>::Get(item);
+                        });
                         break;
                     case 'e':
-                        visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::scientific, std::ios_base::floatfield); ss << Expect<long double>::Get(item); ss.setf(fmt); });
+                        visit_at(argsTuple, index++, [&ss](auto&& item)
+                        {
+                            auto fmt = ss.setf(std::ios_base::scientific, std::ios_base::floatfield);
+                            ss << Expect<long double>::Get(item);
+                            ss.setf(fmt);
+                        });
                         break;
                     case 'E':
-                        visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::scientific, std::ios_base::floatfield); ss.setf(std::ios_base::uppercase); ss << Expect<long double>::Get(item); ss.setf(fmt); });
+                        visit_at(argsTuple, index++, [&ss](auto&& item)
+                        {
+                            auto fmt = ss.setf(std::ios_base::scientific, std::ios_base::floatfield);
+                            ss.setf(std::ios_base::uppercase);
+                            ss << Expect<long double>::Get(item);
+                            ss.setf(fmt);
+                        });
                         break;
                     case 'a':
-                        visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::fixed | std::ios_base::scientific, std::ios_base::floatfield); ss << Expect<long double>::Get(item); ss.setf(fmt); });
+                        visit_at(argsTuple, index++, [&ss](auto&& item)
+                        {
+                            auto fmt = ss.setf(std::ios_base::fixed | std::ios_base::scientific, std::ios_base::floatfield);
+                            ss << Expect<long double>::Get(item);
+                            ss.setf(fmt);
+                        });
                         break;
                     case 'A':
-                        visit_at(argsTuple, index++, [&ss](auto&& item) { auto fmt = ss.setf(std::ios_base::fixed | std::ios_base::scientific, std::ios_base::floatfield); ss.setf(std::ios_base::uppercase); ss << Expect<long double>::Get(item); ss.setf(fmt); });
+                        visit_at(argsTuple, index++, [&ss](auto&& item)
+                        {
+                            auto fmt = ss.setf(std::ios_base::fixed | std::ios_base::scientific, std::ios_base::floatfield);
+                            ss.setf(std::ios_base::uppercase);
+                            ss << Expect<long double>::Get(item);
+                            ss.setf(fmt);
+                        });
                         break;
                     default:
                         nw_throw(Exception::Exception, "Unknown token '%c'", *lpStr);
@@ -327,13 +523,9 @@ Begin:
                     break;
                 default:
                     if (*lpStr == '0')
-                    {
                         ss << std::setfill(*lpStr++);
-                    }
                     else
-                    {
                         nw_throw(Exception::Exception, "Unknown token '%c'", *lpStr);
-                    }
 
                     unsigned tmpWidth = 0;
                     while (std::isdigit(*lpStr, std::locale{}))
@@ -341,9 +533,7 @@ Begin:
                         tmpWidth = tmpWidth * 10 + (*lpStr++ - '0');
                     }
                     if (tmpWidth)
-                    {
                         ss << std::setw(tmpWidth);
-                    }
                     goto Begin;
                 }
                 break;
@@ -368,13 +558,15 @@ Begin:
                     break;
                 }
 
-                while (std::isblank(*lpStr)) { ++lpStr; }
+                while (std::isblank(*lpStr))
+                    ++lpStr;
                 if (*lpStr != '}')
-                {
                     nw_throw(Exception::Exception, "Expected '}', got '%c'", *lpStr);
-                }
 
-                visit_at(argsTuple, tmpIndex, [&ss](auto&& item) { ss << item; });
+                visit_at(argsTuple, tmpIndex, [&ss](auto&& item)
+                {
+                    ss << item;
+                });
                 break;
             }
             default:
