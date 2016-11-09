@@ -55,4 +55,6 @@ void Player::render()
 	glVertex3f(mPosition.x - 2.0f, mPosition.y, mPosition.z);
 	glVertex3f(mPosition.x + 2.0f, mPosition.y, mPosition.z);
 	glEnd();
+
+	glEnable(GL_CULL_FACE);
 }
