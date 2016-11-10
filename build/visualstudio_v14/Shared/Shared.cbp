@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Shared" />
+		<Option pch_mode="2" />
+		<Option compiler="msvc10" />
+		<Build>
+			<Target title="Debug Win32">
+				<Option output="../bin/Win32/Debug/Shared" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="../bin/Win32/Debug/Shared/" />
+				<Option deps_output="../bin/Win32/Debug/" />
+				<Option type="2" />
+				<Option compiler="msvc10" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="/D_MBCS" />
+					<Add option="/Zi" />
+					<Add option="/D_CRT_SECURE_NO_WARNINGS" />
+					<Add option="/DNOMINMAX" />
+					<Add option="/D_WIN32_WINNT=0x0601" />
+					<Add option="/Od" />
+					<Add option="/MDd" />
+					<Add option="/W4" />
+					<Add option="/wd4714" />
+					<Add option="/wd4819" />
+					<Add directory="../../../src/shared/" />
+					<Add directory="../../../dependencies/include/" />
+					<Add directory="$(IncludePath)/" />
+				</Compiler>
+				<Linker>
+					<Add directory="../bin/Win32/Debug/" />
+					<Add directory="../../../dependencies/lib/" />
+					<Add directory="$(LibraryPath)/" />
+				</Linker>
+				<ExtraCommands>
+					<Add before='&quot;..\..\..\scripts\bootstrap.bat&quot;' />
+				</ExtraCommands>
+			</Target>
+			<Target title="Debug x64">
+				<Option output="../bin/x64/Debug/Shared" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="../bin/x64/Debug/Shared/" />
+				<Option deps_output="../bin/x64/Debug/" />
+				<Option type="2" />
+				<Option compiler="msvc10" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="/D_MBCS" />
+					<Add option="/Zi" />
+					<Add option="/D_CRT_SECURE_NO_WARNINGS" />
+					<Add option="/DNOMINMAX" />
+					<Add option="/D_WIN32_WINNT=0x0601" />
+					<Add option="/Od" />
+					<Add option="/MDd" />
+					<Add option="/W4" />
+					<Add option="/wd4714" />
+					<Add option="/wd4819" />
+					<Add directory="../../../src/shared/" />
+					<Add directory="../../../dependencies/include/" />
+					<Add directory="$(IncludePath)/" />
+				</Compiler>
+				<Linker>
+					<Add directory="../bin/x64/Debug/" />
+					<Add directory="../../../dependencies/lib_x64/" />
+					<Add directory="$(LibraryPath)/" />
+				</Linker>
+				<ExtraCommands>
+					<Add before='&quot;..\..\..\scripts\bootstrap_64.bat&quot;' />
+				</ExtraCommands>
+			</Target>
+			<Target title="Release x64">
+				<Option output="../bin/x64/Release/Shared" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="../bin/x64/Release/Shared/" />
+				<Option deps_output="../bin/x64/Release/" />
+				<Option type="2" />
+				<Option compiler="msvc10" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="/D_MBCS" />
+					<Add option="/D_CRT_SECURE_NO_WARNINGS" />
+					<Add option="/DNOMINMAX" />
+					<Add option="/D_WIN32_WINNT=0x0601" />
+					<Add option="/O2" />
+					<Add option="/W4" />
+					<Add option="/wd4714" />
+					<Add option="/wd4819" />
+					<Add directory="../../../src/shared/" />
+					<Add directory="../../../dependencies/include/" />
+					<Add directory="$(IncludePath)/" />
+				</Compiler>
+				<Linker>
+					<Add library="winmm.lib" />
+					<Add library="comctl32.lib" />
+					<Add library="kernel32.lib" />
+					<Add library="user32.lib" />
+					<Add library="gdi32.lib" />
+					<Add library="winspool.lib" />
+					<Add library="comdlg32.lib" />
+					<Add library="advapi32.lib" />
+					<Add library="shell32.lib" />
+					<Add library="ole32.lib" />
+					<Add library="oleaut32.lib" />
+					<Add library="uuid.lib" />
+					<Add library="odbc32.lib" />
+					<Add library="odbccp32.lib" />
+					<Add directory="../bin/x64/Release/" />
+					<Add directory="../../../dependencies/lib_x64/" />
+					<Add directory="$(LibraryPath)/" />
+				</Linker>
+				<ExtraCommands>
+					<Add before='&quot;..\..\..\scripts\bootstrap_64.bat&quot;' />
+				</ExtraCommands>
+			</Target>
+			<Target title="Profiling x64">
+				<Option output="../bin/x64/Profiling/Shared" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="../bin/x64/Profiling/Shared/" />
+				<Option deps_output="../bin/x64/Profiling/" />
+				<Option type="2" />
+				<Option compiler="msvc10" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="/D_MBCS" />
+					<Add option="/D_CRT_SECURE_NO_WARNINGS" />
+					<Add option="/DNOMINMAX" />
+					<Add option="/D_WIN32_WINNT=0x0601" />
+					<Add option="/O2" />
+					<Add option="/W4" />
+					<Add option="/wd4714" />
+					<Add option="/wd4819" />
+					<Add directory="../../../src/shared/" />
+					<Add directory="../../../dependencies/include/" />
+					<Add directory="$(IncludePath)/" />
+				</Compiler>
+				<Linker>
+					<Add library="winmm.lib" />
+					<Add library="comctl32.lib" />
+					<Add library="kernel32.lib" />
+					<Add library="user32.lib" />
+					<Add library="gdi32.lib" />
+					<Add library="winspool.lib" />
+					<Add library="comdlg32.lib" />
+					<Add library="advapi32.lib" />
+					<Add library="shell32.lib" />
+					<Add library="ole32.lib" />
+					<Add library="oleaut32.lib" />
+					<Add library="uuid.lib" />
+					<Add library="odbc32.lib" />
+					<Add library="odbccp32.lib" />
+					<Add directory="../bin/x64/Profiling/" />
+					<Add directory="../../../dependencies/lib_x64/" />
+					<Add directory="$(LibraryPath)/" />
+				</Linker>
+				<ExtraCommands>
+					<Add before='&quot;..\..\..\scripts\bootstrap_64.bat&quot;' />
+				</ExtraCommands>
+			</Target>
+			<Target title="Release Win32">
+				<Option output="../bin/Win32/Release/Shared" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="../bin/Win32/Release/Shared/" />
+				<Option deps_output="../bin/Win32/Release/" />
+				<Option type="2" />
+				<Option compiler="msvc10" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="/D_MBCS" />
+					<Add option="/D_CRT_SECURE_NO_WARNINGS" />
+					<Add option="/DNOMINMAX" />
+					<Add option="/D_WIN32_WINNT=0x0601" />
+					<Add option="/O2" />
+					<Add option="/W4" />
+					<Add option="/wd4714" />
+					<Add option="/wd4819" />
+					<Add directory="../../../src/shared/" />
+					<Add directory="../../../dependencies/include/" />
+					<Add directory="$(IncludePath)/" />
+				</Compiler>
+				<Linker>
+					<Add library="winmm.lib" />
+					<Add library="comctl32.lib" />
+					<Add library="kernel32.lib" />
+					<Add library="user32.lib" />
+					<Add library="gdi32.lib" />
+					<Add library="winspool.lib" />
+					<Add library="comdlg32.lib" />
+					<Add library="advapi32.lib" />
+					<Add library="shell32.lib" />
+					<Add library="ole32.lib" />
+					<Add library="oleaut32.lib" />
+					<Add library="uuid.lib" />
+					<Add library="odbc32.lib" />
+					<Add library="odbccp32.lib" />
+					<Add directory="../bin/Win32/Release/" />
+					<Add directory="../../../dependencies/lib/" />
+					<Add directory="$(LibraryPath)/" />
+				</Linker>
+				<ExtraCommands>
+					<Add before='&quot;..\..\..\scripts\bootstrap.bat&quot;' />
+				</ExtraCommands>
+			</Target>
+			<Target title="Profiling Win32">
+				<Option output="../bin/Win32/Profiling/Shared" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="../bin/Win32/Profiling/Shared/" />
+				<Option deps_output="../bin/Win32/Profiling/" />
+				<Option type="2" />
+				<Option compiler="msvc10" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="/D_MBCS" />
+					<Add option="/D_CRT_SECURE_NO_WARNINGS" />
+					<Add option="/DNOMINMAX" />
+					<Add option="/D_WIN32_WINNT=0x0601" />
+					<Add option="/O2" />
+					<Add option="/W4" />
+					<Add option="/wd4714" />
+					<Add option="/wd4819" />
+					<Add directory="../../../src/shared/" />
+					<Add directory="../../../dependencies/include/" />
+					<Add directory="$(IncludePath)/" />
+				</Compiler>
+				<Linker>
+					<Add library="winmm.lib" />
+					<Add library="comctl32.lib" />
+					<Add library="kernel32.lib" />
+					<Add library="user32.lib" />
+					<Add library="gdi32.lib" />
+					<Add library="winspool.lib" />
+					<Add library="comdlg32.lib" />
+					<Add library="advapi32.lib" />
+					<Add library="shell32.lib" />
+					<Add library="ole32.lib" />
+					<Add library="oleaut32.lib" />
+					<Add library="uuid.lib" />
+					<Add library="odbc32.lib" />
+					<Add library="odbccp32.lib" />
+					<Add directory="../bin/Win32/Profiling/" />
+					<Add directory="../../../dependencies/lib/" />
+					<Add directory="$(LibraryPath)/" />
+				</Linker>
+				<ExtraCommands>
+					<Add before='&quot;..\..\..\scripts\bootstrap.bat&quot;' />
+				</ExtraCommands>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add directory="." />
+		</Compiler>
+		<ResourceCompiler>
+			<Add directory="." />
+		</ResourceCompiler>
+		<Linker>
+			<Add option="/pdb:$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).pdb" />
+		</Linker>
+		<Unit filename="../../../src/shared/aabb.h" />
+		<Unit filename="../../../src/shared/blockdata.h" />
+		<Unit filename="../../../src/shared/blockmanager.cpp" />
+		<Unit filename="../../../src/shared/blockmanager.h" />
+		<Unit filename="../../../src/shared/blocktype.h" />
+		<Unit filename="../../../src/shared/chunk.h" />
+		<Unit filename="../../../src/shared/chunkpointerarray.h" />
+		<Unit filename="../../../src/shared/command.h" />
+		<Unit filename="../../../src/shared/common.h" />
+		<Unit filename="../../../src/shared/consolecolor.h" />
+		<Unit filename="../../../src/shared/debug.h" />
+		<Unit filename="../../../src/shared/event.cpp" />
+		<Unit filename="../../../src/shared/event.h" />
+		<Unit filename="../../../src/shared/exception.cpp" />
+		<Unit filename="../../../src/shared/exception.h" />
+		<Unit filename="../../../src/shared/filesys.h" />
+		<Unit filename="../../../src/shared/jsonhelper.cpp" />
+		<Unit filename="../../../src/shared/jsonhelper.h" />
+		<Unit filename="../../../src/shared/library.h" />
+		<Unit filename="../../../src/shared/logger.cpp" />
+		<Unit filename="../../../src/shared/logger.h" />
+		<Unit filename="../../../src/shared/object.h" />
+		<Unit filename="../../../src/shared/playerobject.cpp" />
+		<Unit filename="../../../src/shared/playerobject.h" />
+		<Unit filename="../../../src/shared/plugin.cpp" />
+		<Unit filename="../../../src/shared/plugin.h" />
+		<Unit filename="../../../src/shared/pluginapi.cpp" />
+		<Unit filename="../../../src/shared/pluginapi.h" />
+		<Unit filename="../../../src/shared/pluginmanager.cpp" />
+		<Unit filename="../../../src/shared/pluginmanager.h" />
+		<Unit filename="../../../src/shared/ratemeter.h" />
+		<Unit filename="../../../src/shared/stringutils.h" />
+		<Unit filename="../../../src/shared/utils.cpp" />
+		<Unit filename="../../../src/shared/utils.h" />
+		<Unit filename="../../../src/shared/vec3.h" />
+		<Unit filename="../../../src/shared/world.cpp" />
+		<Unit filename="../../../src/shared/world.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

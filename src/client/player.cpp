@@ -55,6 +55,17 @@ void Player::render()
 	glVertex3f(mPosition.x - 2.0f, mPosition.y, mPosition.z);
 	glVertex3f(mPosition.x + 2.0f, mPosition.y, mPosition.z);
 	glEnd();
-
+	//Y
+	glColor3f(0.0f, 1.0f, 0.0f);
+	glBegin(GL_LINES);
+	glVertex3f(mPosition.x, mPosition.y - 2.0f, mPosition.z);
+	glVertex3f(mPosition.x, mPosition.y + 2.0f, mPosition.z);
+	glEnd();
+	//Z
+	glColor3f(0.0f, 1.0f, 0.0f);
+	glBegin(GL_LINES);
+	glVertex3f(mPosition.x, mPosition.y, mPosition.z - 2.0f);
+	glVertex3f(mPosition.x, mPosition.y, mPosition.z + 2.0f);
+	glEnd();
 	glEnable(GL_CULL_FACE);
 }
