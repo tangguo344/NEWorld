@@ -25,8 +25,8 @@
 #include "../protocol/gen/protocol.h"
 #include <raknet/MessageIdentifiers.h>
 #include <future>
-#include <logger.h>
 #include <climits>
+#include <logger.h>
 
 class Connection
 {
