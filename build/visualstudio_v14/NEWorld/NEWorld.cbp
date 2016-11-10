@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="NEWorld" />
+		<Option pch_mode="2" />
+		<Option compiler="msvc10" />
+		<Build>
+			<Target title="Debug Win32">
+				<Option output="../../../release/nwclient" imp_lib="../bin/Win32/Debug/nwclient.lib" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME)" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../bin/Win32/Debug/NEWorld/" />
+				<Option deps_output="../../../release/" />
+				<Option type="3" />
+				<Option compiler="msvc10" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="/D_MBCS" />
+					<Add option="/Zi" />
+					<Add option="/D_CRT_SECURE_NO_WARNINGS" />
+					<Add option="/D_SCL_SECURE_NO_WARNINGS" />
+					<Add option="/DNOMINMAX" />
+					<Add option="/D_WIN32_WINNT=0x0601" />
+					<Add option="/D_USE_MATH_DEFINES" />
+					<Add option="/DSDL_MAIN_HANDLED" />
+					<Add option="/Od" />
+					<Add option="/MDd" />
+					<Add option="/W4" />
+					<Add option="/wd4714" />
+					<Add option="/wd4819" />
+					<Add directory="../../../src/client/imgui/" />
+					<Add directory="../../../src/maximilian/include/" />
+					<Add directory="../../../dependencies/include/AL/" />
+					<Add directory="../../../dependencies/include/" />
+					<Add directory="../../../src/shared/" />
+					<Add directory="../../../UILib/include/" />
+					<Add directory="$(IncludePath)/" />
+				</Compiler>
+				<Linker>
+					<Add option="/debug" />
+					<Add library="glew32.lib" />
+					<Add library="opengl32.lib" />
+					<Add library="freetype2.lib" />
+					<Add library="SDL2.lib" />
+					<Add library="SDL2_image.lib" />
+					<Add library="winmm.lib" />
+					<Add library="comctl32.lib" />
+					<Add library="kernel32.lib" />
+					<Add library="user32.lib" />
+					<Add library="gdi32.lib" />
+					<Add library="winspool.lib" />
+					<Add library="comdlg32.lib" />
+					<Add library="advapi32.lib" />
+					<Add library="shell32.lib" />
+					<Add library="ole32.lib" />
+					<Add library="oleaut32.lib" />
+					<Add library="uuid.lib" />
+					<Add library="odbc32.lib" />
+					<Add library="odbccp32.lib" />
+					<Add directory="../bin/Win32/Debug/" />
+					<Add directory="../../../dependencies/lib/" />
+					<Add directory="$(LibraryPath)/" />
+				</Linker>
+			</Target>
+			<Target title="Debug x64">
+				<Option output="../../../release/nwclient" imp_lib="../bin/x64/Debug/nwclient.lib" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME)" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../bin/x64/Debug/NEWorld/" />
+				<Option deps_output="../../../release/" />
+				<Option type="3" />
+				<Option compiler="msvc10" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="/D_MBCS" />
+					<Add option="/Zi" />
+					<Add option="/D_CRT_SECURE_NO_WARNINGS" />
+					<Add option="/D_SCL_SECURE_NO_WARNINGS" />
+					<Add option="/DNOMINMAX" />
+					<Add option="/D_WIN32_WINNT=0x0601" />
+					<Add option="/D_USE_MATH_DEFINES" />
+					<Add option="/DSDL_MAIN_HANDLED" />
+					<Add option="/Od" />
+					<Add option="/MDd" />
+					<Add option="/W4" />
+					<Add option="/wd4714" />
+					<Add option="/wd4819" />
+					<Add directory="../../../src/client/imgui/" />
+					<Add directory="../../../dependencies/include/" />
+					<Add directory="../../../src/shared/" />
+					<Add directory="../../../UILib/include/" />
+					<Add directory="$(IncludePath)/" />
+				</Compiler>
+				<Linker>
+					<Add option="/debug" />
+					<Add library="glew32.lib" />
+					<Add library="opengl32.lib" />
+					<Add library="freetype2.lib" />
+					<Add library="SDL2.lib" />
+					<Add library="SDL2_image.lib" />
+					<Add library="winmm.lib" />
+					<Add library="comctl32.lib" />
+					<Add library="kernel32.lib" />
+					<Add library="user32.lib" />
+					<Add library="gdi32.lib" />
+					<Add library="winspool.lib" />
+					<Add library="comdlg32.lib" />
+					<Add library="advapi32.lib" />
+					<Add library="shell32.lib" />
+					<Add library="ole32.lib" />
+					<Add library="oleaut32.lib" />
+					<Add library="uuid.lib" />
+					<Add library="odbc32.lib" />
+					<Add library="odbccp32.lib" />
+					<Add directory="../bin/x64/Debug/" />
+					<Add directory="../../../dependencies/lib_x64/" />
+					<Add directory="$(LibraryPath)/" />
+				</Linker>
+			</Target>
+			<Target title="Release x64">
+				<Option output="../../../release/nwclient" imp_lib="../bin/x64/Release/nwclient.lib" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME)" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../bin/x64/Release/NEWorld/" />
+				<Option deps_output="../../../release/" />
+				<Option type="3" />
+				<Option compiler="msvc10" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="/D_UNICODE /DUNICODE" />
+					<Add option="/D_CRT_SECURE_NO_WARNINGS" />
+					<Add option="/D_SCL_SECURE_NO_WARNINGS" />
+					<Add option="/DNOMINMAX" />
+					<Add option="/D_WIN32_WINNT=0x0601" />
+					<Add option="/D_USE_MATH_DEFINES" />
+					<Add option="/DSDL_MAIN_HANDLED" />
+					<Add option="/O2" />
+					<Add option="/MD" />
+					<Add option="/W4" />
+					<Add option="/wd4714" />
+					<Add option="/wd4819" />
+					<Add directory="../../../src/client/imgui/" />
+					<Add directory="../../../dependencies/include/" />
+					<Add directory="../../../src/shared/" />
+					<Add directory="../../../UILIb/include/" />
+					<Add directory="$(IncludePath)/" />
+				</Compiler>
+				<Linker>
+					<Add library="glew32.lib" />
+					<Add library="opengl32.lib" />
+					<Add library="freetype2.lib" />
+					<Add library="SDL2.lib" />
+					<Add library="SDL2_image.lib" />
+					<Add library="winmm.lib" />
+					<Add library="comctl32.lib" />
+					<Add library="kernel32.lib" />
+					<Add library="user32.lib" />
+					<Add library="gdi32.lib" />
+					<Add library="winspool.lib" />
+					<Add library="comdlg32.lib" />
+					<Add library="advapi32.lib" />
+					<Add library="shell32.lib" />
+					<Add library="ole32.lib" />
+					<Add library="oleaut32.lib" />
+					<Add library="uuid.lib" />
+					<Add library="odbc32.lib" />
+					<Add library="odbccp32.lib" />
+					<Add directory="../bin/x64/Release/" />
+					<Add directory="../../../dependencies/lib_x64/" />
+					<Add directory="$(LibraryPath)/" />
+				</Linker>
+			</Target>
+			<Target title="Profiling x64">
+				<Option output="../../../release/nwclient" imp_lib="../bin/x64/Profiling/nwclient.lib" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME)" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../bin/x64/Profiling/NEWorld/" />
+				<Option deps_output="../../../release/" />
+				<Option type="3" />
+				<Option compiler="msvc10" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="/D_UNICODE /DUNICODE" />
+					<Add option="/D_CRT_SECURE_NO_WARNINGS" />
+					<Add option="/D_SCL_SECURE_NO_WARNINGS" />
+					<Add option="/DNOMINMAX" />
+					<Add option="/D_WIN32_WINNT=0x0601" />
+					<Add option="/D_USE_MATH_DEFINES" />
+					<Add option="/DSDL_MAIN_HANDLED" />
+					<Add option="/O2" />
+					<Add option="/MD" />
+					<Add option="/W4" />
+					<Add option="/wd4714" />
+					<Add option="/wd4819" />
+					<Add directory="../../../src/client/imgui/" />
+					<Add directory="../../../dependencies/include/" />
+					<Add directory="../../../src/shared/" />
+					<Add directory="../../../UILIb/include/" />
+					<Add directory="$(IncludePath)/" />
+				</Compiler>
+				<Linker>
+					<Add library="glew32.lib" />
+					<Add library="opengl32.lib" />
+					<Add library="freetype2.lib" />
+					<Add library="SDL2.lib" />
+					<Add library="SDL2_image.lib" />
+					<Add library="winmm.lib" />
+					<Add library="comctl32.lib" />
+					<Add library="kernel32.lib" />
+					<Add library="user32.lib" />
+					<Add library="gdi32.lib" />
+					<Add library="winspool.lib" />
+					<Add library="comdlg32.lib" />
+					<Add library="advapi32.lib" />
+					<Add library="shell32.lib" />
+					<Add library="ole32.lib" />
+					<Add library="oleaut32.lib" />
+					<Add library="uuid.lib" />
+					<Add library="odbc32.lib" />
+					<Add library="odbccp32.lib" />
+					<Add directory="../bin/x64/Profiling/" />
+					<Add directory="../../../dependencies/lib_x64/" />
+					<Add directory="$(LibraryPath)/" />
+				</Linker>
+			</Target>
+			<Target title="Release Win32">
+				<Option output="../../../release/nwclient" imp_lib="../bin/Win32/Release/nwclient.lib" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME)" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../bin/Win32/Release/NEWorld/" />
+				<Option deps_output="../../../release/" />
+				<Option type="3" />
+				<Option compiler="msvc10" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="/D_UNICODE /DUNICODE" />
+					<Add option="/D_CRT_SECURE_NO_WARNINGS" />
+					<Add option="/D_SCL_SECURE_NO_WARNINGS" />
+					<Add option="/DNOMINMAX" />
+					<Add option="/D_WIN32_WINNT=0x0601" />
+					<Add option="/D_USE_MATH_DEFINES" />
+					<Add option="/DSDL_MAIN_HANDLED" />
+					<Add option="/O2" />
+					<Add option="/MD" />
+					<Add option="/W4" />
+					<Add option="/wd4714" />
+					<Add option="/wd4819" />
+					<Add directory="../../../src/client/imgui/" />
+					<Add directory="../../../src/maximilian/include/" />
+					<Add directory="../../../dependencies/include/AL/" />
+					<Add directory="../../../dependencies/include/" />
+					<Add directory="../../../src/shared/" />
+					<Add directory="../../../UILIb/include/" />
+					<Add directory="$(IncludePath)/" />
+				</Compiler>
+				<Linker>
+					<Add option="/debug" />
+					<Add library="glew32.lib" />
+					<Add library="opengl32.lib" />
+					<Add library="freetype2.lib" />
+					<Add library="SDL2.lib" />
+					<Add library="SDL2_image.lib" />
+					<Add library="winmm.lib" />
+					<Add library="comctl32.lib" />
+					<Add library="kernel32.lib" />
+					<Add library="user32.lib" />
+					<Add library="gdi32.lib" />
+					<Add library="winspool.lib" />
+					<Add library="comdlg32.lib" />
+					<Add library="advapi32.lib" />
+					<Add library="shell32.lib" />
+					<Add library="ole32.lib" />
+					<Add library="oleaut32.lib" />
+					<Add library="uuid.lib" />
+					<Add library="odbc32.lib" />
+					<Add library="odbccp32.lib" />
+					<Add directory="../bin/Win32/Release/" />
+					<Add directory="../../../dependencies/lib/" />
+					<Add directory="$(LibraryPath)/" />
+				</Linker>
+			</Target>
+			<Target title="Profiling Win32">
+				<Option output="../../../release/nwclient" imp_lib="../bin/Win32/Profiling/nwclient.lib" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME)" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../bin/Win32/Profiling/NEWorld/" />
+				<Option deps_output="../../../release/" />
+				<Option type="3" />
+				<Option compiler="msvc10" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="/D_UNICODE /DUNICODE" />
+					<Add option="/D_CRT_SECURE_NO_WARNINGS" />
+					<Add option="/D_SCL_SECURE_NO_WARNINGS" />
+					<Add option="/DNOMINMAX" />
+					<Add option="/D_WIN32_WINNT=0x0601" />
+					<Add option="/D_USE_MATH_DEFINES" />
+					<Add option="/DSDL_MAIN_HANDLED" />
+					<Add option="/O2" />
+					<Add option="/MD" />
+					<Add option="/W4" />
+					<Add option="/wd4714" />
+					<Add option="/wd4819" />
+					<Add directory="../../../src/client/imgui/" />
+					<Add directory="../../../src/maximilian/include/" />
+					<Add directory="../../../dependencies/include/AL/" />
+					<Add directory="../../../dependencies/include/" />
+					<Add directory="../../../src/shared/" />
+					<Add directory="../../../UILIb/include/" />
+					<Add directory="$(IncludePath)/" />
+				</Compiler>
+				<Linker>
+					<Add option="/debug" />
+					<Add library="glew32.lib" />
+					<Add library="opengl32.lib" />
+					<Add library="freetype2.lib" />
+					<Add library="SDL2.lib" />
+					<Add library="SDL2_image.lib" />
+					<Add library="winmm.lib" />
+					<Add library="comctl32.lib" />
+					<Add library="kernel32.lib" />
+					<Add library="user32.lib" />
+					<Add library="gdi32.lib" />
+					<Add library="winspool.lib" />
+					<Add library="comdlg32.lib" />
+					<Add library="advapi32.lib" />
+					<Add library="shell32.lib" />
+					<Add library="ole32.lib" />
+					<Add library="oleaut32.lib" />
+					<Add library="uuid.lib" />
+					<Add library="odbc32.lib" />
+					<Add library="odbccp32.lib" />
+					<Add directory="../bin/Win32/Profiling/" />
+					<Add directory="../../../dependencies/lib/" />
+					<Add directory="$(LibraryPath)/" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add directory="." />
+		</Compiler>
+		<ResourceCompiler>
+			<Add directory="." />
+		</ResourceCompiler>
+		<Linker>
+			<Add option="/pdb:$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).pdb" />
+		</Linker>
+		<Unit filename="../../../src/client/chunkclient.cpp" />
+		<Unit filename="../../../src/client/chunkclient.h" />
+		<Unit filename="../../../src/client/game.cpp" />
+		<Unit filename="../../../src/client/game.h" />
+		<Unit filename="../../../src/client/gameconnection.h" />
+		<Unit filename="../../../src/client/imgui/imconfig.h" />
+		<Unit filename="../../../src/client/imgui/imgui.cpp" />
+		<Unit filename="../../../src/client/imgui/imgui.h" />
+		<Unit filename="../../../src/client/imgui/imgui_demo.cpp" />
+		<Unit filename="../../../src/client/imgui/imgui_draw.cpp" />
+		<Unit filename="../../../src/client/imgui/imgui_internal.h" />
+		<Unit filename="../../../src/client/imgui/stb_rect_pack.h" />
+		<Unit filename="../../../src/client/imgui/stb_textedit.h" />
+		<Unit filename="../../../src/client/imgui/stb_truetype.h" />
+		<Unit filename="../../../src/client/imguihelper.cpp" />
+		<Unit filename="../../../src/client/imguihelper.h" />
+		<Unit filename="../../../src/client/localserverloader.h" />
+		<Unit filename="../../../src/client/main.cpp" />
+		<Unit filename="../../../src/client/mat4.h" />
+		<Unit filename="../../../src/client/multiplayerconnection.cpp" />
+		<Unit filename="../../../src/client/network.cpp" />
+		<Unit filename="../../../src/client/network.h" />
+		<Unit filename="../../../src/client/neworld.cpp" />
+		<Unit filename="../../../src/client/neworld.h" />
+		<Unit filename="../../../src/client/opengl.h" />
+		<Unit filename="../../../src/client/player.cpp" />
+		<Unit filename="../../../src/client/player.h" />
+		<Unit filename="../../../src/client/renderer.cpp" />
+		<Unit filename="../../../src/client/renderer.h" />
+		<Unit filename="../../../src/client/texture.cpp" />
+		<Unit filename="../../../src/client/texture.h" />
+		<Unit filename="../../../src/client/vertexarray.cpp" />
+		<Unit filename="../../../src/client/vertexarray.h" />
+		<Unit filename="../../../src/client/widget.h" />
+		<Unit filename="../../../src/client/widgetmanager.h" />
+		<Unit filename="../../../src/client/window.cpp" />
+		<Unit filename="../../../src/client/window.h" />
+		<Unit filename="../../../src/client/worldclient.cpp" />
+		<Unit filename="../../../src/client/worldclient.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
