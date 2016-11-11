@@ -20,6 +20,7 @@
 #include "neworld.h"
 #include "texture.h"
 #include <pluginapi.h>
+#include <jsonhelper.h>
 #include "window.h"
 #include "game.h"
 
@@ -37,7 +38,11 @@ NEWorld::NEWorld() : mPlugins(true)
     mPlugins.loadPlugins();
 
     // Run
-    Game game(mPlugins, mBlocks);
+    Game game("TestWorld",
+              std::make_shared<LocalConnectionByNetWork>(
+            getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1"),
+            getJsonValue<unsigned short>(getSettings()["server"]["port"], 9887)),
+    mPlugins, mBlocks);
     while(!window.shouldQuit())
     {
         window.pollEvents();

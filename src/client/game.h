@@ -36,14 +36,14 @@
 #include "player.h"
 #include "network.h"
 #include "widgetmanager.h"
-#include "localserverloader.h"
 #include <ratemeter.h>
 #include "gameconnection.h"
 
 class Game
 {
 public:
-    Game(PluginManager& pm, const BlockManager& bm);
+    Game(const std::string& name, std::shared_ptr<GameConnection> connection,
+         PluginManager& pm, const BlockManager& bm);
     ~Game();
 
     void update();
@@ -66,8 +66,6 @@ private:
     WorldClient mWorld;
     // Player test
     Player mPlayer;
-    // Local server
-    LocalServerLoader mSinglePlayManager;
     // Widget manager
     WidgetManager mWidgetManager;
     // Main event bus

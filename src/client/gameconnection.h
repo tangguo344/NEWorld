@@ -21,11 +21,12 @@
 #define GAME_CONNECTION_CLIENT_H_
 
 #include <string>
-#include "network.h"
-#include <common.h>
 #include <functional>
-#include <vec3.h>
+#include "network.h"
 #include "worldclient.h"
+#include <vec3.h>
+#include <common.h>
+#include <library.h>
 
 class World;
 class Chunk;
@@ -46,16 +47,18 @@ public:
 
     // Callbacks
     virtual void setChunkCallback(ChunkCallback callback) = 0;
+    void setWorld(WorldClient* w)
+    {
+        mWorld = w;
+    }
+protected:
+    WorldClient* mWorld;
 };
 
 class MultiplayerConnection : public GameConnection
 {
 public:
-    MultiplayerConnection(std::string host,unsigned int port, WorldClient* worldNow)
-        :mHost(host),mPort(port),mConn([this](Identifier id, unsigned char* data)
-    {
-        handleReceivedData(id, data);
-    }),mWorld(worldNow) {}
+    MultiplayerConnection(std::string host,unsigned int port);
     void connect() override;
     void disconnect() override;
     World* getWorld(size_t id) override;
@@ -72,13 +75,28 @@ public:
     };
 
 private:
-    void handleReceivedData(Identifier id, unsigned char* data);
     Connection mConn;
     std::string mHost;
     unsigned int mPort;
     flatbuffers::FlatBufferBuilder mFbb;
     ChunkCallback mChunkCallback;
-    WorldClient* mWorld;
+};
+
+class LocalConnectionByNetWork : public MultiplayerConnection
+{
+// ONLY FOR DEBUG USE !!!!!!!!!
+public:
+    LocalConnectionByNetWork(std::string host, unsigned int port);
+    void connect() override;
+    void disconnect() override;
+private:
+    Library mLib;
+    std::string mPath;
+    std::thread mLocalServerThread;
+    std::atomic_bool mReady{false};
+    int mTimeout;
+    std::chrono::system_clock::time_point mStartTime;
+    std::function<void(bool)> mCallback;
 };
 
 #endif
