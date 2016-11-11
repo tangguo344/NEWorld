@@ -29,17 +29,13 @@
 #include <exception.h>
 #include "window.h"
 
-Game::Game(PluginManager& pm, const BlockManager& bm)
+Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
+           PluginManager& pm, const BlockManager& bm)
     : mBlocks(bm), mPlugins(pm),
-      mWorld("TestWorld", pm, bm),// TODO: read from settings
+      mWorld(name, pm, bm),// TODO: read from settings
       mPlayer(&mWorld),
-      mConnection(std::make_shared<MultiplayerConnection>( // TODO: single-player mode.
-                      getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1"),
-                      getJsonValue<unsigned short>(getSettings()["server"]["port"], 9887), &mWorld)),
-      mSinglePlayManager([this](bool success) {if (success) mConnection->connect();})
+      mConnection(connection)
 {
-    mSinglePlayManager.run(); // TODO: start the server only when it's a single player mode.
-    // TEMP CODE
     // Load some chunks at client side to test rendering
     mWorld.setRenderDistance(2);
     mPlayer.setPosition(Vec3d(-16.0, 48.0, 32.0));
@@ -71,6 +67,8 @@ Game::Game(PluginManager& pm, const BlockManager& bm)
         ImGui::Text("Chunks Loaded: %zu/%zu", mWorld.getChunkCount(), mWorld.getReservedChunkCount());
     }));
 
+    mConnection->setWorld(&mWorld);
+    mConnection->connect();
     mConnection->waitForConnected();
     mConnection->login("test", "123456");
     mConnection->setChunkCallback([&](Chunk* chunk)
@@ -92,7 +90,7 @@ Game::~Game()
 
 void Game::update()
 {
-    mMutex.lock();
+    //mMutex.lock();
 
     mUpsCounter++;
 
@@ -125,7 +123,7 @@ void Game::update()
     mWorld.renderUpdate(Vec3i(mPlayer.getPosition()));
     mWidgetManager.update();
 
-    mMutex.unlock();
+    //mMutex.unlock();
 }
 
 void Game::multiUpdate()
@@ -172,7 +170,7 @@ void drawAxes()
 
 void Game::render()
 {
-    mMutex.lock();
+    //mMutex.lock();
 
     mFpsCounter++;
 
@@ -206,7 +204,7 @@ void Game::render()
 
     mWidgetManager.render();
 
-    mMutex.unlock();
+    //mMutex.unlock();
 }
 
 Event::EventBus& Game::getEventBus()
