@@ -97,9 +97,6 @@
     <ClInclude Include="..\..\..\src\client\gameconnection.h">
       <Filter>Source\Network</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\client\localserverloader.h">
-      <Filter>Source\Main</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\client\renderer.cpp">
@@ -147,7 +144,7 @@
     <ClCompile Include="..\..\..\src\client\imguihelper.cpp">
       <Filter>Source\Multimedia\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\client\multiplayerconnection.cpp">
+    <ClCompile Include="..\..\..\src\client\gameconnection.cpp">
       <Filter>Source\Network</Filter>
     </ClCompile>
   </ItemGroup>
