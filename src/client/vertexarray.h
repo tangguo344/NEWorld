@@ -181,6 +181,9 @@ public:
 
     explicit VertexBuffer(const VertexArray& va);
 
+    // upload new data
+    void update(const VertexArray& va);
+
     // Render vertex buffer
     void render() const;
 

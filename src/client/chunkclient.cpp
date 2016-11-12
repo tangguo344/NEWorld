@@ -26,6 +26,9 @@ bool ChunkClient::mergeFace;
 
 void ChunkClient::buildVertexArray()
 {
+    //NOTE : the building process shall not fail
+    setUpdated(false);
+    mRenderBuilt.store(true);
     va.clear();
 
     if (mergeFace)
@@ -112,8 +115,7 @@ void ChunkClient::buildVertexArray()
         });
     }
 
-    mBuffer = VertexBuffer(va);
-    mRenderBuilt = true;
+    mBuffer.update(va);
 }
 
 Chunk* ChunkClient::getFromFlatbuffers(const s2c::Chunk * fbChunk, WorldClient& worlds)

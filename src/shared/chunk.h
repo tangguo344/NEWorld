@@ -20,9 +20,10 @@
 #ifndef CHUNK_H_
 #define CHUNK_H_
 
+#include <atomic>
 #include "vec3.h"
-#include "blockdata.h"
 #include "debug.h"
+#include "blockdata.h"
 
 constexpr int ChunkSizeLog2 = 5, ChunkSize = 1 << ChunkSizeLog2; // 2 ^ ChunkSizeLog2 == 32
 
@@ -46,7 +47,7 @@ public:
     // Set chunk updated flag
     void setUpdated(bool updated)
     {
-        mUpdated = updated;
+        mUpdated.store(updated);
     }
 
     // Get block data in this chunk
@@ -87,8 +88,7 @@ protected:
 private:
     Vec3i mPosition;
     BlockData mBlocks[ChunkSize * ChunkSize * ChunkSize];
-    bool mUpdated = false;
-
+    std::atomic<bool> mUpdated{false};
 };
 
 #endif // !CHUNK_H_
