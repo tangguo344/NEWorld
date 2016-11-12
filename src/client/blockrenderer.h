@@ -38,6 +38,7 @@ public:
     virtual void render(class ChunkClient* chunk, const Vec3i& pos) = 0;
     virtual ~BlockRenderer() = default;
     //RenderList
+    static void invoke(size_t id, class ChunkClient* chunk, const Vec3i& pos);
     static std::vector<std::shared_ptr<BlockRenderer>> funcs;
 };
 
