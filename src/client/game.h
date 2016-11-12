@@ -77,7 +77,7 @@ private:
     RateMeter mUpdateScheduler{UpdateFrequency};
     // Rate counters
     int mFpsCounter, mUpsCounter, mFpsLatest, mUpsLatest;
-    RateMeter mRateCounterTimer{1};
+    RateMeter mRateCounterScheduler{1};
     // Game connection
     std::shared_ptr<GameConnection> mConnection;
 

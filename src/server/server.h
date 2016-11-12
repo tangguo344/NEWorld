@@ -49,7 +49,7 @@ private:
 
     void initBuiltinCommands();
 
-    RateMeter mUps;
+    RateMeter mRateCounterScheduler{1};
     std::vector<std::string> mArgs;
 
     // Component managers
