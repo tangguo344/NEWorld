@@ -48,15 +48,22 @@ size_t World::getChunkIndex(const Vec3i& pos) const
     while (first <= last)
     {
         int mid = (first + last) / 2;
-        Assert(mChunks[mid] != nullptr);
         const Vec3i& curr = mChunks[mid]->getPosition();
         if (curr < pos)
             first = mid + 1;
         else
             last = mid - 1;
     }
-    Assert(first <= mChunkCount && first >= 0);
     return first;
+}
+
+int World::deleteChunk(size_t index)
+{
+    Assert(index < mChunkCount);
+    delete mChunks[index];
+    eraseChunkPtr(index);
+    // Update chunk pointer array
+    return 0;
 }
 
 int World::deleteChunk(const Vec3i& chunkPos)
@@ -68,15 +75,6 @@ int World::deleteChunk(const Vec3i& chunkPos)
         return 1;
     }
     deleteChunk(index);
-    return 0;
-}
-
-int World::deleteChunk(int index)
-{
-    Assert(index < mChunkCount);
-    delete mChunks[index];
-    eraseChunkPtr(index);
-    // Update chunk pointer array
     return 0;
 }
 

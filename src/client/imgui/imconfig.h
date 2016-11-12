@@ -7,7 +7,8 @@
 #pragma once
 
 //---- Define assertion handler. Defaults to calling assert().
-//#define IM_ASSERT(_EXPR)  MyAssert(_EXPR)
+#include <debug.h>
+#define IM_ASSERT(_EXPR) Assert(_EXPR)
 
 //---- Define attributes of all API symbols declarations, e.g. for DLL under Windows.
 //#define IMGUI_API __declspec( dllexport )
@@ -51,4 +52,3 @@ namespace ImGui
     void    Value(const char* prefix, const MyMatrix44& v, const char* float_format = NULL);
 }
 */
-

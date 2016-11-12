@@ -106,7 +106,7 @@ public:
     virtual Chunk* addChunk(const Vec3i& chunkPos) = 0;
 
     // Delete chunk
-    int deleteChunk(int index);
+    int deleteChunk(size_t index);
     int deleteChunk(const Vec3i& chunkPos);
 
 #ifdef NEWORLD_COMPILER_RSHIFT_ARITH
@@ -200,7 +200,7 @@ protected:
     }
 
     World(World&& rhs) noexcept
-        : mName(std::move(rhs.mName)), mPlugins(rhs.mPlugins), mBlocks(rhs.mBlocks),
+        : mName(std::move(rhs.mName)), mID(rhs.mID), mPlugins(rhs.mPlugins), mBlocks(rhs.mBlocks),
           mChunkCount(rhs.mChunkCount), mChunkArraySize(rhs.mChunkArraySize), mCpa(std::move(rhs.mCpa)), mDaylightBrightness(rhs.mDaylightBrightness)
     {
         std::swap(mChunks, rhs.mChunks);

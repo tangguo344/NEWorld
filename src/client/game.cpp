@@ -199,9 +199,9 @@ void Game::render()
     Renderer::restoreProj();
     Renderer::applyPerspective(70.0f, float(windowWidth) / windowHeight, 0.1f, 300.0f);
     Renderer::restoreScale();
-    Renderer::rotate(-mPlayer.getRotation().x, Vec3d(1.0, 0.0, 0.0));
-    Renderer::rotate(-mPlayer.getRotation().y, Vec3d(0.0, 1.0, 0.0));
-    Renderer::rotate(-mPlayer.getRotation().z, Vec3d(0.0, 0.0, 1.0));
+    Renderer::rotate(float(-mPlayer.getRotation().x), Vec3f(1.0f, 0.0f, 0.0f));
+    Renderer::rotate(float(-mPlayer.getRotation().y), Vec3f(0.0f, 1.0f, 0.0f));
+    Renderer::rotate(float(-mPlayer.getRotation().z), Vec3f(0.0f, 0.0f, 1.0f));
     Renderer::translate(-playerRenderedPosition);
 
     // Render
