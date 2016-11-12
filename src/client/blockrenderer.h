@@ -34,20 +34,19 @@ struct BlockTexCrood
 class BlockRenderer
 {
 public:
-    virtual void flushTex() = 0;
-    virtual void render(class ChunkClient* chunk, const Vec3i& pos) = 0;
     virtual ~BlockRenderer() = default;
-    //RenderList
-    static void invoke(size_t id, class ChunkClient* chunk, const Vec3i& pos);
-    static std::vector<std::shared_ptr<BlockRenderer>> funcs;
+
+    virtual void flushTexture() = 0;
+    virtual void render(class ChunkClient* chunk, const Vec3i& pos) = 0;
 };
 
 class StandardFullBlockRenderer : public BlockRenderer
 {
 public:
     StandardFullBlockRenderer(size_t data[]);
-    void flushTex() override;
+    void flushTexture() override;
     void render(class ChunkClient* chunk, const Vec3i& pos) override;
+private:
     BlockTexCrood tex[6];
 };
 
@@ -58,16 +57,32 @@ public:
     static size_t capacityRaw();
     static void setWidthPerTex(size_t wid);
     static size_t getWidthPerTex();
-    static size_t push(const char* s);
-    static size_t push(const Texture::RawTexture& raw);
+    static size_t addTexture(const char* path);
+    static size_t addTexture(const Texture::RawTexture& rawTexture);
+
     //Finalize Func
     static Texture buildAndFlush();
+
     //In
-    static size_t getTexPerLine();
-    static void getTexPos(float pos[], size_t id);
+    static size_t getTexturePerLine();
+    static void getTexturePos(float pos[], size_t id);
+
 private:
-    static size_t mPPT, mTPL;
+    static size_t mPPT, mTexturePerLine;
     static std::vector<Texture::RawTexture> mRawTexs;
+};
+
+class BlockRendererManager
+{
+public:
+    static void invoke(size_t id, class ChunkClient* chunk, const Vec3i& pos); //RenderList
+
+    static void setBlockRenderer(size_t pos, std::shared_ptr<BlockRenderer>&& blockRenderer);
+
+    static void flushTextures();
+
+private:
+    static std::vector<std::shared_ptr<BlockRenderer>> mBlockRenderers;
 };
 
 #endif //BLOCKRENDERER_H

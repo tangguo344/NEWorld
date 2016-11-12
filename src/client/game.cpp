@@ -35,9 +35,7 @@ Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
 
     // Initialize rendering
     mTexture = BlockTextureBuilder::buildAndFlush();
-    for (auto&& x : BlockRenderer::funcs)
-        if (x)
-            x->flushTex();
+    BlockRendererManager::flushTextures();
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
 

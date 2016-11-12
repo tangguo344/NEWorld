@@ -23,55 +23,47 @@
 #include <string>
 #include "blockrenderer.h"
 #include "../../api/c/nwapi.h"
-
-void expandFuncGroup(size_t size)
-{
-    if (size >= BlockRenderer::funcs.size())
-        BlockRenderer::funcs.resize(size + 1);
-}
-
 extern "C"
 {
-NWAPIEXPORT void NWAPICALL nwSetBlockRenderFunc(size_t id, nwBlockRenderFunc func)
-{
-
-}
-
-NWAPIEXPORT void NWAPICALL nwUseStandardRenderFunc(size_t id, size_t func, void *data)
-{
-    expandFuncGroup(id);
-    switch (func)
+    NWAPIEXPORT void NWAPICALL nwSetBlockRenderFunc(size_t id, nwBlockRenderFunc func)
     {
-        case NWRENDERFUNCSTDFULLBLOCKSAMEFACE:
+
+    }
+
+    NWAPIEXPORT void NWAPICALL nwUseStandardRenderFunc(size_t id, size_t func, void *data)
+    {
+        switch (func)
+        {
+        case nwRenderFuncStdFullBlockSameFace:
         {
             auto t = reinterpret_cast<NWSTDSameFaceTexGroup*>(data)->tex;
             size_t a[] = {t, t, t, t, t, t};
-            BlockRenderer::funcs[id] = std::make_shared<StandardFullBlockRenderer>(a);
+            BlockRendererManager::setBlockRenderer(id, std::make_shared<StandardFullBlockRenderer>(a));
             break;
         }
-        case NWRENDERFUNCSTDFULLBLOCKROUNDFACE:
+        case nwRenderFuncStdFullBlockRoundFace:
         {
             auto p = reinterpret_cast<NWSTDRoundFaceTexGroup*>(data);
             auto t = p->texTop, b = p->texBottom, r = p->texRound;
             size_t a[] = {r, r, t, b, r, r};
-            BlockRenderer::funcs[id] = std::make_shared<StandardFullBlockRenderer>(a);
+            BlockRendererManager::setBlockRenderer(id, std::make_shared<StandardFullBlockRenderer>(a));
             break;
         }
-        case NWRENDERFUNCSTDFULLBLOCKDIFFFACE:
+        case nwRenderFuncStdFullBlockDiffFace:
         {
             auto p = reinterpret_cast<NWSTDDiffFaceTexGroup*>(data);
             size_t a[] = {p->texRight, p->texLeft, p->texTop, p->texBottom, p->texFront, p->texBack};
-            BlockRenderer::funcs[id] = std::make_shared<StandardFullBlockRenderer>(a);
+            BlockRendererManager::setBlockRenderer(id, std::make_shared<StandardFullBlockRenderer>(a));
             break;
         }
         default:
             break;
-    };
-}
+        };
+    }
 
-NWAPIEXPORT size_t NWAPICALL nwRegisterTexture(const char* path)
-{
-    return BlockTextureBuilder::push(path);
-}
+    NWAPIEXPORT size_t NWAPICALL nwRegisterTexture(const char* path)
+    {
+        return BlockTextureBuilder::addTexture(path);
+    }
 
 }
