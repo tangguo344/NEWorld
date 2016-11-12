@@ -23,7 +23,6 @@
 #include <thread>
 #include <mutex>
 #include "../protocol/gen/protocol.h"
-#include <raknet/MessageIdentifiers.h>
 #include <future>
 #include <climits>
 #include <logger.h>
@@ -37,14 +36,23 @@ public:
     template<class ProtocolType>
     void send(const flatbuffers::FlatBufferBuilder& fbb, const flatbuffers::Offset<ProtocolType>&, PacketPriority priority, PacketReliability reliability)
     {
-        sendRawData(packetType2Id<ProtocolType>(),fbb.GetBufferPointer() , fbb.GetSize()*CHAR_BIT, priority, reliability);
+        sendRawData(packetType2Id<ProtocolType>(),fbb.GetBufferPointer() , fbb.GetSize() * CHAR_BIT, priority, reliability);
     }
     void waitForConnected()
     {
         auto future = mConnected.get_future();
         future.wait();
     }
-
+    void stop()
+    {
+        infostream << "Disconnecting...";
+        mUserClosed.store(true);
+        mPeer->Shutdown(5000, 0, PacketPriority::HIGH_PRIORITY);
+        if (mThread.joinable())
+            mThread.join();
+        RakNet::RakPeerInterface::DestroyInstance(mPeer);
+        debugstream << "Network thread exited.";
+    }
 private:
     void loop();
     void sendRawData(Identifier id, const unsigned char *data, int len, PacketPriority priority, PacketReliability reliability);

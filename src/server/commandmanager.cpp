@@ -31,7 +31,7 @@ CommandExecuteStat CommandManager::handleCommand(Command cmd)
 }
 
 CommandManager::CommandManager()
-    : mMainloop(std::async([this] { inputLoop(); }))
+    : mMainloop([this] { inputLoop(); })
 {
 }
 
@@ -40,7 +40,13 @@ CommandManager::~CommandManager()
     mThreadRunning.store(false, std::memory_order_release);
     if (!mWaitingForInput.load(std::memory_order_acquire))
     {
-        mMainloop.wait();
+        mMainloop.join();
+        debugstream << "Input thread exited.";
+    }
+    else
+    {
+        mMainloop.detach();
+        debugstream << "Input thread detached.";
     }
 }
 

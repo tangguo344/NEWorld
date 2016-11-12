@@ -41,15 +41,14 @@ public:
      * @throw std::runtime_error if start up failed
      * @return `true` if start up successfully,`false` if something unexcepted happened
      */
-    bool run(const char *addr,unsigned short port);
-private:
+    bool run(const char *addr, unsigned short port);
     void loop();
+private:
     GameConnection* newConnection(RakNet::SystemAddress addr);
     void deleteConnection(RakNet::SystemAddress addr);
     RakNet::RakPeerInterface *mPeer;
-    std::thread mThread;
     std::vector<GameConnection*> mConns;
-    WorldManager& mWorlds;//TODO: 回头再改,弄个event之类的代替吧
+    WorldManager& mWorlds;//TODO: maybe use event instead later.
 };
 
 

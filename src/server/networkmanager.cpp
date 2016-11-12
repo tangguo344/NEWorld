@@ -35,8 +35,6 @@ NetworkManager::NetworkManager(WorldManager& wm):mWorlds(wm)
 
 NetworkManager::~NetworkManager()
 {
-    debugstream << "Waiting for the raknet thread.";
-    mThread.join();
     RakNet::RakPeerInterface::DestroyInstance(mPeer);
 }
 
@@ -54,7 +52,6 @@ bool NetworkManager::run(const char *addr,unsigned short port)
     mConns.reserve(max_client);
     if(ret == RakNet::StartupResult::RAKNET_STARTED)
     {
-        mThread = std::thread([this] {loop();});
         return true;
     }
     fatalstream << "Failed to start Network Manager. Error code: " << ret;
@@ -64,7 +61,7 @@ bool NetworkManager::run(const char *addr,unsigned short port)
 
 void NetworkManager::close()
 {
-    mPeer->Shutdown(300);
+    mPeer->Shutdown(5000, 0, PacketPriority::HIGH_PRIORITY);
 }
 
 void NetworkManager::loop()
@@ -99,8 +96,8 @@ void NetworkManager::loop()
         }
         for (auto& w : mWorlds)
             w->updateChunkLoadStatus();
-        RakSleep(30);
     }
+    debugstream << "Stop listening.";
 }
 
 GameConnection* NetworkManager::newConnection(RakNet::SystemAddress addr)

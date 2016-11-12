@@ -75,9 +75,9 @@ NWAPIEXPORT void NWAPICALL nwStopServer()
 {
     try
     {
+        infostream << "Server is stopping...";
         server->stop();
         delete server;
-        infostream << "Server is stopping...";
     }
     catch (std::exception& e)
     {
