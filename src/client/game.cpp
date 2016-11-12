@@ -43,7 +43,7 @@ Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
     glDepthFunc(GL_LEQUAL);
 
     // Initialize Widgets
-    mWidgetManager.addWidget(std::make_shared<WidgetCallback>("Debug", ImVec2(100, 200), [this]
+    mGUIWidgets.addWidget(std::make_shared<WidgetCallback>("Debug", ImVec2(100, 200), [this]
     {
         mRateCounterTimer.refresh();
         if (mRateCounterTimer.shouldRun())
@@ -58,7 +58,7 @@ Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
         ImGui::Text("NEWorld %s (v%u)", NEWorldVersionName, NEWorldVersion);
         ImGui::Text("FPS %d, UPS %d", mFpsLatest, mUpsLatest);
         ImGui::Text("Position: x %.1f y %.1f z %.1f", mPlayer.getPosition().x, mPlayer.getPosition().y, mPlayer.getPosition().z);
-        ImGui::Text("GUI Widgets: %zu", mWidgetManager.getSize());
+        ImGui::Text("GUI Widgets: %zu", mGUIWidgets.getSize());
         ImGui::Text("Chunks Loaded: %zu/%zu", mWorld.getChunkCount(), mWorld.getReservedChunkCount());
     }));
 
@@ -117,7 +117,7 @@ void Game::update()
     mWorld.tryLoadChunks(*mConnection);
     mWorld.update();
     mWorld.renderUpdate(Vec3i(mPlayer.getPosition()));
-    mWidgetManager.update();
+    mGUIWidgets.update();
 }
 
 void Game::multiUpdate()
@@ -192,11 +192,11 @@ void Game::render()
 
     mWorld.render(Vec3i(mPlayer.getPosition()));
 
-    mPlayer.render();
+    // mPlayer.render();
 
     glDisable(GL_DEPTH_TEST);
 
-    mWidgetManager.render();
+    mGUIWidgets.render();
 }
 
 Event::EventBus& Game::getEventBus()
