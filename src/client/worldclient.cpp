@@ -30,6 +30,7 @@ Chunk* WorldClient::addChunk(const Vec3i& chunkPos)
     }
     newChunkPtr(index);
     mChunks[index] = static_cast<Chunk*>(new ChunkClient(chunkPos,*this));
+    Assert(mChunks[index] != nullptr);
     // TODO: Update chunk pointer cache
     // TODO: Update chunk pointer array
     // Return pointer
