@@ -26,16 +26,16 @@ bool ChunkClient::mergeFace;
 
 void ChunkClient::stdFullBlock(BlockTexCrood crood[], const Vec3i& pos)
 {
-    Vec3i worldpos = getPosition() * ChunkSize + pos;
+    Vec3i worldpos = getPosition() * Chunk::Size + pos;
 
     BlockData curr = getBlock(pos);
     BlockData neighbors[6] =
             {
-                    pos.x == ChunkSize - 1 ? mWorld.getBlock(Vec3i(worldpos.x + 1, worldpos.y, worldpos.z)) : getBlock(Vec3i(pos.x + 1, pos.y, pos.z)),
+                    pos.x == Chunk::Size - 1 ? mWorld.getBlock(Vec3i(worldpos.x + 1, worldpos.y, worldpos.z)) : getBlock(Vec3i(pos.x + 1, pos.y, pos.z)),
                     pos.x == 0 ? mWorld.getBlock(Vec3i(worldpos.x - 1, worldpos.y, worldpos.z)) : getBlock(Vec3i(pos.x - 1, pos.y, pos.z)),
-                    pos.y == ChunkSize - 1 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y + 1, worldpos.z)) : getBlock(Vec3i(pos.x, pos.y + 1, pos.z)),
+                    pos.y == Chunk::Size - 1 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y + 1, worldpos.z)) : getBlock(Vec3i(pos.x, pos.y + 1, pos.z)),
                     pos.y == 0 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y - 1, worldpos.z)) : getBlock(Vec3i(pos.x, pos.y - 1, pos.z)),
-                    pos.z == ChunkSize - 1 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y, worldpos.z + 1)) : getBlock(Vec3i(pos.x, pos.y, pos.z + 1)),
+                    pos.z == Chunk::Size - 1 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y, worldpos.z + 1)) : getBlock(Vec3i(pos.x, pos.y, pos.z + 1)),
                     pos.z == 0 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y, worldpos.z - 1)) : getBlock(Vec3i(pos.x, pos.y, pos.z - 1)),
             };
 
@@ -113,7 +113,7 @@ void ChunkClient::buildVertexArray()
     }
     else
     {
-        Vec3i::for_range(0, ChunkSize, [&](const Vec3i& pos)
+        Vec3i::for_range(0, Chunk::Size, [&](const Vec3i& pos)
         {
             auto b = getBlock(pos);
             if (BlockRenderer::funcs[b.getID()])
@@ -128,7 +128,7 @@ Chunk* ChunkClient::getFromFlatbuffers(const s2c::Chunk * fbChunk, WorldClient& 
 {
     //TODO: �п����Ż���
     Chunk* nwChunk = new ChunkClient({ fbChunk->pos()->x(), fbChunk->pos()->y(), fbChunk->pos()->z() }, worlds);
-    for (auto i = 0; i < ChunkSize*ChunkSize*ChunkSize; ++i)
+    for (auto i = 0; i < Chunk::Size*Chunk::Size*Chunk::Size; ++i)
         nwChunk->getBlocks()[i] = BlockData(fbChunk->blocks()->Get(i));
     return nwChunk;
 }
