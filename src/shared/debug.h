@@ -34,12 +34,13 @@ inline void AssertFunc(bool expr, const char* file, const char* fname, int line)
 }
 
 #ifdef NEWORLD_DEBUG
-    #define Assert(expr) AssertFunc((expr), __FILE__, __FUNCTION__, __LINE__)
+#    define Assert(expr) AssertFunc((expr), __FILE__, __FUNCTION__, __LINE__)
 #else
-    #define Assert(expr) nullptr
+#    define Assert(expr) nullptr
 #endif
 
-// A notice that would cause conpilation error / redefinition 2333
-#define assert Do not #include <cassert> or #include <assert.h>! Use Assert(expression) instead.
+// A notice that would cause conpilation error 2333
+#undef assert
+#define assert(expr) static_assert(false, "Do not #include <cassert> or #include <assert.h>! Use Assert(expression) instead.");(void)(expr);
 
 #endif

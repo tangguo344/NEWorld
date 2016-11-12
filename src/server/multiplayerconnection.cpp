@@ -26,9 +26,10 @@ void MultiplayerConnection::sendChunk(Chunk* chunk)
 {
     mFbb.Clear();
     auto pos = chunk->getPosition().conv<s2c::Vec3>();
-    std::vector<int> blocks;
-    for (auto i = 0; i < ChunkSize*ChunkSize*ChunkSize; ++i)
-        blocks.push_back(chunk->getBlocks()[i].getData()); //��п����Ż���
+    // Be careful!
+    Assert(sizeof(BlockData) == sizeof(uint32_t));
+    std::vector<int> blocks(reinterpret_cast<uint32_t*>(chunk->getBlocks()),
+                            reinterpret_cast<uint32_t*>(chunk->getBlocks()) + ChunkSize*ChunkSize*ChunkSize);
     auto c = s2c::CreateChunkDirect(mFbb, &pos, &blocks);
     s2c::FinishChunkBuffer(mFbb, c);
     mConn.send(mFbb, c, PacketPriority::MEDIUM_PRIORITY, PacketReliability::RELIABLE);
@@ -57,7 +58,8 @@ void MultiplayerConnection::handleReceivedData(Identifier id, unsigned char* dat
             warningstream << "Player " << login->username()->str() << " failed to login: " << reason;
         break;
     }
-    case Identifier::c2sRequestChunk: {
+    case Identifier::c2sRequestChunk:
+    {
         auto req = c2s::GetRequestChunk(data);
         World *world = mWorlds.getWorld(req->worldID());
         Chunk *chunk = world->getChunkPtr({req->x(), req->y(), req->z()});
