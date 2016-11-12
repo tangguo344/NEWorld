@@ -69,7 +69,7 @@ private:
     // Player
     Player mPlayer;
     // Widget manager
-    WidgetManager mWidgetManager;
+    WidgetManager mGUIWidgets;
     // Main event bus
     Event::EventBus mEventBus;
     // Update scheduler

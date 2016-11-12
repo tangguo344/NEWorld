@@ -24,22 +24,26 @@ void Player::move()
     //mSpeed.normalize();
     //m.speed *= PlayerSpeed;
     mPositionDelta = Mat4d::rotation(mRotation.y, Vec3d(0.0, 1.0, 0.0)).transformVec3(mSpeed);
+    Vec3d originalDelta = mPositionDelta;
     std::vector<AABB> hitboxes = getWorldPtr()->getHitboxes(getHitbox().expand(mPositionDelta));
 
     for (auto& curr : hitboxes)
         mPositionDelta.x = getHitbox().maxMoveOnXclip(curr, mPositionDelta.x);
     mPosition.x += mPositionDelta.x;
     moveHitbox(Vec3d(mPositionDelta.x, 0.0, 0.0));
+    if (mPositionDelta.x != originalDelta.x) mSpeed.x = 0.0;
 
     for (auto& curr : hitboxes)
         mPositionDelta.z = getHitbox().maxMoveOnZclip(curr, mPositionDelta.z);
     mPosition.z += mPositionDelta.z;
     moveHitbox(Vec3d(0.0, 0.0, mPositionDelta.z));
+    if (mPositionDelta.z != originalDelta.z) mSpeed.z = 0.0;
 
     for (auto& curr : hitboxes)
         mPositionDelta.y = getHitbox().maxMoveOnYclip(curr, mPositionDelta.y);
     mPosition.y += mPositionDelta.y;
     moveHitbox(Vec3d(0.0, mPositionDelta.y, 0.0));
+    if (mPositionDelta.y != originalDelta.y) mSpeed.y = 0.0;
 
     mSpeed *= 0.8;
     //mSpeed += Vec3d(0.0, -0.05, 0.0);
