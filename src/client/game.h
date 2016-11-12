@@ -39,11 +39,12 @@
 #include <ratemeter.h>
 #include "gameconnection.h"
 
-const int GameUpdateFrequency = 30;
-
 class Game
 {
 public:
+    // Game update frequency
+    static constexpr int UpdateFrequency = 30;
+
     Game(const std::string& name, std::shared_ptr<GameConnection> connection,
          PluginManager& pm, const BlockManager& bm);
     ~Game();
@@ -73,7 +74,7 @@ private:
     // Main event bus
     Event::EventBus mEventBus;
     // Update scheduler
-    RateMeter mUpdateScheduler{GameUpdateFrequency};
+    RateMeter mUpdateScheduler{UpdateFrequency};
     // Rate counters
     int mFpsCounter, mUpsCounter, mFpsLatest, mUpsLatest;
     RateMeter mRateCounterTimer{1};

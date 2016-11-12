@@ -319,7 +319,6 @@
     <ClCompile Include="..\..\..\src\shared\exception.cpp" />
     <ClCompile Include="..\..\..\src\shared\jsonhelper.cpp" />
     <ClCompile Include="..\..\..\src\shared\logger.cpp" />
-    <ClCompile Include="..\..\..\src\shared\playerobject.cpp" />
     <ClCompile Include="..\..\..\src\shared\plugin.cpp" />
     <ClCompile Include="..\..\..\src\shared\pluginapi.cpp" />
     <ClCompile Include="..\..\..\src\shared\pluginmanager.cpp" />

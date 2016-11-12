@@ -72,7 +72,7 @@ Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
             return;
         }
         // Update chunk
-        memcpy(target->getBlocks(), chunk->getBlocks(), sizeof(BlockData) * ChunkSize * ChunkSize * ChunkSize);
+        memcpy(target->getBlocks(), chunk->getBlocks(), sizeof(BlockData) * Chunk::Size * Chunk::Size * Chunk::Size);
         target->setUpdated(true);
         // Update neighboring chunks
         const Vec3i delta[6] =
@@ -190,7 +190,7 @@ void Game::render()
     glEnable(GL_DEPTH_TEST);
 
     mUpdateScheduler.refresh();
-    double timeDelta = mUpdateScheduler.getDeltaTimeMs() / 1000.0 * GameUpdateFrequency;
+    double timeDelta = mUpdateScheduler.getDeltaTimeMs() / 1000.0 * UpdateFrequency;
     if (timeDelta > 1.0) timeDelta = 1.0;
     Vec3d playerRenderedPosition = mPlayer.getPosition() - mPlayer.getPositionDelta() * (1.0 - timeDelta);
 

@@ -71,7 +71,7 @@ void WorldClient::renderUpdate(const Vec3i& position)
             Vec3i curPos = p->getPosition();
             curPos.for_each([](int& x)
             {
-                x = x * ChunkSize + ChunkSize / 2 - 1;
+                x = x * Chunk::Size + Chunk::Size / 2 - 1;
             });
 
             // Distance from center pos
@@ -128,9 +128,9 @@ size_t WorldClient::render(const Vec3i& position) const
             continue;
         if (chunkpos.chebyshevDistance(p->getPosition()) > mRenderDist)
             continue;
-        Renderer::translate(Vec3f(p->getPosition() * ChunkSize));
+        Renderer::translate(Vec3f(p->getPosition() * Chunk::Size));
         p->render();
-        Renderer::translate(Vec3f(-p->getPosition() * ChunkSize));
+        Renderer::translate(Vec3f(-p->getPosition() * Chunk::Size));
         renderedChunks++;
     }
     return renderedChunks;
@@ -155,7 +155,7 @@ void WorldClient::sortChunkLoadUnloadList(const Vec3i& centerPos)
             // Get chunk center pos
             curPos.for_each([](int& x)
             {
-                x = x * ChunkSize + ChunkSize / 2 - 1;
+                x = x * Chunk::Size + Chunk::Size / 2 - 1;
             });
 
             // Distance from centerPos
@@ -201,7 +201,7 @@ void WorldClient::sortChunkLoadUnloadList(const Vec3i& centerPos)
                     // Get chunk center pos
                     curPos.for_each([](int& x)
                     {
-                        x = x * ChunkSize + ChunkSize / 2 - 1;
+                        x = x * Chunk::Size + Chunk::Size / 2 - 1;
                     });
 
                     // Distance from centerPos

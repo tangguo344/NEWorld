@@ -42,12 +42,19 @@ public:
 
     WorldServer* addWorld(const std::string& name)
     {
-        mWorlds.emplace_back(new WorldServer(name, mPlugins, mBlocks, 16));
+        mWorlds.emplace_back(new WorldServer(name, mPlugins, mBlocks));
         return mWorlds[mWorlds.size() - 1];
     }
 
-    std::vector<WorldServer*>::iterator begin() { return mWorlds.begin(); }
-    std::vector<WorldServer*>::iterator end() { return mWorlds.end(); }
+    std::vector<WorldServer*>::iterator begin()
+    {
+        return mWorlds.begin();
+    }
+
+    std::vector<WorldServer*>::iterator end()
+    {
+        return mWorlds.end();
+    }
 
     WorldServer* getWorld(const std::string& name)
     {
@@ -57,6 +64,7 @@ public:
         }
         return nullptr;
     }
+
     WorldServer* getWorld(size_t id)
     {
         for (WorldServer* world : *this)
@@ -65,6 +73,7 @@ public:
         }
         return nullptr;
     }
+
 private:
     std::vector<WorldServer*> mWorlds;
     PluginManager& mPlugins;

@@ -25,11 +25,12 @@
 #include "debug.h"
 #include "blockdata.h"
 
-constexpr int ChunkSizeLog2 = 5, ChunkSize = 1 << ChunkSizeLog2; // 2 ^ ChunkSizeLog2 == 32
-
 class Chunk
 {
 public:
+    // Chunk size
+    static constexpr int SizeLog2 = 5, Size = 1 << SizeLog2; // 2 ^ 5 == 32
+
     virtual ~Chunk() {}
 
     // Get chunk position
@@ -53,15 +54,15 @@ public:
     // Get block data in this chunk
     BlockData getBlock(const Vec3i& pos) const
     {
-        Assert(pos.x >= 0 && pos.x < ChunkSize && pos.y >= 0 && pos.y < ChunkSize && pos.z >= 0 && pos.z < ChunkSize);
-        return mBlocks[pos.x * ChunkSize * ChunkSize + pos.y * ChunkSize + pos.z];
+        Assert(pos.x >= 0 && pos.x < Size && pos.y >= 0 && pos.y < Size && pos.z >= 0 && pos.z < Size);
+        return mBlocks[pos.x * Size * Size + pos.y * Size + pos.z];
     }
 
     // Get block reference in this chunk
     BlockData& getBlock(const Vec3i& pos)
     {
-        Assert(pos.x >= 0 && pos.x < ChunkSize && pos.y >= 0 && pos.y < ChunkSize && pos.z >= 0 && pos.z < ChunkSize);
-        return mBlocks[pos.x * ChunkSize * ChunkSize + pos.y * ChunkSize + pos.z];
+        Assert(pos.x >= 0 && pos.x < Size && pos.y >= 0 && pos.y < Size && pos.z >= 0 && pos.z < Size);
+        return mBlocks[pos.x * Size * Size + pos.y * Size + pos.z];
     }
 
     // Get block pointer
@@ -77,8 +78,8 @@ public:
     // Set block data in this chunk
     void setBlock(const Vec3i& pos, BlockData block)
     {
-        Assert(pos.x >= 0 && pos.x < ChunkSize && pos.y >= 0 && pos.y < ChunkSize && pos.z >= 0 && pos.z < ChunkSize);
-        mBlocks[pos.x * ChunkSize * ChunkSize + pos.y * ChunkSize + pos.z] = block;
+        Assert(pos.x >= 0 && pos.x < Size && pos.y >= 0 && pos.y < Size && pos.z >= 0 && pos.z < Size);
+        mBlocks[pos.x * Size * Size + pos.y * Size + pos.z] = block;
         mUpdated = true;
     }
 
@@ -87,7 +88,7 @@ protected:
 
 private:
     Vec3i mPosition;
-    BlockData mBlocks[ChunkSize * ChunkSize * ChunkSize];
+    BlockData mBlocks[Size * Size * Size];
     std::atomic<bool> mUpdated{false};
 };
 
