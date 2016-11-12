@@ -4,7 +4,6 @@ set(CMAKE_MACOSX_RPATH ON)
 set(CMAKE_CXX_STANDARD 14)
 set(SOURCE_DIR ./src)
 
-option(LINK_BOOST "Enable link compiler switch of Boost library instead of auto-link" ON)
 option(EXECUTABLE "Link the executable for client and server" OFF)
 
 if(EXTRA_INCDIR)

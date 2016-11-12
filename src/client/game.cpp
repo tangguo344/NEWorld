@@ -30,11 +30,8 @@
 #include "window.h"
 
 Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
-           PluginManager& pm, const BlockManager& bm)
-    : mBlocks(bm), mPlugins(pm),
-      mWorld(name, pm, bm),// TODO: read from settings
-      mPlayer(&mWorld),
-      mConnection(connection)
+           PluginManager& pm, const BlockManager& bm):
+    mBlocks(bm), mPlugins(pm), mWorld(name, pm, bm), mPlayer(&mWorld), mConnection(connection)
 {
     // Load some chunks at client side to test rendering
     mWorld.setRenderDistance(2);
@@ -71,9 +68,12 @@ Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
     {
         std::lock_guard<std::mutex> lock(mMutex);
         Chunk* target = mWorld.getChunkPtr(chunk->getPosition());
-        if (target == nullptr) return;
-        memcpy(target->getBlocks(), chunk->getBlocks(), sizeof(BlockData)*ChunkSize*ChunkSize*ChunkSize);
-        target->setUpdated(true);
+        if (target != nullptr)
+        {
+            memcpy(target->getBlocks(), chunk->getBlocks(), sizeof(BlockData) * ChunkSize * ChunkSize * ChunkSize);
+            target->setUpdated(true);
+        }
+        delete chunk;
     });
     mConnection->setWorld(&mWorld);
     mConnection->connect();
