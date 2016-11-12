@@ -38,14 +38,14 @@ Server::Server(std::vector<std::string> args)
 
     // Network
     mNetwork.run(getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1").c_str(),
-                 getJsonValue<unsigned short>(getSettings()["server"]["port"], 9887));
+                 getJsonValue<unsigned short>(getSettings()["server"]["port"], 31111));
 
     // Builtin Commands
     initBuiltinCommands();
 
     // Done
     auto done_time = steady_clock::now();
-    infostream << "Done!(in " << duration_cast<milliseconds>(done_time - start_time).count() << "ms)!";
+    infostream << "Initialization done in " << duration_cast<milliseconds>(done_time - start_time).count() << "ms!";
 }
 
 void Server::run()

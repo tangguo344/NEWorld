@@ -40,14 +40,16 @@ NEWorld::NEWorld() : mPlugins(true)
     // Run
     Game game("TestWorld",
               std::make_shared<LocalConnectionByNetWork>(
-            getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1"),
-            getJsonValue<unsigned short>(getSettings()["server"]["port"], 9887)),
-    mPlugins, mBlocks);
+                  getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1"),
+                  getJsonValue<unsigned short>(getSettings()["server"]["port"], 31111)),
+              mPlugins, mBlocks);
     while(!window.shouldQuit())
     {
+        // Update
         window.pollEvents();
-        window.newFrame();
         game.multiUpdate();
+        // Render
+        window.newIMGUIFrame();
         game.render();
         Renderer::checkError();
         window.swapBuffers();

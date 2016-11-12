@@ -45,15 +45,15 @@ Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
     // Initialize Widgets
     mGUIWidgets.addWidget(std::make_shared<WidgetCallback>("Debug", ImVec2(100, 200), [this]
     {
-        mRateCounterTimer.refresh();
-        if (mRateCounterTimer.shouldRun())
+        mRateCounterScheduler.refresh();
+        if (mRateCounterScheduler.shouldRun())
         {
             // Update FPS & UPS
             mFpsLatest = mFpsCounter;
             mUpsLatest = mUpsCounter;
             mFpsCounter = 0;
             mUpsCounter = 0;
-            mRateCounterTimer.increaseTimer();
+            mRateCounterScheduler.increaseTimer();
         }
         ImGui::Text("NEWorld %s (v%u)", NEWorldVersionName, NEWorldVersion);
         ImGui::Text("FPS %d, UPS %d", mFpsLatest, mUpsLatest);
@@ -62,6 +62,7 @@ Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
         ImGui::Text("Chunks Loaded: %zu/%zu", mWorld.getChunkCount(), mWorld.getReservedChunkCount());
     }));
 
+    // Initialize connection
     mConnection->setChunkCallback([&](Chunk* chunk)
     {
         std::lock_guard<std::mutex> lock(mMutex);

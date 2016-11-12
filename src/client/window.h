@@ -66,7 +66,7 @@ public:
         return mShouldQuit;
     }
 
-    void newFrame() const
+    void newIMGUIFrame() const
     {
         imguiHelper::newFrame(mWindow);
     }
