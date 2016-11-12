@@ -1,1 +1,0 @@
-./launcher client libnwclient.dylib

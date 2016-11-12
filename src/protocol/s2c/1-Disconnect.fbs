@@ -1,0 +1,10 @@
+// Disconnect by server(with reasons)
+
+namespace s2c;
+
+table Disconnect
+{
+    reason:string;
+}
+
+root_type Disconnect;

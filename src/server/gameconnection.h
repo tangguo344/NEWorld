@@ -45,7 +45,7 @@ public:
 
     void sendChunk(Chunk* chunk) override;
 private:
-    void handleReceivedData(Identifier id, unsigned char* data);
+    void handleReceivedData(Identifier id, unsigned char* data) override;
     Connection mConn;
     WorldManager& mWorlds;
     flatbuffers::FlatBufferBuilder mFbb;

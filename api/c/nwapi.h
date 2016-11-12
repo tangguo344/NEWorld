@@ -42,10 +42,12 @@ extern "C"
 #define NWAPIEXPORT __attribute__((visibility("default")))
 #endif
 
+#ifndef NWAPICALL
 #ifdef _MSC_VER
 #define NWAPICALL __cdecl
 #else
 #define NWAPICALL __attribute__((__cdecl__))
+#endif
 #endif
 
 // NEWorld constants
@@ -114,10 +116,10 @@ struct NWSTDDiffFaceTexGroup
     size_t texTop, texBottom, texLeft, texRight, texFront, texBack;
 };
 
-typedef void(*nwBlockRenderFunc)(void* cthis, NWblockdata data, int32_t x, int32_t y, int32_t z);
-NWAPIENTRY void NWAPICALL nwSetBlockRenderFunc(int32_t id, nwBlockRenderFunc func);
-NWAPIENTRY void NWAPICALL nwUseStandardRenderFunc(int32_t id, int32_t func, void* data);
-NWAPIENTRY int32_t NWAPICALL nwRegisterTexture(const char* path);
+typedef void(*nwBlockRenderFunc)(void* cthis, NWblockdata data, size_t x, size_t y, size_t z);
+NWAPIENTRY void NWAPICALL nwSetBlockRenderFunc(size_t id, nwBlockRenderFunc func);
+NWAPIENTRY void NWAPICALL nwUseStandardRenderFunc(size_t id, size_t func, void* data);
+NWAPIENTRY size_t NWAPICALL nwRegisterTexture(const char* path);
 
 #endif
 
@@ -126,7 +128,7 @@ NWAPIENTRY int32_t NWAPICALL nwRegisterTexture(const char* path);
 
 typedef void NWAPICALL NWchunkgenerator(const NWvec3i*, NWblockdata*, int32_t);
 
-NWAPIENTRY int32_t NWAPICALL nwRegisterChunkGenerator(NWchunkgenerator* const generator);
+NWAPIENTRY size_t NWAPICALL nwRegisterChunkGenerator(NWchunkgenerator* const generator);
 
 #endif
 

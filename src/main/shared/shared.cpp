@@ -33,7 +33,7 @@ void registerBlocks()
     RockID = nwRegisterBlock(&rock);
 }
 
-NWplugindata* getInfo(bool client)
+NWplugindata* getMyInfo(bool client)
 {
     auto plugin = new NWplugindata();
     plugin->pluginName = "NEWorld";

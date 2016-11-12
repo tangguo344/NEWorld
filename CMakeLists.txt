@@ -26,13 +26,12 @@ include(${SOURCE_DIR}/shared/CMakeLists.txt)
 include(${SOURCE_DIR}/client/CMakeLists.txt)
 include(${SOURCE_DIR}/server/CMakeLists.txt)
 include(${SOURCE_DIR}/launcher/CMakeLists.txt)
+include(${SOURCE_DIR}/main/CMakeLists.txt)
 
 add_dependencies(nwclient nwshared)
 add_dependencies(nwserver nwshared)
 add_dependencies(launcher nwclient)
 add_dependencies(launcher nwserver)
-
-include(${SOURCE_DIR}/main/CMakeLists.txt)
 
 if(CMAKE_SYSTEM_NAME MATCHES "Linux")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")

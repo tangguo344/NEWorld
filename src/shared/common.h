@@ -58,6 +58,7 @@
 #elif defined(__i386__) || defined(__i386)
     #define NWAPICALL __attribute__((__cdecl__))
 #else
+    #undef NWAPICALL
     #define NWAPICALL
 #endif
 

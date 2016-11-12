@@ -44,7 +44,9 @@ inline Json readJsonFromFile(std::string filename)
 
 inline void writeJsonToFile(std::string filename, Json& json)
 {
-    if(!json.is_null()) std::ofstream(filename) << json.dump();
+    const std::string & dump = json.dump();
+    if(!json.is_null())
+        std::ofstream(filename).write(dump.c_str(),dump.length());
 }
 
 // get a json value. If it does not exist, return the default value and write it to the json

@@ -24,7 +24,7 @@
 #include "blockrenderer.h"
 #include "../../api/c/nwapi.h"
 
-void expandFuncGroup(int32_t size)
+void expandFuncGroup(size_t size)
 {
     if (size >= BlockRenderer::funcs.size())
         BlockRenderer::funcs.resize(size + 1);
@@ -32,12 +32,12 @@ void expandFuncGroup(int32_t size)
 
 extern "C"
 {
-NWAPIEXPORT void NWAPICALL nwSetBlockRenderFunc(int32_t id, nwBlockRenderFunc func)
+NWAPIEXPORT void NWAPICALL nwSetBlockRenderFunc(size_t id, nwBlockRenderFunc func)
 {
 
 }
 
-NWAPIEXPORT void NWAPICALL nwUseStandardRenderFunc(int32_t id, int32_t func, void *data)
+NWAPIEXPORT void NWAPICALL nwUseStandardRenderFunc(size_t id, size_t func, void *data)
 {
     expandFuncGroup(id);
     switch (func)
@@ -69,9 +69,9 @@ NWAPIEXPORT void NWAPICALL nwUseStandardRenderFunc(int32_t id, int32_t func, voi
     };
 }
 
-NWAPIEXPORT int32_t NWAPICALL nwRegisterTexture(const char* path)
+NWAPIEXPORT size_t NWAPICALL nwRegisterTexture(const char* path)
 {
-    return static_cast<int32_t>(BlockTextureBuilder::push(path));
+    return BlockTextureBuilder::push(path);
 }
 
 }
