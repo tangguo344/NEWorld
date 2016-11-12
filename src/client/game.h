@@ -39,6 +39,8 @@
 #include <ratemeter.h>
 #include "gameconnection.h"
 
+const int GameUpdateFrequency = 30;
+
 class Game
 {
 public:
@@ -64,14 +66,14 @@ private:
     PluginManager& mPlugins;
     // World
     WorldClient mWorld;
-    // Player test
+    // Player
     Player mPlayer;
     // Widget manager
     WidgetManager mWidgetManager;
     // Main event bus
     Event::EventBus mEventBus;
     // Update scheduler
-    RateMeter mUpdateScheduler{60};
+    RateMeter mUpdateScheduler{GameUpdateFrequency};
     // Rate counters
     int mFpsCounter, mUpsCounter, mFpsLatest, mUpsLatest;
     RateMeter mRateCounterTimer{1};

@@ -42,7 +42,12 @@ public:
         mSpeed = speed;
     }
 
-	void render() override;
+    Vec3d getPositionDelta() const
+    {
+        return mPositionDelta;
+    }
+
+    void render() override;
 
     void update() override
     {
@@ -50,7 +55,7 @@ public:
     }
 
 private:
-    Vec3d mSpeed;
+    Vec3d mSpeed, mPositionDelta;
 
     void move();
 };

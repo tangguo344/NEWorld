@@ -52,12 +52,12 @@ public:
         mDeltaTime = 0;
     }
 
-    long long getDeltaTimeMs() const
+    double getDeltaTimeMs() const
     {
 #ifndef NEWORLD_USE_WINAPI
         return mDeltaTime;
 #else
-        return mDeltaTime / mFrequency;
+        return 1000.0 * mDeltaTime / mFrequency;
 #endif
     }
 

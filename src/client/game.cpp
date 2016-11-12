@@ -91,26 +91,26 @@ void Game::update()
     mUpsCounter++;
 
     // TODO: Read keys from the configuration file
-    if (Window::isKeyDown(SDL_SCANCODE_UP)&&mPlayer.getRotation().x<90)
+    if (Window::isKeyDown(SDL_SCANCODE_UP) && mPlayer.getRotation().x < 90)
         mPlayer.rotate(Vec3d(1.5, 0.0, 0.0));
-    if (Window::isKeyDown(SDL_SCANCODE_DOWN) && mPlayer.getRotation().x>-90)
+    if (Window::isKeyDown(SDL_SCANCODE_DOWN) && mPlayer.getRotation().x > -90)
         mPlayer.rotate(Vec3d(-1.5, 0.0, 0.0));
     if (Window::isKeyDown(SDL_SCANCODE_RIGHT))
         mPlayer.rotate(Vec3d(0.0, -2.5, 0.0));
     if (Window::isKeyDown(SDL_SCANCODE_LEFT))
         mPlayer.rotate(Vec3d(0.0, 2.5, 0.0));
     if (Window::isKeyDown(SDL_SCANCODE_W))
-        mPlayer.accelerate(Vec3d(0.0, 0.0, -0.03));
+        mPlayer.accelerate(Vec3d(0.0, 0.0, -0.05));
     if (Window::isKeyDown(SDL_SCANCODE_S))
-        mPlayer.accelerate(Vec3d(0.0, 0.0, 0.03));
+        mPlayer.accelerate(Vec3d(0.0, 0.0, 0.05));
     if (Window::isKeyDown(SDL_SCANCODE_A))
-        mPlayer.accelerate(Vec3d(-0.03, 0.0, 0.0));
+        mPlayer.accelerate(Vec3d(-0.05, 0.0, 0.0));
     if (Window::isKeyDown(SDL_SCANCODE_D))
-        mPlayer.accelerate(Vec3d(0.03, 0.0, 0.0));
+        mPlayer.accelerate(Vec3d(0.05, 0.0, 0.0));
     if (Window::isKeyDown(SDL_SCANCODE_SPACE))
-        mPlayer.accelerate(Vec3d(0.0, 0.05, 0.0));
+        mPlayer.accelerate(Vec3d(0.0, 0.1, 0.0));
     if (Window::isKeyDown(SDL_SCANCODE_LCTRL) || Window::isKeyDown(SDL_SCANCODE_RCTRL))
-        mPlayer.accelerate(Vec3d(0.0, -0.05, 0.0));
+        mPlayer.accelerate(Vec3d(0.0, -0.1, 0.0));
 
     mPlayer.update();
     mWorld.sortChunkLoadUnloadList(Vec3i(mPlayer.getPosition()));
@@ -173,6 +173,11 @@ void Game::render()
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_DEPTH_TEST);
 
+    mUpdateScheduler.refresh();
+    double timeDelta = mUpdateScheduler.getDeltaTimeMs() / 1000.0 * GameUpdateFrequency;
+    if (timeDelta > 1.0) timeDelta = 1.0;
+    Vec3d playerRenderedPosition = mPlayer.getPosition() - mPlayer.getPositionDelta() * (1.0 - timeDelta);
+
     mTexture.bind(Texture::Texture2D);
     Renderer::clear();
     Renderer::restoreProj();
@@ -181,9 +186,10 @@ void Game::render()
     Renderer::rotate(-mPlayer.getRotation().x, Vec3d(1.0, 0.0, 0.0));
     Renderer::rotate(-mPlayer.getRotation().y, Vec3d(0.0, 1.0, 0.0));
     Renderer::rotate(-mPlayer.getRotation().z, Vec3d(0.0, 0.0, 1.0));
-    Renderer::translate(-mPlayer.getPosition());
+    Renderer::translate(-playerRenderedPosition);
 
     // Render
+
     mWorld.render(Vec3i(mPlayer.getPosition()));
 
     mPlayer.render();
