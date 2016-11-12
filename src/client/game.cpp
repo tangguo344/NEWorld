@@ -124,7 +124,11 @@ void Game::update()
         mPlayer.accelerate(Vec3d(0.05, 0.0, 0.0));
     if (Window::isKeyDown(SDL_SCANCODE_SPACE))
         mPlayer.accelerate(Vec3d(0.0, 0.1, 0.0));
+#ifdef NEWORLD_TARGET_MACOSX
+    if (Window::isKeyDown(SDL_SCANCODE_LGUI) || Window::isKeyDown(SDL_SCANCODE_RGUI))
+#else
     if (Window::isKeyDown(SDL_SCANCODE_LCTRL) || Window::isKeyDown(SDL_SCANCODE_RCTRL))
+#endif
         mPlayer.accelerate(Vec3d(0.0, -0.1, 0.0));
 
     mPlayer.update();

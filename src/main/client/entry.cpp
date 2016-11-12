@@ -26,7 +26,7 @@ NWplugindata* MainPlugin = nullptr;
 
 NWAPIEXPORT NWplugindata* NWAPICALL getInfo()
 {
-    return getInfo(true);
+    return getMyInfo(true);
 }
 
 // Main function

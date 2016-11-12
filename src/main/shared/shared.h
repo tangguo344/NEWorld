@@ -27,7 +27,7 @@ extern int32_t RockID;
 
 void registerBlocks();
 
-NWplugindata* getInfo(bool client);
+NWplugindata* getMyInfo(bool client);
 
 void sharedInit();
 

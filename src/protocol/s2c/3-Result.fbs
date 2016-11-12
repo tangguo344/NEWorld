@@ -1,5 +1,5 @@
 // Result
-// Sent while clint is requesting result.
+// Sent while client is requesting result.
 
 namespace s2c;
 

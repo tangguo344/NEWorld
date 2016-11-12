@@ -81,9 +81,9 @@ void MultiplayerConnection::getChunk(size_t worldID, Vec3i pos)
     mConn.send(mFbb, req, PacketPriority::MEDIUM_PRIORITY, PacketReliability::UNRELIABLE);
 }
 
-LocalConnectionByNetWork::LocalConnectionByNetWork(const std::string& host, unsigned short port):
-    MultiplayerConnection(host, port),
-    mPath(getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver.dll").c_str()),
+LocalConnectionByNetWork::LocalConnectionByNetWork(const std::string& host, unsigned short port)
+    :MultiplayerConnection(host, port),
+    mPath(getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver").c_str()),
     mTimeout(getJsonValue<int>(getSettings()["client"]["server_start_timeout"], 30))
 {
 }

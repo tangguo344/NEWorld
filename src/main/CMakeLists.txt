@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.1)
 
 project(MainPlugin)
 
@@ -12,7 +12,3 @@ target_link_libraries(main nwclient)
 target_link_libraries(mainserver nwserver)
 
 SET_TARGET_PROPERTIES(main mainserver PROPERTIES PREFIX "")
-
-add_dependencies(main nwclient)
-add_dependencies(mainserver nwserver)
-

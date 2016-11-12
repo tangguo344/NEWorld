@@ -28,13 +28,13 @@ NWplugindata* MainPlugin = nullptr;
 
 NWAPIEXPORT NWplugindata* NWAPICALL getInfo()
 {
-    return getInfo(false);
+    return getMyInfo(false);
 }
 
 // Main function
 void NWAPICALL init()
 {
-    std::cout << nwRegisterChunkGenerator << std::endl;
+    std::cout << &nwRegisterChunkGenerator << std::endl;
     nwRegisterChunkGenerator(generator);
     sharedInit();
 }
