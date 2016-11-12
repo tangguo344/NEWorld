@@ -20,6 +20,7 @@
 #ifndef CHUNKCLIENT_H_
 #define CHUNKCLIENT_H_
 
+#include <atomic>
 #include <chunk.h>
 #include <world.h>
 #include "renderer.h"
@@ -50,6 +51,11 @@ public:
         return mRenderBuilt;
     }
 
+    bool needRenderRebuilt() const
+    {
+        return (!isRenderBuilt()) || isUpdated();
+    }
+
     // Build VBO
     void buildVertexArray();
 
@@ -74,8 +80,7 @@ private:
     // Vertex buffer object
     VertexBuffer mBuffer;
     // Render built
-    bool mRenderBuilt = false;
-
+    std::atomic<bool> mRenderBuilt{false};
     // Vertex array
     static VertexArray va;
     // Merge face rendering

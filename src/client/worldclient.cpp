@@ -49,9 +49,8 @@ void WorldClient::renderUpdate(const Vec3i& position)
         // In render range, pending to render
         if (chunkpos.chebyshevDistance(p->getPosition()) <= mRenderDist)
         {
-            if (p->isRenderBuilt()/* || p->isEmpty()*/)
+            if (!p->needRenderRebuilt()/* || p->isEmpty()*/)
                 continue;
-
             // Check neighbor chunks
             bool f = true;
             Vec3i::for_range(-1, 2, [&](Vec3i& neighbor)

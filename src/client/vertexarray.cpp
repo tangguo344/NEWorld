@@ -19,6 +19,18 @@
 
 #include "vertexarray.h"
 
+void VertexBuffer::update(const VertexArray& va)
+{
+    vertexes = va.getVertexCount();
+    format = va.getFormat();
+    if (id == 0)
+        glGenBuffersARB(1, &id);
+    glBindBufferARB(GL_ARRAY_BUFFER_ARB, id);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, va.getVertexCount() * sizeof(float) *
+                                         format.vertexAttributeCount,
+                    va.getData(), GL_STATIC_DRAW_ARB);
+}
+
 VertexBuffer::VertexBuffer(const VertexArray& va) :vertexes(va.getVertexCount()), format(va.getFormat())
 {
     glGenBuffersARB(1, &id);
