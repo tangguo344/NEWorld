@@ -113,15 +113,15 @@ public:
     // Convert world position to chunk coordinate (one axis)
     static int getChunkPos(int pos)
     {
-        return pos >> ChunkSizeLog2;
+        return pos >> Chunk::SizeLog2;
     }
 #else
     // Convert world position to chunk coordinate (one axis)
     static int getChunkPos(int pos)
     {
         if (pos >= 0)
-            return pos / ChunkSize;
-        return (pos - ChunkSize + 1) / ChunkSize;
+            return pos / Chunk::Size;
+        return (pos - Chunk::Size + 1) / Chunk::Size;
     }
 #endif
 
@@ -134,7 +134,7 @@ public:
     // Convert world position to block coordinate in chunk (one axis)
     static int getBlockPos(int pos)
     {
-        return pos & (ChunkSize - 1);
+        return pos & (Chunk::Size - 1);
     }
 
     // Convert world position to block coordinate in chunk (all axes)

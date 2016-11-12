@@ -122,9 +122,6 @@
     <ClCompile Include="..\..\..\src\shared\pluginapi.cpp">
       <Filter>Source\Plugin</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\shared\playerobject.cpp">
-      <Filter>Source\Object</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\shared\exception.cpp">
       <Filter>Source\Common</Filter>
     </ClCompile>

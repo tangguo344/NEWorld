@@ -51,11 +51,6 @@ public:
         setModelMatrix();
         glRotatef(degrees, scale.x, scale.y, scale.z);
     }
-    static void rotate(double degrees, const Vec3d& scale)
-    {
-        setModelMatrix();
-        glRotated(degrees, scale.x, scale.y, scale.z);
-    }
 
     // Restore projection matrix
     static void restoreProj()

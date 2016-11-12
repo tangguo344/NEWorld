@@ -51,6 +51,8 @@ void Player::move()
 
 void Player::render()
 {
+    // Player model not finished yet
+    /*
     glDisable(GL_CULL_FACE);
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     // X
@@ -72,4 +74,5 @@ void Player::render()
     glVertex3f(mPosition.x, mPosition.y, mPosition.z + 2.0f);
     glEnd();
     glEnable(GL_CULL_FACE);
+    */
 }

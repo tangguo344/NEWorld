@@ -52,7 +52,7 @@ private:
     RateMeter mUps;
     std::vector<std::string> mArgs;
 
-    // Managers
+    // Component managers
     WorldManager mWorlds;
     BlockManager mBlocks;
     PluginManager mPlugins;

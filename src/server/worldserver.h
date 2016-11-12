@@ -27,7 +27,7 @@
 class WorldServer : public World
 {
 public:
-    WorldServer(const std::string& name, PluginManager& plugins, BlockManager& blocks, int loadRange)
+    WorldServer(const std::string& name, PluginManager& plugins, BlockManager& blocks)
         : World(name,plugins,blocks),mCpa(getChunkPointerArray())
     {
     }

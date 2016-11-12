@@ -23,17 +23,23 @@
 #include <thread>
 #include <jsonhelper.h>
 
-extern "C" NWAPIEXPORT int NWAPICALL main(int, char**);
-extern "C" NWAPIEXPORT bool NWAPICALL nwInitServer(int, char **);
-extern "C" NWAPIEXPORT void NWAPICALL nwRunServer();
-extern "C" NWAPIEXPORT void NWAPICALL nwStopServer();
+extern "C"
+{
+    NWAPIEXPORT int NWAPICALL main(int, char**);
+    NWAPIEXPORT bool NWAPICALL nwInitServer(int, char **);
+    NWAPIEXPORT void NWAPICALL nwRunServer();
+    NWAPIEXPORT void NWAPICALL nwStopServer();
+}
+
 Server* server = nullptr;
+
 NWAPIEXPORT int NWAPICALL main(int argc, char** argv)
 {
     nwInitServer(argc, argv);
     nwRunServer();
     nwStopServer();
 }
+
 NWAPIEXPORT bool NWAPICALL nwInitServer(int argc, char ** argv)
 {
     getSettings("server");
@@ -78,4 +84,3 @@ NWAPIEXPORT void NWAPICALL nwStopServer()
         fatalstream << "Unhandled exception: " << e.what();
     }
 }
-
