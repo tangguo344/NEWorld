@@ -36,6 +36,8 @@ public:
 
     Texture() = default;
 
+    explicit Texture(TextureID id) :mId(id) {}
+
     static void init();
 
     static void free();
@@ -50,6 +52,10 @@ public:
 
     void bind(GLenum target) const { glBindTexture(target, mId); }
 
+    friend class BlockTextureBuilder;
+
+private:
+    TextureID mId;
     class RawTexture
     {
     public:
@@ -61,9 +67,6 @@ public:
         SDL_Surface* surface;
     };
 
-private:
-    explicit Texture(TextureID id) :mId(id) {}
-    TextureID mId;
     static void build2DMipmaps(GLenum format, int w, int h, int level, const ubyte* src);
 };
 

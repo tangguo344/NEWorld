@@ -21,13 +21,9 @@
 #include <atomic>
 #include <chrono>
 #include "game.h"
-#include "renderer.h"
-#include "utils.h"
-#include <logger.h>
-#include "network.h"
-#include <jsonhelper.h>
-#include <exception.h>
 #include "window.h"
+#include <jsonhelper.h>
+#include "blockrenderer.h"
 
 Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
            PluginManager& pm, const BlockManager& bm):
@@ -38,7 +34,10 @@ Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
     mPlayer.setRotation(Vec3d(-45.0, -22.5, 0.0));
 
     // Initialize rendering
-    mTexture = Texture::loadTextureRGBA("./res/test.png");
+    mTexture = BlockTextureBuilder::buildAndFlush();
+    for (auto&& x : BlockRenderer::funcs)
+        if (x)
+            x->flushTex();
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
 

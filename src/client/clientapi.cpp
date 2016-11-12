@@ -20,6 +20,7 @@
 #define NEWORLD_PLUGIN_CLIENT_SIDE
 
 #include <memory>
+#include <string>
 #include "blockrenderer.h"
 #include "../../api/c/nwapi.h"
 
@@ -42,12 +43,21 @@ NWAPIEXPORT void NWAPICALL nwUseStandardRenderFunc(int32_t id, int32_t func, voi
     switch (func)
     {
         case NWRENDERFUNCSTDFULLBLOCKSAMEFACE:
+        {
+            auto t = reinterpret_cast<NWSTDSameFaceTexGroup*>(data)->tex;
+            decltype(t) a[] = {t, t, t, t, t, t};
             BlockRenderer::funcs[id] =
-                    std::make_shared<StandardFullBlockRenderer>();
+                    std::make_shared<StandardFullBlockRenderer>(a);
             break;
+        }
         default:
             break;
     };
+}
+
+NWAPIEXPORT int32_t NWAPICALL nwRegisterTexture(const char* path)
+{
+    return static_cast<int32_t>(BlockTextureBuilder::push(path));
 }
 
 }
