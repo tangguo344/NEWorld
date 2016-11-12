@@ -25,20 +25,20 @@
 #include <jsonhelper.h>
 
 MultiplayerConnection::MultiplayerConnection(std::string host,unsigned int port):
-        mHost(host),mPort(port),
-        mConn([this](Identifier id, unsigned char* data)
-        {
-            switch (id)
-            {
-                case Identifier::s2cChunk:
-                {
-                    mChunkCallback(ChunkClient::getFromFlatbuffers(s2c::GetChunk(data), *mWorld));
-                    break;
-                }
-                default:
-                    warningstream << "Unsupported game packet received: " << static_cast<int>(id);
-            }
-        })
+    mHost(host), mPort(port),
+    mConn([this](Identifier id, unsigned char* data)
+{
+    switch (id)
+    {
+    case Identifier::s2cChunk:
+    {
+        mChunkCallback(ChunkClient::getFromFlatbuffers(s2c::GetChunk(data), *mWorld));
+        break;
+    }
+    default:
+        warningstream << "Unsupported game packet received: " << static_cast<int>(id);
+    }
+})
 {}
 
 void MultiplayerConnection::connect()
@@ -93,19 +93,19 @@ void LocalConnectionByNetWork::connect()
     mCallback = [this](bool success) {if (success) MultiplayerConnection::connect();};
     mLib = std::move(Library(mPath));
     mLocalServerThread = std::thread([this]()
-                                     {
-                                         const char *argv[] = { mPath.c_str(),"-single-player-mode" };
-                                         bool opened = mLib.get<bool NWAPICALL(int, char**)>("nwInitServer")(sizeof(argv) / sizeof(argv[0]), const_cast<char**>(argv));
-                                         if (opened)
-                                         {
-                                             mReady.store(true);
-                                             mLib.get<void NWAPICALL()>("nwRunServer")();
-                                         }
-                                         else
-                                         {
-                                             fatalstream << "Failed to start local server";
-                                         }
-                                     });
+    {
+        const char *argv[] = { mPath.c_str(),"-single-player-mode" };
+        bool opened = mLib.get<bool NWAPICALL(int, char**)>("nwInitServer")(sizeof(argv) / sizeof(argv[0]), const_cast<char**>(argv));
+        if (opened)
+        {
+            mReady.store(true);
+            mLib.get<void NWAPICALL()>("nwRunServer")();
+        }
+        else
+        {
+            fatalstream << "Failed to start local server";
+        }
+    });
 
     mStartTime = std::chrono::system_clock::now();
 
@@ -126,7 +126,8 @@ void LocalConnectionByNetWork::connect()
 void LocalConnectionByNetWork::disconnect()
 {
     MultiplayerConnection::disconnect();
-    if (mLocalServerThread.joinable()) {
+    if (mLocalServerThread.joinable())
+    {
         mLib.get<void NWAPICALL()>("nwStopServer")();
         mLocalServerThread.join();
     }
