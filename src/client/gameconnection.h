@@ -84,7 +84,6 @@ private:
 
 class LocalConnectionByNetWork : public MultiplayerConnection
 {
-// ONLY FOR DEBUG USE !!!!!!!!!
 public:
     LocalConnectionByNetWork(std::string host, unsigned int port);
     void connect() override;
