@@ -33,7 +33,7 @@ Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
            PluginManager& pm, const BlockManager& bm):
     mBlocks(bm), mPlugins(pm), mWorld(name, pm, bm), mPlayer(&mWorld), mConnection(connection)
 {
-    mWorld.setRenderDistance(2);
+    mWorld.setRenderDistance(4);
     mPlayer.setPosition(Vec3d(-16.0, 48.0, 32.0));
     mPlayer.setRotation(Vec3d(-45.0, -22.5, 0.0));
 
@@ -66,10 +66,22 @@ Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
     {
         std::lock_guard<std::mutex> lock(mMutex);
         Chunk* target = mWorld.getChunkPtr(chunk->getPosition());
-        if (target != nullptr)
+        if (target == nullptr) return;
+        // Update chunk
+        memcpy(target->getBlocks(), chunk->getBlocks(), sizeof(BlockData) * ChunkSize * ChunkSize * ChunkSize);
+        target->setUpdated(true);
+        // Update neighboring chunks
+        const Vec3i delta[6] =
         {
-            memcpy(target->getBlocks(), chunk->getBlocks(), sizeof(BlockData) * ChunkSize * ChunkSize * ChunkSize);
-            target->setUpdated(true);
+            Vec3i( 1, 0, 0), Vec3i(-1, 0, 0),
+            Vec3i( 0, 1, 0), Vec3i( 0,-1, 0),
+            Vec3i( 0, 0, 1), Vec3i( 0, 0,-1)
+        };
+        for (int i = 0; i < 6; i++)
+        {
+            target = mWorld.getChunkPtr(chunk->getPosition() + delta[i]);
+            if (target != nullptr)
+                target->setUpdated(true);
         }
         delete chunk;
     });

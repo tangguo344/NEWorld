@@ -55,6 +55,7 @@ size_t World::getChunkIndex(const Vec3i& pos) const
         else
             last = mid - 1;
     }
+    Assert(first <= mChunkCount && first >= 0);
     return first;
 }
 
