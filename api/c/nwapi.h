@@ -115,8 +115,9 @@ struct NWSTDDiffFaceTexGroup
 };
 
 typedef void(*nwBlockRenderFunc)(void* cthis, NWblockdata data, int32_t x, int32_t y, int32_t z);
-NWAPIEXPORT void NWAPICALL nwSetBlockRenderFunc(int32_t id, nwBlockRenderFunc func);
-NWAPIEXPORT void NWAPICALL nwUseStandardRenderFunc(int32_t id, int32_t func, void* data);
+NWAPIENTRY void NWAPICALL nwSetBlockRenderFunc(int32_t id, nwBlockRenderFunc func);
+NWAPIENTRY void NWAPICALL nwUseStandardRenderFunc(int32_t id, int32_t func, void* data);
+NWAPIENTRY int32_t NWAPICALL nwRegisterTexture(const char* path);
 
 #endif
 
@@ -130,9 +131,9 @@ NWAPIENTRY int32_t NWAPICALL nwRegisterChunkGenerator(NWchunkgenerator* const ge
 #endif
 
 // Plugin exported functions
-NWAPIEXPORT NWplugindata* NWAPICALL getInfo();
-NWAPIEXPORT void NWAPICALL init();
-NWAPIEXPORT void NWAPICALL unload();
+NWAPIENTRY NWplugindata* NWAPICALL getInfo();
+NWAPIENTRY void NWAPICALL init();
+NWAPIENTRY void NWAPICALL unload();
 
 #ifdef __cplusplus
 }

@@ -24,7 +24,7 @@
 VertexArray ChunkClient::va(262144, VertexFormat(2, 3, 0, 3));
 bool ChunkClient::mergeFace;
 
-void ChunkClient::stdFullBlock(BlockTexCrood crood[], const Vec3i& pos)
+void ChunkClient::stdFullBlock(BlockTexCrood c[], const Vec3i& pos)
 {
     Vec3i worldpos = getPosition() * Chunk::Size + pos;
 
@@ -42,62 +42,62 @@ void ChunkClient::stdFullBlock(BlockTexCrood crood[], const Vec3i& pos)
     // Right
     if (adjacentTest(curr, neighbors[0]))
         va.addPrimitive(4,
-                        {
-                                0.0f, 0.0f, 0.5f, 0.5f, 0.5f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 1.0f,
-                                0.0f, 1.0f, 0.5f, 0.5f, 0.5f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 1.0f,
-                                1.0f, 1.0f, 0.5f, 0.5f, 0.5f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 0.0f,
-                                1.0f, 0.0f, 0.5f, 0.5f, 0.5f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 0.0f
-                        });
+        {
+            c[0].d[0], c[0].d[1], 0.5f, 0.5f, 0.5f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 1.0f,
+            c[0].d[0], c[0].d[3], 0.5f, 0.5f, 0.5f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 1.0f,
+            c[0].d[2], c[0].d[3], 0.5f, 0.5f, 0.5f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 0.0f,
+            c[0].d[2], c[0].d[1], 0.5f, 0.5f, 0.5f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 0.0f
+        });
 
     // Left
     if (adjacentTest(curr, neighbors[1]))
         va.addPrimitive(4,
-                        {
-                                0.0f, 0.0f, 0.5f, 0.5f, 0.5f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 0.0f,
-                                0.0f, 1.0f, 0.5f, 0.5f, 0.5f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 0.0f,
-                                1.0f, 1.0f, 0.5f, 0.5f, 0.5f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 1.0f,
-                                1.0f, 0.0f, 0.5f, 0.5f, 0.5f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 1.0f
-                        });
+        {
+            c[1].d[0], c[1].d[1], 0.5f, 0.5f, 0.5f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 0.0f,
+            c[1].d[0], c[1].d[3], 0.5f, 0.5f, 0.5f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 0.0f,
+            c[1].d[2], c[1].d[3], 0.5f, 0.5f, 0.5f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 1.0f,
+            c[1].d[2], c[1].d[1], 0.5f, 0.5f, 0.5f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 1.0f
+        });
 
     // Top
     if (adjacentTest(curr, neighbors[2]))
         va.addPrimitive(4,
-                        {
-                                0.0f, 0.0f, 1.0f, 1.0f, 1.0f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 0.0f,
-                                0.0f, 1.0f, 1.0f, 1.0f, 1.0f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 1.0f,
-                                1.0f, 1.0f, 1.0f, 1.0f, 1.0f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 1.0f,
-                                1.0f, 0.0f, 1.0f, 1.0f, 1.0f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 0.0f
-                        });
+        {
+            c[2].d[0], c[2].d[1], 1.0f, 1.0f, 1.0f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 0.0f,
+            c[2].d[0], c[2].d[3], 1.0f, 1.0f, 1.0f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 1.0f,
+            c[2].d[2], c[2].d[3], 1.0f, 1.0f, 1.0f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 1.0f,
+            c[2].d[2], c[2].d[1], 1.0f, 1.0f, 1.0f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 0.0f
+        });
 
     // Bottom
     if (adjacentTest(curr, neighbors[3]))
         va.addPrimitive(4,
-                        {
-                                0.0f, 0.0f, 1.0f, 1.0f, 1.0f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 1.0f,
-                                0.0f, 1.0f, 1.0f, 1.0f, 1.0f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 0.0f,
-                                1.0f, 1.0f, 1.0f, 1.0f, 1.0f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 0.0f,
-                                1.0f, 0.0f, 1.0f, 1.0f, 1.0f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 1.0f
-                        });
+        {
+            c[3].d[0], c[3].d[1], 1.0f, 1.0f, 1.0f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 1.0f,
+            c[3].d[0], c[3].d[3], 1.0f, 1.0f, 1.0f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 0.0f,
+            c[3].d[2], c[3].d[3], 1.0f, 1.0f, 1.0f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 0.0f,
+            c[3].d[2], c[3].d[1], 1.0f, 1.0f, 1.0f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 1.0f
+        });
 
     // Front
     if (adjacentTest(curr, neighbors[4]))
         va.addPrimitive(4,
-                        {
-                                0.0f, 0.0f, 0.7f, 0.7f, 0.7f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 1.0f,
-                                0.0f, 1.0f, 0.7f, 0.7f, 0.7f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 1.0f,
-                                1.0f, 1.0f, 0.7f, 0.7f, 0.7f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 1.0f,
-                                1.0f, 0.0f, 0.7f, 0.7f, 0.7f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 1.0f
-                        });
+        {
+            c[4].d[0], c[4].d[1], 0.7f, 0.7f, 0.7f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 1.0f,
+            c[4].d[0], c[4].d[3], 0.7f, 0.7f, 0.7f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 1.0f,
+            c[4].d[2], c[4].d[3], 0.7f, 0.7f, 0.7f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 1.0f,
+            c[4].d[2], c[4].d[1], 0.7f, 0.7f, 0.7f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 1.0f
+        });
 
     // Back
     if (adjacentTest(curr, neighbors[5]))
         va.addPrimitive(4,
-                        {
-                                0.0f, 0.0f, 0.7f, 0.7f, 0.7f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 0.0f,
-                                0.0f, 1.0f, 0.7f, 0.7f, 0.7f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 0.0f,
-                                1.0f, 1.0f, 0.7f, 0.7f, 0.7f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 0.0f,
-                                1.0f, 0.0f, 0.7f, 0.7f, 0.7f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 0.0f
-                        });
+        {
+            c[5].d[0], c[5].d[1], 0.7f, 0.7f, 0.7f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 0.0f,
+            c[5].d[0], c[5].d[3], 0.7f, 0.7f, 0.7f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 0.0f,
+            c[5].d[2], c[5].d[3], 0.7f, 0.7f, 0.7f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 0.0f,
+            c[5].d[2], c[5].d[1], 0.7f, 0.7f, 0.7f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 0.0f
+        });
 }
 
 void ChunkClient::buildVertexArray()

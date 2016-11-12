@@ -27,8 +27,8 @@
 
 struct BlockTexCrood
 {
-    size_t pos;
-    float d[8];
+    size_t pos = 0;
+    float d[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 };
 
 class BlockRenderer
@@ -44,6 +44,7 @@ public:
 class StandardFullBlockRenderer : public BlockRenderer
 {
 public:
+    StandardFullBlockRenderer(size_t data[]);
     void flushTex() override;
     void render(class ChunkClient* chunk, const Vec3i& pos) override;
     BlockTexCrood tex[6];
@@ -56,10 +57,15 @@ public:
     static size_t capacityRaw();
     static void setWidthPerTex(size_t wid);
     static size_t getWidthPerTex();
+    static size_t push(const char* s);
     static size_t push(const Texture::RawTexture& raw);
+    //Finalize Func
     static Texture buildAndFlush();
+    //In
+    static size_t getTexPerLine();
+    static void getTexPos(float pos[], size_t id);
 private:
-    static size_t mPPT;
+    static size_t mPPT, mTPL;
     static std::vector<Texture::RawTexture> mRawTexs;
 };
 
