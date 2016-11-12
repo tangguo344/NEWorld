@@ -119,9 +119,8 @@ void ChunkClient::buildVertexArray()
 
 Chunk* ChunkClient::getFromFlatbuffers(const s2c::Chunk * fbChunk, WorldClient& worlds)
 {
-    //TODO: �п����Ż���
+    //TODO: opt needed
     Chunk* nwChunk = new ChunkClient({ fbChunk->pos()->x(), fbChunk->pos()->y(), fbChunk->pos()->z() }, worlds);
-    for (auto i = 0; i < ChunkSize*ChunkSize*ChunkSize; ++i)
-        nwChunk->getBlocks()[i] = BlockData(fbChunk->blocks()->Get(i));
+    memcpy(nwChunk->getBlocks(), fbChunk->blocks()->Data(), ChunkSize*ChunkSize*ChunkSize*sizeof(BlockData));
     return nwChunk;
 }
