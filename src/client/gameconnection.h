@@ -51,6 +51,7 @@ public:
     {
         mWorld = w;
     }
+
 protected:
     WorldClient* mWorld;
 };
@@ -58,7 +59,7 @@ protected:
 class MultiplayerConnection : public GameConnection
 {
 public:
-    MultiplayerConnection(std::string host,unsigned int port);
+    MultiplayerConnection(const std::string& host, unsigned short port);
     void connect() override;
     void disconnect() override;
     World* getWorld(size_t id) override;
@@ -72,12 +73,12 @@ public:
     void setChunkCallback(ChunkCallback callback) override
     {
         mChunkCallback = callback;
-    };
+    }
 
 private:
     Connection mConn;
     std::string mHost;
-    unsigned int mPort;
+    unsigned short mPort;
     flatbuffers::FlatBufferBuilder mFbb;
     ChunkCallback mChunkCallback;
 };
@@ -85,7 +86,7 @@ private:
 class LocalConnectionByNetWork : public MultiplayerConnection
 {
 public:
-    LocalConnectionByNetWork(std::string host, unsigned int port);
+    LocalConnectionByNetWork(std::string host, unsigned short port);
     void connect() override;
     void disconnect() override;
 private:

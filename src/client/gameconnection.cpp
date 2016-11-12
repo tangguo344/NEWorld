@@ -24,8 +24,7 @@
 #include <library.h>
 #include <jsonhelper.h>
 
-MultiplayerConnection::MultiplayerConnection(std::string host,unsigned int port):
-    mHost(host), mPort(port),
+MultiplayerConnection::MultiplayerConnection(const std::string& host, unsigned short port) :
     mConn([this](Identifier id, unsigned char* data)
 {
     switch (id)
@@ -38,8 +37,10 @@ MultiplayerConnection::MultiplayerConnection(std::string host,unsigned int port)
     default:
         warningstream << "Unsupported game packet received: " << static_cast<int>(id);
     }
-})
-{}
+}), mHost(host),
+mPort(port)
+{
+}
 
 void MultiplayerConnection::connect()
 {
@@ -82,15 +83,19 @@ void MultiplayerConnection::getChunk(size_t worldID, Vec3i pos)
     mConn.send(mFbb, req, PacketPriority::MEDIUM_PRIORITY, PacketReliability::UNRELIABLE);
 }
 
-LocalConnectionByNetWork::LocalConnectionByNetWork(std::string host, unsigned int port):
+LocalConnectionByNetWork::LocalConnectionByNetWork(std::string host, unsigned short port):
     MultiplayerConnection(host, port),
     mPath(getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver.dll").c_str()),
     mTimeout(getJsonValue<int>(getSettings()["client"]["server_start_timeout"], 30))
-{}
+{
+}
 
 void LocalConnectionByNetWork::connect()
 {
-    mCallback = [this](bool success) {if (success) MultiplayerConnection::connect();};
+    mCallback = [this](bool success)
+    {
+        if (success) MultiplayerConnection::connect();
+    };
     mLib = std::move(Library(mPath));
     mLocalServerThread = std::thread([this]()
     {
@@ -102,9 +107,7 @@ void LocalConnectionByNetWork::connect()
             mLib.get<void NWAPICALL()>("nwRunServer")();
         }
         else
-        {
             fatalstream << "Failed to start local server";
-        }
     });
 
     mStartTime = std::chrono::system_clock::now();

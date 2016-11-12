@@ -22,9 +22,6 @@
 
 #include <SDL2/SDL.h>
 #include <debug.h>
-
-#define HAVE_M_PI
-#define IM_ASSERT(expr) Assert(expr)
 #include "./imgui/imgui.h"
 
 namespace imguiHelper

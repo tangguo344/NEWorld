@@ -34,21 +34,25 @@ class ChunkServer : public Chunk
 {
 public:
     explicit ChunkServer(const Vec3i& position) :
-            Chunk(position), mRefrenceCount(0), mWeakRefrenceCount(0) {}
+        Chunk(position), mRefrenceCount(0), mWeakRefrenceCount(0)
+    {
+    }
 
     ChunkServer(const ChunkServer&) = delete;
     ChunkServer& operator=(const ChunkServer&) = delete;
 
     // Build chunk
     void build(int daylightBrightness);
-    //Reference Counting
+
+    // Reference Counting
     void increaseWeakRef();
     void decreaseWeakRef();
     void increaseStrongRef();
     void decreaseStrongRef();
     bool checkReleaseable() const;
+
 protected:
-    std::atomic<int16_t> mRefrenceCount, mWeakRefrenceCount;
+    std::atomic<int> mRefrenceCount, mWeakRefrenceCount;
 };
 
 #endif // !CHUNKSERVER_H_
