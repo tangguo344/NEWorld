@@ -30,74 +30,74 @@ void ChunkClient::stdFullBlock(BlockTexCrood c[], const Vec3i& pos)
 
     BlockData curr = getBlock(pos);
     BlockData neighbors[6] =
-            {
-                    pos.x == Chunk::Size - 1 ? mWorld.getBlock(Vec3i(worldpos.x + 1, worldpos.y, worldpos.z)) : getBlock(Vec3i(pos.x + 1, pos.y, pos.z)),
-                    pos.x == 0 ? mWorld.getBlock(Vec3i(worldpos.x - 1, worldpos.y, worldpos.z)) : getBlock(Vec3i(pos.x - 1, pos.y, pos.z)),
-                    pos.y == Chunk::Size - 1 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y + 1, worldpos.z)) : getBlock(Vec3i(pos.x, pos.y + 1, pos.z)),
-                    pos.y == 0 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y - 1, worldpos.z)) : getBlock(Vec3i(pos.x, pos.y - 1, pos.z)),
-                    pos.z == Chunk::Size - 1 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y, worldpos.z + 1)) : getBlock(Vec3i(pos.x, pos.y, pos.z + 1)),
-                    pos.z == 0 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y, worldpos.z - 1)) : getBlock(Vec3i(pos.x, pos.y, pos.z - 1)),
-            };
+    {
+        pos.x == Chunk::Size - 1 ? mWorld.getBlock(Vec3i(worldpos.x + 1, worldpos.y, worldpos.z)) : getBlock(Vec3i(pos.x + 1, pos.y, pos.z)),
+        pos.x == 0 ? mWorld.getBlock(Vec3i(worldpos.x - 1, worldpos.y, worldpos.z)) : getBlock(Vec3i(pos.x - 1, pos.y, pos.z)),
+        pos.y == Chunk::Size - 1 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y + 1, worldpos.z)) : getBlock(Vec3i(pos.x, pos.y + 1, pos.z)),
+        pos.y == 0 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y - 1, worldpos.z)) : getBlock(Vec3i(pos.x, pos.y - 1, pos.z)),
+        pos.z == Chunk::Size - 1 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y, worldpos.z + 1)) : getBlock(Vec3i(pos.x, pos.y, pos.z + 1)),
+        pos.z == 0 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y, worldpos.z - 1)) : getBlock(Vec3i(pos.x, pos.y, pos.z - 1)),
+    };
 
     // Right
     if (adjacentTest(curr, neighbors[0]))
         va.addPrimitive(4,
-        {
-            c[0].d[0], c[0].d[1], 0.5f, 0.5f, 0.5f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 1.0f,
-            c[0].d[0], c[0].d[3], 0.5f, 0.5f, 0.5f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 1.0f,
-            c[0].d[2], c[0].d[3], 0.5f, 0.5f, 0.5f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 0.0f,
-            c[0].d[2], c[0].d[1], 0.5f, 0.5f, 0.5f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 0.0f
-        });
+    {
+        c[0].d[0], c[0].d[1], 0.5f, 0.5f, 0.5f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 1.0f,
+        c[0].d[0], c[0].d[3], 0.5f, 0.5f, 0.5f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 1.0f,
+        c[0].d[2], c[0].d[3], 0.5f, 0.5f, 0.5f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 0.0f,
+        c[0].d[2], c[0].d[1], 0.5f, 0.5f, 0.5f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 0.0f
+    });
 
     // Left
     if (adjacentTest(curr, neighbors[1]))
         va.addPrimitive(4,
-        {
-            c[1].d[0], c[1].d[1], 0.5f, 0.5f, 0.5f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 0.0f,
-            c[1].d[0], c[1].d[3], 0.5f, 0.5f, 0.5f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 0.0f,
-            c[1].d[2], c[1].d[3], 0.5f, 0.5f, 0.5f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 1.0f,
-            c[1].d[2], c[1].d[1], 0.5f, 0.5f, 0.5f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 1.0f
-        });
+    {
+        c[1].d[0], c[1].d[1], 0.5f, 0.5f, 0.5f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 0.0f,
+        c[1].d[0], c[1].d[3], 0.5f, 0.5f, 0.5f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 0.0f,
+        c[1].d[2], c[1].d[3], 0.5f, 0.5f, 0.5f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 1.0f,
+        c[1].d[2], c[1].d[1], 0.5f, 0.5f, 0.5f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 1.0f
+    });
 
     // Top
     if (adjacentTest(curr, neighbors[2]))
         va.addPrimitive(4,
-        {
-            c[2].d[0], c[2].d[1], 1.0f, 1.0f, 1.0f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 0.0f,
-            c[2].d[0], c[2].d[3], 1.0f, 1.0f, 1.0f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 1.0f,
-            c[2].d[2], c[2].d[3], 1.0f, 1.0f, 1.0f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 1.0f,
-            c[2].d[2], c[2].d[1], 1.0f, 1.0f, 1.0f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 0.0f
-        });
+    {
+        c[2].d[0], c[2].d[1], 1.0f, 1.0f, 1.0f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 0.0f,
+        c[2].d[0], c[2].d[3], 1.0f, 1.0f, 1.0f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 1.0f,
+        c[2].d[2], c[2].d[3], 1.0f, 1.0f, 1.0f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 1.0f,
+        c[2].d[2], c[2].d[1], 1.0f, 1.0f, 1.0f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 0.0f
+    });
 
     // Bottom
     if (adjacentTest(curr, neighbors[3]))
         va.addPrimitive(4,
-        {
-            c[3].d[0], c[3].d[1], 1.0f, 1.0f, 1.0f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 1.0f,
-            c[3].d[0], c[3].d[3], 1.0f, 1.0f, 1.0f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 0.0f,
-            c[3].d[2], c[3].d[3], 1.0f, 1.0f, 1.0f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 0.0f,
-            c[3].d[2], c[3].d[1], 1.0f, 1.0f, 1.0f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 1.0f
-        });
+    {
+        c[3].d[0], c[3].d[1], 1.0f, 1.0f, 1.0f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 1.0f,
+        c[3].d[0], c[3].d[3], 1.0f, 1.0f, 1.0f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 0.0f,
+        c[3].d[2], c[3].d[3], 1.0f, 1.0f, 1.0f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 0.0f,
+        c[3].d[2], c[3].d[1], 1.0f, 1.0f, 1.0f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 1.0f
+    });
 
     // Front
     if (adjacentTest(curr, neighbors[4]))
         va.addPrimitive(4,
-        {
-            c[4].d[0], c[4].d[1], 0.7f, 0.7f, 0.7f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 1.0f,
-            c[4].d[0], c[4].d[3], 0.7f, 0.7f, 0.7f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 1.0f,
-            c[4].d[2], c[4].d[3], 0.7f, 0.7f, 0.7f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 1.0f,
-            c[4].d[2], c[4].d[1], 0.7f, 0.7f, 0.7f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 1.0f
-        });
+    {
+        c[4].d[0], c[4].d[1], 0.7f, 0.7f, 0.7f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 1.0f,
+        c[4].d[0], c[4].d[3], 0.7f, 0.7f, 0.7f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 1.0f,
+        c[4].d[2], c[4].d[3], 0.7f, 0.7f, 0.7f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 1.0f,
+        c[4].d[2], c[4].d[1], 0.7f, 0.7f, 0.7f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 1.0f
+    });
 
     // Back
     if (adjacentTest(curr, neighbors[5]))
         va.addPrimitive(4,
-        {
-            c[5].d[0], c[5].d[1], 0.7f, 0.7f, 0.7f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 0.0f,
-            c[5].d[0], c[5].d[3], 0.7f, 0.7f, 0.7f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 0.0f,
-            c[5].d[2], c[5].d[3], 0.7f, 0.7f, 0.7f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 0.0f,
-            c[5].d[2], c[5].d[1], 0.7f, 0.7f, 0.7f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 0.0f
-        });
+    {
+        c[5].d[0], c[5].d[1], 0.7f, 0.7f, 0.7f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 0.0f,
+        c[5].d[0], c[5].d[3], 0.7f, 0.7f, 0.7f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 0.0f,
+        c[5].d[2], c[5].d[3], 0.7f, 0.7f, 0.7f, pos.x + 0.0f, pos.y + 0.0f, pos.z + 0.0f,
+        c[5].d[2], c[5].d[1], 0.7f, 0.7f, 0.7f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 0.0f
+    });
 }
 
 void ChunkClient::buildVertexArray()
@@ -116,7 +116,7 @@ void ChunkClient::buildVertexArray()
         Vec3i::for_range(0, Chunk::Size, [&](const Vec3i& pos)
         {
             auto b = getBlock(pos);
-            BlockRenderer::invoke(b.getID(), this, pos);
+            BlockRendererManager::invoke(b.getID(), this, pos);
         });
     }
 

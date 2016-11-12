@@ -30,24 +30,24 @@ extern "C"
 #endif
 
 #if defined _WIN32 || defined __CYGWIN__
-#ifdef _MSC_VER
-#define NWAPIENTRY __declspec(dllimport)
-#define NWAPIEXPORT __declspec(dllexport)
+#    ifdef _MSC_VER
+#        define NWAPIENTRY __declspec(dllimport)
+#        define NWAPIEXPORT __declspec(dllexport)
+#    else
+#        define NWAPIENTRY __attribute__((dllimport))
+#        define NWAPIEXPORT __attribute__((dllexport))
+#    endif
 #else
-#define NWAPIENTRY __attribute__((dllimport))
-#define NWAPIEXPORT __attribute__((dllexport))
-#endif
-#else
-#define NWAPIENTRY __attribute__((visibility("default")))
-#define NWAPIEXPORT __attribute__((visibility("default")))
+#    define NWAPIENTRY __attribute__((visibility("default")))
+#    define NWAPIEXPORT __attribute__((visibility("default")))
 #endif
 
 #ifndef NWAPICALL
-#ifdef _MSC_VER
-#define NWAPICALL __cdecl
-#else
-#define NWAPICALL __attribute__((__cdecl__))
-#endif
+#    ifdef _MSC_VER
+#        define NWAPICALL __cdecl
+#    else
+#        define NWAPICALL __attribute__((__cdecl__))
+#    endif
 #endif
 
 // NEWorld constants
@@ -60,13 +60,18 @@ struct NWvec3i
 {
     int32_t x, y, z;
 };
-
+enum
+{
+    nwPluginTypeClientOnly,
+    nwPluginTypeServerOnly,
+    nwPluginTypeShared
+};
 struct NWplugindata
 {
     const char* pluginName;
     const char* authorName;
     const char* internalName;
-    bool isClientPlugin;
+    int pluginType;
 };
 
 struct NWblockdata
@@ -94,12 +99,15 @@ NWAPIENTRY size_t NWAPICALL nwRegisterBlock(const NWblocktype*);
 
 #ifdef NEWORLD_PLUGIN_CLIENT_SIDE
 
-#define NWRENDERFUNCSTDFULLBLOCKSAMEFACE  0x0001
-#define NWRENDERFUNCSTDFULLBLOCKROUNDFACE 0x0002
-#define NWRENDERFUNCSTDFULLBLOCKDIFFFACE  0x0003
-#define NWRENDERFUNCSTDHALFBLOCKSAMEFACE  0x0004
-#define NWRENDERFUNCSTDHALFBLOCKROUNDFACE 0x0005
-#define NWRENDERFUNCSTDHALFBLOCKDIFFFACE  0x0006
+enum
+{
+    nwRenderFuncStdFullBlockSameFace = 1,
+    nwRenderFuncStdFullBlockRoundFace,
+    nwRenderFuncStdFullBlockDiffFace,
+    nwRenderFuncStdHalfBlockSameFace,
+    nwRenderFuncStdHalfBlockRoundFace,
+    nwRenderFuncStdHalfBlockDiffFace
+};
 
 struct NWSTDSameFaceTexGroup
 {

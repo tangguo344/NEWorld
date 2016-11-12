@@ -20,7 +20,7 @@
 #include "plugin.h"
 #include "logger.h"
 
-typedef PluginData* NWAPICALL GetInfoFunction();
+typedef NWplugindata* NWAPICALL GetInfoFunction();
 typedef void NWAPICALL InitFunction();
 typedef void NWAPICALL UnloadFunction();
 

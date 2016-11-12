@@ -39,7 +39,7 @@ NWplugindata* getMyInfo(bool client)
     plugin->pluginName = "NEWorld";
     plugin->authorName = "INFINIDEAS";
     plugin->internalName = client ? "infinideas.neworld.client" : "infinideas.neworld.server";
-    plugin->isClientPlugin = client;
+    plugin->pluginType = client ? nwPluginTypeClientOnly : nwPluginTypeServerOnly;
     return plugin;
 }
 

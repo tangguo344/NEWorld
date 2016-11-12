@@ -28,13 +28,7 @@
 #include "blockdata.h"
 #include "library.h"
 
-struct PluginData
-{
-    char* pluginName;
-    char* authorName;
-    char* internalName;
-    bool isClientPlugin;
-};
+#include "../../api/c/nwapi.h"
 
 // Single plugin
 class Plugin
@@ -63,7 +57,7 @@ public:
     int init();
 
     // Get plugin data
-    const PluginData& getData() const
+    const NWplugindata& getData() const
     {
         return *mData;
     }
@@ -85,11 +79,19 @@ public:
     // Unload plugin
     void unload();
 
+    bool isCompatible(bool isClient) const
+    {
+        if (mData->pluginType == nwPluginTypeShared) return true;
+        if (isClient && mData->pluginType == nwPluginTypeClientOnly) return true;
+        if (!isClient && mData->pluginType == nwPluginTypeServerOnly) return true;
+        return false;
+    }
+
 private:
     // Plugin DLL
     Library mLib;
     // Plugin Data
-    const PluginData* mData;
+    const NWplugindata* mData;
     // Load status
     int mStatus = -1;
 };

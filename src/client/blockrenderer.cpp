@@ -23,20 +23,31 @@
 #include <SDL2/SDL.h>
 
 size_t BlockTextureBuilder::mPPT = 32;
-size_t BlockTextureBuilder::mTPL = 8;
+size_t BlockTextureBuilder::mTexturePerLine = 8;
 std::vector<Texture::RawTexture> BlockTextureBuilder::mRawTexs;
-std::vector<std::shared_ptr<BlockRenderer>> BlockRenderer::funcs;
+std::vector<std::shared_ptr<BlockRenderer>> BlockRendererManager::mBlockRenderers;
 
-void BlockRenderer::invoke(size_t id, class ChunkClient* chunk, const Vec3i& pos)
+void BlockRendererManager::invoke(size_t id, class ChunkClient* chunk, const Vec3i& pos)
 {
-    if (funcs[id])
-        funcs[id]->render(chunk, pos);
+    if (mBlockRenderers[id]) mBlockRenderers[id]->render(chunk, pos);
 }
 
-void StandardFullBlockRenderer::flushTex()
+void BlockRendererManager::setBlockRenderer(size_t pos, std::shared_ptr<BlockRenderer>&& blockRenderer)
+{
+    if (pos >= mBlockRenderers.size()) mBlockRenderers.resize(pos + 1);
+    mBlockRenderers[pos] = std::move(blockRenderer);
+}
+
+void BlockRendererManager::flushTextures()
+{
+    for (auto& x : mBlockRenderers)
+        if (x) x->flushTexture();
+}
+
+void StandardFullBlockRenderer::flushTexture()
 {
     for (auto i = 0; i < 6; ++i)
-        BlockTextureBuilder::getTexPos(tex[i].d, tex[i].pos);
+        BlockTextureBuilder::getTexturePos(tex[i].d, tex[i].pos);
 }
 
 void StandardFullBlockRenderer::render(ChunkClient* chunk, const Vec3i& pos)
@@ -73,9 +84,9 @@ size_t BlockTextureBuilder::getWidthPerTex()
     return mPPT;
 }
 
-size_t BlockTextureBuilder::push(const Texture::RawTexture& raw)
+size_t BlockTextureBuilder::addTexture(const Texture::RawTexture& rawTexture)
 {
-    mRawTexs.push_back(raw);
+    mRawTexs.push_back(rawTexture);
     return mRawTexs.size() - 1;
 }
 
@@ -84,8 +95,8 @@ Texture BlockTextureBuilder::buildAndFlush()
     size_t count = mRawTexs.size();
     Assert(count <= capacity());
     int length = static_cast<int>(sqrt(count) + 0.8);
-    mTPL = (1 << static_cast<int>(ceil(log2(length))));
-    auto wid = mTPL * mPPT;
+    mTexturePerLine = (1 << static_cast<int>(ceil(log2(length))));
+    auto wid = mTexturePerLine * mPPT;
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
     Uint32 masks[] = { 0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff };
 #else
@@ -94,13 +105,13 @@ Texture BlockTextureBuilder::buildAndFlush()
     auto s = SDL_CreateRGBSurface(0, wid, wid, 32, masks[0], masks[1], masks[2], masks[3]);
     for (size_t i = 0; i < count; ++i)
     {
-        auto x = i % mTPL;
-        auto y = i / mTPL;
+        auto x = i % mTexturePerLine;
+        auto y = i / mTexturePerLine;
         SDL_Rect r;
         r.x = x * mPPT;
         r.y = y * mPPT;
         r.w = r.h = mPPT;
-        SDL_BlitScaled(mRawTexs[i].getSurface(), NULL, s, &r);
+        SDL_BlitScaled(mRawTexs[i].getSurface(), nullptr, s, &r);
     }
     mRawTexs.clear();
     TextureID ret;
@@ -112,21 +123,21 @@ Texture BlockTextureBuilder::buildAndFlush()
     return Texture(ret);
 }
 
-size_t BlockTextureBuilder::push(const char *s)
+size_t BlockTextureBuilder::addTexture(const char* path)
 {
-    return BlockTextureBuilder::push(Texture::RawTexture(std::string(s)));
+    return addTexture(Texture::RawTexture(std::string(path)));
 }
 
-size_t BlockTextureBuilder::getTexPerLine()
+size_t BlockTextureBuilder::getTexturePerLine()
 {
-    return mTPL;
+    return mTexturePerLine;
 }
 
-void BlockTextureBuilder::getTexPos(float *pos, size_t id)
+void BlockTextureBuilder::getTexturePos(float *pos, size_t id)
 {
-    float pct = 1.0 / mTPL;
-    auto x = mTPL - id % mTPL;
-    auto y = mTPL - id / mTPL;
+    float pct = 1.0f / mTexturePerLine;
+    auto x = mTexturePerLine - id % mTexturePerLine;
+    auto y = mTexturePerLine - id / mTexturePerLine;
     pos[0] = pct * x;
     pos[1] = pct * y;
     pos[2] = pct * (x + 1);
