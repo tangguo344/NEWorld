@@ -33,8 +33,11 @@ NWAPIEXPORT NWplugindata* NWAPICALL getInfo()
 void NWAPICALL init()
 {
     sharedInit();
-    NWSTDSameFaceTexGroup rock{nwRegisterTexture("./res/test.png")};
-    nwUseStandardRenderFunc(1, NWRENDERFUNCSTDFULLBLOCKSAMEFACE, &rock);
+    auto t = nwRegisterTexture("./res/grass.png"),
+            b = nwRegisterTexture("./res/grass_bottom.png"),
+            r = nwRegisterTexture("./res/grass_round.png");
+    NWSTDRoundFaceTexGroup grass{ t, b, r };
+    nwUseStandardRenderFunc(1, NWRENDERFUNCSTDFULLBLOCKROUNDFACE, &grass);
 }
 
 // Unload function

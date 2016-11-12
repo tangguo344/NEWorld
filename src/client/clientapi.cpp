@@ -45,9 +45,23 @@ NWAPIEXPORT void NWAPICALL nwUseStandardRenderFunc(int32_t id, int32_t func, voi
         case NWRENDERFUNCSTDFULLBLOCKSAMEFACE:
         {
             auto t = reinterpret_cast<NWSTDSameFaceTexGroup*>(data)->tex;
-            decltype(t) a[] = {t, t, t, t, t, t};
-            BlockRenderer::funcs[id] =
-                    std::make_shared<StandardFullBlockRenderer>(a);
+            size_t a[] = {t, t, t, t, t, t};
+            BlockRenderer::funcs[id] = std::make_shared<StandardFullBlockRenderer>(a);
+            break;
+        }
+        case NWRENDERFUNCSTDFULLBLOCKROUNDFACE:
+        {
+            auto p = reinterpret_cast<NWSTDRoundFaceTexGroup*>(data);
+            auto t = p->texTop, b = p->texBottom, r = p->texRound;
+            size_t a[] = {r, r, t, b, r, r};
+            BlockRenderer::funcs[id] = std::make_shared<StandardFullBlockRenderer>(a);
+            break;
+        }
+        case NWRENDERFUNCSTDFULLBLOCKDIFFFACE:
+        {
+            auto p = reinterpret_cast<NWSTDDiffFaceTexGroup*>(data);
+            size_t a[] = {p->texRight, p->texLeft, p->texTop, p->texBottom, p->texFront, p->texBack};
+            BlockRenderer::funcs[id] = std::make_shared<StandardFullBlockRenderer>(a);
             break;
         }
         default:

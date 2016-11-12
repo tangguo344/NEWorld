@@ -27,9 +27,14 @@ size_t BlockTextureBuilder::mTPL = 8;
 std::vector<Texture::RawTexture> BlockTextureBuilder::mRawTexs;
 std::vector<std::shared_ptr<BlockRenderer>> BlockRenderer::funcs;
 
+void BlockRenderer::invoke(size_t id, class ChunkClient* chunk, const Vec3i& pos)
+{
+    if (funcs[id])
+        funcs[id]->render(chunk, pos);
+}
+
 void StandardFullBlockRenderer::flushTex()
 {
-    infostream << "flushed";
     for (auto i = 0; i < 6; ++i)
         BlockTextureBuilder::getTexPos(tex[i].d, tex[i].pos);
 }
@@ -79,25 +84,25 @@ Texture BlockTextureBuilder::buildAndFlush()
     size_t count = mRawTexs.size();
     Assert(count <= capacity());
     int length = static_cast<int>(sqrt(count) + 0.8);
-    int texsize = (1 << static_cast<int>(ceil(log2(length))));
-    int wid = texsize * mPPT;
+    mTPL = (1 << static_cast<int>(ceil(log2(length))));
+    auto wid = mTPL * mPPT;
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
     Uint32 masks[] = { 0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff };
 #else
     Uint32 masks[] = { 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000 };
 #endif
     auto s = SDL_CreateRGBSurface(0, wid, wid, 32, masks[0], masks[1], masks[2], masks[3]);
-    for (size_t i = 0; i < length; ++i)
+    for (size_t i = 0; i < count; ++i)
     {
-        auto x = i % texsize;
-        auto y = i / texsize;
+        auto x = i % mTPL;
+        auto y = i / mTPL;
         SDL_Rect r;
-        r.x = x * wid;
-        r.y = y * wid;
-        r.w = r.h = wid;
+        r.x = x * mPPT;
+        r.y = y * mPPT;
+        r.w = r.h = mPPT;
         SDL_BlitScaled(mRawTexs[i].getSurface(), NULL, s, &r);
     }
-    mTPL = texsize;
+    mRawTexs.clear();
     TextureID ret;
     glGenTextures(1, &ret);
     glBindTexture(GL_TEXTURE_2D, ret);
@@ -120,8 +125,8 @@ size_t BlockTextureBuilder::getTexPerLine()
 void BlockTextureBuilder::getTexPos(float *pos, size_t id)
 {
     float pct = 1.0 / mTPL;
-    auto x = id % mTPL;
-    auto y = id / mTPL;
+    auto x = mTPL - id % mTPL;
+    auto y = mTPL - id / mTPL;
     pos[0] = pct * x;
     pos[1] = pct * y;
     pos[2] = pct * (x + 1);

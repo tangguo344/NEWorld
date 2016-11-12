@@ -116,8 +116,7 @@ void ChunkClient::buildVertexArray()
         Vec3i::for_range(0, Chunk::Size, [&](const Vec3i& pos)
         {
             auto b = getBlock(pos);
-            if (BlockRenderer::funcs[b.getID()])
-                BlockRenderer::funcs[b.getID()]->render(this, pos);
+            BlockRenderer::invoke(b.getID(), this, pos);
         });
     }
 
