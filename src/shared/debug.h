@@ -29,7 +29,7 @@ inline void AssertFunc(bool expr, const char* file, const char* fname, int line)
     {
         fatalstream << "Assertion failed!";
         fatalstream << "At line " << line << " in \"" << file << "\", function " << fname;
-        throw;
+        abort();
     }
 }
 

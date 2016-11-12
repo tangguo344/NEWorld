@@ -21,6 +21,7 @@
 #include <logger.h>
 #include <raknet/MessageIdentifiers.h>
 #include <raknet/BitStream.h>
+#include <debug.h>
 
 Connection::Connection(std::function<void(Identifier, unsigned char*)> userDataCallback)
     :mUserDataCallback(userDataCallback)
@@ -32,12 +33,7 @@ Connection::Connection(std::function<void(Identifier, unsigned char*)> userDataC
 
 Connection::~Connection()
 {
-    infostream << "Disconnecting...";
-    mUserClosed.store(true);
-    mPeer->Shutdown(5000, 0, PacketPriority::HIGH_PRIORITY);
-    if (mThread.joinable())
-        mThread.join();
-    RakNet::RakPeerInterface::DestroyInstance(mPeer);
+    Assert(mUserClosed);
 }
 
 bool Connection::connect(const char *addr, unsigned short port)

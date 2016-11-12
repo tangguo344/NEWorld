@@ -25,7 +25,7 @@ Server::Server(std::vector<std::string> args)
     : mWorlds(mPlugins, mBlocks), mPlugins(false), mArgs(args), mNetwork(mWorlds)
 {
     using namespace std::chrono;
-    auto start_time = steady_clock::now();
+    auto startTime = steady_clock::now();
 
     // Plugin
     PluginAPI::Blocks = &mBlocks;
@@ -44,14 +44,13 @@ Server::Server(std::vector<std::string> args)
     initBuiltinCommands();
 
     // Done
-    auto done_time = steady_clock::now();
-    infostream << "Initialization done in " << duration_cast<milliseconds>(done_time - start_time).count() << "ms!";
+    auto doneTime = steady_clock::now();
+    infostream << "Initialization done in " << duration_cast<milliseconds>(doneTime - startTime).count() << "ms!";
 }
 
 void Server::run()
 {
-    // Process input
-    mCommands.inputLoop(); // This will block the main thread
+    mNetwork.loop();
 }
 
 void Server::stop()

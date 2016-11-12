@@ -49,9 +49,7 @@ void MultiplayerConnection::connect()
 
 void MultiplayerConnection::disconnect()
 {
-    //not implement
-    warningstream << "Function not implemented";
-    Assert(false);
+    mConn.stop();
 }
 
 World* MultiplayerConnection::getWorld(size_t)
@@ -83,7 +81,7 @@ void MultiplayerConnection::getChunk(size_t worldID, Vec3i pos)
     mConn.send(mFbb, req, PacketPriority::MEDIUM_PRIORITY, PacketReliability::UNRELIABLE);
 }
 
-LocalConnectionByNetWork::LocalConnectionByNetWork(std::string host, unsigned short port):
+LocalConnectionByNetWork::LocalConnectionByNetWork(const std::string& host, unsigned short port):
     MultiplayerConnection(host, port),
     mPath(getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver.dll").c_str()),
     mTimeout(getJsonValue<int>(getSettings()["client"]["server_start_timeout"], 30))
@@ -131,8 +129,11 @@ void LocalConnectionByNetWork::disconnect()
     MultiplayerConnection::disconnect();
     if (mLocalServerThread.joinable())
     {
+        debugstream << "Call nwStopServer";
         mLib.get<void NWAPICALL()>("nwStopServer")();
+        debugstream << "Waiting for local server thread...";
         mLocalServerThread.join();
+        debugstream << "Local server thread exited!";
     }
 }
 

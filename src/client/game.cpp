@@ -98,7 +98,6 @@ Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
 
 Game::~Game()
 {
-    mPlugins.unloadPlugins();
 }
 
 void Game::update()
@@ -151,32 +150,6 @@ void Game::multiUpdate()
         update();
         mUpdateScheduler.increaseTimer();
     }
-}
-
-// TEMP FUNCTION: to show the world coordinates
-void drawAxes()
-{
-    glDisable(GL_CULL_FACE);
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-    // X
-    glColor3f(1.0f, 0.0f, 0.0f);
-    glBegin(GL_LINES);
-    glVertex3f(-256.0f, 0.0f, 0.0f);
-    glVertex3f(256.0f, 0.0f, 0.0f);
-    glEnd();
-    // Y
-    glColor3f(0.0f, 1.0f, 0.0f);
-    glBegin(GL_LINES);
-    glVertex3f(0.0f, -256.0f, 0.0f);
-    glVertex3f(0.0f, 256.0f, 0.0f);
-    glEnd();
-    // Z
-    glColor3f(0.0f, 0.0f, 1.0f);
-    glBegin(GL_LINES);
-    glVertex3f(0.0f, 0.0f, -256.0f);
-    glVertex3f(0.0f, 0.0f, 256.0f);
-    glEnd();
-    glEnable(GL_CULL_FACE);
 }
 
 void Game::render()

@@ -44,7 +44,7 @@ public:
 private:
     CommandExecuteStat handleCommand(Command cmd);
 
-    std::future<void> mMainloop;
+    std::thread mMainloop;
     std::atomic_bool mThreadRunning{true};
     std::atomic_bool mWaitingForInput{false};
     CommandMap mCommandMap;

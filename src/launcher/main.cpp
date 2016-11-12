@@ -48,12 +48,11 @@ int main(int argc, char** argv)
     {
         in = argv[1];
     }
-		
+
     std::string clientFilename = getJsonValue<std::string>(getSettings()["client"]["file"], "nwclient");
     std::string serverFilename = getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver");
 
     file = in == "server" ? serverFilename : clientFilename;
-
 
     debugstream << "Load:" << file;
     Library(file).get<MainFunction>("main")(argc, argv);
