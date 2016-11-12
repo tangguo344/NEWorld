@@ -136,6 +136,7 @@ void ChunkClient::buildVertexArray()
             */
 
             // Right
+            // TODO: Check here.
             if (adjacentTest(curr, neighbors[0]))
                 va.addPrimitive(4,
             {
