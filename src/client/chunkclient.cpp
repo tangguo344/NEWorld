@@ -53,12 +53,11 @@ void ChunkClient::buildVertexArray()
             };
 
             // Right
-            // TODO: Check here.
             if (adjacentTest(curr, neighbors[0]))
                 va.addPrimitive(4,
             {
                 0.0f, 0.0f, 0.5f, 0.5f, 0.5f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 1.0f,
-                1.0f, 1.0f, 0.5f, 0.5f, 0.5f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 1.0f,
+                0.0f, 1.0f, 0.5f, 0.5f, 0.5f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 1.0f,
                 1.0f, 1.0f, 0.5f, 0.5f, 0.5f, pos.x + 1.0f, pos.y + 0.0f, pos.z + 0.0f,
                 1.0f, 0.0f, 0.5f, 0.5f, 0.5f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 0.0f
             });
