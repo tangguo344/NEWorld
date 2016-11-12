@@ -49,10 +49,7 @@ extern "C"
 #endif
 
 // NEWorld constants
-#ifndef CHUNK_H_
 const int ChunkSize = 32;
-#endif
-
 const int32_t AirID = 0;
 
 // NEWorld structures
