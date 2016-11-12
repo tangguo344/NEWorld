@@ -67,19 +67,18 @@ Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
         ImGui::Text("Chunks Loaded: %zu/%zu", mWorld.getChunkCount(), mWorld.getReservedChunkCount());
     }));
 
-    mConnection->setWorld(&mWorld);
-    mConnection->connect();
-    mConnection->waitForConnected();
-    mConnection->login("test", "123456");
     mConnection->setChunkCallback([&](Chunk* chunk)
     {
-        mMutex.lock();
+        std::lock_guard<std::mutex> lock(mMutex);
         Chunk* target = mWorld.getChunkPtr(chunk->getPosition());
         if (target == nullptr) return;
         memcpy(target->getBlocks(), chunk->getBlocks(), sizeof(BlockData)*ChunkSize*ChunkSize*ChunkSize);
         target->setUpdated(true);
-        mMutex.unlock();
     });
+    mConnection->setWorld(&mWorld);
+    mConnection->connect();
+    mConnection->waitForConnected();
+    mConnection->login("test", "123456");
     update();
 }
 
@@ -90,7 +89,7 @@ Game::~Game()
 
 void Game::update()
 {
-    //mMutex.lock();
+    std::lock_guard<std::mutex> lock(mMutex);
 
     mUpsCounter++;
 
@@ -122,8 +121,6 @@ void Game::update()
     mWorld.update();
     mWorld.renderUpdate(Vec3i(mPlayer.getPosition()));
     mWidgetManager.update();
-
-    //mMutex.unlock();
 }
 
 void Game::multiUpdate()
@@ -170,7 +167,7 @@ void drawAxes()
 
 void Game::render()
 {
-    //mMutex.lock();
+    std::lock_guard<std::mutex> lock(mMutex);
 
     mFpsCounter++;
 
@@ -198,13 +195,11 @@ void Game::render()
     drawAxes();
     // END TEMP CODE
 
-	mPlayer.render();
+    mPlayer.render();
 
     glDisable(GL_DEPTH_TEST);
 
     mWidgetManager.render();
-
-    //mMutex.unlock();
 }
 
 Event::EventBus& Game::getEventBus()
