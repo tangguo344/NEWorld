@@ -77,7 +77,6 @@ Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
     mConnection->connect();
     mConnection->waitForConnected();
     mConnection->login("test", "123456");
-    update();
 }
 
 Game::~Game()
@@ -186,12 +185,6 @@ void Game::render()
 
     // Render
     mWorld.render(Vec3i(mPlayer.getPosition()));
-
-    glDisable(GL_TEXTURE_2D);
-
-    // TEMP CODE
-    drawAxes();
-    // END TEMP CODE
 
     mPlayer.render();
 
