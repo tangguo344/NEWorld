@@ -23,49 +23,49 @@ void Player::move()
 {
     //mSpeed.normalize();
     //m.speed *= PlayerSpeed;
-    Vec3d delta = Mat4d::rotation(mRotation.y, Vec3d(0.0, 1.0, 0.0)).transformVec3(mSpeed);
-    std::vector<AABB> hitboxes = getWorldPtr()->getHitboxes(getHitbox().expand(delta));
+    mPositionDelta = Mat4d::rotation(mRotation.y, Vec3d(0.0, 1.0, 0.0)).transformVec3(mSpeed);
+    std::vector<AABB> hitboxes = getWorldPtr()->getHitboxes(getHitbox().expand(mPositionDelta));
 
     for (auto& curr : hitboxes)
-        delta.x = getHitbox().maxMoveOnXclip(curr, delta.x);
-    mPosition.x += delta.x;
-    moveHitbox(Vec3d(delta.x, 0.0, 0.0));
+        mPositionDelta.x = getHitbox().maxMoveOnXclip(curr, mPositionDelta.x);
+    mPosition.x += mPositionDelta.x;
+    moveHitbox(Vec3d(mPositionDelta.x, 0.0, 0.0));
 
     for (auto& curr : hitboxes)
-        delta.z = getHitbox().maxMoveOnZclip(curr, delta.z);
-    mPosition.z += delta.z;
-    moveHitbox(Vec3d(0.0, 0.0, delta.z));
+        mPositionDelta.z = getHitbox().maxMoveOnZclip(curr, mPositionDelta.z);
+    mPosition.z += mPositionDelta.z;
+    moveHitbox(Vec3d(0.0, 0.0, mPositionDelta.z));
 
     for (auto& curr : hitboxes)
-        delta.y = getHitbox().maxMoveOnYclip(curr, delta.y);
-    mPosition.y += delta.y;
-    moveHitbox(Vec3d(0.0, delta.y, 0.0));
+        mPositionDelta.y = getHitbox().maxMoveOnYclip(curr, mPositionDelta.y);
+    mPosition.y += mPositionDelta.y;
+    moveHitbox(Vec3d(0.0, mPositionDelta.y, 0.0));
 
     mSpeed *= 0.8;
     //mSpeed += Vec3d(0.0, -0.05, 0.0);
 }
 
-void Player::render() 
+void Player::render()
 {
-	glDisable(GL_CULL_FACE);
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-	// X
-	glColor3f(1.0f, 0.0f, 0.0f);
-	glBegin(GL_LINES);
-	glVertex3f(mPosition.x - 2.0f, mPosition.y, mPosition.z);
-	glVertex3f(mPosition.x + 2.0f, mPosition.y, mPosition.z);
-	glEnd();
-	//Y
-	glColor3f(0.0f, 1.0f, 0.0f);
-	glBegin(GL_LINES);
-	glVertex3f(mPosition.x, mPosition.y - 2.0f, mPosition.z);
-	glVertex3f(mPosition.x, mPosition.y + 2.0f, mPosition.z);
-	glEnd();
-	//Z
-	glColor3f(0.0f, 1.0f, 0.0f);
-	glBegin(GL_LINES);
-	glVertex3f(mPosition.x, mPosition.y, mPosition.z - 2.0f);
-	glVertex3f(mPosition.x, mPosition.y, mPosition.z + 2.0f);
-	glEnd();
-	glEnable(GL_CULL_FACE);
+    glDisable(GL_CULL_FACE);
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    // X
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glBegin(GL_LINES);
+    glVertex3f(mPosition.x - 2.0f, mPosition.y, mPosition.z);
+    glVertex3f(mPosition.x + 2.0f, mPosition.y, mPosition.z);
+    glEnd();
+    //Y
+    glColor3f(0.0f, 1.0f, 0.0f);
+    glBegin(GL_LINES);
+    glVertex3f(mPosition.x, mPosition.y - 2.0f, mPosition.z);
+    glVertex3f(mPosition.x, mPosition.y + 2.0f, mPosition.z);
+    glEnd();
+    //Z
+    glColor3f(0.0f, 1.0f, 0.0f);
+    glBegin(GL_LINES);
+    glVertex3f(mPosition.x, mPosition.y, mPosition.z - 2.0f);
+    glVertex3f(mPosition.x, mPosition.y, mPosition.z + 2.0f);
+    glEnd();
+    glEnable(GL_CULL_FACE);
 }
