@@ -21,7 +21,6 @@
 
 #define NEWORLD_PLUGIN_CLIENT_SIDE
 #include "../shared/shared.h"
-#include <logger.h>
 NWplugindata* MainPlugin = nullptr;
 
 NWAPIEXPORT NWplugindata* NWAPICALL getInfo()
@@ -34,8 +33,8 @@ void NWAPICALL init()
 {
     sharedInit();
     auto t = nwRegisterTexture("./res/grass.png"),
-            b = nwRegisterTexture("./res/grass_bottom.png"),
-            r = nwRegisterTexture("./res/grass_round.png");
+         b = nwRegisterTexture("./res/grass_bottom.png"),
+         r = nwRegisterTexture("./res/grass_round.png");
     NWSTDRoundFaceTexGroup grass{ t, b, r };
     nwUseStandardRenderFunc(1, NWRENDERFUNCSTDFULLBLOCKROUNDFACE, &grass);
 }

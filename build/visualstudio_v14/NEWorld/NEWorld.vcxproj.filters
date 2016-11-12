@@ -29,6 +29,9 @@
     <Filter Include="Source\GUI\imgui">
       <UniqueIdentifier>{389c1fc8-f71e-4bc6-9081-61ce87e4f35e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\API">
+      <UniqueIdentifier>{f507434f-580f-45b5-92f4-8d36069db8b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\client\renderer.h">
@@ -97,6 +100,9 @@
     <ClInclude Include="..\..\..\src\client\gameconnection.h">
       <Filter>Source\Network</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\client\blockrenderer.h">
+      <Filter>Source\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\client\renderer.cpp">
@@ -146,6 +152,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\client\gameconnection.cpp">
       <Filter>Source\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\blockrenderer.cpp">
+      <Filter>Source\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\clientapi.cpp">
+      <Filter>Source\API</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
