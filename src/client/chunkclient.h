@@ -21,9 +21,11 @@
 #define CHUNKCLIENT_H_
 
 #include <atomic>
+#include <memory>
 #include <chunk.h>
 #include <world.h>
 #include "renderer.h"
+#include "blockrenderer.h"
 
 class WorldClient;
 
@@ -74,6 +76,9 @@ public:
 
     static Chunk* getFromFlatbuffers(const s2c::Chunk* fbChunk, WorldClient& worlds);
 
+    //Standard Render Functions
+    void stdFullBlock(BlockTexCrood crood[], const Vec3i& pos);
+
 private:
     // Target world
     World& mWorld;
@@ -91,5 +96,6 @@ private:
         return (a.getID()) && !mWorld.getType(b.getID()).isOpaque();
     }
 };
+
 
 #endif // !CHUNKCLIENT_H_

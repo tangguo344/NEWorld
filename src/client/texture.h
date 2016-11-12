@@ -50,25 +50,21 @@ public:
 
     void bind(GLenum target) const { glBindTexture(target, mId); }
 
-private:
-
-    explicit Texture(TextureID id) :mId(id) {}
-
-    TextureID mId;
-
-    static void build2DMipmaps(GLenum format, int w, int h, int level, const ubyte* src);
-
     class RawTexture
     {
     public:
         ~RawTexture();
         explicit RawTexture(const std::string& filename);
+        RawTexture(const RawTexture&);
         SDL_Surface* getSurface() const { return surface; }
-
     private:
         SDL_Surface* surface;
     };
 
+private:
+    explicit Texture(TextureID id) :mId(id) {}
+    TextureID mId;
+    static void build2DMipmaps(GLenum format, int w, int h, int level, const ubyte* src);
 };
 
 #endif

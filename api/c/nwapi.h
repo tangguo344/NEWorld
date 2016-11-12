@@ -30,27 +30,29 @@ extern "C"
 #endif
 
 #if defined _WIN32 || defined __CYGWIN__
-    #ifdef _MSC_VER
-        #define NWAPIENTRY __declspec(dllimport)
-        #define NWAPIEXPORT __declspec(dllexport)
-    #else
-        #define NWAPIENTRY __attribute__((dllimport))
-        #define NWAPIEXPORT __attribute__((dllexport))
-    #endif
+#ifdef _MSC_VER
+#define NWAPIENTRY __declspec(dllimport)
+#define NWAPIEXPORT __declspec(dllexport)
 #else
-    #define NWAPIENTRY __attribute__((visibility("default")))
-    #define NWAPIEXPORT __attribute__((visibility("default")))
+#define NWAPIENTRY __attribute__((dllimport))
+#define NWAPIEXPORT __attribute__((dllexport))
+#endif
+#else
+#define NWAPIENTRY __attribute__((visibility("default")))
+#define NWAPIEXPORT __attribute__((visibility("default")))
 #endif
 
 #ifdef _MSC_VER
-    #define NWAPICALL __cdecl
+#define NWAPICALL __cdecl
 #else
-    #define NWAPICALL __attribute__((__cdecl__))
+#define NWAPICALL __attribute__((__cdecl__))
 #endif
 
 // NEWorld constants
-
+#ifndef CHUNK_H_
 const int ChunkSize = 32;
+#endif
+
 const int32_t AirID = 0;
 
 // NEWorld structures
@@ -92,15 +94,41 @@ NWAPIENTRY size_t NWAPICALL nwSetBlock(const NWvec3i* pos, NWblockdata block);
 NWAPIENTRY size_t NWAPICALL nwRegisterBlock(const NWblocktype*);
 
 #ifdef NEWORLD_PLUGIN_CLIENT_SIDE
-    // Client-only APIs
+
+#define NWRENDERFUNCSTDFULLBLOCKSAMEFACE  0x0001
+#define NWRENDERFUNCSTDFULLBLOCKROUNDFACE 0x0002
+#define NWRENDERFUNCSTDFULLBLOCKDIFFFACE  0x0003
+#define NWRENDERFUNCSTDHALFBLOCKSAMEFACE  0x0004
+#define NWRENDERFUNCSTDHALFBLOCKROUNDFACE 0x0005
+#define NWRENDERFUNCSTDHALFBLOCKDIFFFACE  0x0006
+
+struct NWSTDSameFaceTexGroup
+{
+    size_t tex;
+};
+
+struct NWSTDRoundFaceTexGroup
+{
+    size_t texTop, texBottom, texRound;
+};
+
+struct NWSTDDiffFaceTexGroup
+{
+    size_t texTop, texBottom, texLeft, texRight, texFront, texBack;
+};
+
+typedef void(*nwBlockRenderFunc)(void* cthis, NWblockdata data, int32_t x, int32_t y, int32_t z);
+NWAPIEXPORT void NWAPICALL nwSetBlockRenderFunc(int32_t id, nwBlockRenderFunc func);
+NWAPIEXPORT void NWAPICALL nwUseStandardRenderFunc(int32_t id, int32_t func, void* data);
 
 #endif
 
 #ifdef NEWORLD_PLUGIN_SERVER_SIDE
-    // Server-only APIs
+// Server-only APIs
 
-    typedef void NWAPICALL NWchunkgenerator(const NWvec3i*, NWblockdata*, int32_t);
-    NWAPIENTRY int32_t NWAPICALL nwRegisterChunkGenerator(NWchunkgenerator* const generator);
+typedef void NWAPICALL NWchunkgenerator(const NWvec3i*, NWblockdata*, int32_t);
+
+NWAPIENTRY int32_t NWAPICALL nwRegisterChunkGenerator(NWchunkgenerator* const generator);
 
 #endif
 
