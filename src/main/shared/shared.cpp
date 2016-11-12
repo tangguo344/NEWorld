@@ -19,7 +19,7 @@
 
 #include "shared.h"
 
-int32_t RockID;
+int32_t GrassID;
 
 void registerBlocks()
 {
@@ -30,7 +30,7 @@ void registerBlocks()
     rock.opaque = true;
     rock.explodePower = 0;
     rock.hardness = 2;
-    RockID = nwRegisterBlock(&rock);
+    GrassID = nwRegisterBlock(&rock);
 }
 
 NWplugindata* getMyInfo(bool client)

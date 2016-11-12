@@ -36,7 +36,7 @@ void NWAPICALL init()
          b = nwRegisterTexture("./res/grass_bottom.png"),
          r = nwRegisterTexture("./res/grass_round.png");
     NWSTDRoundFaceTexGroup grass{ t, b, r };
-    nwUseStandardRenderFunc(1, nwRenderFuncStdFullBlockRoundFace, &grass);
+    nwUseStandardRenderFunc(GrassID, nwRenderFuncStdFullBlockRoundFace, &grass);
 }
 
 // Unload function

@@ -37,7 +37,7 @@ void NWAPICALL generator(const NWvec3i *pos, NWblockdata * blocks, int daylightB
                 NWblockdata &block = blocks[x*ChunkSize*ChunkSize + y*ChunkSize + z];
                 if (y <= height)
                 {
-                    block.id = RockID;
+                    block.id = GrassID;
                     block.brightness = block.state = 0;
                 }
                 else
