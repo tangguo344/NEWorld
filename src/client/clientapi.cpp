@@ -17,27 +17,37 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-// The client version
-
 #define NEWORLD_PLUGIN_CLIENT_SIDE
-#include "../shared/shared.h"
-#include <logger.h>
-NWplugindata* MainPlugin = nullptr;
 
-NWAPIEXPORT NWplugindata* NWAPICALL getInfo()
+#include <memory>
+#include "blockrenderer.h"
+#include "../../api/c/nwapi.h"
+
+void expandFuncGroup(int32_t size)
 {
-    return getInfo(true);
+    if (size >= BlockRenderer::funcs.size())
+        BlockRenderer::funcs.resize(size + 1);
 }
 
-// Main function
-void NWAPICALL init()
+extern "C"
 {
-    sharedInit();
-    nwUseStandardRenderFunc(1, NWRENDERFUNCSTDFULLBLOCKSAMEFACE, nullptr);
+NWAPIEXPORT void NWAPICALL nwSetBlockRenderFunc(int32_t id, nwBlockRenderFunc func)
+{
+
 }
 
-// Unload function
-void NWAPICALL unload()
+NWAPIEXPORT void NWAPICALL nwUseStandardRenderFunc(int32_t id, int32_t func, void *data)
 {
-    if (MainPlugin != nullptr) delete MainPlugin;
+    expandFuncGroup(id);
+    switch (func)
+    {
+        case NWRENDERFUNCSTDFULLBLOCKSAMEFACE:
+            BlockRenderer::funcs[id] =
+                    std::make_shared<StandardFullBlockRenderer>();
+            break;
+        default:
+            break;
+    };
+}
+
 }

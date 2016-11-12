@@ -121,23 +121,14 @@ void Texture::build2DMipmaps(GLenum format, int w, int h, int level, const ubyte
 
 Texture::RawTexture::RawTexture(const std::string& filename)
 {
-    auto image = IMG_Load(filename.c_str());
-    if (!image) warningstream << "Failed to load texture " << filename << ": " << IMG_GetError();
-    surface = image;
-    // TODO: check if format = B8G8R8
-    // if (image->format == )
-    /*
-    for(int i=0; i<surface->h; i++)
-    {
-        for(int j=0; j<surface->w; j++)
-        {
-            unsigned char* p = static_cast<unsigned char*>(surface->pixels) + (i*surface->w + j) * 4;
-            unsigned char t = *p;
-            *p = *(p + 2);
-            *(p + 2) = t;
-        }
-    }
-    */
+    surface = IMG_Load(filename.c_str());
+    if (!surface)
+        warningstream << "Failed to load texture " << filename << ": " << IMG_GetError();
+}
+
+Texture::RawTexture::RawTexture(const Texture::RawTexture& tex)
+{
+    surface = SDL_ConvertSurfaceFormat(tex.surface, SDL_PIXELFORMAT_ABGR8888, 0);
 }
 
 Texture::RawTexture::~RawTexture()
