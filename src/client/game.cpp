@@ -33,7 +33,7 @@ Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
            PluginManager& pm, const BlockManager& bm):
     mBlocks(bm), mPlugins(pm), mWorld(name, pm, bm), mPlayer(&mWorld), mConnection(connection)
 {
-    mWorld.setRenderDistance(4);
+    mWorld.setRenderDistance(2);
     mPlayer.setPosition(Vec3d(-16.0, 48.0, 32.0));
     mPlayer.setRotation(Vec3d(-45.0, -22.5, 0.0));
 
