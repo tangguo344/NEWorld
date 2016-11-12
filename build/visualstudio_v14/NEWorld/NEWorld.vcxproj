@@ -389,6 +389,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\src\client\blockrenderer.h" />
     <ClInclude Include="..\..\..\src\client\chunkclient.h" />
     <ClInclude Include="..\..\..\src\client\gameconnection.h" />
     <ClInclude Include="..\..\..\src\client\imgui\imconfig.h" />
@@ -418,7 +419,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\src\client\blockrenderer.cpp" />
     <ClCompile Include="..\..\..\src\client\chunkclient.cpp" />
+    <ClCompile Include="..\..\..\src\client\clientapi.cpp" />
     <ClCompile Include="..\..\..\src\client\gameconnection.cpp" />
     <ClCompile Include="..\..\..\src\client\imgui\imgui.cpp" />
     <ClCompile Include="..\..\..\src\client\imgui\imgui_demo.cpp" />
