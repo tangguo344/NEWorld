@@ -66,7 +66,11 @@ Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
     {
         std::lock_guard<std::mutex> lock(mMutex);
         Chunk* target = mWorld.getChunkPtr(chunk->getPosition());
-        if (target == nullptr) return;
+        if (target == nullptr)
+        {
+            delete chunk;
+            return;
+        }
         // Update chunk
         memcpy(target->getBlocks(), chunk->getBlocks(), sizeof(BlockData) * ChunkSize * ChunkSize * ChunkSize);
         target->setUpdated(true);
