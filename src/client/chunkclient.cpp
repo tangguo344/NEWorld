@@ -117,10 +117,11 @@ void ChunkClient::buildVertexArray()
     mBuffer.update(va);
 }
 
-Chunk* ChunkClient::getFromFlatbuffers(const s2c::Chunk * fbChunk, WorldClient& worlds)
+Chunk* ChunkClient::getFromFlatbuffers(const s2c::Chunk* fbChunk, WorldClient& worlds)
 {
-    //TODO: opt needed
-    Chunk* nwChunk = new ChunkClient({ fbChunk->pos()->x(), fbChunk->pos()->y(), fbChunk->pos()->z() }, worlds);
-    memcpy(nwChunk->getBlocks(), fbChunk->blocks()->Data(), ChunkSize*ChunkSize*ChunkSize*sizeof(BlockData));
+    // TODO: Optimize
+    Chunk* nwChunk = new ChunkClient(Vec3i(fbChunk->pos()->x(), fbChunk->pos()->y(), fbChunk->pos()->z()), worlds);
+    for (auto i = 0; i < ChunkSize*ChunkSize*ChunkSize; ++i)
+        nwChunk->getBlocks()[i] = BlockData(fbChunk->blocks()->Get(i));
     return nwChunk;
 }
