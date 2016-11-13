@@ -39,16 +39,21 @@ public:
     /**
      * Try to start up an server NetworkManager and start listenning on it.
      * @throw std::runtime_error if start up failed
-     * @return `true` if start up successfully,`false` if something unexcepted happened
+     * @return `true` if start up successfully,`false` if something unexpected happened
      */
-    bool run(const char *addr, unsigned short port);
+    bool start(const char *addr, unsigned short port);
     void loop();
+    bool isRunning()
+    {
+        return mIsRunning;
+    }
 private:
     GameConnection* newConnection(RakNet::SystemAddress addr);
     void deleteConnection(RakNet::SystemAddress addr);
     RakNet::RakPeerInterface *mPeer;
     std::vector<GameConnection*> mConns;
     WorldManager& mWorlds;//TODO: maybe use event instead later.
+    bool mIsRunning;
 };
 
 

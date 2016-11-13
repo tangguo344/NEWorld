@@ -46,7 +46,6 @@ public:
     ~Server();
 
 private:
-
     void initBuiltinCommands();
 
     RateMeter mRateCounterScheduler{1};

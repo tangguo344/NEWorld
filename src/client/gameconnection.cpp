@@ -23,14 +23,17 @@
 #include <logger.h>
 #include <library.h>
 #include <jsonhelper.h>
+#include <flatfactory.h>
 
-MultiplayerConnection::MultiplayerConnection(const std::string& host, unsigned short port) :
-    mConn([this](Identifier id, unsigned char* data)
+MultiplayerConnection::MultiplayerConnection(const std::string& host, unsigned short port)
+    :mConn([this](Identifier id, unsigned char* data, size_t len)
 {
+    flatbuffers::Verifier v(data,len);
     switch (id)
     {
     case Identifier::s2cChunk:
     {
+        if(!s2c::VerifyChunkBuffer(v)) break;
         mChunkCallback(ChunkClient::getFromFlatbuffers(s2c::GetChunk(data), *mWorld));
         break;
     }
@@ -65,20 +68,14 @@ void MultiplayerConnection::waitForConnected()
     mConn.waitForConnected();
 }
 
-void MultiplayerConnection::login(const char * username, const char * password)
+void MultiplayerConnection::login(const char *username, const char *password)
 {
-    mFbb.Clear();
-    auto login = c2s::CreateLoginDirect(mFbb, username, password, NEWorldVersion);
-    c2s::FinishLoginBuffer(mFbb, login);
-    mConn.send(mFbb, login,PacketPriority::HIGH_PRIORITY, PacketReliability::RELIABLE);
+    mConn.send<c2s::Login>(FlatFactory::c2s::Login(username,password),PacketPriority::HIGH_PRIORITY, PacketReliability::RELIABLE_ORDERED_WITH_ACK_RECEIPT);
 }
 
-void MultiplayerConnection::getChunk(size_t worldID, Vec3i pos)
+void MultiplayerConnection::getChunk(Vec3i pos)
 {
-    mFbb.Clear();
-    auto req = c2s::CreateRequestChunk(mFbb, pos.x, pos.y, pos.z, worldID);
-    c2s::FinishRequestChunkBuffer(mFbb, req);
-    mConn.send(mFbb, req, PacketPriority::MEDIUM_PRIORITY, PacketReliability::UNRELIABLE);
+    mConn.send<c2s::RequestChunk>(FlatFactory::c2s::RequestChunk(pos), PacketPriority::MEDIUM_PRIORITY, PacketReliability::UNRELIABLE);
 }
 
 LocalConnectionByNetWork::LocalConnectionByNetWork(const std::string& host, unsigned short port)
@@ -98,7 +95,7 @@ void LocalConnectionByNetWork::connect()
     mLocalServerThread = std::thread([this]()
     {
         const char *argv[] = { mPath.c_str(),"-single-player-mode" };
-        bool opened = mLib.get<bool NWAPICALL(int, char**)>("nwInitServer")(sizeof(argv) / sizeof(argv[0]), const_cast<char**>(argv));
+        bool opened = mLib.get<bool NWAPICALL(int, char**, bool)>("nwInitServer")(sizeof(argv) / sizeof(argv[0]), const_cast<char**>(argv),true);
         if (opened)
         {
             mReady.store(true);
@@ -126,7 +123,6 @@ void LocalConnectionByNetWork::connect()
 
 void LocalConnectionByNetWork::disconnect()
 {
-    MultiplayerConnection::disconnect();
     if (mLocalServerThread.joinable())
     {
         debugstream << "Call nwStopServer";

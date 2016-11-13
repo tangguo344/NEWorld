@@ -42,7 +42,7 @@ public:
     // Functions
     virtual void login(const char* username, const char* password) = 0;
     using ChunkCallback = std::function<void(Chunk*)>;
-    virtual void getChunk(size_t worldID, Vec3i pos) = 0;
+    virtual void getChunk(Vec3i pos) = 0;
     virtual World* getWorld(size_t id) = 0;
 
     // Callbacks
@@ -68,7 +68,7 @@ public:
 
     // Functions
     void login(const char* username, const char* password) override;
-    void getChunk(size_t worldID, Vec3i pos) override;
+    void getChunk(Vec3i pos) override;
 
     // Callbacks
     void setChunkCallback(ChunkCallback callback) override

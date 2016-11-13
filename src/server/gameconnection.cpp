@@ -21,26 +21,26 @@
 #include "chunkserver.h"
 #include <logger.h>
 #include <vec3.h>
+#include <flatfactory.h>
 
 void MultiplayerConnection::sendChunk(Chunk* chunk)
 {
-    mFbb.Clear();
     auto pos = chunk->getPosition().conv<s2c::Vec3>();
     // Be careful!
     Assert(sizeof(BlockData) == sizeof(uint32_t));
     std::vector<int> blocks(reinterpret_cast<uint32_t*>(chunk->getBlocks()),
                             reinterpret_cast<uint32_t*>(chunk->getBlocks()) + Chunk::Size*Chunk::Size*Chunk::Size);
-    auto c = s2c::CreateChunkDirect(mFbb, &pos, &blocks);
-    s2c::FinishChunkBuffer(mFbb, c);
-    mConn.send(mFbb, c, PacketPriority::MEDIUM_PRIORITY, PacketReliability::RELIABLE);
+    mConn.send<s2c::Chunk>(FlatFactory::s2c::Chunk(pos,blocks), PacketPriority::MEDIUM_PRIORITY, PacketReliability::RELIABLE);
 }
 
-void MultiplayerConnection::handleReceivedData(Identifier id, unsigned char* data)
+void MultiplayerConnection::handleReceivedData(Identifier id, unsigned char* data, size_t len)
 {
+    flatbuffers::Verifier v(data,len);
     switch (id)
     {
     case Identifier::c2sLogin:
     {
+        if(!c2s::VerifyLoginBuffer(v)) break;
         auto login = c2s::GetLogin(data);
         bool success = true;
         std::string reason = "";
@@ -60,8 +60,9 @@ void MultiplayerConnection::handleReceivedData(Identifier id, unsigned char* dat
     }
     case Identifier::c2sRequestChunk:
     {
+        if(!c2s::VerifyRequestChunkBuffer(v)) break;
         auto req = c2s::GetRequestChunk(data);
-        World *world = mWorlds.getWorld(req->worldID());
+        World *world = mWorlds.getWorld(0);// TODO:Current world of player.
         Chunk *chunk = world->getChunkPtr({req->x(), req->y(), req->z()});
         if (chunk == nullptr) chunk = world->addChunk({req->x(), req->y(), req->z()});
         static_cast<ChunkServer*>(chunk)->increaseWeakRef();

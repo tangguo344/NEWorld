@@ -29,14 +29,14 @@ class Connection
 public:
     friend class MultiplayerConnection;
     template<class ProtocolType>
-    void send(const flatbuffers::FlatBufferBuilder& fbb, const flatbuffers::Offset<ProtocolType>&, PacketPriority priority, PacketReliability reliability)
+    void send(const flatbuffers::FlatBufferBuilder& fbb, PacketPriority priority, PacketReliability reliability)
     {
-        sendRawData(packetType2Id<ProtocolType>(), fbb.GetBufferPointer(), fbb.GetSize()*CHAR_BIT, priority, reliability);
+        sendRawData(packetType2Id<ProtocolType>(), fbb.GetBufferPointer(), fbb.GetSize(), priority, reliability);
     }
 private:
     Connection(NetworkManager &network, RakNet::RakPeerInterface *peer, RakNet::SystemAddress addr);
     ~Connection();
-    void sendRawData(Identifier id, const unsigned char *data, int len, PacketPriority priority, PacketReliability reliability);
+    void sendRawData(Identifier id, const unsigned char *data, uint32_t len, PacketPriority priority, PacketReliability reliability);
     NetworkManager &mNetwork;
     RakNet::RakPeerInterface *mPeer;
     RakNet::SystemAddress mAddr;

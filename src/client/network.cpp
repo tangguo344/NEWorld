@@ -23,7 +23,7 @@
 #include <raknet/BitStream.h>
 #include <debug.h>
 
-Connection::Connection(std::function<void(Identifier, unsigned char*)> userDataCallback)
+Connection::Connection(std::function<void(Identifier, unsigned char*, size_t)> userDataCallback)
     :mUserDataCallback(userDataCallback)
 {
     infostream << "Raknet initializating...";
@@ -88,25 +88,34 @@ void Connection::loop()
                 else
                     errorstream << "Disconnected to the server!";
                 break;
-            default:
-                auto identifier = static_cast<Identifier>(p->data[0]);
+            case ID_USER_PACKET_ENUM:
+            {
+                union{short s;char c[2];} id;// 2 bytes.
+                id.c[0] = p->data[2];
+                id.c[1] = p->data[1];
+                auto identifier = static_cast<Identifier>(id.s);
                 if (identifier <= Identifier::Unknown || identifier >= Identifier::EndIdentifier)
                 {
-                    warningstream << "Unexcepted packet is received. Packet ID:" << static_cast<int>(p->data[0])
+                    warningstream << "Unexpected packet has been received. Packet ID:" << id.s
                                   << " From " << p->systemAddress.ToString(true);
                     break;
                 }
-                mUserDataCallback(identifier, p->data + 1);
+                mUserDataCallback(identifier, p->data + 3, p->length - 3);
+                break;
+            }
+            default:
+                // TODO:Handle unknown packet.
                 break;
             }
         }
 
     }
 }
-void Connection::sendRawData(Identifier id, const unsigned char *data, int len, PacketPriority priority, PacketReliability reliability)
+void Connection::sendRawData(Identifier id, const unsigned char *data, uint32_t len, PacketPriority priority, PacketReliability reliability)
 {
     RakNet::BitStream bsOut;
-    bsOut.Write(static_cast<RakNet::MessageID>(id));
-    bsOut.WriteBits(data, len);
+    bsOut.Write(static_cast<RakNet::MessageID>(ID_USER_PACKET_ENUM));
+    bsOut.Write(static_cast<int16_t>(id));
+    bsOut.WriteBits(data, len * CHAR_BIT);
     mPeer->Send(&bsOut, priority, reliability, 0, mAddr, false);
 }

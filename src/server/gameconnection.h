@@ -34,7 +34,7 @@ public:
 
     // Functions
     virtual void sendChunk(Chunk* chunk) = 0;
-    virtual void handleReceivedData(Identifier id, unsigned char* data) = 0;
+    virtual void handleReceivedData(Identifier id, unsigned char* data, size_t len) = 0;
 };
 
 class MultiplayerConnection : public GameConnection
@@ -45,9 +45,8 @@ public:
 
     void sendChunk(Chunk* chunk) override;
 private:
-    void handleReceivedData(Identifier id, unsigned char* data) override;
+    void handleReceivedData(Identifier id, unsigned char* data, size_t len) override;
     Connection mConn;
     WorldManager& mWorlds;
-    flatbuffers::FlatBufferBuilder mFbb;
 };
 #endif

@@ -1,4 +1,4 @@
-// Request a chunk
+// Request a chunk from current world.
 namespace c2s;
 
 table RequestChunk
@@ -6,7 +6,6 @@ table RequestChunk
 	x:int;
 	y:int;
 	z:int;
-	worldID:int;
 }
 
 root_type RequestChunk;

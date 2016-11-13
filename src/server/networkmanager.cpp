@@ -38,7 +38,7 @@ NetworkManager::~NetworkManager()
     RakNet::RakPeerInterface::DestroyInstance(mPeer);
 }
 
-bool NetworkManager::run(const char *addr,unsigned short port)
+bool NetworkManager::start(const char *addr,unsigned short port)
 {
     if(mPeer == nullptr)
     {
@@ -82,15 +82,23 @@ void NetworkManager::loop()
             case ID_CONNECTION_LOST:
                 deleteConnection(p->systemAddress);
                 break;
-            default:
-                auto identifier = static_cast<Identifier>(p->data[0]);
+            case ID_USER_PACKET_ENUM:
+            {
+                union{short s;char c[2];} id;// 2 bytes.
+                id.c[0] = p->data[2];
+                id.c[1] = p->data[1];
+                auto identifier = static_cast<Identifier>(id.s);
                 if(identifier<=Identifier::Unknown|| identifier>=Identifier::EndIdentifier)
                 {
-                    warningstream << "Unexcepted packet is received. Packet ID:" << static_cast<int>(p->data[0])
+                    warningstream << "Unexpected packet has been received. Packet ID:" << id.s
                                   << " From " << p->systemAddress.ToString(true);
                     break;
                 }
-                mConns[mPeer->GetIndexFromSystemAddress(p->systemAddress)]->handleReceivedData(identifier, p->data + 1);
+                mConns[mPeer->GetIndexFromSystemAddress(p->systemAddress)]->handleReceivedData(identifier, p->data + 3, p->length - 3);
+                break;
+            }
+            default:
+                // TODO:handle unknown packet.
                 break;
             }
         }

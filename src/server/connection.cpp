@@ -31,10 +31,11 @@ Connection::~Connection()
     infostream << inet_ntoa(mAddr.address.addr4.sin_addr) << ':' << mAddr.address.addr4.sin_port << " disconnected.";
 }
 
-void Connection::sendRawData(Identifier id, const unsigned char *data, int len, PacketPriority priority, PacketReliability reliability)
+void Connection::sendRawData(Identifier id, const unsigned char *data, uint32_t len, PacketPriority priority, PacketReliability reliability)
 {
     RakNet::BitStream bsOut;
-    bsOut.Write(static_cast<RakNet::MessageID>(id));
-    bsOut.WriteBits(data, len);
+    bsOut.Write(static_cast<RakNet::MessageID>(ID_USER_PACKET_ENUM));
+    bsOut.Write(static_cast<int16_t>(id));
+    bsOut.WriteBits(data, len * CHAR_BIT);
     mPeer->Send(&bsOut, priority, reliability, 0, mAddr, false);
 }

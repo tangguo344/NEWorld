@@ -242,7 +242,7 @@ void WorldClient::tryLoadChunks(GameConnection& conn)
     for (int i = 0; i < mChunkLoadCount; i++)
     {
         addChunk(mChunkLoadList[i].first);
-        conn.getChunk(mID, mChunkLoadList[i].first);
+        conn.getChunk(mChunkLoadList[i].first);
     }
     for (int i = 0; i < mChunkUnloadCount; i++)
         deleteChunk(mChunkUnloadList[i].first->getPosition());

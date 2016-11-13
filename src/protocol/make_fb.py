@@ -41,7 +41,7 @@ out.write("""// A part of NEWorld, a free game with similar game rules to Minecr
 for f in fbsList:
     out.write("#include \"" + f.replace(".fbs","") + "_generated.h\"\n")
 out.write("\n")
-out.write("enum class Identifier {Unknown = ID_USER_PACKET_ENUM, " + ", ".join(all_protocols) + ", EndIdentifier};\n")
+out.write("enum class Identifier {Unknown," + ", ".join(all_protocols) + ",EndIdentifier};\n")
 out.write("template <class Type> inline Identifier packetType2Id() {return Identifier::Unknown;}\n")
 for protocol in all_protocols:
     out.write("template <> inline Identifier packetType2Id<%s::%s>() { return Identifier::%s; }\n"%(protocol[:3],protocol[3:],protocol));
