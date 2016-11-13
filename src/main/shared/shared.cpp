@@ -19,7 +19,7 @@
 
 #include "shared.h"
 
-int32_t GrassID;
+int32_t GrassID, RockID, DirtID, SandID;
 
 void registerBlocks()
 {
@@ -31,6 +31,30 @@ void registerBlocks()
     grass.explodePower = 0;
     grass.hardness = 2;
     GrassID = nwRegisterBlock(&grass);
+    NWblocktype rock;
+    rock.blockname = "Rock";
+    rock.solid = true;
+    rock.translucent = false;
+    rock.opaque = true;
+    rock.explodePower = 0;
+    rock.hardness = 2;
+    RockID = nwRegisterBlock(&rock);
+    NWblocktype dirt;
+    dirt.blockname = "Dirt";
+    dirt.solid = true;
+    dirt.translucent = false;
+    dirt.opaque = true;
+    dirt.explodePower = 0;
+    dirt.hardness = 2;
+    DirtID = nwRegisterBlock(&dirt);
+    NWblocktype sand;
+    sand.blockname = "Sand";
+    sand.solid = true;
+    sand.translucent = false;
+    sand.opaque = true;
+    sand.explodePower = 0;
+    sand.hardness = 2;
+    SandID = nwRegisterBlock(&sand);
 }
 
 NWplugindata* getMyInfo(bool client)

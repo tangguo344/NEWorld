@@ -63,6 +63,10 @@ void ChunkClient::renderBlock(BlockTexCoord coord[], const Vec3i& pos)
     if (adjacentTest(curr, neighbors[2]))
         va.addPrimitive(4,
     {
+        /*0.0f, 0.0f, 1.0f, 1.0f, 1.0f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 0.0f,
+        0.0f, 1.0f, 1.0f, 1.0f, 1.0f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 1.0f,
+        1.0f, 1.0f, 1.0f, 1.0f, 1.0f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 1.0f,
+        1.0f, 0.0f, 1.0f, 1.0f, 1.0f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 0.0f,*/
         coord[2].d[0], coord[2].d[1], 1.0f, 1.0f, 1.0f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 0.0f,
         coord[2].d[0], coord[2].d[3], 1.0f, 1.0f, 1.0f, pos.x + 0.0f, pos.y + 1.0f, pos.z + 1.0f,
         coord[2].d[2], coord[2].d[3], 1.0f, 1.0f, 1.0f, pos.x + 1.0f, pos.y + 1.0f, pos.z + 1.0f,
