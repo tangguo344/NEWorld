@@ -30,29 +30,30 @@ extern "C"
 #endif
 
 #if defined _WIN32 || defined __CYGWIN__
-#    ifdef _MSC_VER
-#        define NWAPIENTRY __declspec(dllimport)
-#        define NWAPIEXPORT __declspec(dllexport)
-#    else
-#        define NWAPIENTRY __attribute__((dllimport))
-#        define NWAPIEXPORT __attribute__((dllexport))
-#    endif
+    #ifdef _MSC_VER
+        #define NWAPIENTRY __declspec(dllimport)
+        #define NWAPIEXPORT __declspec(dllexport)
+    #else
+        #define NWAPIENTRY __attribute__((dllimport))
+        #define NWAPIEXPORT __attribute__((dllexport))
+    #endif
 #else
-#    define NWAPIENTRY __attribute__((visibility("default")))
-#    define NWAPIEXPORT __attribute__((visibility("default")))
+    #define NWAPIENTRY __attribute__((visibility("default")))
+    #define NWAPIEXPORT __attribute__((visibility("default")))
 #endif
 
 #ifndef NWAPICALL
-#    ifdef _MSC_VER
-#        define NWAPICALL __cdecl
-#    else
-#        define NWAPICALL __attribute__((__cdecl__))
-#    endif
+    #ifdef _MSC_VER
+        #define NWAPICALL __cdecl
+    #else
+        #define NWAPICALL __attribute__((__cdecl__))
+    #endif
 #endif
 
 // NEWorld constants
-const int ChunkSize = 32;
-const int32_t AirID = 0;
+
+const int NWChunkSize = 32;
+const int32_t NWAirID = 0;
 
 // NEWorld structures
 
@@ -60,18 +61,20 @@ struct NWvec3i
 {
     int32_t x, y, z;
 };
+
 enum
 {
     nwPluginTypeClientOnly,
     nwPluginTypeServerOnly,
     nwPluginTypeShared
 };
+
 struct NWplugindata
 {
     const char* pluginName;
     const char* authorName;
     const char* internalName;
-    int pluginType;
+    int32_t pluginType;
 };
 
 struct NWblockdata
@@ -94,49 +97,31 @@ struct NWblocktype
 // NEWorld APIs
 
 NWAPIENTRY NWblockdata NWAPICALL nwGetBlock(const NWvec3i* pos);
-NWAPIENTRY size_t NWAPICALL nwSetBlock(const NWvec3i* pos, NWblockdata block);
+NWAPIENTRY int NWAPICALL nwSetBlock(const NWvec3i* pos, NWblockdata block);
 NWAPIENTRY size_t NWAPICALL nwRegisterBlock(const NWblocktype*);
 
 #ifdef NEWORLD_PLUGIN_CLIENT_SIDE
+    // Client-only APIs
 
-enum
-{
-    nwRenderFuncStdFullBlockSameFace = 1,
-    nwRenderFuncStdFullBlockRoundFace,
-    nwRenderFuncStdFullBlockDiffFace,
-    nwRenderFuncStdHalfBlockSameFace,
-    nwRenderFuncStdHalfBlockRoundFace,
-    nwRenderFuncStdHalfBlockDiffFace
-};
+    typedef size_t NWtextureid;
+    typedef void(*NWblockrenderfunc)(void* cthis, NWblockdata data, int x, int y, int z);
 
-struct NWSTDSameFaceTexGroup
-{
-    size_t tex;
-};
+    struct NWblocktexture
+    {
+        NWtextureid right, left, top, bottom, front, back;
+    };
 
-struct NWSTDRoundFaceTexGroup
-{
-    size_t texTop, texBottom, texRound;
-};
-
-struct NWSTDDiffFaceTexGroup
-{
-    size_t texTop, texBottom, texLeft, texRight, texFront, texBack;
-};
-
-typedef void(*nwBlockRenderFunc)(void* cthis, NWblockdata data, size_t x, size_t y, size_t z);
-NWAPIENTRY void NWAPICALL nwSetBlockRenderFunc(size_t id, nwBlockRenderFunc func);
-NWAPIENTRY void NWAPICALL nwUseStandardRenderFunc(size_t id, size_t func, void* data);
-NWAPIENTRY size_t NWAPICALL nwRegisterTexture(const char* path);
+    NWAPIENTRY NWtextureid NWAPICALL nwRegisterTexture(const char* filename);
+    NWAPIENTRY void NWAPICALL nwSetBlockRenderFunc(size_t id, NWblockrenderfunc func);
+    NWAPIENTRY void NWAPICALL nwUseDefaultBlockRenderFunc(size_t id, void* data);
 
 #endif
 
 #ifdef NEWORLD_PLUGIN_SERVER_SIDE
-// Server-only APIs
+    // Server-only APIs
 
-typedef void NWAPICALL NWchunkgenerator(const NWvec3i*, NWblockdata*, int32_t);
-
-NWAPIENTRY size_t NWAPICALL nwRegisterChunkGenerator(NWchunkgenerator* const generator);
+    typedef void NWAPICALL NWchunkgenerator(const NWvec3i*, NWblockdata*, int32_t);
+    NWAPIENTRY size_t NWAPICALL nwRegisterChunkGenerator(NWchunkgenerator* const generator);
 
 #endif
 

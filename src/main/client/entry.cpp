@@ -32,11 +32,11 @@ NWAPIEXPORT NWplugindata* NWAPICALL getInfo()
 void NWAPICALL init()
 {
     sharedInit();
-    auto top = nwRegisterTexture("./res/grass.png"),
-         bottom = nwRegisterTexture("./res/grass_bottom.png"),
-         round = nwRegisterTexture("./res/grass_round.png");
-    NWSTDRoundFaceTexGroup grass{ top, bottom, round };
-    nwUseStandardRenderFunc(GrassID, nwRenderFuncStdFullBlockRoundFace, &grass);
+    NWtextureid top = nwRegisterTexture("./res/grass.png"),
+                bottom = nwRegisterTexture("./res/grass_bottom.png"),
+                round = nwRegisterTexture("./res/grass_round.png");
+    NWblocktexture grass{ round, round, top, bottom, round, round };
+    nwUseDefaultBlockRenderFunc(GrassID, &grass);
 }
 
 // Unload function
