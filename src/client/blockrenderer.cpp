@@ -27,7 +27,7 @@ size_t BlockTextureBuilder::mTexturePerLine = 8;
 std::vector<Texture::RawTexture> BlockTextureBuilder::mRawTexs;
 std::vector<std::shared_ptr<BlockRenderer>> BlockRendererManager::mBlockRenderers;
 
-void BlockRendererManager::invoke(size_t id, class ChunkClient* chunk, const Vec3i& pos)
+void BlockRendererManager::render(size_t id, class ChunkClient* chunk, const Vec3i& pos)
 {
     if (mBlockRenderers[id]) mBlockRenderers[id]->render(chunk, pos);
 }
@@ -52,7 +52,7 @@ void StandardFullBlockRenderer::flushTexture()
 
 void StandardFullBlockRenderer::render(ChunkClient* chunk, const Vec3i& pos)
 {
-    chunk->stdFullBlock(tex, pos);
+    chunk->renderBlock(tex, pos);
 }
 
 StandardFullBlockRenderer::StandardFullBlockRenderer(size_t data[])

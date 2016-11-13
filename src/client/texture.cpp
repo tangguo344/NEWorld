@@ -26,15 +26,13 @@
 
 constexpr int align(int x, int al)
 {
-    return(x%al == 0 ? x : (x/al + 1) * al);
+    return x % al == 0 ? x : (x / al + 1) * al;
 }
 
 void Texture::init()
 {
     if (!IMG_Init(IMG_INIT_PNG))
-    {
         errorstream << "Failed to initialize PNG support! " << IMG_GetError();
-    }
 }
 
 void Texture::free()

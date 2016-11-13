@@ -76,8 +76,8 @@ public:
 
     static Chunk* getFromFlatbuffers(const s2c::Chunk* fbChunk, WorldClient& worlds);
 
-    //Standard Render Functions
-    void stdFullBlock(BlockTexCrood crood[], const Vec3i& pos);
+    // Render default block
+    void renderBlock(BlockTexCoord coord[], const Vec3i& pos);
 
 private:
     // Target world
@@ -85,7 +85,7 @@ private:
     // Vertex buffer object
     VertexBuffer mBuffer;
     // Render built
-    std::atomic<bool> mRenderBuilt{false};
+    bool mRenderBuilt = false;
     // Vertex array
     static VertexArray va;
     // Merge face rendering
@@ -93,7 +93,7 @@ private:
 
     bool adjacentTest(BlockData a, BlockData b) const
     {
-        return (a.getID()) && !mWorld.getType(b.getID()).isOpaque();
+        return a.getID() != 0 && !mWorld.getType(b.getID()).isOpaque() && !(a.getID() == b.getID());
     }
 };
 
