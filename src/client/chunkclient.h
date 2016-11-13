@@ -65,6 +65,7 @@ public:
     void destroyVertexArray()
     {
         mBuffer.destroy();
+        mBufferTrans.destroy();
         mRenderBuilt = false;
     }
 
@@ -72,6 +73,7 @@ public:
     void render() const
     {
         mBuffer.render();
+        mBufferTrans.render();
     }
 
     static Chunk* getFromFlatbuffers(const s2c::Chunk* fbChunk, WorldClient& worlds);
@@ -83,11 +85,11 @@ private:
     // Target world
     World& mWorld;
     // Vertex buffer object
-    VertexBuffer mBuffer;
+    VertexBuffer mBuffer, mBufferTrans;
     // Render built
     bool mRenderBuilt = false;
     // Vertex array
-    static VertexArray va;
+    static VertexArray va0, va1;
     // Merge face rendering
     static bool mergeFace;
 
