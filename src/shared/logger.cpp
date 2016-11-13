@@ -32,6 +32,7 @@ Logger::Level Logger::cerrLevel = Level::fatal;
 Logger::Level Logger::fileLevel = Level::trace;
 Logger::Level Logger::lineLevel = Level::error;
 bool Logger::fileOnly = false;
+std::mutex Logger::mutex;
 
 std::vector<std::ofstream> Logger::fsink;
 
@@ -105,7 +106,7 @@ void Logger::init(const std::string& prefix)
 }
 
 Logger::Logger(const char* fileName, const char *funcName, int lineNumber, Level level)
-    : mLevel(level)
+    : mLevel(level), mLock(mutex)
 {
     if (mLevel >= lineLevel)
     {

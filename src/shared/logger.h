@@ -23,6 +23,7 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
+#include <mutex>
 #include "common.h"
 
 class Logger
@@ -56,6 +57,7 @@ public:
     static Level fileLevel;
     static Level lineLevel;
     static bool fileOnly;
+    static std::mutex mutex;
 
 private:
     std::stringstream mContent;
@@ -64,6 +66,7 @@ private:
     const char *mFileName;
     const char *mFuncName;
     int mLineNumber;
+    std::lock_guard<std::mutex> mLock;
 
     static std::vector<std::ofstream> fsink;
 
