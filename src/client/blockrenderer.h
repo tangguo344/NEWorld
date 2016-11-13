@@ -17,8 +17,8 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef BLOCKRENDERER_H
-#define BLOCKRENDERER_H
+#ifndef BLOCKRENDERER_H_
+#define BLOCKRENDERER_H_
 
 #include "texture.h"
 #include <vector>
@@ -40,10 +40,10 @@ public:
     virtual void render(class ChunkClient* chunk, const Vec3i& pos) = 0;
 };
 
-class StandardFullBlockRenderer : public BlockRenderer
+class DefaultBlockRenderer : public BlockRenderer
 {
 public:
-    StandardFullBlockRenderer(size_t data[]);
+    DefaultBlockRenderer(size_t data[]);
     void flushTexture() override;
     void render(class ChunkClient* chunk, const Vec3i& pos) override;
 private:
@@ -76,13 +76,11 @@ class BlockRendererManager
 {
 public:
     static void render(size_t id, class ChunkClient* chunk, const Vec3i& pos); //RenderList
-
     static void setBlockRenderer(size_t pos, std::shared_ptr<BlockRenderer>&& blockRenderer);
-
     static void flushTextures();
 
 private:
     static std::vector<std::shared_ptr<BlockRenderer>> mBlockRenderers;
 };
 
-#endif //BLOCKRENDERER_H
+#endif // !BLOCKRENDERER_H_

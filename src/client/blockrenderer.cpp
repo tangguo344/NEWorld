@@ -44,18 +44,18 @@ void BlockRendererManager::flushTextures()
         if (x) x->flushTexture();
 }
 
-void StandardFullBlockRenderer::flushTexture()
+void DefaultBlockRenderer::flushTexture()
 {
     for (auto i = 0; i < 6; ++i)
         BlockTextureBuilder::getTexturePos(tex[i].d, tex[i].pos);
 }
 
-void StandardFullBlockRenderer::render(ChunkClient* chunk, const Vec3i& pos)
+void DefaultBlockRenderer::render(ChunkClient* chunk, const Vec3i& pos)
 {
     chunk->renderBlock(tex, pos);
 }
 
-StandardFullBlockRenderer::StandardFullBlockRenderer(size_t data[])
+DefaultBlockRenderer::DefaultBlockRenderer(size_t data[])
 {
     for (auto i = 0; i < 6; ++i)
         tex[i].pos = data[i];

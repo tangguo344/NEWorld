@@ -23,14 +23,14 @@ int32_t GrassID;
 
 void registerBlocks()
 {
-    NWblocktype rock;
-    rock.blockname = "Rock";
-    rock.solid = true;
-    rock.translucent = false;
-    rock.opaque = true;
-    rock.explodePower = 0;
-    rock.hardness = 2;
-    GrassID = nwRegisterBlock(&rock);
+    NWblocktype grass;
+    grass.blockname = "Grass";
+    grass.solid = true;
+    grass.translucent = false;
+    grass.opaque = true;
+    grass.explodePower = 0;
+    grass.hardness = 2;
+    GrassID = nwRegisterBlock(&grass);
 }
 
 NWplugindata* getMyInfo(bool client)

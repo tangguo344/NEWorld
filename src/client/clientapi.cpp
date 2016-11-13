@@ -26,46 +26,20 @@
 
 extern "C"
 {
-    NWAPIEXPORT void NWAPICALL nwSetBlockRenderFunc(size_t id, nwBlockRenderFunc func)
+    NWAPIEXPORT void NWAPICALL nwSetBlockRenderFunc(size_t, NWblockrenderfunc)
     {
 
     }
 
-    NWAPIEXPORT void NWAPICALL nwUseStandardRenderFunc(size_t id, size_t func, void *data)
+    NWAPIEXPORT void NWAPICALL nwUseDefaultBlockRenderFunc(size_t id, void *data)
     {
-        switch (func)
-        {
-        case nwRenderFuncStdFullBlockSameFace:
-        {
-            auto tex = reinterpret_cast<NWSTDSameFaceTexGroup*>(data)->tex;
-            size_t array[] = {tex, tex, tex, tex, tex, tex};
-            BlockRendererManager::setBlockRenderer(id, std::make_shared<StandardFullBlockRenderer>(array));
-            break;
-        }
-        case nwRenderFuncStdFullBlockRoundFace:
-        {
-            auto ptr = reinterpret_cast<NWSTDRoundFaceTexGroup*>(data);
-            auto top = ptr->texTop, bottom = ptr->texBottom, round = ptr->texRound;
-            size_t array[] = {round, round, top, bottom, round, round};
-            BlockRendererManager::setBlockRenderer(id, std::make_shared<StandardFullBlockRenderer>(array));
-            break;
-        }
-        case nwRenderFuncStdFullBlockDiffFace:
-        {
-            auto ptr = reinterpret_cast<NWSTDDiffFaceTexGroup*>(data);
-            size_t array[] = {ptr->texRight, ptr->texLeft, ptr->texTop, ptr->texBottom,
-                              ptr->texFront, ptr->texBack};
-            BlockRendererManager::setBlockRenderer(id, std::make_shared<StandardFullBlockRenderer>(array));
-            break;
-        }
-        default:
-            break;
-        };
+        NWblocktexture* ptr = reinterpret_cast<NWblocktexture*>(data);
+        size_t array[] = { ptr->right, ptr->left, ptr->top, ptr->bottom, ptr->front, ptr->back };
+        BlockRendererManager::setBlockRenderer(id, std::make_shared<DefaultBlockRenderer>(array));
     }
 
-    NWAPIEXPORT size_t NWAPICALL nwRegisterTexture(const char* path)
+    NWAPIEXPORT NWtextureid NWAPICALL nwRegisterTexture(const char* filename)
     {
-        return BlockTextureBuilder::addTexture(path);
+        return BlockTextureBuilder::addTexture(filename);
     }
-
 }
