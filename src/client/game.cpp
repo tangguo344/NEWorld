@@ -105,14 +105,14 @@ void Game::update()
 
     // TODO: Read keys from the configuration file
     auto state = Window::getKeyBoardState();
-    if (state[SDL_SCANCODE_UP] && mPlayer.getRotation().x < 90)
-        mPlayer.rotate(Vec3d(1.5, 0.0, 0.0));
+    if (state[SDL_SCANCODE_UP])
+        mPlayer.accelerateRotation(Vec3d(1, 0.0, 0.0));
     if (state[SDL_SCANCODE_DOWN] && mPlayer.getRotation().x > -90)
-        mPlayer.rotate(Vec3d(-1.5, 0.0, 0.0));
+        mPlayer.accelerateRotation(Vec3d(-1, 0.0, 0.0));
     if (state[SDL_SCANCODE_RIGHT])
-        mPlayer.rotate(Vec3d(0.0, -2.5, 0.0));
+        mPlayer.accelerateRotation(Vec3d(0.0, -1, 0.0));
     if (state[SDL_SCANCODE_LEFT])
-        mPlayer.rotate(Vec3d(0.0, 2.5, 0.0));
+        mPlayer.accelerateRotation(Vec3d(0.0, 1, 0.0));
     if (state[SDL_SCANCODE_W])
         mPlayer.accelerate(Vec3d(0.0, 0.0, -0.05));
     if (state[SDL_SCANCODE_S])

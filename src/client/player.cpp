@@ -49,6 +49,20 @@ void Player::move()
     //mSpeed += Vec3d(0.0, -0.05, 0.0);
 }
 
+void Player::rotationMove()
+{
+    mRotation += mRotationSpeed;
+    if (mRotation.x > 90) {
+        mRotation.x = 90;
+        mRotationSpeed.x = 0;
+    }
+    if (mRotation.x < -90) {
+        mRotation.x = -90;
+        mRotationSpeed.x = 0;
+    }
+    mRotationSpeed *= 0.6;
+}
+
 void Player::render()
 {
     // Player model not finished yet
