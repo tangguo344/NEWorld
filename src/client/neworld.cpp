@@ -27,8 +27,8 @@
 NEWorld::NEWorld() : mPlugins(true)
 {
     // Initialize
-    getSettings("client");
     Logger::init("client");
+    getSettings("client");
     infostream << "Initializing...";
     Window& window = Window::getInstance("NEWorld", 852, 480);
     Renderer::init();

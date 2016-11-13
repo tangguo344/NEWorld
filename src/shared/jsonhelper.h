@@ -37,7 +37,16 @@ inline Json readJsonFromFile(std::string filename)
         std::string content = std::string((std::istreambuf_iterator<char>(file)),
                                           std::istreambuf_iterator<char>());
         if (!content.empty())
-            return Json::parse(content);
+        {
+            try
+            {
+                return Json::parse(content);
+            }
+            catch(std::invalid_argument& exception)
+            {
+                warningstream << "Failed to load json " << filename << ": " << exception.what();
+            }
+        }
     }
     return Json();
 }

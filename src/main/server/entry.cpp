@@ -22,7 +22,6 @@
 #define NEWORLD_PLUGIN_SERVER_SIDE
 #include "../shared/shared.h"
 #include "worldgen.h"
-#include <iostream>
 
 NWplugindata* MainPlugin = nullptr;
 
@@ -34,7 +33,6 @@ NWAPIEXPORT NWplugindata* NWAPICALL getInfo()
 // Main function
 void NWAPICALL init()
 {
-    std::cout << &nwRegisterChunkGenerator << std::endl;
     nwRegisterChunkGenerator(generator);
     sharedInit();
 }
