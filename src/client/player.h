@@ -37,6 +37,11 @@ public:
         mSpeed += acceleration;
     }
 
+    void accelerateRotation(const Vec3d& acceleration)
+    {
+        mRotationSpeed += acceleration;
+    }
+
     void setSpeed(const Vec3d& speed)
     {
         mSpeed = speed;
@@ -52,12 +57,14 @@ public:
     void update() override
     {
         move();
+        rotationMove();
     }
 
 private:
-    Vec3d mSpeed, mPositionDelta;
+    Vec3d mSpeed, mRotationSpeed, mPositionDelta;
 
     void move();
+    void rotationMove();
 };
 
 #endif // !PLAYER_H_

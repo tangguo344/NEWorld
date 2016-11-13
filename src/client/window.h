@@ -40,9 +40,19 @@ public:
         SDL_GL_SwapWindow(mWindow);
     }
 
-    static bool isKeyDown(SDL_Scancode scancode)
+    static const Uint8* getKeyBoardState()
     {
-        return SDL_GetKeyboardState(nullptr)[scancode] == 1u;
+        return SDL_GetKeyboardState(nullptr);
+    }
+
+    int getWidth() const
+    {
+        return mWidth;
+    }
+
+    int getHeight() const
+    {
+        return mHeight;
     }
 
     void pollEvents()
@@ -51,7 +61,22 @@ public:
         while (SDL_PollEvent(&e))
         {
             imguiHelper::processEvent(&e);
-            if (e.type == SDL_QUIT) mShouldQuit = true;
+            switch (e.type)
+            {
+            case SDL_QUIT:
+                mShouldQuit = true;
+                break;
+            case SDL_WINDOWEVENT:
+                switch (e.window.event)
+                {
+                case SDL_WINDOWEVENT_RESIZED:
+                case SDL_WINDOWEVENT_SIZE_CHANGED:
+                    mWidth = e.window.data1;
+                    mHeight = e.window.data2;
+                    break;
+                }
+                break;
+            }
         }
     }
 

@@ -26,8 +26,8 @@
 #include "blockrenderer.h"
 
 Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
-           PluginManager& pm, const BlockManager& bm):
-    mBlocks(bm), mPlugins(pm), mWorld(name, pm, bm), mPlayer(&mWorld), mConnection(connection)
+           const Window& window, PluginManager& pm, const BlockManager& bm):
+    mWindow(window), mBlocks(bm), mPlugins(pm), mWorld(name, pm, bm), mPlayer(&mWorld), mConnection(connection)
 {
     mWorld.setRenderDistance(2);
     mPlayer.setPosition(Vec3d(-16.0, 48.0, 32.0));
@@ -104,28 +104,29 @@ void Game::update()
     mUpsCounter++;
 
     // TODO: Read keys from the configuration file
-    if (Window::isKeyDown(SDL_SCANCODE_UP) && mPlayer.getRotation().x < 90)
-        mPlayer.rotate(Vec3d(1.5, 0.0, 0.0));
-    if (Window::isKeyDown(SDL_SCANCODE_DOWN) && mPlayer.getRotation().x > -90)
-        mPlayer.rotate(Vec3d(-1.5, 0.0, 0.0));
-    if (Window::isKeyDown(SDL_SCANCODE_RIGHT))
-        mPlayer.rotate(Vec3d(0.0, -2.5, 0.0));
-    if (Window::isKeyDown(SDL_SCANCODE_LEFT))
-        mPlayer.rotate(Vec3d(0.0, 2.5, 0.0));
-    if (Window::isKeyDown(SDL_SCANCODE_W))
+    auto state = Window::getKeyBoardState();
+    if (state[SDL_SCANCODE_UP])
+        mPlayer.accelerateRotation(Vec3d(1, 0.0, 0.0));
+    if (state[SDL_SCANCODE_DOWN] && mPlayer.getRotation().x > -90)
+        mPlayer.accelerateRotation(Vec3d(-1, 0.0, 0.0));
+    if (state[SDL_SCANCODE_RIGHT])
+        mPlayer.accelerateRotation(Vec3d(0.0, -1, 0.0));
+    if (state[SDL_SCANCODE_LEFT])
+        mPlayer.accelerateRotation(Vec3d(0.0, 1, 0.0));
+    if (state[SDL_SCANCODE_W])
         mPlayer.accelerate(Vec3d(0.0, 0.0, -0.05));
-    if (Window::isKeyDown(SDL_SCANCODE_S))
+    if (state[SDL_SCANCODE_S])
         mPlayer.accelerate(Vec3d(0.0, 0.0, 0.05));
-    if (Window::isKeyDown(SDL_SCANCODE_A))
+    if (state[SDL_SCANCODE_A])
         mPlayer.accelerate(Vec3d(-0.05, 0.0, 0.0));
-    if (Window::isKeyDown(SDL_SCANCODE_D))
+    if (state[SDL_SCANCODE_D])
         mPlayer.accelerate(Vec3d(0.05, 0.0, 0.0));
-    if (Window::isKeyDown(SDL_SCANCODE_SPACE))
+    if (state[SDL_SCANCODE_SPACE])
         mPlayer.accelerate(Vec3d(0.0, 0.1, 0.0));
 #ifdef NEWORLD_TARGET_MACOSX
-    if (Window::isKeyDown(SDL_SCANCODE_LGUI) || Window::isKeyDown(SDL_SCANCODE_RGUI))
+    if (state[SDL_SCANCODE_LGUI] || state[SDL_SCANCODE_RGUI])
 #else
-    if (Window::isKeyDown(SDL_SCANCODE_LCTRL) || Window::isKeyDown(SDL_SCANCODE_RCTRL))
+    if (state[SDL_SCANCODE_LCTRL] || state[SDL_SCANCODE_RCTRL])
 #endif
         mPlayer.accelerate(Vec3d(0.0, -0.1, 0.0));
 
@@ -171,8 +172,9 @@ void Game::render()
 
     mTexture.bind(Texture::Texture2D);
     Renderer::clear();
+    Renderer::setViewport(0, 0, mWindow.getWidth(), mWindow.getHeight());
     Renderer::restoreProj();
-    Renderer::applyPerspective(70.0f, float(windowWidth) / windowHeight, 0.1f, 300.0f);
+    Renderer::applyPerspective(70.0f, float(mWindow.getWidth()) / mWindow.getHeight(), 0.1f, 300.0f);
     Renderer::restoreScale();
     Renderer::rotate(float(-mPlayer.getRotation().x), Vec3f(1.0f, 0.0f, 0.0f));
     Renderer::rotate(float(-mPlayer.getRotation().y), Vec3f(0.0f, 1.0f, 0.0f));
