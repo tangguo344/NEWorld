@@ -52,6 +52,11 @@ public:
         return mPositionDelta;
     }
 
+    Vec3d getRotationDelta() const
+    {
+        return mRotationDelta;
+    }
+
     void render() override;
 
     void update() override
@@ -61,7 +66,8 @@ public:
     }
 
 private:
-    Vec3d mSpeed, mRotationSpeed, mPositionDelta;
+    Vec3d mSpeed, mRotationSpeed;
+    Vec3d mPositionDelta, mRotationDelta;
 
     void move();
     void rotationMove();
