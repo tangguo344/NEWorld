@@ -135,8 +135,8 @@ size_t BlockTextureBuilder::getTexturePerLine()
 void BlockTextureBuilder::getTexturePos(float *pos, size_t id)
 {
     float percentagePerTexture = 1.0f / mTexturePerLine;
-    auto x = mTexturePerLine - id % mTexturePerLine;
-    auto y = mTexturePerLine - id / mTexturePerLine;
+    auto x = id % mTexturePerLine;
+    auto y = id / mTexturePerLine;
     pos[0] = percentagePerTexture * x;
     pos[1] = percentagePerTexture * y;
     pos[2] = percentagePerTexture * (x + 1);

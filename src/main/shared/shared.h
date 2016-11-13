@@ -23,7 +23,7 @@
 #include "../../../api/c/nwapi.h"
 
 // Block IDs
-extern int32_t GrassID;
+extern int32_t GrassID, RockID, DirtID, SandID;
 
 void registerBlocks();
 

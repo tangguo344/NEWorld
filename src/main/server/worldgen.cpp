@@ -31,14 +31,29 @@ void NWAPICALL generator(const NWvec3i *pos, NWblockdata * blocks, int daylightB
     for (int x = 0; x < NWChunkSize; x++)
         for (int z = 0; z < NWChunkSize; z++)
         {
-            int height = WorldGen::getHeight(pos->x*NWChunkSize + x, pos->z*NWChunkSize + z) - pos->y*NWChunkSize;
+            int absHeight = WorldGen::getHeight(pos->x * NWChunkSize + x, pos->z * NWChunkSize + z);
+            int height = absHeight - pos->y * NWChunkSize;
+            bool underWater = absHeight <= 0;
             for (int y = 0; y < NWChunkSize; y++)
             {
-                NWblockdata &block = blocks[x*NWChunkSize*NWChunkSize + y*NWChunkSize + z];
+                NWblockdata &block = blocks[x * NWChunkSize * NWChunkSize + y * NWChunkSize + z];
                 if (y <= height)
                 {
-                    block.id = GrassID;
-                    block.brightness = block.state = 0;
+                    if (y == height)
+                    {
+                        block.id = ((underWater) ? SandID : GrassID);
+                        block.brightness = block.state = 0;
+                    }
+                    else if (y >= height - 3)
+                    {
+                        block.id = ((underWater) ? SandID : DirtID);
+                        block.brightness = block.state = 0;
+                    }
+                    else
+                    {
+                        block.id = RockID;
+                        block.brightness = block.state = 0;
+                    }
                 }
                 else
                 {
