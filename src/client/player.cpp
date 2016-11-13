@@ -51,15 +51,12 @@ void Player::move()
 
 void Player::rotationMove()
 {
+    if (mRotation.x + mRotationSpeed.x > 90.0)
+        mRotationSpeed.x = 90.0 - mRotation.x;
+    if (mRotation.x + mRotationSpeed.x < -90.0)
+        mRotationSpeed.x = -90.0 - mRotation.x;
     mRotation += mRotationSpeed;
-    if (mRotation.x > 90) {
-        mRotation.x = 90;
-        mRotationSpeed.x = 0;
-    }
-    if (mRotation.x < -90) {
-        mRotation.x = -90;
-        mRotationSpeed.x = 0;
-    }
+    mRotationDelta = mRotationSpeed;
     mRotationSpeed *= 0.6;
 }
 

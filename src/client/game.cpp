@@ -169,6 +169,7 @@ void Game::render()
     double timeDelta = mUpdateScheduler.getDeltaTimeMs() / 1000.0 * UpdateFrequency;
     if (timeDelta > 1.0) timeDelta = 1.0;
     Vec3d playerRenderedPosition = mPlayer.getPosition() - mPlayer.getPositionDelta() * (1.0 - timeDelta);
+    Vec3d playerRenderedRotation = mPlayer.getRotation() - mPlayer.getRotationDelta() * (1.0 - timeDelta);
 
     mTexture.bind(Texture::Texture2D);
     Renderer::clear();
@@ -176,9 +177,9 @@ void Game::render()
     Renderer::restoreProj();
     Renderer::applyPerspective(70.0f, float(mWindow.getWidth()) / mWindow.getHeight(), 0.1f, 300.0f);
     Renderer::restoreScale();
-    Renderer::rotate(float(-mPlayer.getRotation().x), Vec3f(1.0f, 0.0f, 0.0f));
-    Renderer::rotate(float(-mPlayer.getRotation().y), Vec3f(0.0f, 1.0f, 0.0f));
-    Renderer::rotate(float(-mPlayer.getRotation().z), Vec3f(0.0f, 0.0f, 1.0f));
+    Renderer::rotate(float(-playerRenderedRotation.x), Vec3f(1.0f, 0.0f, 0.0f));
+    Renderer::rotate(float(-playerRenderedRotation.y), Vec3f(0.0f, 1.0f, 0.0f));
+    Renderer::rotate(float(-playerRenderedRotation.z), Vec3f(0.0f, 0.0f, 1.0f));
     Renderer::translate(-playerRenderedPosition);
 
     // Render
