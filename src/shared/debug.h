@@ -21,7 +21,7 @@
 #define DEBUG_H_
 
 #include "logger.h"
-
+#define NEWORLD_DEBUG
 // Assertion uses C++ exception
 inline void AssertFunc(bool expr, const char* file, const char* fname, int line)
 {
