@@ -23,6 +23,7 @@
 #include <string>
 #include "blockrenderer.h"
 #include "../../api/c/nwapi.h"
+
 extern "C"
 {
     NWAPIEXPORT void NWAPICALL nwSetBlockRenderFunc(size_t id, nwBlockRenderFunc func)

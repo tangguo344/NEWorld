@@ -48,7 +48,7 @@ public:
     // Set chunk updated flag
     void setUpdated(bool updated)
     {
-        mUpdated.store(updated);
+        mUpdated = updated;
     }
 
     // Get block data in this chunk
@@ -89,7 +89,7 @@ protected:
 private:
     Vec3i mPosition;
     BlockData mBlocks[Size * Size * Size];
-    std::atomic<bool> mUpdated{false};
+    bool mUpdated = false;
 };
 
 #endif // !CHUNK_H_

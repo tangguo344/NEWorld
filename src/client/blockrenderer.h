@@ -25,7 +25,7 @@
 #include <memory>
 #include "vec3.h"
 
-struct BlockTexCrood
+struct BlockTexCoord
 {
     size_t pos = 0;
     float d[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
@@ -47,7 +47,7 @@ public:
     void flushTexture() override;
     void render(class ChunkClient* chunk, const Vec3i& pos) override;
 private:
-    BlockTexCrood tex[6];
+    BlockTexCoord tex[6];
 };
 
 class BlockTextureBuilder
@@ -75,7 +75,7 @@ private:
 class BlockRendererManager
 {
 public:
-    static void invoke(size_t id, class ChunkClient* chunk, const Vec3i& pos); //RenderList
+    static void render(size_t id, class ChunkClient* chunk, const Vec3i& pos); //RenderList
 
     static void setBlockRenderer(size_t pos, std::shared_ptr<BlockRenderer>&& blockRenderer);
 
