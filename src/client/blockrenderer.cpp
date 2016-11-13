@@ -22,7 +22,7 @@
 #include <cmath>
 #include <SDL2/SDL.h>
 
-size_t BlockTextureBuilder::mPPT = 32;
+size_t BlockTextureBuilder::mPixelPerTexture = 32;
 size_t BlockTextureBuilder::mTexturePerLine = 8;
 std::vector<Texture::RawTexture> BlockTextureBuilder::mRawTexs;
 std::vector<std::shared_ptr<BlockRenderer>> BlockRendererManager::mBlockRenderers;
@@ -63,7 +63,7 @@ StandardFullBlockRenderer::StandardFullBlockRenderer(size_t data[])
 
 size_t BlockTextureBuilder::capacity()
 {
-    size_t w = capacityRaw() / mPPT;
+    size_t w = capacityRaw() / mPixelPerTexture;
     return w * w;
 }
 
@@ -76,12 +76,12 @@ size_t BlockTextureBuilder::capacityRaw()
 
 void BlockTextureBuilder::setWidthPerTex(size_t wid)
 {
-    mPPT = wid;
+    mPixelPerTexture = wid;
 }
 
 size_t BlockTextureBuilder::getWidthPerTex()
 {
-    return mPPT;
+    return mPixelPerTexture;
 }
 
 size_t BlockTextureBuilder::addTexture(const Texture::RawTexture& rawTexture)
@@ -94,9 +94,8 @@ Texture BlockTextureBuilder::buildAndFlush()
 {
     size_t count = mRawTexs.size();
     Assert(count <= capacity());
-    int length = static_cast<int>(sqrt(count) + 0.8);
-    mTexturePerLine = (1 << static_cast<int>(ceil(log2(length))));
-    auto wid = mTexturePerLine * mPPT;
+    mTexturePerLine = (1 << static_cast<int>(ceil(log2(ceil(sqrt(count))))));
+    auto wid = mTexturePerLine * mPixelPerTexture;
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
     Uint32 masks[] = { 0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff };
 #else
@@ -108,9 +107,9 @@ Texture BlockTextureBuilder::buildAndFlush()
         auto x = i % mTexturePerLine;
         auto y = i / mTexturePerLine;
         SDL_Rect r;
-        r.x = x * mPPT;
-        r.y = y * mPPT;
-        r.w = r.h = mPPT;
+        r.x = x * mPixelPerTexture;
+        r.y = y * mPixelPerTexture;
+        r.w = r.h = mPixelPerTexture;
         SDL_BlitScaled(mRawTexs[i].getSurface(), nullptr, s, &r);
     }
     mRawTexs.clear();
@@ -135,11 +134,11 @@ size_t BlockTextureBuilder::getTexturePerLine()
 
 void BlockTextureBuilder::getTexturePos(float *pos, size_t id)
 {
-    float pct = 1.0f / mTexturePerLine;
+    float percentagePerTexture = 1.0f / mTexturePerLine;
     auto x = mTexturePerLine - id % mTexturePerLine;
     auto y = mTexturePerLine - id / mTexturePerLine;
-    pos[0] = pct * x;
-    pos[1] = pct * y;
-    pos[2] = pct * (x + 1);
-    pos[3] = pct * (y + 1);
+    pos[0] = percentagePerTexture * x;
+    pos[1] = percentagePerTexture * y;
+    pos[2] = percentagePerTexture * (x + 1);
+    pos[3] = percentagePerTexture * (y + 1);
 }

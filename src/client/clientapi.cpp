@@ -37,24 +37,25 @@ extern "C"
         {
         case nwRenderFuncStdFullBlockSameFace:
         {
-            auto t = reinterpret_cast<NWSTDSameFaceTexGroup*>(data)->tex;
-            size_t a[] = {t, t, t, t, t, t};
-            BlockRendererManager::setBlockRenderer(id, std::make_shared<StandardFullBlockRenderer>(a));
+            auto tex = reinterpret_cast<NWSTDSameFaceTexGroup*>(data)->tex;
+            size_t array[] = {tex, tex, tex, tex, tex, tex};
+            BlockRendererManager::setBlockRenderer(id, std::make_shared<StandardFullBlockRenderer>(array));
             break;
         }
         case nwRenderFuncStdFullBlockRoundFace:
         {
-            auto p = reinterpret_cast<NWSTDRoundFaceTexGroup*>(data);
-            auto t = p->texTop, b = p->texBottom, r = p->texRound;
-            size_t a[] = {r, r, t, b, r, r};
-            BlockRendererManager::setBlockRenderer(id, std::make_shared<StandardFullBlockRenderer>(a));
+            auto ptr = reinterpret_cast<NWSTDRoundFaceTexGroup*>(data);
+            auto top = ptr->texTop, bottom = ptr->texBottom, round = ptr->texRound;
+            size_t array[] = {round, round, top, bottom, round, round};
+            BlockRendererManager::setBlockRenderer(id, std::make_shared<StandardFullBlockRenderer>(array));
             break;
         }
         case nwRenderFuncStdFullBlockDiffFace:
         {
-            auto p = reinterpret_cast<NWSTDDiffFaceTexGroup*>(data);
-            size_t a[] = {p->texRight, p->texLeft, p->texTop, p->texBottom, p->texFront, p->texBack};
-            BlockRendererManager::setBlockRenderer(id, std::make_shared<StandardFullBlockRenderer>(a));
+            auto ptr = reinterpret_cast<NWSTDDiffFaceTexGroup*>(data);
+            size_t array[] = {ptr->texRight, ptr->texLeft, ptr->texTop, ptr->texBottom,
+                              ptr->texFront, ptr->texBack};
+            BlockRendererManager::setBlockRenderer(id, std::make_shared<StandardFullBlockRenderer>(array));
             break;
         }
         default:

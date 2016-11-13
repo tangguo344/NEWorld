@@ -68,7 +68,7 @@ public:
     static void getTexturePos(float pos[], size_t id);
 
 private:
-    static size_t mPPT, mTexturePerLine;
+    static size_t mPixelPerTexture, mTexturePerLine;
     static std::vector<Texture::RawTexture> mRawTexs;
 };
 
