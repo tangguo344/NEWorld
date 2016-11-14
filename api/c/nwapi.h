@@ -52,7 +52,7 @@ extern "C"
 
 // NEWorld constants
 
-const int NWChunkSize = 32;
+const int NWChunkSize = 16;
 const int32_t NWAirID = 0;
 
 // NEWorld structures
@@ -101,19 +101,19 @@ NWAPIENTRY int NWAPICALL nwSetBlock(const NWvec3i* pos, NWblockdata block);
 NWAPIENTRY size_t NWAPICALL nwRegisterBlock(const NWblocktype*);
 
 #ifdef NEWORLD_PLUGIN_CLIENT_SIDE
-    // Client-only APIs
+// Client-only APIs
 
-    typedef size_t NWtextureid;
-    typedef void(*NWblockrenderfunc)(void* cthis, NWblockdata data, int x, int y, int z);
+typedef size_t NWtextureid;
+typedef void(*NWblockrenderfunc)(void* cthis, NWblockdata data, int x, int y, int z);
 
-    struct NWblocktexture
-    {
-        NWtextureid right, left, top, bottom, front, back;
-    };
+struct NWblocktexture
+{
+    NWtextureid right, left, top, bottom, front, back;
+};
 
-    NWAPIENTRY NWtextureid NWAPICALL nwRegisterTexture(const char* filename);
-    NWAPIENTRY void NWAPICALL nwSetBlockRenderFunc(size_t id, NWblockrenderfunc func);
-    NWAPIENTRY void NWAPICALL nwUseDefaultBlockRenderFunc(size_t id, void* data);
+NWAPIENTRY NWtextureid NWAPICALL nwRegisterTexture(const char* filename);
+NWAPIENTRY void NWAPICALL nwSetBlockRenderFunc(size_t id, NWblockrenderfunc func);
+NWAPIENTRY void NWAPICALL nwUseDefaultBlockRenderFunc(size_t id, void* data);
 
 #endif
 

@@ -17,8 +17,8 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PLAYER_MANAGER_H_
-#define PLAYER_MANAGER_H_
+#ifndef PLAYERMANAGER_H_
+#define PLAYERMANAGER_H_
 
 #include <vec3.h>
 #include <aabb.h>
@@ -75,4 +75,4 @@ private:
     std::unordered_map<PlayerID, PlayerData> mPlayers;
 };
 
-#endif // !PLAYER_MANAGER_H_
+#endif // !PLAYERMANAGER_H_

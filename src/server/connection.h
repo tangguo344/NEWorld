@@ -19,8 +19,11 @@
 
 #ifndef CONNETCION_SERVER_H_
 #define CONNETCION_SERVER_H_
+
 #include "networkmanager.h"
-/** The base class of any Connection class to it's NetworkManager
+
+/*
+* The base class of any Connection class to it's NetworkManager
 *  @see NetworkManager
 *  @see NetworkManager
 */
@@ -36,7 +39,7 @@ public:
 private:
     Connection(NetworkManager &network, RakNet::RakPeerInterface *peer, RakNet::SystemAddress addr);
     ~Connection();
-    void sendRawData(Identifier id, const unsigned char *data, int len, PacketPriority priority, PacketReliability reliability);
+    void sendRawData(Identifier id, const unsigned char *data, int len, PacketPriority priority, PacketReliability reliability) const;
     NetworkManager &mNetwork;
     RakNet::RakPeerInterface *mPeer;
     RakNet::SystemAddress mAddr;

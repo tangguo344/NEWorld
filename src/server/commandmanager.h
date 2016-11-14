@@ -16,6 +16,7 @@
 * You should have received a copy of the GNU Lesser General Public License
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #ifndef COMMANDCONTROLLER_H_
 #define COMMANDCONTROLLER_H_
 
@@ -33,13 +34,18 @@ public:
     CommandManager(const CommandManager&) = delete;
     CommandManager& operator=(const CommandManager&) = delete;
 
-    CommandMap& getCommandMap() { return mCommandMap; }
+    CommandMap& getCommandMap()
+    {
+        return mCommandMap;
+    }
 
     void inputLoop();
     void setRunningStatus(bool s);
 
     void registerCommand(std::string name, CommandInfo info, CommandHandleFunction func)
-    { mCommandMap.insert({name, {info, func}}); }
+    {
+        mCommandMap.insert({name, {info, func}});
+    }
 
 private:
     CommandExecuteStat handleCommand(Command cmd);

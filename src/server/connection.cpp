@@ -31,7 +31,7 @@ Connection::~Connection()
     infostream << inet_ntoa(mAddr.address.addr4.sin_addr) << ':' << mAddr.address.addr4.sin_port << " disconnected.";
 }
 
-void Connection::sendRawData(Identifier id, const unsigned char *data, int len, PacketPriority priority, PacketReliability reliability)
+void Connection::sendRawData(Identifier id, const unsigned char *data, int len, PacketPriority priority, PacketReliability reliability) const
 {
     RakNet::BitStream bsOut;
     bsOut.Write(static_cast<RakNet::MessageID>(id));

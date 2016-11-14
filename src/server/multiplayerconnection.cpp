@@ -27,7 +27,7 @@ void MultiplayerConnection::sendChunk(Chunk* chunk)
     mFbb.Clear();
     auto pos = chunk->getPosition().conv<s2c::Vec3>();
     // Be careful!
-    Assert(sizeof(BlockData) == sizeof(uint32_t));
+    static_assert(sizeof(BlockData) == sizeof(uint32_t), "The size of BlockData is not 32 bits!");
     std::vector<int> blocks(reinterpret_cast<uint32_t*>(chunk->getBlocks()),
                             reinterpret_cast<uint32_t*>(chunk->getBlocks()) + Chunk::Size*Chunk::Size*Chunk::Size);
     auto c = s2c::CreateChunkDirect(mFbb, &pos, &blocks);

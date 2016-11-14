@@ -29,7 +29,7 @@ class Chunk
 {
 public:
     // Chunk size
-    static constexpr int SizeLog2 = 5, Size = 1 << SizeLog2; // 2 ^ 5 == 32
+    static constexpr int SizeLog2 = 4, Size = 1 << SizeLog2; // 2 ^ 5 == 32
 
     virtual ~Chunk() {}
 
