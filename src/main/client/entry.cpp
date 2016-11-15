@@ -32,12 +32,13 @@ NWAPIEXPORT NWplugindata* NWAPICALL getInfo()
 void NWAPICALL init()
 {
     sharedInit();
-    NWtextureid id[] = {
-            nwRegisterTexture("./res/blocks/grass_top.png"),
-            nwRegisterTexture("./res/blocks/grass_round.png"),
-            nwRegisterTexture("./res/blocks/dirt.png"),
-            nwRegisterTexture("./res/blocks/rock.png"),
-            nwRegisterTexture("./res/blocks/sand.png")
+    NWtextureid id[] =
+    {
+        nwRegisterTexture("./res/blocks/grass_top.png"),
+        nwRegisterTexture("./res/blocks/grass_round.png"),
+        nwRegisterTexture("./res/blocks/dirt.png"),
+        nwRegisterTexture("./res/blocks/rock.png"),
+        nwRegisterTexture("./res/blocks/sand.png")
     };
     NWblocktexture grass{ id[1], id[1], id[0], id[2], id[1], id[1] };
     NWblocktexture rock{ id[3], id[3], id[3], id[3], id[3], id[3] };

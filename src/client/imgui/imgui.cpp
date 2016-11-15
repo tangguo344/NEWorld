@@ -1,6 +1,6 @@
- 
+
 #if defined(_MSC_VER) && !defined(_CRT_SECURE_NO_WARNINGS)
-#define _CRT_SECURE_NO_WARNINGS
+    #define _CRT_SECURE_NO_WARNINGS
 #endif
 
 #include "imgui.h"
@@ -13,32 +13,32 @@
 #include <stdio.h>      // vsnprintf, sscanf, printf
 #include <limits.h>     // INT_MIN, INT_MAX
 #if defined(_MSC_VER) && _MSC_VER <= 1500 // MSVC 2008 or earlier
-#include <stddef.h>     // intptr_t
+    #include <stddef.h>     // intptr_t
 #else
-#include <stdint.h>     // intptr_t
+    #include <stdint.h>     // intptr_t
 #endif
 
 #ifdef _MSC_VER
-#pragma warning (disable: 4127) // condition expression is constant
-#pragma warning (disable: 4505) // unreferenced local function has been removed (stb stuff)
-#pragma warning (disable: 4996) // 'This function or variable may be unsafe': strcpy, strdup, sprintf, vsnprintf, sscanf, fopen
+    #pragma warning (disable: 4127) // condition expression is constant
+    #pragma warning (disable: 4505) // unreferenced local function has been removed (stb stuff)
+    #pragma warning (disable: 4996) // 'This function or variable may be unsafe': strcpy, strdup, sprintf, vsnprintf, sscanf, fopen
 #endif
 
 // Clang warnings with -Weverything
 #ifdef __clang__
-#pragma clang diagnostic ignored "-Wold-style-cast"         // warning : use of old-style cast                              // yes, they are more terse.
-#pragma clang diagnostic ignored "-Wfloat-equal"            // warning : comparing floating point with == or != is unsafe   // storing and comparing against same constants ok.
-#pragma clang diagnostic ignored "-Wformat-nonliteral"      // warning : format string is not a string literal              // passing non-literal to vsnformat(). yes, user passing incorrect format strings can crash the code.
-#pragma clang diagnostic ignored "-Wexit-time-destructors"  // warning : declaration requires an exit-time destructor       // exit-time destruction order is undefined. if MemFree() leads to users code that has been disabled before exit it might cause problems. ImGui coding style welcomes static/globals.
-#pragma clang diagnostic ignored "-Wglobal-constructors"    // warning : declaration requires a global destructor           // similar to above, not sure what the exact difference it.
-#pragma clang diagnostic ignored "-Wsign-conversion"        // warning : implicit conversion changes signedness             //
-#pragma clang diagnostic ignored "-Wint-to-void-pointer-cast" // warning : cast to 'void *' from smaller integer type 'int' //
+    #pragma clang diagnostic ignored "-Wold-style-cast"         // warning : use of old-style cast                              // yes, they are more terse.
+    #pragma clang diagnostic ignored "-Wfloat-equal"            // warning : comparing floating point with == or != is unsafe   // storing and comparing against same constants ok.
+    #pragma clang diagnostic ignored "-Wformat-nonliteral"      // warning : format string is not a string literal              // passing non-literal to vsnformat(). yes, user passing incorrect format strings can crash the code.
+    #pragma clang diagnostic ignored "-Wexit-time-destructors"  // warning : declaration requires an exit-time destructor       // exit-time destruction order is undefined. if MemFree() leads to users code that has been disabled before exit it might cause problems. ImGui coding style welcomes static/globals.
+    #pragma clang diagnostic ignored "-Wglobal-constructors"    // warning : declaration requires a global destructor           // similar to above, not sure what the exact difference it.
+    #pragma clang diagnostic ignored "-Wsign-conversion"        // warning : implicit conversion changes signedness             //
+    #pragma clang diagnostic ignored "-Wint-to-void-pointer-cast" // warning : cast to 'void *' from smaller integer type 'int' //
 #elif defined(__GNUC__)
-#pragma GCC diagnostic ignored "-Wunused-function"          // warning: 'xxxx' defined but not used
-#pragma GCC diagnostic ignored "-Wint-to-pointer-cast"      // warning: cast to pointer from integer of different size
-#pragma GCC diagnostic ignored "-Wformat"                   // warning: format '%p' expects argument of type 'void*', but argument 6 has type 'ImGuiWindow*'
-#pragma GCC diagnostic ignored "-Wdouble-promotion"         // warning: implicit conversion from 'float' to 'double' when passing argument to function
-#pragma GCC diagnostic ignored "-Wconversion"               // warning: conversion to 'xxxx' from 'xxxx' may alter its value
+    #pragma GCC diagnostic ignored "-Wunused-function"          // warning: 'xxxx' defined but not used
+    #pragma GCC diagnostic ignored "-Wint-to-pointer-cast"      // warning: cast to pointer from integer of different size
+    #pragma GCC diagnostic ignored "-Wformat"                   // warning: format '%p' expects argument of type 'void*', but argument 6 has type 'ImGuiWindow*'
+    #pragma GCC diagnostic ignored "-Wdouble-promotion"         // warning: implicit conversion from 'float' to 'double' when passing argument to function
+    #pragma GCC diagnostic ignored "-Wconversion"               // warning: conversion to 'xxxx' from 'xxxx' may alter its value
 #endif
 
 //-------------------------------------------------------------------------
@@ -266,9 +266,9 @@ void ImGuiIO::AddInputCharactersUTF8(const char* utf8_chars)
 
 // Play it nice with Windows users. Notepad in 2015 still doesn't display text data with Unix-style \n.
 #ifdef _WIN32
-#define IM_NEWLINE "\r\n"
+    #define IM_NEWLINE "\r\n"
 #else
-#define IM_NEWLINE "\n"
+    #define IM_NEWLINE "\n"
 #endif
 
 bool ImIsPointInTriangle(const ImVec2& p, const ImVec2& a, const ImVec2& b, const ImVec2& c)
@@ -344,7 +344,7 @@ const char* ImStristr(const char* haystack, const char* haystack_end, const char
 }
 
 
-// MSVC version appears to return -1 on overflow, whereas glibc appears to return total count (which may be >= buf_size). 
+// MSVC version appears to return -1 on overflow, whereas glibc appears to return total count (which may be >= buf_size).
 // Ideally we would test for only one of those limits at runtime depending on the behavior the vsnprintf(), but trying to deduct it at compile time sounds like a pandora can of worm.
 int ImFormatString(char* buf, int buf_size, const char* fmt, ...)
 {
@@ -593,10 +593,10 @@ ImVec4 ImGui::ColorConvertU32ToFloat4(ImU32 in)
 {
     float s = 1.0f/255.0f;
     return ImVec4(
-        ((in >> IM_COL32_R_SHIFT) & 0xFF) * s,
-        ((in >> IM_COL32_G_SHIFT) & 0xFF) * s,
-        ((in >> IM_COL32_B_SHIFT) & 0xFF) * s,
-        ((in >> IM_COL32_A_SHIFT) & 0xFF) * s);
+               ((in >> IM_COL32_R_SHIFT) & 0xFF) * s,
+               ((in >> IM_COL32_G_SHIFT) & 0xFF) * s,
+               ((in >> IM_COL32_B_SHIFT) & 0xFF) * s,
+               ((in >> IM_COL32_A_SHIFT) & 0xFF) * s);
 }
 
 ImU32 ImGui::ColorConvertFloat4ToU32(const ImVec4& in)
@@ -609,18 +609,18 @@ ImU32 ImGui::ColorConvertFloat4ToU32(const ImVec4& in)
     return out;
 }
 
-ImU32 ImGui::GetColorU32(ImGuiCol idx, float alpha_mul)  
-{ 
-    ImVec4 c = GImGui->Style.Colors[idx]; 
-    c.w *= GImGui->Style.Alpha * alpha_mul; 
-    return ColorConvertFloat4ToU32(c); 
+ImU32 ImGui::GetColorU32(ImGuiCol idx, float alpha_mul)
+{
+    ImVec4 c = GImGui->Style.Colors[idx];
+    c.w *= GImGui->Style.Alpha * alpha_mul;
+    return ColorConvertFloat4ToU32(c);
 }
 
 ImU32 ImGui::GetColorU32(const ImVec4& col)
-{ 
-    ImVec4 c = col; 
-    c.w *= GImGui->Style.Alpha; 
-    return ColorConvertFloat4ToU32(c); 
+{
+    ImVec4 c = col;
+    c.w *= GImGui->Style.Alpha;
+    return ColorConvertFloat4ToU32(c);
 }
 
 // Convert rgb floats ([0-1],[0-1],[0-1]) to hsv floats ([0-1],[0-1],[0-1]), from Foley & van Dam p592
@@ -630,12 +630,16 @@ void ImGui::ColorConvertRGBtoHSV(float r, float g, float b, float& out_h, float&
     float K = 0.f;
     if (g < b)
     {
-        const float tmp = g; g = b; b = tmp;
+        const float tmp = g;
+        g = b;
+        b = tmp;
         K = -1.f;
     }
     if (r < g)
     {
-        const float tmp = r; r = g; g = tmp;
+        const float tmp = r;
+        r = g;
+        g = tmp;
         K = -2.f / 6.f - K;
     }
 
@@ -665,12 +669,37 @@ void ImGui::ColorConvertHSVtoRGB(float h, float s, float v, float& out_r, float&
 
     switch (i)
     {
-    case 0: out_r = v; out_g = t; out_b = p; break;
-    case 1: out_r = q; out_g = v; out_b = p; break;
-    case 2: out_r = p; out_g = v; out_b = t; break;
-    case 3: out_r = p; out_g = q; out_b = v; break;
-    case 4: out_r = t; out_g = p; out_b = v; break;
-    case 5: default: out_r = v; out_g = p; out_b = q; break;
+    case 0:
+        out_r = v;
+        out_g = t;
+        out_b = p;
+        break;
+    case 1:
+        out_r = q;
+        out_g = v;
+        out_b = p;
+        break;
+    case 2:
+        out_r = p;
+        out_g = v;
+        out_b = t;
+        break;
+    case 3:
+        out_r = p;
+        out_g = q;
+        out_b = v;
+        break;
+    case 4:
+        out_r = t;
+        out_g = p;
+        out_b = v;
+        break;
+    case 5:
+    default:
+        out_r = v;
+        out_g = p;
+        out_b = q;
+        break;
     }
 }
 
@@ -960,7 +989,7 @@ bool ImGuiTextFilter::PassFilter(const char* text, const char* text_end) const
 // On some platform vsnprintf() takes va_list by reference and modifies it.
 // va_copy is the 'correct' way to copy a va_list but Visual Studio prior to 2013 doesn't have it.
 #ifndef va_copy
-#define va_copy(dest, src) (dest = src)
+    #define va_copy(dest, src) (dest = src)
 #endif
 
 // Helper: Text buffer for logging/accumulating text
@@ -1044,7 +1073,7 @@ float ImGuiSimpleColumns::CalcExtraSpace(float avail_w)
 
 static void SetCursorPosYAndSetupDummyPrevLine(float pos_y, float line_height)
 {
-    // Set cursor position and a few other things so that SetScrollHere() and Columns() can work when seeking cursor. 
+    // Set cursor position and a few other things so that SetScrollHere() and Columns() can work when seeking cursor.
     // FIXME: It is problematic that we have to do that here, because custom/equivalent end-user code would stumble on the same issue. Consider moving within SetCursorXXX functions?
     ImGui::SetCursorPosY(pos_y);
     ImGuiWindow* window = ImGui::GetCurrentWindow();
@@ -1088,8 +1117,8 @@ bool ImGuiListClipper::Step()
 {
     if (ItemsCount == 0 || ImGui::GetCurrentWindowRead()->SkipItems)
     {
-        ItemsCount = -1; 
-        return false; 
+        ItemsCount = -1;
+        return false;
     }
     if (StepNo == 0) // Step 0: the clipper let you process the first element, regardless of it being visible or not, so we can measure the element height.
     {
@@ -1958,7 +1987,7 @@ static void AddDrawListToRenderList(ImVector<ImDrawList*>& out_render_list, ImDr
     // Check that draw_list doesn't use more vertices than indexable (default ImDrawIdx = 2 bytes = 64K vertices)
     // If this assert triggers because you are drawing lots of stuff manually, A) workaround by calling BeginChild()/EndChild() to put your draw commands in multiple draw lists, B) #define ImDrawIdx to a 'unsigned int' in imconfig.h and render accordingly.
     IM_ASSERT((int64_t)draw_list->_VtxCurrentIdx <= ((int64_t)1L << (sizeof(ImDrawIdx)*8)));  // Too many vertices in same ImDrawList. See comment above.
-    
+
     out_render_list.push_back(draw_list);
     GImGui->IO.MetricsRenderVertices += draw_list->VtxBuffer.Size;
     GImGui->IO.MetricsRenderIndices += draw_list->IdxBuffer.Size;
@@ -3446,7 +3475,7 @@ bool ImGui::Begin(const char* name, bool* p_open, const ImVec2& size_on_first_us
         // Apply minimum/maximum window size constraints and final size
         ApplySizeFullWithConstraint(window, window->SizeFull);
         window->Size = window->Collapsed ? window->TitleBarRect().GetSize() : window->SizeFull;
-        
+
         // POSITION
 
         // Position child window
@@ -3647,8 +3676,8 @@ bool ImGui::Begin(const char* name, bool* p_open, const ImVec2& size_on_first_us
         // Update ContentsRegionMax. All the variable it depends on are set above in this function.
         window->ContentsRegionRect.Min.x = -window->Scroll.x + window->WindowPadding.x;
         window->ContentsRegionRect.Min.y = -window->Scroll.y + window->WindowPadding.y + window->TitleBarHeight() + window->MenuBarHeight();
-        window->ContentsRegionRect.Max.x = -window->Scroll.x - window->WindowPadding.x + (window->SizeContentsExplicit.x != 0.0f ? window->SizeContentsExplicit.x : (window->Size.x - window->ScrollbarSizes.x)); 
-        window->ContentsRegionRect.Max.y = -window->Scroll.y - window->WindowPadding.y + (window->SizeContentsExplicit.y != 0.0f ? window->SizeContentsExplicit.y : (window->Size.y - window->ScrollbarSizes.y)); 
+        window->ContentsRegionRect.Max.x = -window->Scroll.x - window->WindowPadding.x + (window->SizeContentsExplicit.x != 0.0f ? window->SizeContentsExplicit.x : (window->Size.x - window->ScrollbarSizes.x));
+        window->ContentsRegionRect.Max.y = -window->Scroll.y - window->WindowPadding.y + (window->SizeContentsExplicit.y != 0.0f ? window->SizeContentsExplicit.y : (window->Size.y - window->ScrollbarSizes.y));
 
         // Setup drawing context
         window->DC.IndentX = 0.0f + window->WindowPadding.x - window->Scroll.x;
@@ -3814,8 +3843,8 @@ static void Scrollbar(ImGuiWindow* window, bool horizontal)
     const ImRect window_rect = window->Rect();
     const float border_size = window->BorderSize;
     ImRect bb = horizontal
-        ? ImRect(window->Pos.x + border_size, window_rect.Max.y - style.ScrollbarSize, window_rect.Max.x - other_scrollbar_size_w - border_size, window_rect.Max.y - border_size)
-        : ImRect(window_rect.Max.x - style.ScrollbarSize, window->Pos.y + border_size, window_rect.Max.x - border_size, window_rect.Max.y - other_scrollbar_size_w - border_size);
+                ? ImRect(window->Pos.x + border_size, window_rect.Max.y - style.ScrollbarSize, window_rect.Max.x - other_scrollbar_size_w - border_size, window_rect.Max.y - border_size)
+                : ImRect(window_rect.Max.x - style.ScrollbarSize, window->Pos.y + border_size, window_rect.Max.x - border_size, window_rect.Max.y - other_scrollbar_size_w - border_size);
     if (!horizontal)
         bb.Min.y += window->TitleBarHeight() + ((window->Flags & ImGuiWindowFlags_MenuBar) ? window->MenuBarHeight() : 0.0f);
 
@@ -4142,49 +4171,92 @@ const char* ImGui::GetStyleColName(ImGuiCol idx)
     // Create switch-case from enum with regexp: ImGuiCol_{.*}, --> case ImGuiCol_\1: return "\1";
     switch (idx)
     {
-    case ImGuiCol_Text: return "Text";
-    case ImGuiCol_TextDisabled: return "TextDisabled";
-    case ImGuiCol_WindowBg: return "WindowBg";
-    case ImGuiCol_ChildWindowBg: return "ChildWindowBg";
-    case ImGuiCol_PopupBg: return "PopupBg";
-    case ImGuiCol_Border: return "Border";
-    case ImGuiCol_BorderShadow: return "BorderShadow";
-    case ImGuiCol_FrameBg: return "FrameBg";
-    case ImGuiCol_FrameBgHovered: return "FrameBgHovered";
-    case ImGuiCol_FrameBgActive: return "FrameBgActive";
-    case ImGuiCol_TitleBg: return "TitleBg";
-    case ImGuiCol_TitleBgCollapsed: return "TitleBgCollapsed";
-    case ImGuiCol_TitleBgActive: return "TitleBgActive";
-    case ImGuiCol_MenuBarBg: return "MenuBarBg";
-    case ImGuiCol_ScrollbarBg: return "ScrollbarBg";
-    case ImGuiCol_ScrollbarGrab: return "ScrollbarGrab";
-    case ImGuiCol_ScrollbarGrabHovered: return "ScrollbarGrabHovered";
-    case ImGuiCol_ScrollbarGrabActive: return "ScrollbarGrabActive";
-    case ImGuiCol_ComboBg: return "ComboBg";
-    case ImGuiCol_CheckMark: return "CheckMark";
-    case ImGuiCol_SliderGrab: return "SliderGrab";
-    case ImGuiCol_SliderGrabActive: return "SliderGrabActive";
-    case ImGuiCol_Button: return "Button";
-    case ImGuiCol_ButtonHovered: return "ButtonHovered";
-    case ImGuiCol_ButtonActive: return "ButtonActive";
-    case ImGuiCol_Header: return "Header";
-    case ImGuiCol_HeaderHovered: return "HeaderHovered";
-    case ImGuiCol_HeaderActive: return "HeaderActive";
-    case ImGuiCol_Column: return "Column";
-    case ImGuiCol_ColumnHovered: return "ColumnHovered";
-    case ImGuiCol_ColumnActive: return "ColumnActive";
-    case ImGuiCol_ResizeGrip: return "ResizeGrip";
-    case ImGuiCol_ResizeGripHovered: return "ResizeGripHovered";
-    case ImGuiCol_ResizeGripActive: return "ResizeGripActive";
-    case ImGuiCol_CloseButton: return "CloseButton";
-    case ImGuiCol_CloseButtonHovered: return "CloseButtonHovered";
-    case ImGuiCol_CloseButtonActive: return "CloseButtonActive";
-    case ImGuiCol_PlotLines: return "PlotLines";
-    case ImGuiCol_PlotLinesHovered: return "PlotLinesHovered";
-    case ImGuiCol_PlotHistogram: return "PlotHistogram";
-    case ImGuiCol_PlotHistogramHovered: return "PlotHistogramHovered";
-    case ImGuiCol_TextSelectedBg: return "TextSelectedBg";
-    case ImGuiCol_ModalWindowDarkening: return "ModalWindowDarkening";
+    case ImGuiCol_Text:
+        return "Text";
+    case ImGuiCol_TextDisabled:
+        return "TextDisabled";
+    case ImGuiCol_WindowBg:
+        return "WindowBg";
+    case ImGuiCol_ChildWindowBg:
+        return "ChildWindowBg";
+    case ImGuiCol_PopupBg:
+        return "PopupBg";
+    case ImGuiCol_Border:
+        return "Border";
+    case ImGuiCol_BorderShadow:
+        return "BorderShadow";
+    case ImGuiCol_FrameBg:
+        return "FrameBg";
+    case ImGuiCol_FrameBgHovered:
+        return "FrameBgHovered";
+    case ImGuiCol_FrameBgActive:
+        return "FrameBgActive";
+    case ImGuiCol_TitleBg:
+        return "TitleBg";
+    case ImGuiCol_TitleBgCollapsed:
+        return "TitleBgCollapsed";
+    case ImGuiCol_TitleBgActive:
+        return "TitleBgActive";
+    case ImGuiCol_MenuBarBg:
+        return "MenuBarBg";
+    case ImGuiCol_ScrollbarBg:
+        return "ScrollbarBg";
+    case ImGuiCol_ScrollbarGrab:
+        return "ScrollbarGrab";
+    case ImGuiCol_ScrollbarGrabHovered:
+        return "ScrollbarGrabHovered";
+    case ImGuiCol_ScrollbarGrabActive:
+        return "ScrollbarGrabActive";
+    case ImGuiCol_ComboBg:
+        return "ComboBg";
+    case ImGuiCol_CheckMark:
+        return "CheckMark";
+    case ImGuiCol_SliderGrab:
+        return "SliderGrab";
+    case ImGuiCol_SliderGrabActive:
+        return "SliderGrabActive";
+    case ImGuiCol_Button:
+        return "Button";
+    case ImGuiCol_ButtonHovered:
+        return "ButtonHovered";
+    case ImGuiCol_ButtonActive:
+        return "ButtonActive";
+    case ImGuiCol_Header:
+        return "Header";
+    case ImGuiCol_HeaderHovered:
+        return "HeaderHovered";
+    case ImGuiCol_HeaderActive:
+        return "HeaderActive";
+    case ImGuiCol_Column:
+        return "Column";
+    case ImGuiCol_ColumnHovered:
+        return "ColumnHovered";
+    case ImGuiCol_ColumnActive:
+        return "ColumnActive";
+    case ImGuiCol_ResizeGrip:
+        return "ResizeGrip";
+    case ImGuiCol_ResizeGripHovered:
+        return "ResizeGripHovered";
+    case ImGuiCol_ResizeGripActive:
+        return "ResizeGripActive";
+    case ImGuiCol_CloseButton:
+        return "CloseButton";
+    case ImGuiCol_CloseButtonHovered:
+        return "CloseButtonHovered";
+    case ImGuiCol_CloseButtonActive:
+        return "CloseButtonActive";
+    case ImGuiCol_PlotLines:
+        return "PlotLines";
+    case ImGuiCol_PlotLinesHovered:
+        return "PlotLinesHovered";
+    case ImGuiCol_PlotHistogram:
+        return "PlotHistogram";
+    case ImGuiCol_PlotHistogramHovered:
+        return "PlotHistogramHovered";
+    case ImGuiCol_TextSelectedBg:
+        return "TextSelectedBg";
+    case ImGuiCol_ModalWindowDarkening:
+        return "ModalWindowDarkening";
     }
     IM_ASSERT(0);
     return "Unknown";
@@ -4923,7 +4995,7 @@ bool ImGui::ButtonBehavior(const ImRect& bb, ImGuiID id, bool* out_hovered, bool
                 SetActiveID(0);
             }
 
-            // 'Repeat' mode acts when held regardless of _PressedOn flags (see table above). 
+            // 'Repeat' mode acts when held regardless of _PressedOn flags (see table above).
             // Relies on repeat logic of IsMouseClicked() but we may as well do it ourselves if we end up exposing finer RepeatDelay/RepeatRate settings.
             if ((flags & ImGuiButtonFlags_Repeat) && g.ActiveId == id && g.IO.MouseDownDuration[0] > 0.0f && IsMouseClicked(0, true))
                 pressed = true;
@@ -5204,9 +5276,12 @@ void ImGui::LogButtons()
     ImGuiContext& g = *GImGui;
 
     PushID("LogButtons");
-    const bool log_to_tty = Button("Log To TTY"); SameLine();
-    const bool log_to_file = Button("Log To File"); SameLine();
-    const bool log_to_clipboard = Button("Log To Clipboard"); SameLine();
+    const bool log_to_tty = Button("Log To TTY");
+    SameLine();
+    const bool log_to_file = Button("Log To File");
+    SameLine();
+    const bool log_to_clipboard = Button("Log To Clipboard");
+    SameLine();
     PushItemWidth(80.0f);
     PushAllowKeyboardFocus(false);
     SliderInt("Depth", &g.LogAutoExpandMaxDepth, 0, 9, NULL);
@@ -6804,73 +6879,73 @@ static ImVec2 InputTextCalcTextSizeW(const ImWchar* text_begin, const ImWchar* t
 namespace ImGuiStb
 {
 
-static int     STB_TEXTEDIT_STRINGLEN(const STB_TEXTEDIT_STRING* obj)                             { return obj->CurLenW; }
-static ImWchar STB_TEXTEDIT_GETCHAR(const STB_TEXTEDIT_STRING* obj, int idx)                      { return obj->Text[idx]; }
-static float   STB_TEXTEDIT_GETWIDTH(STB_TEXTEDIT_STRING* obj, int line_start_idx, int char_idx)  { ImWchar c = obj->Text[line_start_idx+char_idx]; if (c == '\n') return STB_TEXTEDIT_GETWIDTH_NEWLINE; return GImGui->Font->GetCharAdvance(c) * (GImGui->FontSize / GImGui->Font->FontSize); }
-static int     STB_TEXTEDIT_KEYTOTEXT(int key)                                                    { return key >= 0x10000 ? 0 : key; }
-static ImWchar STB_TEXTEDIT_NEWLINE = '\n';
-static void    STB_TEXTEDIT_LAYOUTROW(StbTexteditRow* r, STB_TEXTEDIT_STRING* obj, int line_start_idx)
-{
-    const ImWchar* text = obj->Text.Data;
-    const ImWchar* text_remaining = NULL;
-    const ImVec2 size = InputTextCalcTextSizeW(text + line_start_idx, text + obj->CurLenW, &text_remaining, NULL, true);
-    r->x0 = 0.0f;
-    r->x1 = size.x;
-    r->baseline_y_delta = size.y;
-    r->ymin = 0.0f;
-    r->ymax = size.y;
-    r->num_chars = (int)(text_remaining - (text + line_start_idx));
-}
+    static int     STB_TEXTEDIT_STRINGLEN(const STB_TEXTEDIT_STRING* obj)                             { return obj->CurLenW; }
+    static ImWchar STB_TEXTEDIT_GETCHAR(const STB_TEXTEDIT_STRING* obj, int idx)                      { return obj->Text[idx]; }
+    static float   STB_TEXTEDIT_GETWIDTH(STB_TEXTEDIT_STRING* obj, int line_start_idx, int char_idx)  { ImWchar c = obj->Text[line_start_idx+char_idx]; if (c == '\n') return STB_TEXTEDIT_GETWIDTH_NEWLINE; return GImGui->Font->GetCharAdvance(c) * (GImGui->FontSize / GImGui->Font->FontSize); }
+    static int     STB_TEXTEDIT_KEYTOTEXT(int key)                                                    { return key >= 0x10000 ? 0 : key; }
+    static ImWchar STB_TEXTEDIT_NEWLINE = '\n';
+    static void    STB_TEXTEDIT_LAYOUTROW(StbTexteditRow* r, STB_TEXTEDIT_STRING* obj, int line_start_idx)
+    {
+        const ImWchar* text = obj->Text.Data;
+        const ImWchar* text_remaining = NULL;
+        const ImVec2 size = InputTextCalcTextSizeW(text + line_start_idx, text + obj->CurLenW, &text_remaining, NULL, true);
+        r->x0 = 0.0f;
+        r->x1 = size.x;
+        r->baseline_y_delta = size.y;
+        r->ymin = 0.0f;
+        r->ymax = size.y;
+        r->num_chars = (int)(text_remaining - (text + line_start_idx));
+    }
 
-static bool is_separator(unsigned int c)                                        { return ImCharIsSpace(c) || c==',' || c==';' || c=='(' || c==')' || c=='{' || c=='}' || c=='[' || c==']' || c=='|'; }
-static int  is_word_boundary_from_right(STB_TEXTEDIT_STRING* obj, int idx)      { return idx > 0 ? (is_separator( obj->Text[idx-1] ) && !is_separator( obj->Text[idx] ) ) : 1; }
-static int  STB_TEXTEDIT_MOVEWORDLEFT_IMPL(STB_TEXTEDIT_STRING* obj, int idx)   { idx--; while (idx >= 0 && !is_word_boundary_from_right(obj, idx)) idx--; return idx < 0 ? 0 : idx; }
+    static bool is_separator(unsigned int c)                                        { return ImCharIsSpace(c) || c==',' || c==';' || c=='(' || c==')' || c=='{' || c=='}' || c=='[' || c==']' || c=='|'; }
+    static int  is_word_boundary_from_right(STB_TEXTEDIT_STRING* obj, int idx)      { return idx > 0 ? (is_separator( obj->Text[idx-1] ) && !is_separator( obj->Text[idx] ) ) : 1; }
+    static int  STB_TEXTEDIT_MOVEWORDLEFT_IMPL(STB_TEXTEDIT_STRING* obj, int idx)   { idx--; while (idx >= 0 && !is_word_boundary_from_right(obj, idx)) idx--; return idx < 0 ? 0 : idx; }
 #ifdef __APPLE__    // FIXME: Move setting to IO structure
-static int  is_word_boundary_from_left(STB_TEXTEDIT_STRING* obj, int idx)       { return idx > 0 ? (!is_separator( obj->Text[idx-1] ) && is_separator( obj->Text[idx] ) ) : 1; }
-static int  STB_TEXTEDIT_MOVEWORDRIGHT_IMPL(STB_TEXTEDIT_STRING* obj, int idx)  { idx++; int len = obj->CurLenW; while (idx < len && !is_word_boundary_from_left(obj, idx)) idx++; return idx > len ? len : idx; }
+    static int  is_word_boundary_from_left(STB_TEXTEDIT_STRING* obj, int idx)       { return idx > 0 ? (!is_separator( obj->Text[idx-1] ) && is_separator( obj->Text[idx] ) ) : 1; }
+    static int  STB_TEXTEDIT_MOVEWORDRIGHT_IMPL(STB_TEXTEDIT_STRING* obj, int idx)  { idx++; int len = obj->CurLenW; while (idx < len && !is_word_boundary_from_left(obj, idx)) idx++; return idx > len ? len : idx; }
 #else
-static int  STB_TEXTEDIT_MOVEWORDRIGHT_IMPL(STB_TEXTEDIT_STRING* obj, int idx)  { idx++; int len = obj->CurLenW; while (idx < len && !is_word_boundary_from_right(obj, idx)) idx++; return idx > len ? len : idx; }
+    static int  STB_TEXTEDIT_MOVEWORDRIGHT_IMPL(STB_TEXTEDIT_STRING* obj, int idx)  { idx++; int len = obj->CurLenW; while (idx < len && !is_word_boundary_from_right(obj, idx)) idx++; return idx > len ? len : idx; }
 #endif
 #define STB_TEXTEDIT_MOVEWORDLEFT   STB_TEXTEDIT_MOVEWORDLEFT_IMPL    // They need to be #define for stb_textedit.h
 #define STB_TEXTEDIT_MOVEWORDRIGHT  STB_TEXTEDIT_MOVEWORDRIGHT_IMPL
 
-static void STB_TEXTEDIT_DELETECHARS(STB_TEXTEDIT_STRING* obj, int pos, int n)
-{
-    ImWchar* dst = obj->Text.Data + pos;
+    static void STB_TEXTEDIT_DELETECHARS(STB_TEXTEDIT_STRING* obj, int pos, int n)
+    {
+        ImWchar* dst = obj->Text.Data + pos;
 
-    // We maintain our buffer length in both UTF-8 and wchar formats
-    obj->CurLenA -= ImTextCountUtf8BytesFromStr(dst, dst + n);
-    obj->CurLenW -= n;
+        // We maintain our buffer length in both UTF-8 and wchar formats
+        obj->CurLenA -= ImTextCountUtf8BytesFromStr(dst, dst + n);
+        obj->CurLenW -= n;
 
-    // Offset remaining text
-    const ImWchar* src = obj->Text.Data + pos + n;
-    while (ImWchar c = *src++)
-        *dst++ = c;
-    *dst = '\0';
-}
+        // Offset remaining text
+        const ImWchar* src = obj->Text.Data + pos + n;
+        while (ImWchar c = *src++)
+            *dst++ = c;
+        *dst = '\0';
+    }
 
-static bool STB_TEXTEDIT_INSERTCHARS(STB_TEXTEDIT_STRING* obj, int pos, const ImWchar* new_text, int new_text_len)
-{
-    const int text_len = obj->CurLenW;
-    IM_ASSERT(pos <= text_len);
-    if (new_text_len + text_len + 1 > obj->Text.Size)
-        return false;
+    static bool STB_TEXTEDIT_INSERTCHARS(STB_TEXTEDIT_STRING* obj, int pos, const ImWchar* new_text, int new_text_len)
+    {
+        const int text_len = obj->CurLenW;
+        IM_ASSERT(pos <= text_len);
+        if (new_text_len + text_len + 1 > obj->Text.Size)
+            return false;
 
-    const int new_text_len_utf8 = ImTextCountUtf8BytesFromStr(new_text, new_text + new_text_len);
-    if (new_text_len_utf8 + obj->CurLenA + 1 > obj->BufSizeA)
-        return false;
+        const int new_text_len_utf8 = ImTextCountUtf8BytesFromStr(new_text, new_text + new_text_len);
+        if (new_text_len_utf8 + obj->CurLenA + 1 > obj->BufSizeA)
+            return false;
 
-    ImWchar* text = obj->Text.Data;
-    if (pos != text_len)
-        memmove(text + pos + new_text_len, text + pos, (size_t)(text_len - pos) * sizeof(ImWchar));
-    memcpy(text + pos, new_text, (size_t)new_text_len * sizeof(ImWchar));
+        ImWchar* text = obj->Text.Data;
+        if (pos != text_len)
+            memmove(text + pos + new_text_len, text + pos, (size_t)(text_len - pos) * sizeof(ImWchar));
+        memcpy(text + pos, new_text, (size_t)new_text_len * sizeof(ImWchar));
 
-    obj->CurLenW += new_text_len;
-    obj->CurLenA += new_text_len_utf8;
-    obj->Text[obj->CurLenW] = '\0';
+        obj->CurLenW += new_text_len;
+        obj->CurLenA += new_text_len_utf8;
+        obj->Text[obj->CurLenW] = '\0';
 
-    return true;
-}
+        return true;
+    }
 
 // We don't use an enum so we can build even with conflicting symbols (if another user of stb_textedit.h leak their STB_TEXTEDIT_K_* symbols)
 #define STB_TEXTEDIT_K_LEFT         0x10000 // keyboard input to move cursor left
@@ -7392,7 +7467,8 @@ bool ImGui::InputTextEx(const char* label, char* buf, int buf_size, const ImVec2
 
     // Render
     // Select which buffer we are going to display. When ImGuiInputTextFlags_NoLiveEdit is set 'buf' might still be the old value. We set buf to NULL to prevent accidental usage from now on.
-    const char* buf_display = (g.ActiveId == id && is_editable) ? edit_state.TempTextBuffer.Data : buf; buf = NULL; 
+    const char* buf_display = (g.ActiveId == id && is_editable) ? edit_state.TempTextBuffer.Data : buf;
+    buf = NULL;
 
     if (!is_multiline)
         RenderFrame(frame_bb.Min, frame_bb.Max, GetColorU32(ImGuiCol_FrameBg), true, style.FrameRounding);
@@ -8126,7 +8202,7 @@ bool ImGui::BeginMainMenuBar()
     PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
     PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(0,0));
     if (!Begin("##MainMenuBar", NULL, ImGuiWindowFlags_NoTitleBar|ImGuiWindowFlags_NoResize|ImGuiWindowFlags_NoMove|ImGuiWindowFlags_NoScrollbar|ImGuiWindowFlags_NoSavedSettings|ImGuiWindowFlags_MenuBar)
-        || !BeginMenuBar())
+            || !BeginMenuBar())
     {
         End();
         PopStyleVar(2);
@@ -8365,60 +8441,60 @@ bool ImGui::ColorEdit4(const char* label, float col[4], bool alpha)
     {
     case ImGuiColorEditMode_RGB:
     case ImGuiColorEditMode_HSV:
+    {
+        // RGB/HSV 0..255 Sliders
+        const float w_items_all = w_full - (square_sz + style.ItemInnerSpacing.x);
+        const float w_item_one  = ImMax(1.0f, (float)(int)((w_items_all - (style.ItemInnerSpacing.x) * (components-1)) / (float)components));
+        const float w_item_last = ImMax(1.0f, (float)(int)(w_items_all - (w_item_one + style.ItemInnerSpacing.x) * (components-1)));
+
+        const bool hide_prefix = (w_item_one <= CalcTextSize("M:999").x);
+        const char* ids[4] = { "##X", "##Y", "##Z", "##W" };
+        const char* fmt_table[3][4] =
         {
-            // RGB/HSV 0..255 Sliders
-            const float w_items_all = w_full - (square_sz + style.ItemInnerSpacing.x);
-            const float w_item_one  = ImMax(1.0f, (float)(int)((w_items_all - (style.ItemInnerSpacing.x) * (components-1)) / (float)components));
-            const float w_item_last = ImMax(1.0f, (float)(int)(w_items_all - (w_item_one + style.ItemInnerSpacing.x) * (components-1)));
+            {   "%3.0f",   "%3.0f",   "%3.0f",   "%3.0f" },
+            { "R:%3.0f", "G:%3.0f", "B:%3.0f", "A:%3.0f" },
+            { "H:%3.0f", "S:%3.0f", "V:%3.0f", "A:%3.0f" }
+        };
+        const char** fmt = hide_prefix ? fmt_table[0] : hsv ? fmt_table[2] : fmt_table[1];
 
-            const bool hide_prefix = (w_item_one <= CalcTextSize("M:999").x);
-            const char* ids[4] = { "##X", "##Y", "##Z", "##W" };
-            const char* fmt_table[3][4] =
-            {
-                {   "%3.0f",   "%3.0f",   "%3.0f",   "%3.0f" },
-                { "R:%3.0f", "G:%3.0f", "B:%3.0f", "A:%3.0f" },
-                { "H:%3.0f", "S:%3.0f", "V:%3.0f", "A:%3.0f" }
-            };
-            const char** fmt = hide_prefix ? fmt_table[0] : hsv ? fmt_table[2] : fmt_table[1];
-
-            PushItemWidth(w_item_one);
-            for (int n = 0; n < components; n++)
-            {
-                if (n > 0)
-                    SameLine(0, style.ItemInnerSpacing.x);
-                if (n + 1 == components)
-                    PushItemWidth(w_item_last);
-                value_changed |= DragInt(ids[n], &i[n], 1.0f, 0, 255, fmt[n]);
-            }
-            PopItemWidth();
-            PopItemWidth();
+        PushItemWidth(w_item_one);
+        for (int n = 0; n < components; n++)
+        {
+            if (n > 0)
+                SameLine(0, style.ItemInnerSpacing.x);
+            if (n + 1 == components)
+                PushItemWidth(w_item_last);
+            value_changed |= DragInt(ids[n], &i[n], 1.0f, 0, 255, fmt[n]);
         }
-        break;
+        PopItemWidth();
+        PopItemWidth();
+    }
+    break;
     case ImGuiColorEditMode_HEX:
+    {
+        // RGB Hexadecimal Input
+        const float w_slider_all = w_full - square_sz;
+        char buf[64];
+        if (alpha)
+            ImFormatString(buf, IM_ARRAYSIZE(buf), "#%02X%02X%02X%02X", i[0], i[1], i[2], i[3]);
+        else
+            ImFormatString(buf, IM_ARRAYSIZE(buf), "#%02X%02X%02X", i[0], i[1], i[2]);
+        PushItemWidth(w_slider_all - style.ItemInnerSpacing.x);
+        if (InputText("##Text", buf, IM_ARRAYSIZE(buf), ImGuiInputTextFlags_CharsHexadecimal | ImGuiInputTextFlags_CharsUppercase))
         {
-            // RGB Hexadecimal Input
-            const float w_slider_all = w_full - square_sz;
-            char buf[64];
+            value_changed |= true;
+            char* p = buf;
+            while (*p == '#' || ImCharIsSpace(*p))
+                p++;
+            i[0] = i[1] = i[2] = i[3] = 0;
             if (alpha)
-                ImFormatString(buf, IM_ARRAYSIZE(buf), "#%02X%02X%02X%02X", i[0], i[1], i[2], i[3]);
+                sscanf(p, "%02X%02X%02X%02X", (unsigned int*)&i[0], (unsigned int*)&i[1], (unsigned int*)&i[2], (unsigned int*)&i[3]); // Treat at unsigned (%X is unsigned)
             else
-                ImFormatString(buf, IM_ARRAYSIZE(buf), "#%02X%02X%02X", i[0], i[1], i[2]);
-            PushItemWidth(w_slider_all - style.ItemInnerSpacing.x);
-            if (InputText("##Text", buf, IM_ARRAYSIZE(buf), ImGuiInputTextFlags_CharsHexadecimal | ImGuiInputTextFlags_CharsUppercase))
-            {
-                value_changed |= true;
-                char* p = buf;
-                while (*p == '#' || ImCharIsSpace(*p))
-                    p++;
-                i[0] = i[1] = i[2] = i[3] = 0;
-                if (alpha)
-                    sscanf(p, "%02X%02X%02X%02X", (unsigned int*)&i[0], (unsigned int*)&i[1], (unsigned int*)&i[2], (unsigned int*)&i[3]); // Treat at unsigned (%X is unsigned)
-                else
-                    sscanf(p, "%02X%02X%02X", (unsigned int*)&i[0], (unsigned int*)&i[1], (unsigned int*)&i[2]);
-            }
-            PopItemWidth();
+                sscanf(p, "%02X%02X%02X", (unsigned int*)&i[0], (unsigned int*)&i[1], (unsigned int*)&i[2]);
         }
-        break;
+        PopItemWidth();
+    }
+    break;
     }
 
     SameLine(0, style.ItemInnerSpacing.x);
@@ -8949,16 +9025,16 @@ void ImGui::ValueColor(const char* prefix, ImU32 v)
 //-----------------------------------------------------------------------------
 
 #if defined(_WIN32) && !defined(_WINDOWS_) && (!defined(IMGUI_DISABLE_WIN32_DEFAULT_CLIPBOARD_FUNCS) || !defined(IMGUI_DISABLE_WIN32_DEFAULT_IME_FUNCS))
-#undef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+    #undef WIN32_LEAN_AND_MEAN
+    #define WIN32_LEAN_AND_MEAN
+    #include <windows.h>
 #endif
 
 // Win32 API clipboard implementation
 #if defined(_WIN32) && !defined(IMGUI_DISABLE_WIN32_DEFAULT_CLIPBOARD_FUNCS)
 
 #ifdef _MSC_VER
-#pragma comment(lib, "user32")
+    #pragma comment(lib, "user32")
 #endif
 
 static const char* GetClipboardTextFn_DefaultImpl(void*)
@@ -9027,7 +9103,7 @@ static void SetClipboardTextFn_DefaultImpl(void*, const char* text)
 
 #include <imm.h>
 #ifdef _MSC_VER
-#pragma comment(lib, "imm32")
+    #pragma comment(lib, "imm32")
 #endif
 
 static void ImeSetInputScreenPosFn_DefaultImpl(int x, int y)
@@ -9099,8 +9175,10 @@ void ImGui::ShowMetricsWindow(bool* p_open)
                         ImRect vtxs_rect;
                         for (int i = elem_offset; i < elem_offset + (int)pcmd->ElemCount; i++)
                             vtxs_rect.Add(draw_list->VtxBuffer[idx_buffer ? idx_buffer[i] : i].pos);
-                        clip_rect.Floor(); overlay_draw_list->AddRect(clip_rect.Min, clip_rect.Max, IM_COL32(255,255,0,255));
-                        vtxs_rect.Floor(); overlay_draw_list->AddRect(vtxs_rect.Min, vtxs_rect.Max, IM_COL32(255,0,255,255));
+                        clip_rect.Floor();
+                        overlay_draw_list->AddRect(clip_rect.Min, clip_rect.Max, IM_COL32(255,255,0,255));
+                        vtxs_rect.Floor();
+                        overlay_draw_list->AddRect(vtxs_rect.Min, vtxs_rect.Max, IM_COL32(255,0,255,255));
                     }
                     if (!pcmd_node_open)
                         continue;
@@ -9185,7 +9263,7 @@ void ImGui::ShowMetricsWindow(bool* p_open)
 // Include imgui_user.inl at the end of imgui.cpp to access private data/functions that aren't exposed.
 // Prefer just including imgui_internal.h from your code rather than using this define. If a declaration is missing from imgui_internal.h add it or request it on the github.
 #ifdef IMGUI_INCLUDE_IMGUI_USER_INL
-#include "imgui_user.inl"
+    #include "imgui_user.inl"
 #endif
 
 //-----------------------------------------------------------------------------

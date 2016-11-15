@@ -80,8 +80,8 @@ void MultiplayerConnection::getChunk(Vec3i pos)
 
 LocalConnectionByNetWork::LocalConnectionByNetWork(const std::string& host, unsigned short port)
     :MultiplayerConnection(host, port),
-    mPath(getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver").c_str()),
-    mTimeout(getJsonValue<int>(getSettings()["client"]["server_start_timeout"], 30))
+     mPath(getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver").c_str()),
+     mTimeout(getJsonValue<int>(getSettings()["client"]["server_start_timeout"], 30))
 {
 }
 

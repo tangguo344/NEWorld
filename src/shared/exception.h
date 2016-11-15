@@ -56,13 +56,13 @@ namespace Exception
     public:
         template <typename... Args>
         Exception(std::exception_ptr nestedException, const char* Src, const char* File, unsigned Line, const char* Desc, Args&&... args) noexcept
-            : detail_::ExceptionStorage{ nestedException, std::chrono::system_clock::now(), File, Line, Src, StringUtils::FormatString(Desc, std::forward<Args>(args)...) }
+            : detail_::ExceptionStorage { nestedException, std::chrono::system_clock::now(), File, Line, Src, StringUtils::FormatString(Desc, std::forward<Args>(args)...) }
         {
         }
 
         template <typename... Args>
         Exception(const char* Src, const char* File, unsigned Line, const char* Desc, Args&&... args) noexcept
-            : detail_::ExceptionStorage{ {}, std::chrono::system_clock::now(), File, Line, Src, StringUtils::FormatString(Desc, std::forward<Args>(args)...) }
+            : detail_::ExceptionStorage { {}, std::chrono::system_clock::now(), File, Line, Src, StringUtils::FormatString(Desc, std::forward<Args>(args)...) }
         {
         }
 
@@ -105,29 +105,29 @@ namespace Exception
     };
 
 #define DeclareException(ExceptionClass, ExtendException, DefaultDescription) \
-class ExceptionClass : public ExtendException\
-{\
-public:\
-    typedef ExtendException BaseException;\
-    ExceptionClass(const char* Src, const char* File, unsigned Line) noexcept\
-        : BaseException(Src, File, Line, DefaultDescription)\
+    class ExceptionClass : public ExtendException\
     {\
-    }\
-    ExceptionClass(std::exception_ptr nestedException, const char* Src, const char* File, unsigned Line) noexcept\
-        : BaseException(nestedException, Src, File, Line, DefaultDescription)\
-    {\
-    }\
-    template <typename... Args>\
-    ExceptionClass(const char* Src, const char* File, unsigned Line, const char* Desc, Args&&... args) noexcept\
-        : BaseException(Src, File, Line, Desc, std::forward<Args>(args)...)\
-    {\
-    }\
-    template <typename... Args>\
-    ExceptionClass(std::exception_ptr nestedException, const char* Src, const char* File, unsigned Line, const char* Desc, Args&&... args) noexcept\
-        : BaseException(nestedException, Src, File, Line, Desc, std::forward<Args>(args)...)\
-    {\
-    }\
-}
+    public:\
+        typedef ExtendException BaseException;\
+        ExceptionClass(const char* Src, const char* File, unsigned Line) noexcept\
+            : BaseException(Src, File, Line, DefaultDescription)\
+        {\
+        }\
+        ExceptionClass(std::exception_ptr nestedException, const char* Src, const char* File, unsigned Line) noexcept\
+            : BaseException(nestedException, Src, File, Line, DefaultDescription)\
+        {\
+        }\
+        template <typename... Args>\
+        ExceptionClass(const char* Src, const char* File, unsigned Line, const char* Desc, Args&&... args) noexcept\
+            : BaseException(Src, File, Line, Desc, std::forward<Args>(args)...)\
+        {\
+        }\
+        template <typename... Args>\
+        ExceptionClass(std::exception_ptr nestedException, const char* Src, const char* File, unsigned Line, const char* Desc, Args&&... args) noexcept\
+            : BaseException(nestedException, Src, File, Line, Desc, std::forward<Args>(args)...)\
+        {\
+        }\
+    }
 }
 
 #define nw_throw(ExceptionClass, ...) do { throw ExceptionClass{ __FUNCTION__, __FILE__, __LINE__, __VA_ARGS__ }; } while (false)

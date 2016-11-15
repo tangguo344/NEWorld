@@ -17,7 +17,7 @@ namespace FlatFactory
             ::c2s::FinishLoginBuffer(fbb, login);
             return fbb;
         }
-    
+
         inline flatbuffers::FlatBufferBuilder &RequestChunk(Vec3i pos)
         {
             fbb.Clear();
@@ -26,7 +26,7 @@ namespace FlatFactory
             return fbb;
         }
     }
-    
+
     namespace s2c
     {
         inline flatbuffers::FlatBufferBuilder &Chunk(::s2c::Vec3 pos,std::vector<int> blocks)

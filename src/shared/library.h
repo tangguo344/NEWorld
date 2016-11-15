@@ -26,7 +26,7 @@
 #include <functional>
 
 #ifndef NEWORLD_TARGET_WINDOWS
-#    include <dlfcn.h>
+    #include <dlfcn.h>
 #endif
 
 #include "common.h"

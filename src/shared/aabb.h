@@ -46,21 +46,21 @@ public:
     bool intersectX(const AABB& box) const
     {
         return (min.x > box.min.x && min.x < box.max.x) || (max.x > box.min.x && max.x < box.max.x) ||
-            (box.min.x > min.x && box.min.x < max.x) || (box.max.x > min.x && box.max.x < max.x);
+               (box.min.x > min.x && box.min.x < max.x) || (box.max.x > min.x && box.max.x < max.x);
     }
 
     // Is intersect on Y axis
     bool intersectY(const AABB& box) const
     {
         return (min.y > box.min.y && min.y < box.max.y) || (max.y > box.min.y && max.y < box.max.y) ||
-            (box.min.y > min.y && box.min.y < max.y) || (box.max.y > min.y && box.max.y < max.y);
+               (box.min.y > min.y && box.min.y < max.y) || (box.max.y > min.y && box.max.y < max.y);
     }
 
     // Is intersect on Z axis
     bool intersectZ(const AABB& box) const
     {
         return (min.z > box.min.z && min.z < box.max.z) || (max.z > box.min.z && max.z < box.max.z) ||
-            (box.min.z > min.z && box.min.z < max.z) || (box.max.z > min.z && box.max.z < max.z);
+               (box.min.z > min.z && box.min.z < max.z) || (box.max.z > min.z && box.max.z < max.z);
     }
 
     // Is intersect on all axes

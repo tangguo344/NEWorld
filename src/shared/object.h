@@ -96,7 +96,7 @@ public:
         mHitbox.move(delta);
     }
 
-	virtual void render() = 0;
+    virtual void render() = 0;
     virtual void update() = 0;
 
 protected:

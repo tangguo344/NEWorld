@@ -47,7 +47,7 @@ public:
     static constexpr int UpdateFrequency = 30;
 
     Game(const std::string& name, std::shared_ptr<GameConnection> connection,
-        const Window& window, PluginManager& pm, const BlockManager& bm);
+         const Window& window, PluginManager& pm, const BlockManager& bm);
     ~Game();
 
     void update();

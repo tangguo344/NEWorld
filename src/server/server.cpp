@@ -38,7 +38,7 @@ Server::Server(std::vector<std::string> args)
 
     // Network
     mNetwork.start(getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1").c_str(),
-                 getJsonValue<unsigned short>(getSettings()["server"]["port"], 31111));
+                   getJsonValue<unsigned short>(getSettings()["server"]["port"], 31111));
 
     // Builtin Commands
     initBuiltinCommands();

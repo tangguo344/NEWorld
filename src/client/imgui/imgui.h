@@ -9,7 +9,7 @@
 #pragma once
 
 #if !defined(IMGUI_DISABLE_INCLUDE_IMCONFIG_H) || defined(IMGUI_INCLUDE_IMCONFIG_H)
-#include "imconfig.h"       // User-editable configuration file
+    #include "imconfig.h"       // User-editable configuration file
 #endif
 #include <float.h>          // FLT_MAX
 #include <stdarg.h>         // va_list
@@ -20,25 +20,25 @@
 
 // Define attributes of all API symbols declarations, e.g. for DLL under Windows.
 #ifndef IMGUI_API
-#define IMGUI_API
+    #define IMGUI_API
 #endif
 
 // Define assertion handler.
 #ifndef IM_ASSERT
-#include <assert.h>
-#define IM_ASSERT(_EXPR)    assert(_EXPR)
+    #include <assert.h>
+    #define IM_ASSERT(_EXPR)    assert(_EXPR)
 #endif
 
 // Some compilers support applying printf-style warnings to user functions.
 #if defined(__clang__) || defined(__GNUC__)
-#define IM_PRINTFARGS(FMT) __attribute__((format(printf, FMT, (FMT+1))))
+    #define IM_PRINTFARGS(FMT) __attribute__((format(printf, FMT, (FMT+1))))
 #else
-#define IM_PRINTFARGS(FMT)
+    #define IM_PRINTFARGS(FMT)
 #endif
 
 #if defined(__clang__)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wold-style-cast"
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wold-style-cast"
 #endif
 
 // Forward declarations
@@ -150,7 +150,7 @@ namespace ImGui
     IMGUI_API void          SetNextWindowCollapsed(bool collapsed, ImGuiSetCond cond = 0);      // set next window collapsed state. call before Begin()
     IMGUI_API void          SetNextWindowFocus();                                               // set next window to be focused / front-most. call before Begin()
     IMGUI_API void          SetWindowPos(const ImVec2& pos, ImGuiSetCond cond = 0);             // (not recommended) set current window position - call within Begin()/End(). prefer using SetNextWindowPos(), as this may incur tearing and side-effects.
-    IMGUI_API void          SetWindowSize(const ImVec2& size, ImGuiSetCond cond = 0);           // (not recommended) set current window size - call within Begin()/End(). set to ImVec2(0,0) to force an auto-fit. prefer using SetNextWindowSize(), as this may incur tearing and minor side-effects.    
+    IMGUI_API void          SetWindowSize(const ImVec2& size, ImGuiSetCond cond = 0);           // (not recommended) set current window size - call within Begin()/End(). set to ImVec2(0,0) to force an auto-fit. prefer using SetNextWindowSize(), as this may incur tearing and minor side-effects.
     IMGUI_API void          SetWindowCollapsed(bool collapsed, ImGuiSetCond cond = 0);          // (not recommended) set current window collapsed state. prefer using SetNextWindowCollapsed().
     IMGUI_API void          SetWindowFocus();                                                   // (not recommended) set current window to be focused / front-most. prefer using SetNextWindowFocus().
     IMGUI_API void          SetWindowPos(const char* name, const ImVec2& pos, ImGuiSetCond cond = 0);      // set named window position.
@@ -541,7 +541,7 @@ enum ImGuiTreeNodeFlags_
     ImGuiTreeNodeFlags_DefaultOpen          = 1 << 5,   // Default node to be open
     ImGuiTreeNodeFlags_OpenOnDoubleClick    = 1 << 6,   // Need double-click to open node
     ImGuiTreeNodeFlags_OpenOnArrow          = 1 << 7,   // Only open when clicking on the arrow part. If ImGuiTreeNodeFlags_OpenOnDoubleClick is also set, single-click arrow or double-click all box to open.
-    ImGuiTreeNodeFlags_Leaf                 = 1 << 8,   // No collapsing, no arrow (use as a convenience for leaf nodes). 
+    ImGuiTreeNodeFlags_Leaf                 = 1 << 8,   // No collapsing, no arrow (use as a convenience for leaf nodes).
     ImGuiTreeNodeFlags_Bullet               = 1 << 9,   // Display a bullet instead of arrow
     //ImGuITreeNodeFlags_SpanAllAvailWidth  = 1 << 10,  // FIXME: TODO: Extend hit box horizontally even if not framed
     //ImGuiTreeNodeFlags_NoScrollOnOpen     = 1 << 11,  // FIXME: TODO: Disable automatic scroll on TreePop() if node got just open and contents is not visible
@@ -1036,17 +1036,17 @@ struct ImGuiSizeConstraintCallbackData
 
 // Helpers macros to generate 32-bits encoded colors
 #ifdef IMGUI_USE_BGRA_PACKED_COLOR
-#define IM_COL32_R_SHIFT    16
-#define IM_COL32_G_SHIFT    8
-#define IM_COL32_B_SHIFT    0
-#define IM_COL32_A_SHIFT    24
-#define IM_COL32_A_MASK     0xFF000000
+    #define IM_COL32_R_SHIFT    16
+    #define IM_COL32_G_SHIFT    8
+    #define IM_COL32_B_SHIFT    0
+    #define IM_COL32_A_SHIFT    24
+    #define IM_COL32_A_MASK     0xFF000000
 #else
-#define IM_COL32_R_SHIFT    0
-#define IM_COL32_G_SHIFT    8
-#define IM_COL32_B_SHIFT    16
-#define IM_COL32_A_SHIFT    24
-#define IM_COL32_A_MASK     0xFF000000
+    #define IM_COL32_R_SHIFT    0
+    #define IM_COL32_G_SHIFT    8
+    #define IM_COL32_B_SHIFT    16
+    #define IM_COL32_A_SHIFT    24
+    #define IM_COL32_A_MASK     0xFF000000
 #endif
 #define IM_COL32(R,G,B,A)    (((ImU32)(A)<<IM_COL32_A_SHIFT) | ((ImU32)(B)<<IM_COL32_B_SHIFT) | ((ImU32)(G)<<IM_COL32_G_SHIFT) | ((ImU32)(R)<<IM_COL32_R_SHIFT))
 #define IM_COL32_WHITE       IM_COL32(255,255,255,255)  // Opaque white
@@ -1069,14 +1069,14 @@ struct ImColor
     inline operator ImU32() const                                   { return ImGui::ColorConvertFloat4ToU32(Value); }
     inline operator ImVec4() const                                  { return Value; }
 
-    inline void    SetHSV(float h, float s, float v, float a = 1.0f){ ImGui::ColorConvertHSVtoRGB(h, s, v, Value.x, Value.y, Value.z); Value.w = a; }
+    inline void    SetHSV(float h, float s, float v, float a = 1.0f) { ImGui::ColorConvertHSVtoRGB(h, s, v, Value.x, Value.y, Value.z); Value.w = a; }
 
     static ImColor HSV(float h, float s, float v, float a = 1.0f)   { float r,g,b; ImGui::ColorConvertHSVtoRGB(h, s, v, r, g, b); return ImColor(r,g,b,a); }
 };
 
 // Helper: Manually clip large list of items.
 // If you are submitting lots of evenly spaced items and you have a random access to the list, you can perform coarse clipping based on visibility to save yourself from processing those items at all.
-// The clipper calculates the range of visible items and advance the cursor to compensate for the non-visible items we have skipped. 
+// The clipper calculates the range of visible items and advance the cursor to compensate for the non-visible items we have skipped.
 // ImGui already clip items based on their bounds but it needs to measure text size to do so. Coarse clipping before submission makes this cost and your own data fetching/submission cost null.
 // Usage:
 //     ImGuiListClipper clipper(1000);  // we have 1000 elements, evenly spaced.
@@ -1129,7 +1129,7 @@ struct ImDrawCmd
 
 // Vertex index (override with '#define ImDrawIdx unsigned int' inside in imconfig.h)
 #ifndef ImDrawIdx
-typedef unsigned short ImDrawIdx;
+    typedef unsigned short ImDrawIdx;
 #endif
 
 // Vertex layout
@@ -1236,7 +1236,7 @@ struct ImDrawList
     IMGUI_API void  PrimRect(const ImVec2& a, const ImVec2& b, ImU32 col);      // Axis aligned rectangle (composed of two triangles)
     IMGUI_API void  PrimRectUV(const ImVec2& a, const ImVec2& b, const ImVec2& uv_a, const ImVec2& uv_b, ImU32 col);
     IMGUI_API void  PrimQuadUV(const ImVec2& a, const ImVec2& b, const ImVec2& c, const ImVec2& d, const ImVec2& uv_a, const ImVec2& uv_b, const ImVec2& uv_c, const ImVec2& uv_d, ImU32 col);
-    inline    void  PrimWriteVtx(const ImVec2& pos, const ImVec2& uv, ImU32 col){ _VtxWritePtr->pos = pos; _VtxWritePtr->uv = uv; _VtxWritePtr->col = col; _VtxWritePtr++; _VtxCurrentIdx++; }
+    inline    void  PrimWriteVtx(const ImVec2& pos, const ImVec2& uv, ImU32 col) { _VtxWritePtr->pos = pos; _VtxWritePtr->uv = uv; _VtxWritePtr->col = col; _VtxWritePtr++; _VtxCurrentIdx++; }
     inline    void  PrimWriteIdx(ImDrawIdx idx)                                 { *_IdxWritePtr = idx; _IdxWritePtr++; }
     inline    void  PrimVtx(const ImVec2& pos, const ImVec2& uv, ImU32 col)     { PrimWriteIdx((ImDrawIdx)_VtxCurrentIdx); PrimWriteVtx(pos, uv, col); }
     IMGUI_API void  UpdateClipRect();
@@ -1390,10 +1390,10 @@ struct ImFont
 };
 
 #if defined(__clang__)
-#pragma clang diagnostic pop
+    #pragma clang diagnostic pop
 #endif
 
 // Include imgui_user.h at the end of imgui.h (convenient for user to only explicitly include vanilla imgui.h)
 #ifdef IMGUI_INCLUDE_IMGUI_USER_H
-#include "imgui_user.h"
+    #include "imgui_user.h"
 #endif

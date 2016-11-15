@@ -84,7 +84,7 @@ void NetworkManager::loop()
                 break;
             case ID_USER_PACKET_ENUM:
             {
-                union{short s;char c[2];} id;// 2 bytes.
+                union {short s; char c[2];} id; // 2 bytes.
                 id.c[0] = p->data[2];
                 id.c[1] = p->data[1];
                 auto identifier = static_cast<Identifier>(id.s);

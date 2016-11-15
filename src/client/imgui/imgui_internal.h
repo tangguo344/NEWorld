@@ -8,22 +8,22 @@
 #pragma once
 
 #ifndef IMGUI_VERSION
-#error Must include imgui.h before imgui_internal.h
+    #error Must include imgui.h before imgui_internal.h
 #endif
 
 #include <stdio.h>      // FILE*
 #include <math.h>       // sqrtf, fabsf, fmodf, powf, floorf, ceilf, cosf, sinf
 
 #ifdef _MSC_VER
-#pragma warning (push)
-#pragma warning (disable: 4251) // class 'xxx' needs to have dll-interface to be used by clients of struct 'xxx' // when IMGUI_API is set to__declspec(dllexport)
+    #pragma warning (push)
+    #pragma warning (disable: 4251) // class 'xxx' needs to have dll-interface to be used by clients of struct 'xxx' // when IMGUI_API is set to__declspec(dllexport)
 #endif
 
 #ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-function"        // for stb_textedit.h
-#pragma clang diagnostic ignored "-Wmissing-prototypes"     // for stb_textedit.h
-#pragma clang diagnostic ignored "-Wold-style-cast"
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wunused-function"        // for stb_textedit.h
+    #pragma clang diagnostic ignored "-Wmissing-prototypes"     // for stb_textedit.h
+    #pragma clang diagnostic ignored "-Wold-style-cast"
 #endif
 
 //-----------------------------------------------------------------------------
@@ -761,9 +761,9 @@ namespace ImGui
 } // namespace ImGui
 
 #ifdef __clang__
-#pragma clang diagnostic pop
+    #pragma clang diagnostic pop
 #endif
 
 #ifdef _MSC_VER
-#pragma warning (pop)
+    #pragma warning (pop)
 #endif
