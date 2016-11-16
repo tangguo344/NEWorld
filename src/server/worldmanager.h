@@ -24,7 +24,7 @@
 
 #include "worldserver.h"
 #include <pluginmanager.h>
-#include <blockmanager.h>
+#include <nwblock.h>
 
 // Multi-world
 class WorldManager

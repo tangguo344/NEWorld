@@ -24,7 +24,7 @@
 #include <vector>
 #include <logger.h>
 #include "worldmanager.h"
-#include <blockmanager.h>
+#include <nwblock.h>
 #include <pluginmanager.h>
 #include <pluginapi.h>
 #include <ratemeter.h>

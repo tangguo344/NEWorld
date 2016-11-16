@@ -25,7 +25,7 @@
 
 #include "common.h"
 #include "vec3.h"
-#include "blockdata.h"
+#include "nwblock.h"
 #include "library.h"
 
 #include "../../api/c/nwapi.h"

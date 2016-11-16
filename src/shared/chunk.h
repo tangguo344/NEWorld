@@ -23,14 +23,15 @@
 #include <atomic>
 #include "vec3.h"
 #include "debug.h"
-#include "blockdata.h"
+#include "nwblock.h"
 
 class Chunk
 {
 public:
     // Chunk size
-    static constexpr int SizeLog2 = 5, Size = 1 << SizeLog2; // 2 ^ 5 == 32
+    static constexpr int SizeLog2 = 5, Size = 1 << SizeLog2;
 
+    explicit Chunk(const Vec3i& position) : mPosition(position) {}
     virtual ~Chunk() {}
 
     // Get chunk position
@@ -84,7 +85,6 @@ public:
     }
 
 protected:
-    explicit Chunk(const Vec3i& position) : mPosition(position) {}
 
 private:
     Vec3i mPosition;

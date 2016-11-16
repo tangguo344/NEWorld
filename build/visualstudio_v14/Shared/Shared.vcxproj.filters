@@ -4,13 +4,7 @@
     <ClInclude Include="..\..\..\src\shared\vec3.h">
       <Filter>Source\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\blocktype.h">
-      <Filter>Source\World</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\shared\chunk.h">
-      <Filter>Source\World</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\blockdata.h">
       <Filter>Source\World</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\shared\world.h">
@@ -25,9 +19,6 @@
     <ClInclude Include="..\..\..\src\shared\logger.h">
       <Filter>Source\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\chunkpointerarray.h">
-      <Filter>Source\World</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\shared\plugin.h">
       <Filter>Source\Plugin</Filter>
     </ClInclude>
@@ -36,9 +27,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\shared\aabb.h">
       <Filter>Source\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\blockmanager.h">
-      <Filter>Source\World</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\shared\utils.h">
       <Filter>Source\Common</Filter>
@@ -79,6 +67,9 @@
     <ClInclude Include="..\..\..\src\shared\debug.h">
       <Filter>Source\Common</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\shared\nwblock.h">
+      <Filter>Source\World</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -113,23 +104,14 @@
     <ClCompile Include="..\..\..\src\shared\logger.cpp">
       <Filter>Source\Common</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\shared\blockmanager.cpp">
-      <Filter>Source\World</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\shared\utils.cpp">
-      <Filter>Source\Common</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\shared\pluginapi.cpp">
       <Filter>Source\Plugin</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\shared\exception.cpp">
-      <Filter>Source\Common</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\shared\event.cpp">
       <Filter>Source\Common</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\shared\jsonhelper.cpp">
-      <Filter>Source\Common</Filter>
+    <ClCompile Include="..\..\..\src\shared\nwblock.cpp">
+      <Filter>Source\World</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

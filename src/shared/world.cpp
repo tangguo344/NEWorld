@@ -48,8 +48,7 @@ size_t World::getChunkIndex(const Vec3i& pos) const
     while (first <= last)
     {
         int mid = (first + last) / 2;
-        const Vec3i& curr = mChunks[mid]->getPosition();
-        if (curr < pos)
+        if (mChunks[mid]->getPosition() < pos)
             first = mid + 1;
         else
             last = mid - 1;

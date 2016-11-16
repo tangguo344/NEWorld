@@ -21,21 +21,12 @@
 #define BLOCKDATA_H_
 
 #include <stdint.h>
+#include <vector>
+#include <string>
+#include "logger.h"
 
 class BlockData
 {
-private:
-    union BlockDataUnion
-    {
-        struct BlockDataUnionStruct
-        {
-            uint32_t id : 12; // Block ID
-            uint32_t brightness : 4; // Brightness
-            uint32_t state : 16; // Block state
-        } data;
-        uint32_t allData;
-    } u;
-
 public:
     BlockData() : u{0}
     {
@@ -91,6 +82,87 @@ public:
     {
         u.data.state = state_;
     }
+
+private:
+	union BlockDataUnion
+	{
+		struct BlockDataUnionStruct
+		{
+			uint32_t id : 12; // Block ID
+			uint32_t brightness : 4; // Brightness
+			uint32_t state : 16; // Block state
+		} data;
+		uint32_t allData;
+	} u;
+};
+
+class BlockType
+{
+private:
+	std::string name;
+	bool solid;
+	bool translucent;
+	bool opaque;
+	int explodePower;
+	int hardness;
+
+public:
+	BlockType(const char* name_, bool solid_, bool translucent_, bool opaque_, int explodePower_, int hardness_) :
+		name(name_), solid(solid_), translucent(translucent_), opaque(opaque_), explodePower(explodePower_), hardness(hardness_)
+	{
+	}
+
+	// Internal block name
+	const std::string& getName() const
+	{
+		return name;
+	}
+
+	// Is solid block
+	bool isSolid() const
+	{
+		return solid;
+	}
+
+	// Transparency determines how it will rendered
+	bool isTranslucent() const
+	{
+		return translucent;
+	}
+
+	// Opaque means it blocks light
+	bool isOpaque() const
+	{
+		return opaque;
+	}
+
+	// Explode power, if it isn't a explosive set this to 0
+	int getExplodePower() const
+	{
+		return explodePower;
+	}
+
+	// Hardness
+	int getHardness() const
+	{
+		return hardness;
+	}
+};
+
+class BlockManager
+{
+public:
+	BlockManager();
+	void showInfo(size_t id) const;
+	size_t registerBlock(const BlockType& block);
+
+	const BlockType& operator[](size_t id) const
+	{
+		return mBlocks[id];
+	}
+
+private:
+	std::vector<BlockType> mBlocks;
 };
 
 #endif // !BLOCKDATA_H_

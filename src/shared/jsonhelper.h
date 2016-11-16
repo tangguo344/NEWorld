@@ -83,5 +83,12 @@ private:
     Json& mJson;
     std::string mFilename;
 };
-Json& getSettings(const std::string& suffix = "");
+
+inline Json& getSettings()
+{
+	static Json settings = readJsonFromFile(SettingsFilename + "_" + ".json");
+	static JsonSaveHelper helper(settings, SettingsFilename + "_" + ".json");
+	return settings;
+}
+
 #endif

@@ -25,8 +25,7 @@
 #include <cstdlib> // malloc, realloc, free
 #include "aabb.h"
 #include "chunk.h"
-#include "blockmanager.h"
-#include "chunkpointerarray.h"
+#include "nwblock.h"
 
 class PluginManager;
 
@@ -179,12 +178,7 @@ public:
 
     const BlockType& getType(int id) const
     {
-        return mBlocks.getType(id);
-    }
-
-    ChunkPointerArray& getChunkPointerArray()
-    {
-        return mCpa;
+        return mBlocks[id];
     }
 
     std::vector<AABB> getHitboxes(const AABB& range) const;
@@ -194,14 +188,14 @@ public:
 
 protected:
     World(const std::string& name, const PluginManager& plugins, const BlockManager& blocks)
-        : mName(name), mID(0),mPlugins(plugins), mBlocks(blocks), mChunkCount(0), mChunkArraySize(1024), mCpa(8), mDaylightBrightness(15)
+        : mName(name), mID(0),mPlugins(plugins), mBlocks(blocks), mChunkCount(0), mChunkArraySize(1024), mDaylightBrightness(15)
     {
         mChunks = static_cast<Chunk**>(malloc(mChunkArraySize * sizeof(Chunk*)));
     }
 
     World(World&& rhs) noexcept
         : mName(std::move(rhs.mName)), mID(rhs.mID), mPlugins(rhs.mPlugins), mBlocks(rhs.mBlocks),
-          mChunkCount(rhs.mChunkCount), mChunkArraySize(rhs.mChunkArraySize), mCpa(std::move(rhs.mCpa)), mDaylightBrightness(rhs.mDaylightBrightness)
+          mChunkCount(rhs.mChunkCount), mChunkArraySize(rhs.mChunkArraySize), mDaylightBrightness(rhs.mDaylightBrightness)
     {
         std::swap(mChunks, rhs.mChunks);
     }
@@ -221,8 +215,6 @@ protected:
     size_t mChunkArraySize;
     // All chunks (chunk array)
     Chunk** mChunks;
-    // CPA
-    ChunkPointerArray mCpa;
 
     int mDaylightBrightness;
 

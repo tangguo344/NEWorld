@@ -1,4 +1,3 @@
-
 #if defined(_MSC_VER) && !defined(_CRT_SECURE_NO_WARNINGS)
     #define _CRT_SECURE_NO_WARNINGS
 #endif
@@ -12,11 +11,7 @@
 #include <stdlib.h>     // NULL, malloc, free, qsort, atoi
 #include <stdio.h>      // vsnprintf, sscanf, printf
 #include <limits.h>     // INT_MIN, INT_MAX
-#if defined(_MSC_VER) && _MSC_VER <= 1500 // MSVC 2008 or earlier
-    #include <stddef.h>     // intptr_t
-#else
-    #include <stdint.h>     // intptr_t
-#endif
+#include <stdint.h>     // intptr_t
 
 #ifdef _MSC_VER
     #pragma warning (disable: 4127) // condition expression is constant

@@ -28,7 +28,7 @@
 #include <world.h>
 #include <logger.h>
 #include <pluginapi.h>
-#include <blockmanager.h>
+#include <nwblock.h>
 #include <pluginmanager.h>
 #include <event.h>
 #include "worldclient.h"

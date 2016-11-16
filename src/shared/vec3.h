@@ -28,29 +28,27 @@ template <typename T>
 class Vec3
 {
 public:
-    using param_type = T;
-
     T x, y, z;
 
-    Vec3() : x(), y(), z()
+    constexpr Vec3() : x(), y(), z()
     {
     }
 
-    Vec3(param_type x_, param_type y_, param_type z_) : x(x_), y(y_), z(z_)
+	constexpr Vec3(T x_, T y_, T z_) : x(x_), y(y_), z(z_)
     {
     }
 
-    Vec3(param_type value) : x(value), y(value), z(value)
+	constexpr Vec3(T value) : x(value), y(value), z(value)
     {
     }
 
     template <typename U, std::enable_if_t<std::is_convertible<T, U>::value, int> = 0>
-    Vec3(const Vec3<U>& rhs) : x(T(rhs.x)), y(T(rhs.y)), z(T(rhs.z))
+	constexpr Vec3(const Vec3<U>& rhs) : x(T(rhs.x)), y(T(rhs.y)), z(T(rhs.z))
     {
     }
 
     // Get the square of vector length
-    T lengthSqr() const
+	constexpr T lengthSqr() const
     {
         return x * x + y * y + z * z;
     }
@@ -68,13 +66,13 @@ public:
     }
 
     // Get the Chebyshev Distance between vectors
-    T chebyshevDistance(const Vec3& rhs) const
+    constexpr T chebyshevDistance(const Vec3& rhs) const
     {
         return max(max(abs(x - rhs.x), abs(y - rhs.y)), abs(z - rhs.z));
     }
 
     // Get the Manhattan Distance between vectors
-    T manhattanDistance(const Vec3& rhs) const
+    constexpr T manhattanDistance(const Vec3& rhs) const
     {
         return abs(x - rhs.x) + abs(y - rhs.y) + abs(z - rhs.z);
     }
@@ -88,7 +86,7 @@ public:
         z /= l;
     }
 
-    bool operator< (const Vec3& rhs) const
+	bool operator< (const Vec3& rhs) const
     {
         if (x != rhs.x)
             return x < rhs.x;
@@ -99,7 +97,7 @@ public:
         return false;
     }
 
-    bool operator== (const Vec3& rhs) const
+	constexpr bool operator== (const Vec3& rhs) const
     {
         return x == rhs.x && y == rhs.y && z == rhs.z;
     }
@@ -136,47 +134,29 @@ public:
         return *this;
     }
 
-    Vec3<T> operator* (T value) const
+	constexpr Vec3 operator* (T value) const
     {
-        return Vec3<T>(x * value, y * value, z * value);
+        return Vec3(x * value, y * value, z * value);
     }
 
-    Vec3<T> operator/ (T value) const
+	constexpr Vec3 operator/ (T value) const
     {
-        return Vec3<T>(x / value, y / value, z / value);
+        return Vec3(x / value, y / value, z / value);
     }
 
-    bool operator!= (const Vec3& rhs) const
+	constexpr bool operator!= (const Vec3& rhs) const
     {
         return !(rhs == *this);
     }
 
-    const Vec3<T> operator+ (const Vec3<T>& rhs) const
+    constexpr Vec3 operator+ (const Vec3& rhs) const
     {
-        Vec3<T> tmp(*this);
-        tmp += rhs;
-        return tmp;
+		return Vec3(x + rhs.x, y + rhs.y, z + rhs.z);
     };
 
-    const Vec3<T> operator- (const Vec3<T>& rhs) const
+    constexpr Vec3 operator- (const Vec3& rhs) const
     {
-        Vec3<T> tmp(*this);
-        tmp -= rhs;
-        return tmp;
-    };
-
-    const Vec3<T> operator* (const Vec3<T>& rhs) const
-    {
-        Vec3<T> tmp(*this);
-        tmp *= rhs;
-        return tmp;
-    };
-
-    const Vec3<T> operator/ (const Vec3<T>& rhs) const
-    {
-        Vec3<T> tmp(*this);
-        tmp /= rhs;
-        return tmp;
+		return Vec3(x - rhs.x, y - rhs.y, z - rhs.z);
     };
 
     void swap(Vec3& rhs)
@@ -204,15 +184,15 @@ public:
 
     //TODO: fix it. And tell if "for_each" will change the value of "this".
     template <typename Func>
-    Vec3<T> transform(Func func) const
+    Vec3 transform(Func func) const
     {
-        return Vec3<T>(func(x), func(y), func(z));
+        return Vec3(func(x), func(y), func(z));
     }
 
     template <typename Func>
-    Vec3<T> transform(Func func)
+    Vec3 transform(Func func)
     {
-        return Vec3<T>(func(x), func(y), func(z));
+        return Vec3(func(x), func(y), func(z));
     }
 
     template <typename Func>
@@ -262,12 +242,12 @@ public:
 
 private:
     // to solve problems about `abs`, we need this.
-    static T abs(param_type arg)
+    constexpr static T abs(T arg)
     {
         return arg >= 0 ? arg : -arg;
     }
 
-    static T max(param_type arg1, param_type arg2)
+    constexpr static T max(T arg1, T arg2)
     {
         return arg1 > arg2 ? arg1 : arg2;
     }

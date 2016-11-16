@@ -23,9 +23,9 @@
 #include "common.h"
 #include "logger.h"
 #include "vec3.h"
-#include "blockdata.h"
-#include "blocktype.h"
-#include "blockmanager.h"
+#include "nwblock.h"
+#include "nwblock.h"
+#include "nwblock.h"
 #include "world.h"
 
 namespace PluginAPI

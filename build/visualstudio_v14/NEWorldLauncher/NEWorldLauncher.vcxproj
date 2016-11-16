@@ -28,7 +28,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\launcher\main.cpp" />
-    <ClCompile Include="..\..\..\src\shared\jsonhelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\shared\jsonhelper.h" />

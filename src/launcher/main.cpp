@@ -29,7 +29,7 @@ typedef void NWAPICALL MainFunction(int, char**);
 
 int main(int argc, char** argv)
 {
-    getSettings("launcher");
+    getSettings();
     Logger::init("launcher");
     std::string file;
 

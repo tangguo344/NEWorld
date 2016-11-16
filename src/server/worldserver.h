@@ -22,22 +22,18 @@
 
 #include <utility>
 #include <world.h>
-#include <chunkpointerarray.h>
 
 class WorldServer : public World
 {
 public:
     WorldServer(const std::string& name, PluginManager& plugins, BlockManager& blocks)
-        : World(name,plugins,blocks),mCpa(getChunkPointerArray())
+        : World(name,plugins,blocks)
     {
     }
 
     Chunk* addChunk(const Vec3i& chunkPos) override;
 
     void updateChunkLoadStatus();
-private:
-    // ChunkPointerArray used to detect unloaded chunks in load range
-    ChunkPointerArray& mCpa;
 };
 
 #endif // !WORLDSERVER_H_

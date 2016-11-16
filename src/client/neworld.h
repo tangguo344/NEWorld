@@ -21,7 +21,7 @@
 #define NEWORLD_H_
 
 #include <pluginmanager.h>
-#include <blockmanager.h>
+#include <nwblock.h>
 
 class NEWorld
 {

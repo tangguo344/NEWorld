@@ -49,10 +49,10 @@
     <ClCompile Include="..\..\..\src\server\chunkserver.cpp">
       <Filter>Source\World</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\server\multiplayerconnection.cpp">
+    <ClCompile Include="..\..\..\src\server\connection.cpp">
       <Filter>Source\Network</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\server\connection.cpp">
+    <ClCompile Include="..\..\..\src\server\gameconnection.cpp">
       <Filter>Source\Network</Filter>
     </ClCompile>
   </ItemGroup>

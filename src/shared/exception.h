@@ -66,7 +66,7 @@ namespace Exception
         {
         }
 
-        ~Exception();
+        ~Exception() = default;
 
         std::chrono::system_clock::time_point GetTime() const noexcept
         {

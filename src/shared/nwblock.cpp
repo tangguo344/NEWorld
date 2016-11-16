@@ -17,32 +17,29 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "utils.h"
-#include <algorithm>
-#include <sstream>
+#include "nwblock.h"
 
-std::vector<std::string> split(const std::string& s, char delim)
+BlockManager::BlockManager()
 {
-    std::vector<std::string> elems;
-    std::stringstream ss;
-    ss.str(s);
-    std::string item;
-    while (std::getline(ss, item, delim))
-        elems.push_back(item);
-
-    return elems;
-};
-
-void trim(std::string& s)
-{
-    if (s.empty())
-        return;
-
-    s.erase(0, s.find_first_not_of(" "));
-    s.erase(s.find_last_not_of(" ") + 1);
+	mBlocks.push_back(BlockType("Air", false, false, false, 0, 0));
 }
 
-void strtolower(std::string& s)
+size_t BlockManager::registerBlock(const BlockType& block)
 {
-    transform(s.begin(), s.end(), s.begin(), tolower);
+	mBlocks.push_back(block);
+	debugstream << "Registered block:";
+	showInfo(mBlocks.size() - 1);
+	return mBlocks.size() - 1;
+}
+
+void BlockManager::showInfo(size_t id) const
+{
+    BlockType block = mBlocks[id];
+    debugstream << "Block \"" << block.getName() << "\"(ID = " << id << ") = {"
+                << "Solid: " << block.isSolid()
+                << ", Translucent: " << block.isTranslucent()
+                << ", Opaque: " << block.isOpaque()
+                << ", Explode power: " << block.getExplodePower()
+                << ", Hardness: " << block.getHardness()
+                << "}";
 }

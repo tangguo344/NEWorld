@@ -36,8 +36,8 @@
     <ClCompile Include="..\..\..\src\server\commandmanager.cpp" />
     <ClCompile Include="..\..\..\src\server\chunkserver.cpp" />
     <ClCompile Include="..\..\..\src\server\connection.cpp" />
+    <ClCompile Include="..\..\..\src\server\gameconnection.cpp" />
     <ClCompile Include="..\..\..\src\server\main.cpp" />
-    <ClCompile Include="..\..\..\src\server\multiplayerconnection.cpp" />
     <ClCompile Include="..\..\..\src\server\networkmanager.cpp" />
     <ClCompile Include="..\..\..\src\server\server.cpp" />
     <ClCompile Include="..\..\..\src\server\serverapi.cpp" />

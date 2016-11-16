@@ -18,6 +18,7 @@
 */
 
 #include <string.h>
+#include <array>
 #include <atomic>
 #include <chrono>
 #include "game.h"
@@ -73,15 +74,15 @@ Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
         memcpy(target->getBlocks(), chunk->getBlocks(), sizeof(BlockData) * Chunk::Size * Chunk::Size * Chunk::Size);
         target->setUpdated(true);
         // Update neighboring chunks
-        const Vec3i delta[6] =
+        const std::array<Vec3i, 6> delta
         {
             Vec3i( 1, 0, 0), Vec3i(-1, 0, 0),
             Vec3i( 0, 1, 0), Vec3i( 0,-1, 0),
             Vec3i( 0, 0, 1), Vec3i( 0, 0,-1)
         };
-        for (int i = 0; i < 6; i++)
+        for (auto&& p : delta)
         {
-            target = mWorld.getChunkPtr(chunk->getPosition() + delta[i]);
+            target = mWorld.getChunkPtr(chunk->getPosition() + p);
             if (target != nullptr)
                 target->setUpdated(true);
         }
