@@ -21,6 +21,7 @@
 #define CHUNK_H_
 
 #include <atomic>
+#include <chrono>
 #include "vec3.h"
 #include "debug.h"
 #include "nwblock.h"
@@ -84,12 +85,13 @@ public:
         mUpdated = true;
     }
 
-protected:
-
 private:
     Vec3i mPosition;
     BlockData mBlocks[Size * Size * Size];
     bool mUpdated = false;
+	// For Garbage Collection
+	long long mReferenceCount;
+	std::chrono::steady_clock::time_point mLastRequestTime;
 };
 
 #endif // !CHUNK_H_

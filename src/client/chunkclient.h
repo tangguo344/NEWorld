@@ -22,7 +22,7 @@
 
 #include <atomic>
 #include <memory>
-#include <chunk.h>
+#include <nwchunk.h>
 #include <world.h>
 #include "renderer.h"
 #include "blockrenderer.h"

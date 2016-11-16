@@ -19,7 +19,7 @@
 
 #include "logger.h"
 #include "world.h"
-#include "chunk.h"
+#include "nwchunk.h"
 
 size_t World::IDCount = 0;
 

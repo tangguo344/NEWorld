@@ -288,7 +288,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\src\shared\aabb.h" />
     <ClInclude Include="..\..\..\src\shared\nwblock.h" />
-    <ClInclude Include="..\..\..\src\shared\chunk.h" />
+    <ClInclude Include="..\..\..\src\shared\nwchunk.h" />
     <ClInclude Include="..\..\..\src\shared\command.h" />
     <ClInclude Include="..\..\..\src\shared\common.h" />
     <ClInclude Include="..\..\..\src\shared\consolecolor.h" />

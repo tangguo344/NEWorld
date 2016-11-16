@@ -21,7 +21,7 @@
 #define CHUNKSERVER_H_
 
 #include <common.h>
-#include <chunk.h>
+#include <nwchunk.h>
 #include <atomic>
 #include <ratemeter.h>
 

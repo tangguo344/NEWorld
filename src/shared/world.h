@@ -24,7 +24,7 @@
 #include <string>
 #include <cstdlib> // malloc, realloc, free
 #include "aabb.h"
-#include "chunk.h"
+#include "nwchunk.h"
 #include "nwblock.h"
 
 class PluginManager;
