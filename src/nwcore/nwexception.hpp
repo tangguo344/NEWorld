@@ -133,6 +133,4 @@ namespace Exception
 #define nw_throw(ExceptionClass, ...) do { throw ExceptionClass{ __FUNCTION__, __FILE__, __LINE__, __VA_ARGS__ }; } while (false)
 #define nw_throwwithnested(ExceptionClass, ...) do { throw ExceptionClass{ std::current_exception(), __FUNCTION__, __FILE__, __LINE__, __VA_ARGS__ }; } while (false)
 
-#include "stringutils.h"
-
 #endif // !EXCEPTION_H_

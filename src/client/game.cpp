@@ -193,8 +193,3 @@ void Game::render()
 
     mGUIWidgets.render();
 }
-
-Event::EventBus& Game::getEventBus()
-{
-    return mEventBus;
-}

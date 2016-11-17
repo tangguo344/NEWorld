@@ -30,7 +30,6 @@
 #include <pluginapi.h>
 #include <nwblock.h>
 #include <pluginmanager.h>
-#include <event.h>
 #include "worldclient.h"
 #include "texture.h"
 #include "player.h"
@@ -53,9 +52,6 @@ public:
     void update();
     void multiUpdate();
     void render();
-
-    Event::EventBus& getEventBus();
-
 private:
     const Window& mWindow;
     // Texture test
@@ -70,8 +66,6 @@ private:
     Player mPlayer;
     // Widget manager
     WidgetManager mGUIWidgets;
-    // Main event bus
-    Event::EventBus mEventBus;
     // Update scheduler
     RateMeter mUpdateScheduler{UpdateFrequency};
     // Rate counters

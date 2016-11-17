@@ -20,13 +20,12 @@
 #ifndef STRINGUTILS_H_
 #define STRINGUTILS_H_
 
-#include "exception.h"
+#include <tuple>
 #include <locale>
 #include <sstream>
 #include <iomanip>
-#include <tuple>
 #include <typeinfo>
-#include "debug.h"
+#include "nwexception.hpp"
 
 namespace StringUtils
 {
@@ -125,14 +124,12 @@ namespace StringUtils
     template <typename F, template <typename...> class T, typename... Ts>
     void visit_at(T<Ts...> const& tup, size_t idx, F fun)
     {
-        Assert(idx < sizeof...(Ts));
         detail_::visit_impl<sizeof...(Ts)>::visit(tup, idx, fun);
     }
 
     template <typename F, template <typename...> class T, typename... Ts>
     void visit_at(T<Ts...>&& tup, size_t idx, F fun)
     {
-        Assert(idx < sizeof...(Ts));
         detail_::visit_impl<sizeof...(Ts)>::visit(tup, idx, fun);
     }
 

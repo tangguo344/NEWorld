@@ -25,7 +25,7 @@
 #include <sstream>
 #include <mutex>
 #include "common.h"
-
+#include <typeinfo>
 class Logger
 {
 public:
@@ -72,6 +72,7 @@ private:
 
     void writeOstream(std::ostream& ostream, bool noColor = false) const;
 };
+
 
 #define loggerstream(level) Logger(__FILE__, __FUNCTION__, __LINE__, Logger::Level::level)
 // Information for tracing

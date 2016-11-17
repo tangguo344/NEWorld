@@ -20,8 +20,8 @@
 #include "nwblock.h"
 
 BlockManager::BlockManager()
+	:mBlocks{ BlockType("Air", false, false, false, 0, 0) }
 {
-	mBlocks.push_back(BlockType("Air", false, false, false, 0, 0));
 }
 
 size_t BlockManager::registerBlock(const BlockType& block)

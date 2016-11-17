@@ -49,15 +49,6 @@
     <ClInclude Include="..\..\..\src\shared\library.h">
       <Filter>Source\DLL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\event.h">
-      <Filter>Source\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\stringutils.h">
-      <Filter>Source\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\exception.h">
-      <Filter>Source\Common</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\shared\filesys.h">
       <Filter>Source\Common</Filter>
     </ClInclude>
@@ -106,9 +97,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\shared\pluginapi.cpp">
       <Filter>Source\Plugin</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\shared\event.cpp">
-      <Filter>Source\Common</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\shared\nwblock.cpp">
       <Filter>Source\World</Filter>
