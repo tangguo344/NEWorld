@@ -32,7 +32,6 @@ Logger::Level Logger::cerrLevel = Level::fatal;
 Logger::Level Logger::fileLevel = Level::trace;
 Logger::Level Logger::lineLevel = Level::error;
 bool Logger::fileOnly = false;
-std::mutex Logger::mutex;
 
 std::vector<std::ofstream> Logger::fsink;
 

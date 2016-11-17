@@ -1,10 +1,10 @@
 #pragma once
 #include "nwexport.h"
-#include "nwstring.hpp"
-#include <map>
+#include <mutex>
 #include <string>
 #include <vector>
 #include <iostream>
+#include <sstream>
 
 class NWCOREAPI Safety final
 {
@@ -17,44 +17,39 @@ public:
 	class Line
 	{
 	public:
-		Line(Level l, std::string msg, const char* mfi, const char* mfc, int line);
-		std::ostream& operator << (std::ostream& s);
+		Line(const char* fileName, const char* funcName, int lineNumber, Level level);
+		~Line();
+
+		template <typename T>
+		Logger& operator<<(const T& rhs)
+		{
+			mContent << rhs;
+			return *this;
+		}
 	private:
+		Safety& mManager;
+		std::stringstream mContent;
 		Level mLevel;
-		int mLineNumber;
 		const char *mFileName;
 		const char *mFuncName;
-		std::string mMessaage;
+		int mLineNumber;
+		std::lock_guard<std::mutex> mLock;
+		void write(std::ostream& ostream, bool noColor = false) const;
 	};
-
-	template <class ...Ts>
-	void log(Level l, const char* mfc, const char* mfi, int line, const std::string& fmt, Ts&&... args)
-	{
-		logRaw(l, mfi, mfc, lineStringUtils::FormatString(fmt, std::forward<Ts>(args)...));
-	}
-
-	template <class ...Ts>
-	void log(Level l, const char* mfc,  const char* mfi,int line, const char* fmt, Ts&&... args)
-	{
-		logRaw(l, mfi, mfc, lineStringUtils::FormatString(fmt, std::forward<Ts>(args)...));
-	}
-
-	static Safety& getInstance();
 private:
-	std::vector<Line> mBuffer;
-	void logRaw(Level l, const char* mfi, const char* mfc, int line, std::string msg);
 	Level mFilelevel, mDetailLevel, mCoutLevel, mCerrLevel, mThrowLevel, mKillLevel;
 };
 
-#define nw_trace(fmt, ...)\
- Safety::getInstance().log(Safety::Level::trace, __FUNCTION__, __FILE__, __LINE__, fmt, __VA_ARGS__)
-#define nw_debug(fmt, ...)\
- Safety::getInstance().log(Safety::Level::debug, __FUNCTION__, __FILE__, __LINE__, fmt, __VA_ARGS__)
-#define nw_info(fmt, ...)\
- Safety::getInstance().log(Safety::Level::info, __FUNCTION__, __FILE__, __LINE__, fmt, __VA_ARGS__)
-#define nw_warn(fmt, ...)\
- Safety::getInstance().log(Safety::Level::warning, __FUNCTION__, __FILE__, __LINE__, fmt, __VA_ARGS__)
-#define nw_error(fmt, ...)\
- Safety::getInstance().log(Safety::Level::error, __FUNCTION__, __FILE__, __LINE__, fmt, __VA_ARGS__)
-#define nw_fatal(fmt, ...)\
- Safety::getInstance().log(Safety::Level::fatal, __FUNCTION__, __FILE__, __LINE__, fmt, __VA_ARGS__)
+#define loggerstream(level) Safety::Line(__FILE__, __FUNCTION__, __LINE__, Logger::Level::level)
+// Information for tracing
+#define tracestream loggerstream(trace)
+// Information for developers
+#define debugstream loggerstream(debug)
+// Information for common users
+#define infostream loggerstream(info)
+// Problems that may affect facility, performance or stability but may not lead the game to crash immediately
+#define warningstream loggerstream(warning)
+// The game crashes, but may be resumed by ways such as reloading the world which don't restart the program
+#define errorstream loggerstream(error)
+// Unrecoverable error and program termination is required
+#define fatalstream loggerstream(fatal)
