@@ -145,7 +145,6 @@
     <ClInclude Include="..\..\..\src\nwcore\nwexception.hpp" />
     <ClInclude Include="..\..\..\src\nwcore\nwexport.h" />
     <ClInclude Include="..\..\..\src\nwcore\nwsafety.hpp" />
-    <ClInclude Include="..\..\..\src\nwcore\nwstring.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\nwcore\nwsafety.cpp" />

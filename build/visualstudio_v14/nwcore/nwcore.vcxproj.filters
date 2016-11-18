@@ -17,9 +17,6 @@
     <ClInclude Include="..\..\..\src\nwcore\nwsafety.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\nwcore\nwstring.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\nwexception.hpp">
       <Filter>头文件</Filter>
     </ClInclude>

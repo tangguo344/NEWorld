@@ -1,46 +1,82 @@
-#pragma once
-#include "nwexport.h"
-#include <mutex>
-#include <string>
-#include <vector>
-#include <iostream>
-#include <sstream>
+/*
+* NEWorld: A free game with similar rules to Minecraft.
+* Copyright (C) 2016 NEWorld Team
+*
+* This file is part of NEWorld.
+* NEWorld is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* NEWorld is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
-class NWCOREAPI Safety final
+#ifndef NWSAFETY_H_
+#define NWSAFETY_H_
+#include "nwexport.h"
+#include <iostream>
+#include <vector>
+#include <sstream>
+#include <array>
+#include <mutex>
+#include "./../shared/common.h"
+#include <typeinfo>
+
+class NWCOREAPI LoggerManager
 {
 public:
-	enum class Level : size_t
+	LoggerManager(const std::string& prefix);
+private:
+	bool fileOnly{ false };
+	std::array<std::string, 6> LevelTags;
+	Logger::Level coutLevel = Logger::Level::trace;
+	Logger::Level cerrLevel = Logger::Level::fatal;
+	Logger::Level fileLevel = Logger::Level::trace;
+	Logger::Level lineLevel = Logger::Level::error;
+};
+
+
+class NWCOREAPI Logger
+{
+public:
+	enum class Level
 	{
 		trace, debug, info, warning, error, fatal
 	};
 
-	class Line
-	{
-	public:
-		Line(const char* fileName, const char* funcName, int lineNumber, Level level);
-		~Line();
+	Logger(const char* fileName, const char* funcName, int lineNumber, Level level);
+	~Logger();
 
-		template <typename T>
-		Logger& operator<<(const T& rhs)
-		{
-			mContent << rhs;
-			return *this;
-		}
-	private:
-		Safety& mManager;
-		std::stringstream mContent;
-		Level mLevel;
-		const char *mFileName;
-		const char *mFuncName;
-		int mLineNumber;
-		std::lock_guard<std::mutex> mLock;
-		void write(std::ostream& ostream, bool noColor = false) const;
-	};
+	static void addFileSink(const std::string& path, const std::string& prefix);
+	template <typename T>
+	Logger& operator<<(const T& rhs)
+	{
+		mContent << rhs;
+		return *this;
+	}
+
 private:
-	Level mFilelevel, mDetailLevel, mCoutLevel, mCerrLevel, mThrowLevel, mKillLevel;
+	std::stringstream mContent;
+	static std::mutex mutex;
+
+	Level mLevel;
+	int mLineNumber;
+	const char *mFileName;
+	const char *mFuncName;
+	std::lock_guard<std::mutex> mLock;
+
+	static std::vector<std::ofstream> fsink;
+
+	void writeOstream(std::ostream& ostream, bool noColor = false) const;
 };
 
-#define loggerstream(level) Safety::Line(__FILE__, __FUNCTION__, __LINE__, Logger::Level::level)
+#define loggerstream(level) Logger(__FILE__, __FUNCTION__, __LINE__, Logger::Level::level)
 // Information for tracing
 #define tracestream loggerstream(trace)
 // Information for developers
@@ -53,3 +89,5 @@ private:
 #define errorstream loggerstream(error)
 // Unrecoverable error and program termination is required
 #define fatalstream loggerstream(fatal)
+
+#endif // !LOGGER_H_
