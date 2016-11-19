@@ -18,10 +18,10 @@
 */
 
 #include "server.h"
-#include <common.h>
-#include <nwsafety.hpp>
+#include <common/common.h>
+#include <common/nwsafety.hpp>
 #include <thread>
-#include <jsonhelper.h>
+#include <common/jsonhelper.h>
 
 NWDECLEARLOGGER("server")
 

@@ -17,22 +17,16 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "serverapi.h"
+#ifndef SERVERAPI_H_
+#define SERVERAPI_H_
 
-extern "C"
+#include <pluginapi.h>
+#include "world/nwchunk.h"
+
+namespace PluginAPI
 {
-    using namespace PluginAPI;
-
-    NWAPIEXPORT int32_t NWAPICALL nwRegisterChunkGenerator(NWchunkgenerator* const generator)
-    {
-        if (ChunkGeneratorLoaded)
-        {
-            warningstream << "Ignoring multiple chunk generators!";
-            return 1;
-        }
-        ChunkGeneratorLoaded = true;
-        ChunkGen = generator;
-        debugstream << "Registered chunk generator";
-        return 0;
-    }
+    using ChunkGenerator = void NWAPICALL(const Vec3i*, BlockData*, int);
+    using NWchunkgenerator = ChunkGenerator;
 }
+
+#endif

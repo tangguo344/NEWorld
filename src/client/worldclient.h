@@ -20,7 +20,7 @@
 #ifndef WORLDCLIENT_H_
 #define WORLDCLIENT_H_
 
-#include <world.h>
+#include <world/world.h>
 #include "chunkclient.h"
 class GameConnection;
 

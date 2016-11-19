@@ -20,8 +20,8 @@
 #ifndef NEWORLD_H_
 #define NEWORLD_H_
 
-#include <pluginmanager.h>
-#include <nwblock.h>
+#include <plugin/pluginmanager.h>
+#include <world/nwblock.h>
 
 class NEWorld
 {

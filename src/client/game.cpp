@@ -23,7 +23,7 @@
 #include <chrono>
 #include "game.h"
 #include "window.h"
-#include <jsonhelper.h>
+#include <common/jsonhelper.h>
 #include "blockrenderer.h"
 
 Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,

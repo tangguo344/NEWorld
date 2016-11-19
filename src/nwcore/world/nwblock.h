@@ -23,8 +23,8 @@
 #include <stdint.h>
 #include <vector>
 #include <string>
-#include "nwsafety.hpp"
-#include "nwexport.h"
+#include "common/nwsafety.hpp"
+#include "common/nwexport.h"
 
 class BlockData
 {

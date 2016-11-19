@@ -18,9 +18,9 @@
 */
 
 #include "gameconnection.h"
-#include "chunkserver.h"
-#include <nwsafety.hpp>
-#include <vec3.h>
+#include "world/nwchunk.h"
+#include <common/nwsafety.hpp>
+#include <common/vec3.h>
 #include <flatfactory.h>
 
 void MultiplayerConnection::sendChunk(Chunk* chunk)
@@ -65,7 +65,7 @@ void MultiplayerConnection::handleReceivedData(Identifier id, unsigned char* dat
         World *world = mWorlds.getWorld(0);// TODO:Current world of player.
         Chunk *chunk = world->getChunkPtr({req->x(), req->y(), req->z()});
         if (chunk == nullptr) chunk = world->addChunk({req->x(), req->y(), req->z()});
-        static_cast<ChunkServer*>(chunk)->increaseWeakRef();
+        chunk->increaseWeakRef();
         sendChunk(chunk);
         break;
     }

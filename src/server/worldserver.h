@@ -21,7 +21,7 @@
 #define WORLDSERVER_H_
 
 #include <utility>
-#include <world.h>
+#include <world/world.h>
 
 class WorldServer : public World
 {

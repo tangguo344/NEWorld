@@ -23,13 +23,13 @@
 #include <string>
 #include <utility>
 
-#include "common.h"
-#include "vec3.h"
-#include "nwblock.h"
-#include "library.h"
+#include "common/common.h"
+#include "common/vec3.h"
+#include "world/nwblock.h"
+#include "common/library.h"
 
 #include "../../api/c/nwapi.h"
-#include "nwexport.h"
+#include "common/nwexport.h"
 
 // Single plugin
 class NWCOREAPI Plugin

@@ -22,9 +22,14 @@
 
 #include <atomic>
 #include <chrono>
-#include "vec3.h"
-#include "debug.h"
+#include "common/vec3.h"
+#include "common/debug.h"
 #include "nwblock.h"
+
+using ChunkGenerator = void NWAPICALL(const Vec3i*, BlockData*, int);
+
+extern bool ChunkGeneratorLoaded;
+extern ChunkGenerator *ChunkGen;
 
 class Chunk
 {
@@ -85,6 +90,16 @@ public:
         mUpdated = true;
     }
 
+    // Build chunk
+    void build(int daylightBrightness);
+
+    // Reference Counting
+    void increaseWeakRef();
+    void decreaseWeakRef();
+    void increaseStrongRef();
+    void decreaseStrongRef();
+    bool checkReleaseable() const;
+
 private:
     Vec3i mPosition;
     BlockData mBlocks[Size * Size * Size];
@@ -92,6 +107,7 @@ private:
 	// For Garbage Collection
 	long long mReferenceCount;
 	std::chrono::steady_clock::time_point mLastRequestTime;
+    std::atomic<int> mRefrenceCount{0}, mWeakRefrenceCount{0};
 };
 
 #endif // !CHUNK_H_

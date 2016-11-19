@@ -18,7 +18,7 @@
 */
 
 #include "plugin.h"
-#include "nwsafety.hpp"
+#include "common/nwsafety.hpp"
 
 typedef NWplugindata* NWAPICALL GetInfoFunction();
 typedef void NWAPICALL InitFunction();

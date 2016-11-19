@@ -22,12 +22,12 @@
 
 #include <memory>
 #include <vector>
-#include <nwsafety.hpp>
+#include <common/nwsafety.hpp>
 #include "worldmanager.h"
-#include <nwblock.h>
-#include <pluginmanager.h>
+#include <world/nwblock.h>
+#include <plugin/pluginmanager.h>
 #include <pluginapi.h>
-#include <ratemeter.h>
+#include <common/ratemeter.h>
 #include "worldserver.h"
 #include <unordered_map>
 #include <thread>

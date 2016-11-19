@@ -18,7 +18,7 @@
 */
 
 #include "server.h"
-#include <jsonhelper.h>
+#include <common/jsonhelper.h>
 #include "commandmanager.h"
 
 Server::Server(std::vector<std::string> args)

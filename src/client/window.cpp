@@ -18,8 +18,8 @@
 */
 
 #include "window.h"
-#include <nwsafety.hpp>
-#include <debug.h>
+#include <common/nwsafety.hpp>
+#include <common/debug.h>
 
 Window::Window(const std::string& title, int width, int height)
     : mTitle(title), mWidth(width), mHeight(height)

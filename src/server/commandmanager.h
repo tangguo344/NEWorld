@@ -19,7 +19,7 @@
 #ifndef COMMANDCONTROLLER_H_
 #define COMMANDCONTROLLER_H_
 
-#include <command.h>
+#include <common/command.h>
 #include <thread>
 #include <atomic>
 #include <future>

@@ -17,8 +17,8 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "chunkserver.h"
-#include "pluginmanager.h"
+#include "nwchunk.h"
+#include "plugin/pluginmanager.h"
 #include <algorithm>
 
 void NWAPICALL DefaultChunkGen(const Vec3i*, BlockData* blocks, int32_t daylightBrightness)
@@ -31,33 +31,33 @@ void NWAPICALL DefaultChunkGen(const Vec3i*, BlockData* blocks, int32_t daylight
 bool ChunkGeneratorLoaded = false;
 ChunkGenerator *ChunkGen = &DefaultChunkGen;
 
-void ChunkServer::build(int daylightBrightness)
+void Chunk::build(int daylightBrightness)
 {
     (*ChunkGen)(&getPosition(), getBlocks(), daylightBrightness);
     setUpdated(true);
 }
 
-void ChunkServer::increaseWeakRef()
+void Chunk::increaseWeakRef()
 {
     mWeakRefrenceCount.store(mWeakRefrenceCount + 150);
 }
 
-void ChunkServer::decreaseWeakRef()
+void Chunk::decreaseWeakRef()
 {
     mWeakRefrenceCount.store(std::max(mWeakRefrenceCount - 1, 0));
 }
 
-void ChunkServer::increaseStrongRef()
+void Chunk::increaseStrongRef()
 {
     mRefrenceCount.store(mWeakRefrenceCount + 1);
 }
 
-void ChunkServer::decreaseStrongRef()
+void Chunk::decreaseStrongRef()
 {
     mRefrenceCount.store(std::max(mWeakRefrenceCount - 1, 0));
 }
 
-bool ChunkServer::checkReleaseable() const
+bool Chunk::checkReleaseable() const
 {
     return (mRefrenceCount + mWeakRefrenceCount) == 0;
 }

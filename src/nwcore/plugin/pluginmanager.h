@@ -22,9 +22,9 @@
 
 #include <string>
 #include <vector>
-#include "library.h"
+#include "common/library.h"
 #include "plugin.h"
-#include "nwexport.h"
+#include "common/nwexport.h"
 
 // Plugin system
 class NWCOREAPI PluginManager

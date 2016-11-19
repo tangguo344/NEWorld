@@ -18,8 +18,8 @@
 */
 
 #include "commandmanager.h"
-#include <nwsafety.hpp>
-#include <consolecolor.h>
+#include <common/nwsafety.hpp>
+#include <common/consolecolor.h>
 
 CommandExecuteStat CommandManager::handleCommand(Command cmd)
 {

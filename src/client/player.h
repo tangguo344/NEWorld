@@ -20,7 +20,7 @@
 #ifndef PLAYER_H_
 #define PLAYER_H_
 
-#include <world.h>
+#include <world/world.h>
 #include <playerobject.h>
 #include "mat4.h"
 #include "renderer.h"

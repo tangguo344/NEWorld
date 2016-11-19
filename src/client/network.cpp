@@ -18,10 +18,10 @@
 */
 
 #include "network.h"
-#include <nwsafety.hpp>
+#include <common/nwsafety.hpp>
 #include <raknet/MessageIdentifiers.h>
 #include <raknet/BitStream.h>
-#include <debug.h>
+#include <common/debug.h>
 
 Connection::Connection(std::function<void(Identifier, unsigned char*, size_t)> userDataCallback)
     :mUserDataCallback(userDataCallback)

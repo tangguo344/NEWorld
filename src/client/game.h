@@ -22,20 +22,20 @@
 
 #include <thread>
 #include <mutex>
-#include "vec3.h"
+#include "common/vec3.h"
 #include "renderer.h"
 
-#include <world.h>
-#include <nwsafety.hpp>
+#include <world/world.h>
+#include <common/nwsafety.hpp>
 #include <pluginapi.h>
-#include <nwblock.h>
-#include <pluginmanager.h>
+#include <world/nwblock.h>
+#include <plugin/pluginmanager.h>
 #include "worldclient.h"
 #include "texture.h"
 #include "player.h"
 #include "network.h"
 #include "widgetmanager.h"
-#include <ratemeter.h>
+#include <common/ratemeter.h>
 #include "gameconnection.h"
 #include "window.h"
 

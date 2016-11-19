@@ -17,11 +17,11 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "common.h"
-#include "utils.h"
+#include "common/common.h"
+#include "common/utils.h"
 #include "pluginmanager.h"
-#include "nwsafety.hpp"
-#include <filesys.h>
+#include "common/nwsafety.hpp"
+#include <common/filesys.h>
 
 PluginManager::PluginManager(bool isClient)
     : mIsClient(isClient)

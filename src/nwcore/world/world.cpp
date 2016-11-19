@@ -17,7 +17,7 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "nwsafety.hpp"
+#include "common/nwsafety.hpp"
 #include "world.h"
 #include "nwchunk.h"
 

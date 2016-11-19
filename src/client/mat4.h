@@ -22,8 +22,8 @@
 
 #include <cmath>
 #include <cstring>
-#include <vec3.h>
-#include <debug.h>
+#include <common/vec3.h>
+#include <common/debug.h>
 
 #ifdef NEWORLD_DEBUG
 

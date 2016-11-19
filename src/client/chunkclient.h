@@ -22,8 +22,8 @@
 
 #include <atomic>
 #include <memory>
-#include <nwchunk.h>
-#include <world.h>
+#include <world/nwchunk.h>
+#include <world/world.h>
 #include "renderer.h"
 #include "blockrenderer.h"
 

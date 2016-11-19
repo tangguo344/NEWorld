@@ -22,9 +22,9 @@
 
 #include <cstring>
 #include <initializer_list>
-#include <common.h>
+#include <common/common.h>
 #include "opengl.h"
-#include <debug.h>
+#include <common/debug.h>
 
 class VertexFormat
 {

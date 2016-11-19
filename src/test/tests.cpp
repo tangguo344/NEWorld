@@ -20,7 +20,7 @@
 
 //***********Vec3***********//
 
-#include <vec3.h>
+#include <common/vec3.h>
 TEST(Vec3, Basic)
 {
     Vec3<int> v(1, 2, 3);

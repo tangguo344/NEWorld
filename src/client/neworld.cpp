@@ -20,7 +20,7 @@
 #include "neworld.h"
 #include "texture.h"
 #include <pluginapi.h>
-#include <jsonhelper.h>
+#include <common/jsonhelper.h>
 #include "window.h"
 #include "game.h"
 NWDECLEARLOGGER("client")

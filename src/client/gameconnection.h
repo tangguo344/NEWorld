@@ -24,9 +24,9 @@
 #include <functional>
 #include "network.h"
 #include "worldclient.h"
-#include <vec3.h>
-#include <common.h>
-#include <library.h>
+#include <common/vec3.h>
+#include <common/common.h>
+#include <common/library.h>
 
 class World;
 class Chunk;

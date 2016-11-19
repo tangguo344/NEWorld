@@ -18,7 +18,7 @@
 */
 
 #include "worldserver.h"
-#include "chunkserver.h"
+#include <world/nwchunk.h>
 
 Chunk* WorldServer::addChunk(const Vec3i& chunkPos)
 {
@@ -29,11 +29,9 @@ Chunk* WorldServer::addChunk(const Vec3i& chunkPos)
         return nullptr;
     }
     newChunkPtr(index);
-    ChunkServer* c = new ChunkServer(chunkPos);
+    Chunk* c = mChunks[index] = new Chunk(chunkPos);
     c->build(15);//getDaylightBrightness());
-    mChunks[index] = static_cast<Chunk*>(c);
     // TODO: Update chunk pointer cache
-    // TODO: Update chunk pointer array
     // NOTE: The load/save process should be implemented in the ctor/dtor of ChunkServer
     return mChunks[index];
 }
@@ -42,7 +40,7 @@ void WorldServer::updateChunkLoadStatus()
 {
     for (size_t i = 0; i < mChunkCount; ++i)
     {
-        auto c = static_cast<ChunkServer*>(getChunkPtr(i));
+        auto c = getChunkPtr(i);
         if (c)
         {
             c->decreaseWeakRef();

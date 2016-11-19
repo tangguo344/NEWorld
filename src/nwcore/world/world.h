@@ -23,10 +23,10 @@
 #include <algorithm>
 #include <string>
 #include <cstdlib> // malloc, realloc, free
-#include "aabb.h"
+#include "common/aabb.h"
 #include "nwchunk.h"
 #include "nwblock.h"
-#include "nwexport.h"
+#include "common/nwexport.h"
 
 class PluginManager;
 

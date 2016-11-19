@@ -2,8 +2,8 @@
 #define FLATFACTORY_H
 
 #include "../protocol/gen/protocol.h"
-#include "common.h"
-#include "vec3.h"
+#include "common/common.h"
+#include "common/vec3.h"
 
 namespace FlatFactory
 {

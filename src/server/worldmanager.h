@@ -23,8 +23,8 @@
 #include <vector>
 
 #include "worldserver.h"
-#include <pluginmanager.h>
-#include <nwblock.h>
+#include <plugin/pluginmanager.h>
+#include <world/nwblock.h>
 
 // Multi-world
 class WorldManager

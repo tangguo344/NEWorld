@@ -6,5 +6,5 @@
 
 #pragma once
 
-#include <debug.h>
+#include <common/debug.h>
 #define IM_ASSERT(_EXPR) Assert(_EXPR)

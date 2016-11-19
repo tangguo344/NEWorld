@@ -19,10 +19,10 @@
 
 #include "chunkclient.h"
 #include "gameconnection.h"
-#include <vec3.h>
-#include <nwsafety.hpp>
-#include <library.h>
-#include <jsonhelper.h>
+#include <common/vec3.h>
+#include <common/nwsafety.hpp>
+#include <common/library.h>
+#include <common/jsonhelper.h>
 #include <flatfactory.h>
 
 MultiplayerConnection::MultiplayerConnection(const std::string& host, unsigned short port)

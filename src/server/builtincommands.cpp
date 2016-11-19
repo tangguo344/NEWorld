@@ -1,6 +1,6 @@
-#include <consolecolor.h>
+#include <common/consolecolor.h>
 #include "server.h"
-#include <jsonhelper.h>
+#include <common/jsonhelper.h>
 #include <functional>
 
 void Server::initBuiltinCommands()
