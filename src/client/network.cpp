@@ -18,7 +18,7 @@
 */
 
 #include "network.h"
-#include <logger.h>
+#include <nwsafety.hpp>
 #include <raknet/MessageIdentifiers.h>
 #include <raknet/BitStream.h>
 #include <debug.h>

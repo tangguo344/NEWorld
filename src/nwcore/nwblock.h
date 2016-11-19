@@ -23,7 +23,8 @@
 #include <stdint.h>
 #include <vector>
 #include <string>
-#include "logger.h"
+#include "nwsafety.hpp"
+#include "nwexport.h"
 
 class BlockData
 {
@@ -149,7 +150,7 @@ public:
 	}
 };
 
-class BlockManager
+class NWCOREAPI BlockManager
 {
 public:
 	BlockManager();

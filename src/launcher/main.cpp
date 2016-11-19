@@ -16,21 +16,22 @@
 * You should have received a copy of the GNU Lesser General Public License
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
-
+#include "./../nwcore/nwsafety.hpp"
 #include <iostream>
 #include <string>
 #include <climits>
 #include <common.h>
 #include <library.h>
-#include <logger.h>
 #include <jsonhelper.h>
+
+NWDECLEARLOGGER("launcher")
 
 typedef void NWAPICALL MainFunction(int, char**);
 
 int main(int argc, char** argv)
 {
     getSettings();
-    Logger::init("launcher");
+    Logger::addFileSink("./log/", "launcher");
     std::string file;
 
     std::string in;

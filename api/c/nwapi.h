@@ -99,7 +99,7 @@ struct NWblocktype
 NWAPIENTRY NWblockdata NWAPICALL nwGetBlock(const NWvec3i* pos);
 NWAPIENTRY int NWAPICALL nwSetBlock(const NWvec3i* pos, NWblockdata block);
 NWAPIENTRY size_t NWAPICALL nwRegisterBlock(const NWblocktype*);
-
+NWAPIENTRY void NWAPICALL nwLog(char* str);
 #ifdef NEWORLD_PLUGIN_CLIENT_SIDE
     // Client-only APIs
 

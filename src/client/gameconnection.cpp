@@ -20,7 +20,7 @@
 #include "chunkclient.h"
 #include "gameconnection.h"
 #include <vec3.h>
-#include <logger.h>
+#include <nwsafety.hpp>
 #include <library.h>
 #include <jsonhelper.h>
 #include <flatfactory.h>

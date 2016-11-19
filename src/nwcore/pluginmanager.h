@@ -24,9 +24,10 @@
 #include <vector>
 #include "library.h"
 #include "plugin.h"
+#include "nwexport.h"
 
 // Plugin system
-class PluginManager
+class NWCOREAPI PluginManager
 {
 public:
     PluginManager(bool isClient);

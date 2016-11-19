@@ -22,7 +22,7 @@
 
 #include <memory>
 #include <vector>
-#include <logger.h>
+#include <nwsafety.hpp>
 #include "worldmanager.h"
 #include <nwblock.h>
 #include <pluginmanager.h>

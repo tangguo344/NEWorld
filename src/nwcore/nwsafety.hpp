@@ -17,30 +17,17 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NWSAFETY_H_
-#define NWSAFETY_H_
+#ifndef LOGGER_H_
+#define LOGGER_H_
 #include "nwexport.h"
 #include <iostream>
 #include <vector>
 #include <sstream>
 #include <array>
 #include <mutex>
-#include "./../shared/common.h"
-#include <typeinfo>
+#include "common.h"
 
-class NWCOREAPI LoggerManager
-{
-public:
-	LoggerManager(const std::string& prefix);
-private:
-	bool fileOnly{ false };
-	std::array<std::string, 6> LevelTags;
-	Logger::Level coutLevel = Logger::Level::trace;
-	Logger::Level cerrLevel = Logger::Level::fatal;
-	Logger::Level fileLevel = Logger::Level::trace;
-	Logger::Level lineLevel = Logger::Level::error;
-};
-
+class LoggerManager;
 
 class NWCOREAPI Logger
 {
@@ -50,10 +37,9 @@ public:
 		trace, debug, info, warning, error, fatal
 	};
 
-	Logger(const char* fileName, const char* funcName, int lineNumber, Level level);
+	Logger(const char* fileName, const char* funcName, int lineNumber, Level level, LoggerManager* mgr);
 	~Logger();
 
-	static void addFileSink(const std::string& path, const std::string& prefix);
 	template <typename T>
 	Logger& operator<<(const T& rhs)
 	{
@@ -61,22 +47,43 @@ public:
 		return *this;
 	}
 
+    static void addFileSink(const std::string& path, const std::string& prefix);
 private:
-	std::stringstream mContent;
-	static std::mutex mutex;
-
 	Level mLevel;
 	int mLineNumber;
 	const char *mFileName;
 	const char *mFuncName;
-	std::lock_guard<std::mutex> mLock;
+    LoggerManager* mManager;
+	std::stringstream mContent;
+    std::lock_guard<std::mutex> mLock;
 
+	static std::mutex mutex;
 	static std::vector<std::ofstream> fsink;
 
 	void writeOstream(std::ostream& ostream, bool noColor = false) const;
 };
 
-#define loggerstream(level) Logger(__FILE__, __FUNCTION__, __LINE__, Logger::Level::level)
+class NWCOREAPI LoggerManager
+{
+public:
+    LoggerManager() = default;
+	LoggerManager(const std::string& prefix);
+    Logger::Level coutLevel = Logger::Level::trace;
+    Logger::Level cerrLevel = Logger::Level::fatal;
+    Logger::Level fileLevel = Logger::Level::trace;
+    Logger::Level lineLevel = Logger::Level::error;
+    bool fileOnly{ false };
+    std::array<std::string, 6> LevelTags;
+};
+
+#ifndef NWNOLOGGER
+
+#define NWDECLEARLOGGER(prefix) \
+namespace NWCOREINTERNAL {namespace _LOGGER { LoggerManager gManager(prefix); }}
+
+namespace NWCOREINTERNAL {namespace _LOGGER { extern LoggerManager gManager; }}
+
+#define loggerstream(level) Logger(__FILE__, __FUNCTION__, __LINE__, Logger::Level::level, &NWCOREINTERNAL::_LOGGER::gManager)
 // Information for tracing
 #define tracestream loggerstream(trace)
 // Information for developers
@@ -89,5 +96,7 @@ private:
 #define errorstream loggerstream(error)
 // Unrecoverable error and program termination is required
 #define fatalstream loggerstream(fatal)
+
+#endif
 
 #endif // !LOGGER_H_

@@ -26,7 +26,7 @@
 #include "renderer.h"
 
 #include <world.h>
-#include <logger.h>
+#include <nwsafety.hpp>
 #include <pluginapi.h>
 #include <nwblock.h>
 #include <pluginmanager.h>

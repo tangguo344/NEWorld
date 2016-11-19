@@ -18,7 +18,7 @@
 */
 
 #include "window.h"
-#include <logger.h>
+#include <nwsafety.hpp>
 #include <debug.h>
 
 Window::Window(const std::string& title, int width, int height)

@@ -20,7 +20,7 @@
 #ifndef DEBUG_H_
 #define DEBUG_H_
 
-#include "logger.h"
+#include "nwsafety.hpp"
 #include <stdexcept>
 #define NEWORLD_DEBUG
 // Assertion uses C++ exception

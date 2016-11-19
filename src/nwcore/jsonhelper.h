@@ -23,7 +23,7 @@
 #include <string>
 #include <fstream>
 #include "json.hpp"
-#include "logger.h"
+#include "nwsafety.hpp"
 
 using Json = nlohmann::json;
 
@@ -86,8 +86,8 @@ private:
 
 inline Json& getSettings()
 {
-	static Json settings = readJsonFromFile(SettingsFilename + "_" + ".json");
-	static JsonSaveHelper helper(settings, SettingsFilename + "_" + ".json");
+	static Json settings = readJsonFromFile(SettingsFilename + ".json");
+	static JsonSaveHelper helper(settings, SettingsFilename + ".json");
 	return settings;
 }
 

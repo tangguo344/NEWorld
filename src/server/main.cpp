@@ -19,9 +19,11 @@
 
 #include "server.h"
 #include <common.h>
-#include <logger.h>
+#include <nwsafety.hpp>
 #include <thread>
 #include <jsonhelper.h>
+
+NWDECLEARLOGGER("server")
 
 extern "C"
 {
@@ -43,7 +45,6 @@ NWAPIEXPORT int NWAPICALL main(int argc, char** argv)
 NWAPIEXPORT bool NWAPICALL nwInitServer(int argc, char ** argv)
 {
     getSettings();
-    Logger::init("server");
     infostream << "\n----------------------------------------"
                << CopyrightString
                << "----------------------------------------";

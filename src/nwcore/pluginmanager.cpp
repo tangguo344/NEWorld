@@ -20,7 +20,7 @@
 #include "common.h"
 #include "utils.h"
 #include "pluginmanager.h"
-#include "logger.h"
+#include "nwsafety.hpp"
 #include <filesys.h>
 
 PluginManager::PluginManager(bool isClient)
@@ -63,6 +63,7 @@ void PluginManager::loadPlugins()
             std::string suffix = filename.substr(filename.size() - std::string(LibSuffix).size());
             strtolower(suffix);
             if (suffix != LibSuffix) return; //TODO: FIXME: may ignore linux plugins
+            debugstream << "Loading:" << filename;
             loadPlugin(filename);
         });
     }

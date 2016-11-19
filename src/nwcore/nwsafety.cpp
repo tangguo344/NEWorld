@@ -17,25 +17,17 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "./../shared/logger.h"
-#include "./../shared/filesys.h"
-#include "./../shared/consolecolor.h"
-#include <fstream>
-#include <ctime>
+#include "filesys.h"
+#include "consolecolor.h"
 #include <map>
-#include <array>
+#include <ctime>
+#include <fstream>
 #include "nwsafety.hpp"
 
-static 
-
-Logger::Level Logger::coutLevel = Level::trace;
-Logger::Level Logger::cerrLevel = Level::fatal;
-Logger::Level Logger::fileLevel = Level::trace;
-Logger::Level Logger::lineLevel = Level::error;
 std::mutex Logger::mutex;
-bool Logger::fileOnly = false;
-
 std::vector<std::ofstream> Logger::fsink;
+
+NWDECLEARLOGGER("nwcore")
 
 template <size_t length>
 static std::string convert(int arg)
@@ -64,30 +56,22 @@ static std::string getTimeString(char dateSplit, char midSplit, char timeSplit)
 
 void Logger::addFileSink(const std::string& path, const std::string& prefix)
 {
+	using namespace FileSystem;
+	if (!exists(path))
+		createDirectory(path);
 	fsink.emplace_back(path + prefix + "_" + getTimeString('-', '_', '-') + ".log");
 }
 
-void Logger::init(const std::string& prefix)
+Logger::Logger(const char* fileName, const char *funcName, int lineNumber, Level level, LoggerManager* mgr)
+	: mLevel(level), mLock(mutex), mManager(mgr)
 {
-	using namespace FileSystem;
-	const char* path = "./logs/";
-	if (!exists(path))
-		createDirectory(path);
-
-	addFileSink(path, prefix);
-
-}
-
-Logger::Logger(const char* fileName, const char *funcName, int lineNumber, Level level)
-	: mLevel(level), mLock(mutex)
-{
-	if (mLevel >= lineLevel)
+	if (mLevel >= mManager->lineLevel)
 	{
 		mFileName = fileName;
 		mFuncName = funcName;
 		mLineNumber = lineNumber;
 	}
-	mContent << LColor::white << getTimeString('-', ' ', ':') << LevelTags[static_cast<size_t>(level)];
+	mContent << LColor::white << getTimeString('-', ' ', ':') << mManager->LevelTags[static_cast<size_t>(level)];
 }
 
 void Logger::writeOstream(std::ostream& ostream, bool noColor) const
@@ -139,7 +123,7 @@ void Logger::writeOstream(std::ostream& ostream, bool noColor) const
 
 Logger::~Logger()
 {
-	if (mLevel >= lineLevel)
+	if (mLevel >= mManager->lineLevel)
 	{
 		mContent << std::endl
 			<< "\tSource :\t" << mFileName << std::endl
@@ -148,19 +132,19 @@ Logger::~Logger()
 			;
 	}
 	mContent << std::endl;
-	if (!fileOnly)
+	if (!mManager->fileOnly)
 	{
-		if (mLevel >= cerrLevel)
+		if (mLevel >= mManager->cerrLevel)
 			writeOstream(std::cerr);
-		else if (mLevel >= coutLevel)
+		else if (mLevel >= mManager->coutLevel)
 			writeOstream(std::cout);
 	}
-	if (mLevel >= fileLevel)
+	if (mLevel >= mManager->fileLevel)
 	{
 		for (auto& it : fsink)
 		{
 			writeOstream(it, true);
-			if (mLevel >= cerrLevel)
+			if (mLevel >= mManager->cerrLevel)
 				it.flush();
 		}
 	}

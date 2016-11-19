@@ -30,7 +30,7 @@
 #endif
 
 #include "common.h"
-#include "logger.h"
+#include "nwsafety.hpp"
 #include "debug.h"
 
 class Library

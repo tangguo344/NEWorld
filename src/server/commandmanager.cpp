@@ -18,7 +18,7 @@
 */
 
 #include "commandmanager.h"
-#include <logger.h>
+#include <nwsafety.hpp>
 #include <consolecolor.h>
 
 CommandExecuteStat CommandManager::handleCommand(Command cmd)

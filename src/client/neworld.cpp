@@ -23,11 +23,10 @@
 #include <jsonhelper.h>
 #include "window.h"
 #include "game.h"
-
+NWDECLEARLOGGER("client")
 NEWorld::NEWorld() : mPlugins(true)
 {
     // Initialize
-    Logger::init("client");
     getSettings();
     infostream << "Initializing...";
     Window& window = Window::getInstance("NEWorld", 852, 480);

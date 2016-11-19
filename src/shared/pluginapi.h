@@ -20,13 +20,11 @@
 #ifndef PLUGINAPI_H_
 #define PLUGINAPI_H_
 
-#include "common.h"
-#include "logger.h"
-#include "vec3.h"
-#include "nwblock.h"
-#include "nwblock.h"
-#include "nwblock.h"
-#include "world.h"
+#include <common.h>
+#include <nwsafety.hpp>
+#include <vec3.h>
+#include <nwblock.h>
+#include <world.h>
 
 namespace PluginAPI
 {

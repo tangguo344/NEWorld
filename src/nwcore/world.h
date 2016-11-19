@@ -26,10 +26,11 @@
 #include "aabb.h"
 #include "nwchunk.h"
 #include "nwblock.h"
+#include "nwexport.h"
 
 class PluginManager;
 
-class World
+class NWCOREAPI World
 {
 public:
     World(const World&) = delete;

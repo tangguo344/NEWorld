@@ -29,9 +29,10 @@
 #include "library.h"
 
 #include "../../api/c/nwapi.h"
+#include "nwexport.h"
 
 // Single plugin
-class Plugin
+class NWCOREAPI Plugin
 {
 public:
     explicit Plugin(const std::string& filename) : mStatus(-1)

@@ -19,7 +19,7 @@
 
 #include "gameconnection.h"
 #include "chunkserver.h"
-#include <logger.h>
+#include <nwsafety.hpp>
 #include <vec3.h>
 #include <flatfactory.h>
 

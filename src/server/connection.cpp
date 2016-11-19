@@ -18,7 +18,7 @@
 */
 
 #include "connection.h"
-#include <logger.h>
+#include <nwsafety.hpp>
 
 Connection::Connection(NetworkManager &network, RakNet::RakPeerInterface *peer, RakNet::SystemAddress addr)
     :mNetwork(network), mPeer(peer), mAddr(addr)

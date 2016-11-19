@@ -69,8 +69,9 @@ extern "C"
         return Blocks->registerBlock(convertBlockType(*block));
     }
 
-    NWAPIEXPORT void NWAPICALL nwLog(char* str, Logger::Level level)
+    NWAPIEXPORT void NWAPICALL nwLog(char* str)
     {
-        Logger("", "", 0, level) << str;
+        infostream << "plugin logging...";
+        Logger("", "", 0, Logger::Level::debug, &NWCOREINTERNAL::_LOGGER::gManager) << str;
     }
 }

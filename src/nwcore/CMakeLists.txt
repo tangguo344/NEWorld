@@ -1,0 +1,5 @@
+project(Core)
+aux_source_directory(${SOURCE_DIR}/nwcore SRC_CORE)
+add_library(nwcore SHARED ${SRC_CORE})
+target_include_directories(nwcore PUBLIC ${SOURCE_DIR}/nwcore PUBLIC)
+target_include_directories(nwcore PUBLIC ${SOURCE_DIR}/shared PUBLIC)

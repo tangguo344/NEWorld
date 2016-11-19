@@ -22,7 +22,7 @@
 
 #include <vec3.h>
 #include <aabb.h>
-#include <logger.h>
+#include <nwsafety.hpp>
 
 #include <unordered_map>
 #include <string>
