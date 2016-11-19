@@ -30,7 +30,7 @@ Server::Server(std::vector<std::string> args)
     // Plugin
     PluginAPI::Blocks = &mBlocks;
 
-    infostream << "Initializing plugins...";
+    verbosestream << "Initializing plugins...";
     mPlugins.loadPlugins();
 
     // World
@@ -45,7 +45,7 @@ Server::Server(std::vector<std::string> args)
 
     // Done
     auto doneTime = steady_clock::now();
-    infostream << "Initialization done in " << duration_cast<milliseconds>(doneTime - startTime).count() << "ms!";
+    verbosestream << "Initialization done in " << duration_cast<milliseconds>(doneTime - startTime).count() << "ms!";
 }
 
 void Server::run()

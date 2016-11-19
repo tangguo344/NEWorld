@@ -30,7 +30,7 @@ NetworkManager::NetworkManager(WorldManager& wm):mWorlds(wm)
 {
     debugstream << "Raknet initializating...";
     mPeer = RakNet::RakPeerInterface::GetInstance();
-    infostream << "Raknet initialized.";
+    verbosestream << "Raknet initialized.";
 }
 
 NetworkManager::~NetworkManager()

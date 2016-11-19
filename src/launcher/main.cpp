@@ -37,9 +37,9 @@ int main(int argc, char** argv)
     std::string in;
     if (argc == 1)
     {
-        infostream << "NEWorld Minimal Launcher";
-        infostream << "Enter 'client' to run client";
-        infostream << "Enter 'server' to run server";
+        verbosestream << "NEWorld Minimal Launcher";
+        verbosestream << "Enter 'client' to run client";
+        verbosestream << "Enter 'server' to run server";
         std::cin >> in;
 
         // Clear cin buffer

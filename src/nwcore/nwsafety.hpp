@@ -17,8 +17,8 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef LOGGER_H_
-#define LOGGER_H_
+#ifndef NWSAFETY_HPP_
+#define NWSAFETY_HPP_
 #include "nwexport.h"
 #include <iostream>
 #include <vector>
@@ -34,7 +34,7 @@ class NWCOREAPI Logger
 public:
 	enum class Level
 	{
-		trace, debug, info, warning, error, fatal
+		trace, debug, verbose, warning, error, fatal
 	};
 
 	Logger(const char* fileName, const char* funcName, int lineNumber, Level level, LoggerManager* mgr);
@@ -89,7 +89,7 @@ namespace NWCOREINTERNAL {namespace _LOGGER { extern LoggerManager gManager; }}
 // Information for developers
 #define debugstream loggerstream(debug)
 // Information for common users
-#define infostream loggerstream(info)
+#define verbosestream loggerstream(verbose)
 // Problems that may affect facility, performance or stability but may not lead the game to crash immediately
 #define warningstream loggerstream(warning)
 // The game crashes, but may be resumed by ways such as reloading the world which don't restart the program

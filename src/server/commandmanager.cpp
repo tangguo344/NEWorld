@@ -61,7 +61,7 @@ void CommandManager::inputLoop()
         mWaitingForInput.store(false, std::memory_order_release);
         auto result = handleCommand(Command(input));
         if (result.info != "")
-            infostream << result.info;
+            verbosestream << result.info;
     }
 }
 

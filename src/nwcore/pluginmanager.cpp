@@ -47,7 +47,7 @@ void PluginManager::loadPlugin(const std::string& filename)
         return;
     }
 
-    infostream << "Loaded plugin \"" << plugin.getData().pluginName << "\"["
+    verbosestream << "Loaded plugin \"" << plugin.getData().pluginName << "\"["
                << plugin.getData().internalName
                << "], authored by \"" << plugin.getData().authorName << "\"";
 }

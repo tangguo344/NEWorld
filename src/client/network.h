@@ -45,7 +45,7 @@ public:
     }
     void stop()
     {
-        infostream << "Disconnecting...";
+        verbosestream << "Disconnecting...";
         mUserClosed.store(true);
         mPeer->Shutdown(5000, 0, PacketPriority::HIGH_PRIORITY);
         if (mThread.joinable())

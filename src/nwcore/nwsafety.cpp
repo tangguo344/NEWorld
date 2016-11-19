@@ -166,7 +166,7 @@ LoggerManager::LoggerManager(const std::string & prefix)
 	LevelTags[c++] = ss.str();
 
 	ss.str("");
-	ss << str_prefix << LColor::lwhite << '[' << "info" << ']';
+	ss << str_prefix << LColor::lwhite << '[' << "verbose" << ']';
 	LevelTags[c++] = ss.str();
 
 	ss.str("");
