@@ -22,7 +22,7 @@
 
 #include <algorithm>
 #include <string>
-#include <cstdlib> // malloc, realloc, free
+#include <cstdlib>
 #include "common/aabb.h"
 #include "nwchunk.h"
 #include "nwblock.h"

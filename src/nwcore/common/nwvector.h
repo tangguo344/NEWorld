@@ -52,7 +52,7 @@ namespace nwstd
         { mPtr = v.mPtr; mMaxSize = v.mMaxSize; mSize = v.mSize; v.mPtr = nullptr; }
         vector(std::initializer_list<T> l)
         { resize(l.size()); mSize = l.size(); std::copy(l.begin(), l.end(), begin()); }
-        ~vector() { if(mPtr) { clear(); verbosestream << mPtr; free(mPtr); mPtr = nullptr; } }
+        ~vector() { if(mPtr) { clear(); free(mPtr); mPtr = nullptr; } }
 
         vector& operator=(const vector& v)
         { resize(v.mSize); mSize = v.mSize; std::copy(v.begin(), v.end(), begin()); return *this; }
@@ -84,12 +84,10 @@ namespace nwstd
             if (mMaxSize)
             {
                 mPtr = static_cast<pointer>(realloc(mPtr, size * sizeof(value_type)));
-                debugstream << "realloc:" << mPtr << " size:" << size * sizeof(value_type);
             }
             else
             {
                 mPtr = static_cast<pointer>(malloc(size * sizeof(value_type)));
-                debugstream << "alloc:" << mPtr << " size:" << size * sizeof(value_type);
             }
             mMaxSize = size;
             Assert(mPtr != nullptr);
@@ -163,7 +161,7 @@ namespace nwstd
         {
             size_type pos = position - mPtr; 
             Assert(pos < size());
-            if (mSize == mMaxSize) resize(mSize + n);
+            if (mSize + n > mMaxSize) resize(mSize + n);
             memmove(mPtr + pos + n, mPtr + pos, ((mSize += n) - pos) * sizeof(value_type));
             for (size_type i = 0; i < n; ++i) *(mPtr + pos + i) = x;
             return mPtr + pos;
@@ -174,7 +172,7 @@ namespace nwstd
             size_type pos = position - mPtr;
             size_type n = last - first;
             Assert(pos < size());
-            if (mSize == mMaxSize) resize(mSize + n);
+            if (mSize + n > mMaxSize) resize(mSize + n);
             memmove(mPtr + pos + n, mPtr + pos, ((mSize += n) - pos) * sizeof(value_type));
             std::copy(first, last, mPtr + pos);
             return mPtr + pos;
