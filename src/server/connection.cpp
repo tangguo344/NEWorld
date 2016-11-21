@@ -23,12 +23,12 @@
 Connection::Connection(NetworkManager &network, RakNet::RakPeerInterface *peer, RakNet::SystemAddress addr)
     :mNetwork(network), mPeer(peer), mAddr(addr)
 {
-    verbosestream << inet_ntoa(mAddr.address.addr4.sin_addr) << ':' << mAddr.address.addr4.sin_port << " connected.";
+    infostream << inet_ntoa(mAddr.address.addr4.sin_addr) << ':' << mAddr.address.addr4.sin_port << " connected.";
 }
 
 Connection::~Connection()
 {
-    verbosestream << inet_ntoa(mAddr.address.addr4.sin_addr) << ':' << mAddr.address.addr4.sin_port << " disconnected.";
+    infostream << inet_ntoa(mAddr.address.addr4.sin_addr) << ':' << mAddr.address.addr4.sin_port << " disconnected.";
 }
 
 void Connection::sendRawData(Identifier id, const unsigned char *data, uint32_t len, PacketPriority priority, PacketReliability reliability)

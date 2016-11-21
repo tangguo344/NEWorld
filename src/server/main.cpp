@@ -45,10 +45,10 @@ NWAPIEXPORT int NWAPICALL main(int argc, char** argv)
 NWAPIEXPORT bool NWAPICALL nwInitServer(int argc, char ** argv)
 {
     getSettings();
-    verbosestream << "\n----------------------------------------"
+    infostream << "\n----------------------------------------"
                << CopyrightString
                << "----------------------------------------";
-    verbosestream << "NEWorld Server v" << NEWorldVersion;
+    infostream << "NEWorld Server v" << NEWorldVersion;
     try
     {
         server = new Server(std::vector<std::string>(argv + 1, argv + argc));
@@ -76,7 +76,7 @@ NWAPIEXPORT void NWAPICALL nwStopServer()
 {
     try
     {
-        verbosestream << "Server is stopping...";
+        infostream << "Server is stopping...";
         server->stop();
         delete server;
     }

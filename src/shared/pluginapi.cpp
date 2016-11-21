@@ -71,7 +71,7 @@ extern "C"
 
     NWAPIEXPORT void NWAPICALL nwLog(char* str)
     {
-        verbosestream << "plugin logging...";
+        infostream << "plugin logging...";
         Logger("", "", 0, Logger::Level::debug, &NWCOREINTERNAL::_LOGGER::gManager) << str;
     }
 }

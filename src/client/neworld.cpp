@@ -28,7 +28,7 @@ NEWorld::NEWorld() : mPlugins(true)
 {
     // Initialize
     getSettings();
-    verbosestream << "Initializing...";
+    infostream << "Initializing...";
     Window& window = Window::getInstance("NEWorld", 852, 480);
     Renderer::init();
     Texture::init();
@@ -55,7 +55,7 @@ NEWorld::NEWorld() : mPlugins(true)
     }
 
     // Terminate
-    verbosestream << "Terminating...";
+    infostream << "Terminating...";
     mPlugins.unloadPlugins();
     Texture::free();
 }

@@ -21,7 +21,7 @@
     <Filter Include="源文件\world">
       <UniqueIdentifier>{e690cf12-7561-4b96-b4b8-231648c4c549}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\extream">
+    <Filter Include="头文件\extern">
       <UniqueIdentifier>{6a88b440-5a10-4ddd-be9b-5a3e4f5d67a7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -113,7 +113,7 @@
       <Filter>源文件\world</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\extream\nwvector.hpp">
-      <Filter>头文件\extream</Filter>
+      <Filter>头文件\extern</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

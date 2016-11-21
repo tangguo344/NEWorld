@@ -53,7 +53,7 @@ void MultiplayerConnection::handleReceivedData(Identifier id, unsigned char* dat
         // TODO: validate password
 
         if (success)
-            verbosestream << "Player " << login->username()->str() << " login!";
+            infostream << "Player " << login->username()->str() << " login!";
         else
             warningstream << "Player " << login->username()->str() << " failed to login: " << reason;
         break;

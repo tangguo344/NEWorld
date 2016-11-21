@@ -32,45 +32,45 @@ class LoggerManager;
 class NWCOREAPI Logger
 {
 public:
-	enum class Level
-	{
-		trace, debug, verbose, warning, error, fatal
-	};
+    enum class Level
+    {
+        verbose, debug, info, warning, error, fatal
+    };
 
-	Logger(const char* fileName, const char* funcName, int lineNumber, Level level, LoggerManager* mgr);
-	~Logger();
+    Logger(const char* fileName, const char* funcName, int lineNumber, Level level, LoggerManager* mgr);
+    ~Logger();
 
-	template <typename T>
-	Logger& operator<<(const T& rhs)
-	{
-		mContent << rhs;
-		return *this;
-	}
+    template <typename T>
+    Logger& operator<<(const T& rhs)
+    {
+        mContent << rhs;
+        return *this;
+    }
 
     static void addFileSink(const std::string& path, const std::string& prefix);
 private:
-	Level mLevel;
-	int mLineNumber;
-	const char *mFileName;
-	const char *mFuncName;
+    Level mLevel;
+    int mLineNumber;
+    const char *mFileName;
+    const char *mFuncName;
     LoggerManager* mManager;
-	std::stringstream mContent;
+    std::stringstream mContent;
     std::lock_guard<std::mutex> mLock;
 
-	static std::mutex mutex;
-	static std::vector<std::ofstream> fsink;
+    static std::mutex mutex;
+    static std::vector<std::ofstream> fsink;
 
-	void writeOstream(std::ostream& ostream, bool noColor = false) const;
+    void writeOstream(std::ostream& ostream, bool noColor = false) const;
 };
 
 class NWCOREAPI LoggerManager
 {
 public:
     LoggerManager() = default;
-	LoggerManager(const std::string& prefix);
-    Logger::Level coutLevel = Logger::Level::trace;
+    LoggerManager(const std::string& prefix);
+    Logger::Level coutLevel = Logger::Level::verbose;
     Logger::Level cerrLevel = Logger::Level::fatal;
-    Logger::Level fileLevel = Logger::Level::trace;
+    Logger::Level fileLevel = Logger::Level::info;
     Logger::Level lineLevel = Logger::Level::error;
     bool fileOnly{ false };
     std::array<std::string, 6> LevelTags;
@@ -79,17 +79,17 @@ public:
 #ifndef NWNOLOGGER
 
 #define NWDECLEARLOGGER(prefix) \
-namespace NWCOREINTERNAL {namespace _LOGGER { LoggerManager gManager(prefix); }}
+    namespace NWCOREINTERNAL {namespace _LOGGER { LoggerManager gManager(prefix); }}
 
 namespace NWCOREINTERNAL {namespace _LOGGER { extern LoggerManager gManager; }}
 
 #define loggerstream(level) Logger(__FILE__, __FUNCTION__, __LINE__, Logger::Level::level, &NWCOREINTERNAL::_LOGGER::gManager)
 // Information for tracing
-#define tracestream loggerstream(trace)
+#define verbosestream loggerstream(verbose)
 // Information for developers
 #define debugstream loggerstream(debug)
 // Information for common users
-#define verbosestream loggerstream(verbose)
+#define infostream loggerstream(info)
 // Problems that may affect facility, performance or stability but may not lead the game to crash immediately
 #define warningstream loggerstream(warning)
 // The game crashes, but may be resumed by ways such as reloading the world which don't restart the program

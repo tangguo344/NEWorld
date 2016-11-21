@@ -26,9 +26,9 @@
 Connection::Connection(std::function<void(Identifier, unsigned char*, size_t)> userDataCallback)
     :mUserDataCallback(userDataCallback)
 {
-    verbosestream << "Raknet initializating...";
+    infostream << "Raknet initializating...";
     mPeer = RakNet::RakPeerInterface::GetInstance();
-    verbosestream << "Raknet initialized.";
+    infostream << "Raknet initialized.";
 }
 
 Connection::~Connection()
@@ -51,7 +51,7 @@ bool Connection::connect(const char *addr, unsigned short port)
         case CAR::CONNECTION_ATTEMPT_STARTED:
             mThread = std::thread([this]
             {
-                verbosestream << "Start listening.";
+                infostream << "Start listening.";
                 loop();
             });
             return true;
@@ -75,7 +75,7 @@ void Connection::loop()
             switch(p->data[0])
             {
             case ID_CONNECTION_REQUEST_ACCEPTED:
-                verbosestream << "Connected to the server.";
+                infostream << "Connected to the server.";
                 mAddr = p->systemAddress;
                 mConnected.set_value();
                 break;
@@ -84,7 +84,7 @@ void Connection::loop()
                 break;
             case ID_DISCONNECTION_NOTIFICATION:
                 if(mUserClosed)
-                    verbosestream << "Disconnected to the server.";
+                    infostream << "Disconnected to the server.";
                 else
                     errorstream << "Disconnected to the server!";
                 break;

@@ -27,25 +27,25 @@ void Server::initBuiltinCommands()
     });
     mCommands.registerCommand("test.rainbow", { "internal","test colors." }, [this](Command cmd)->CommandExecuteStat
     {
-        verbosestream << "Grayscales:";
-        verbosestream << LColor::black << "2333333333 [0%]";
-        verbosestream << LColor::lblack << "2333333333 [50%]";
-        verbosestream << LColor::white << "2333333333 [75%]";
-        verbosestream << LColor::lwhite << "2333333333 [100%]";
-        verbosestream << "Dark colors:";
-        verbosestream << LColor::red << "2333333333 [dark red]";
-        verbosestream << LColor::yellow << "2333333333 [dark yellow]";
-        verbosestream << LColor::green << "2333333333 [dark green]";
-        verbosestream << LColor::cyan << "2333333333 [dark cyan]";
-        verbosestream << LColor::blue << "2333333333 [dark blue]";
-        verbosestream << LColor::magenta << "2333333333 [dark magenta]";
-        verbosestream << "Bright colors:";
-        verbosestream << LColor::lred << "2333333333 [red]";
-        verbosestream << LColor::lyellow << "2333333333 [yellow]";
-        verbosestream << LColor::lgreen << "2333333333 [green]";
-        verbosestream << LColor::lcyan << "2333333333 [cyan]";
-        verbosestream << LColor::lblue << "2333333333 [blue]";
-        verbosestream << LColor::lmagenta << "2333333333 [magenta]";
+        infostream << "Grayscales:";
+        infostream << LColor::black << "2333333333 [0%]";
+        infostream << LColor::lblack << "2333333333 [50%]";
+        infostream << LColor::white << "2333333333 [75%]";
+        infostream << LColor::lwhite << "2333333333 [100%]";
+        infostream << "Dark colors:";
+        infostream << LColor::red << "2333333333 [dark red]";
+        infostream << LColor::yellow << "2333333333 [dark yellow]";
+        infostream << LColor::green << "2333333333 [dark green]";
+        infostream << LColor::cyan << "2333333333 [dark cyan]";
+        infostream << LColor::blue << "2333333333 [dark blue]";
+        infostream << LColor::magenta << "2333333333 [dark magenta]";
+        infostream << "Bright colors:";
+        infostream << LColor::lred << "2333333333 [red]";
+        infostream << LColor::lyellow << "2333333333 [yellow]";
+        infostream << LColor::lgreen << "2333333333 [green]";
+        infostream << LColor::lcyan << "2333333333 [cyan]";
+        infostream << LColor::lblue << "2333333333 [blue]";
+        infostream << LColor::lmagenta << "2333333333 [magenta]";
         return{ true , "" };
     });
     mCommands.registerCommand("server.stop", { "internal","Stop the server." }, [this](Command cmd)->CommandExecuteStat
