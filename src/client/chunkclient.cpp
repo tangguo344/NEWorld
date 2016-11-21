@@ -27,16 +27,16 @@ bool ChunkClient::mergeFace;
 
 void ChunkClient::renderBlock(BlockTexCoord coord[], const Vec3i& pos)
 {
-    Vec3i worldpos = getPosition() * Size + pos;
+    Vec3i worldpos = getPosition() * Size() + pos;
 
     BlockData curr = getBlock(pos);
     BlockData neighbors[6] =
     {
-        pos.x == Size - 1 ? mWorld.getBlock(Vec3i(worldpos.x + 1, worldpos.y, worldpos.z)) : getBlock(Vec3i(pos.x + 1, pos.y, pos.z)),
+        pos.x == Size() - 1 ? mWorld.getBlock(Vec3i(worldpos.x + 1, worldpos.y, worldpos.z)) : getBlock(Vec3i(pos.x + 1, pos.y, pos.z)),
         pos.x == 0 ? mWorld.getBlock(Vec3i(worldpos.x - 1, worldpos.y, worldpos.z)) : getBlock(Vec3i(pos.x - 1, pos.y, pos.z)),
-        pos.y == Size - 1 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y + 1, worldpos.z)) : getBlock(Vec3i(pos.x, pos.y + 1, pos.z)),
+        pos.y == Size() - 1 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y + 1, worldpos.z)) : getBlock(Vec3i(pos.x, pos.y + 1, pos.z)),
         pos.y == 0 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y - 1, worldpos.z)) : getBlock(Vec3i(pos.x, pos.y - 1, pos.z)),
-        pos.z == Size - 1 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y, worldpos.z + 1)) : getBlock(Vec3i(pos.x, pos.y, pos.z + 1)),
+        pos.z == Size() - 1 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y, worldpos.z + 1)) : getBlock(Vec3i(pos.x, pos.y, pos.z + 1)),
         pos.z == 0 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y, worldpos.z - 1)) : getBlock(Vec3i(pos.x, pos.y, pos.z - 1)),
     };
 
@@ -118,7 +118,7 @@ void ChunkClient::buildVertexArray()
     }
     else
     {
-        Vec3i::for_range(0, Size, [&](const Vec3i& pos)
+        Vec3i::for_range(0, Size(), [&](const Vec3i& pos)
         {
             BlockData b = getBlock(pos);
             target = (mWorld.getType(b.getID()).isTranslucent()) ? &va1 : &va0;
@@ -135,7 +135,7 @@ Chunk* ChunkClient::getFromFlatbuffers(const s2c::Chunk * fbChunk, WorldClient& 
 {
     // TODO: Optimize
     Chunk* nwChunk = new ChunkClient({ fbChunk->pos()->x(), fbChunk->pos()->y(), fbChunk->pos()->z() }, worlds);
-    for (auto i = 0; i < Size*Size*Size; i++)
+    for (auto i = 0; i < Size()*Size()*Size(); i++)
         nwChunk->getBlocks()[i] = BlockData(fbChunk->blocks()->Get(i));
     return nwChunk;
 }

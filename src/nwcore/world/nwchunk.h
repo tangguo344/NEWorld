@@ -24,18 +24,20 @@
 #include <chrono>
 #include "common/vec3.h"
 #include "common/debug.h"
+#include "common/nwexport.h"
 #include "nwblock.h"
 
 using ChunkGenerator = void NWAPICALL(const Vec3i*, BlockData*, int);
 
-extern bool ChunkGeneratorLoaded;
-extern ChunkGenerator *ChunkGen;
 
-class Chunk
+class NWCOREAPI Chunk
 {
 public:
-    // Chunk size
-    static constexpr int SizeLog2 = 5, Size = 1 << SizeLog2;
+	// Chunk size
+    static bool ChunkGeneratorLoaded;
+    static ChunkGenerator *ChunkGen;
+	static constexpr int SizeLog2() { return 5; }
+	static constexpr int Size(){ return 0b100000; };
 
     explicit Chunk(const Vec3i& position) : mPosition(position) {}
     virtual ~Chunk() {}
@@ -61,15 +63,15 @@ public:
     // Get block data in this chunk
     BlockData getBlock(const Vec3i& pos) const
     {
-        Assert(pos.x >= 0 && pos.x < Size && pos.y >= 0 && pos.y < Size && pos.z >= 0 && pos.z < Size);
-        return mBlocks[pos.x * Size * Size + pos.y * Size + pos.z];
+        Assert(pos.x >= 0 && pos.x < Size() && pos.y >= 0 && pos.y < Size() && pos.z >= 0 && pos.z < Size());
+        return mBlocks[pos.x * Size() * Size() + pos.y * Size() + pos.z];
     }
 
     // Get block reference in this chunk
     BlockData& getBlock(const Vec3i& pos)
     {
-        Assert(pos.x >= 0 && pos.x < Size && pos.y >= 0 && pos.y < Size && pos.z >= 0 && pos.z < Size);
-        return mBlocks[pos.x * Size * Size + pos.y * Size + pos.z];
+        Assert(pos.x >= 0 && pos.x < Size() && pos.y >= 0 && pos.y < Size() && pos.z >= 0 && pos.z < Size());
+        return mBlocks[pos.x * Size() * Size() + pos.y * Size() + pos.z];
     }
 
     // Get block pointer
@@ -85,8 +87,8 @@ public:
     // Set block data in this chunk
     void setBlock(const Vec3i& pos, BlockData block)
     {
-        Assert(pos.x >= 0 && pos.x < Size && pos.y >= 0 && pos.y < Size && pos.z >= 0 && pos.z < Size);
-        mBlocks[pos.x * Size * Size + pos.y * Size + pos.z] = block;
+        Assert(pos.x >= 0 && pos.x < Size() && pos.y >= 0 && pos.y < Size() && pos.z >= 0 && pos.z < Size());
+        mBlocks[pos.x * Size() * Size() + pos.y * Size() + pos.z] = block;
         mUpdated = true;
     }
 
@@ -102,7 +104,7 @@ public:
 
 private:
     Vec3i mPosition;
-    BlockData mBlocks[Size * Size * Size];
+    BlockData mBlocks[0b1'00000'00000'00000];
     bool mUpdated = false;
 	// For Garbage Collection
 	long long mReferenceCount;

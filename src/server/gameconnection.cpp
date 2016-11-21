@@ -29,7 +29,7 @@ void MultiplayerConnection::sendChunk(Chunk* chunk)
     // Be careful!
     Assert(sizeof(BlockData) == sizeof(uint32_t));
     std::vector<int> blocks(reinterpret_cast<uint32_t*>(chunk->getBlocks()),
-                            reinterpret_cast<uint32_t*>(chunk->getBlocks()) + Chunk::Size*Chunk::Size*Chunk::Size);
+                            reinterpret_cast<uint32_t*>(chunk->getBlocks()) + Chunk::Size()*Chunk::Size()*Chunk::Size());
     mConn.send<s2c::Chunk>(FlatFactory::s2c::Chunk(pos,blocks), PacketPriority::MEDIUM_PRIORITY, PacketReliability::RELIABLE);
 }
 

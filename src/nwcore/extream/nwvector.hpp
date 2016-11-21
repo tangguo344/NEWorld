@@ -17,14 +17,14 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CORE_NWVECTOR_H
-#define CORE_NWVECTOR_H
+#ifndef CORE_NWVECTOR_HPP
+#define CORE_NWVECTOR_HPP
 
-#include "debug.h"
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
 #include <initializer_list>
+#include "../common/debug.h"
 
 namespace nwstd
 {
@@ -47,19 +47,19 @@ namespace nwstd
         vector() = default;
         explicit vector(size_type n) { resize(n); };
         vector(const vector& v)
-        { resize(v.mSize); mSize = v.mSize; std::copy(v.begin(), v.end(), begin()); }
+        { resize(v.mSize); std::copy(v.begin(), v.end(), begin()); }
         vector(vector&& v)
         { mPtr = v.mPtr; mMaxSize = v.mMaxSize; mSize = v.mSize; v.mPtr = nullptr; }
         vector(std::initializer_list<T> l)
-        { resize(l.size()); mSize = l.size(); std::copy(l.begin(), l.end(), begin()); }
+        { resize(l.size()); std::copy(l.begin(), l.end(), begin()); }
         ~vector() { if(mPtr) { clear(); free(mPtr); mPtr = nullptr; } }
 
         vector& operator=(const vector& v)
-        { resize(v.mSize); mSize = v.mSize; std::copy(v.begin(), v.end(), begin()); return *this; }
+        { resize(v.mSize); std::copy(v.begin(), v.end(), begin()); return *this; }
         vector& operator=(vector&& v)
         { mPtr = v.mPtr; mMaxSize = v.mMaxSize; mSize = v.mSize; v.mPtr = nullptr; return *this; }
         vector& operator=(std::initializer_list<T> l)
-        { resize(l.size()); mSize = l.size(); std::copy(l.begin(), l.end(), begin());  return *this; }
+        { resize(l.size()); std::copy(l.begin(), l.end(), begin());  return *this; }
 
         // iterators
         iterator begin() noexcept { return mPtr; }
@@ -80,17 +80,19 @@ namespace nwstd
         void resize(size_type sz)
         {
             Assert(sz > mSize);
-            auto size = 1 << static_cast<difference_type>(ceil(log2(sz)));
-            if (mMaxSize)
-            {
-                mPtr = static_cast<pointer>(realloc(mPtr, size * sizeof(value_type)));
-            }
-            else
-            {
-                mPtr = static_cast<pointer>(malloc(size * sizeof(value_type)));
-            }
-            mMaxSize = size;
-            Assert(mPtr != nullptr);
+            auto size = 1 << static_cast<difference_type>(ceil(log2(sz + 1)));
+            auto ptr = static_cast<pointer>(realloc(mPtr, size * sizeof(value_type)));
+			if (ptr != nullptr)
+			{
+				mSize = sz;
+				mPtr = ptr;
+				mMaxSize = size;
+			}
+			else
+			{
+				fatalstream << "nwvector reallocation failure!";
+			}
+			Assert(ptr != nullptr);
         }
         size_type capacity() const noexcept { return mMaxSize; }
         bool empty() const noexcept { return mSize == 0; }
@@ -118,17 +120,18 @@ namespace nwstd
         // modifiers
         template <class ...Args> iterator emplace_back(Args&& ...args)
         {
-            if (mSize == mMaxSize) resize(mSize + 1); ++mSize;
-            return &(*(mPtr + mSize - 1) = std::move(T(std::forward<Args>(args)...)));
+            if (mSize == mMaxSize) resize(mSize + 1);
+			(mPtr + mSize - 1)->T(std::forward<Args>(args)...);
+            return (mPtr + mSize - 1);
         }
         iterator push_back(const T& x)
         {
-            if (mSize == mMaxSize) resize(mSize + 1); ++mSize;
+            if (mSize == mMaxSize) resize(mSize + 1);
             return &(*(mPtr + mSize - 1) = x);
         }
         iterator push_back(T&& x)
         {
-            if (mSize == mMaxSize) resize(mSize + 1); ++mSize;
+            if (mSize == mMaxSize) resize(mSize + 1);
             return &(*(mPtr + mSize - 1) = std::move(x));
         }
         void pop_back() { (mPtr + (--mSize))->~T(); }
@@ -138,15 +141,16 @@ namespace nwstd
             size_type pos = position - mPtr;
             Assert(pos < size());
             if (mSize == mMaxSize) resize(mSize + 1);
-            memmove((mPtr + pos + 1), mPtr + pos, (mSize++ - pos) * sizeof(value_type));
-            return &(*(mPtr + pos) = std::move(T(std::forward<Args>(args)...)));
+            memmove((mPtr + pos + 1), mPtr + pos, (mSize - pos) * sizeof(value_type));
+			(mPtr + pos)->T(std::forward<Args>(args)...);
+            return (mPtr + pos);
         }
         iterator insert(const_iterator position, const T& x)
         {
             size_type pos = position - mPtr;
             Assert(pos < size());
             if (mSize == mMaxSize) resize(mSize + 1);
-            memmove((mPtr + pos + 1), mPtr + pos, (mSize++ - pos) * sizeof(value_type));
+            memmove((mPtr + pos + 1), mPtr + pos, (mSize - pos) * sizeof(value_type));
             return &(*(mPtr + pos) = x);
         }
         iterator insert(const_iterator position, T&& x)
@@ -154,7 +158,7 @@ namespace nwstd
             size_type pos = position - mPtr;
             Assert(pos < size());
             if (mSize == mMaxSize) resize(mSize + 1);
-            memmove((mPtr + pos + 1), mPtr + pos, (mSize++ - pos) * sizeof(value_type));
+            memmove((mPtr + pos + 1), mPtr + pos, (mSize - pos) * sizeof(value_type));
             return &(*(mPtr + pos) = std::move(x));
         }
         iterator insert(const_iterator position, size_type n, const T& x)
@@ -162,7 +166,7 @@ namespace nwstd
             size_type pos = position - mPtr; 
             Assert(pos < size());
             if (mSize + n > mMaxSize) resize(mSize + n);
-            memmove(mPtr + pos + n, mPtr + pos, ((mSize += n) - pos) * sizeof(value_type));
+            memmove(mPtr + pos + n, mPtr + pos, (mSize - pos) * sizeof(value_type));
             for (size_type i = 0; i < n; ++i) *(mPtr + pos + i) = x;
             return mPtr + pos;
         }
@@ -173,7 +177,7 @@ namespace nwstd
             size_type n = last - first;
             Assert(pos < size());
             if (mSize + n > mMaxSize) resize(mSize + n);
-            memmove(mPtr + pos + n, mPtr + pos, ((mSize += n) - pos) * sizeof(value_type));
+            memmove(mPtr + pos + n, mPtr + pos, (mSize - pos) * sizeof(value_type));
             std::copy(first, last, mPtr + pos);
             return mPtr + pos;
         }
@@ -187,7 +191,7 @@ namespace nwstd
             memmove(mPtr + pos, mPtr + pos + 1, (--mSize - pos) * sizeof(value_type));
             return mPtr + pos;
         }
-        void clear() { for (auto&& x : *this) x.~T();mSize = 0; }
+        void clear() { for (auto&& x : *this) x.~T(); mSize = 0; }
         void swap(vector& rhs)
         {std::swap(mPtr, rhs.mPtr); std::swap(mMaxSize, rhs.mMaxSize); std::swap(mSize, rhs.mSize);}
     private:

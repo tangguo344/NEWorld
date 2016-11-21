@@ -34,7 +34,8 @@ void BlockRendererManager::render(size_t id, class ChunkClient* chunk, const Vec
 
 void BlockRendererManager::setBlockRenderer(size_t pos, std::shared_ptr<BlockRenderer>&& blockRenderer)
 {
-    if (pos >= mBlockRenderers.size()) mBlockRenderers.resize(pos + 1);
+    if (pos >= mBlockRenderers.size()) 
+		mBlockRenderers.resize(pos + 1);
     mBlockRenderers[pos] = std::move(blockRenderer);
 }
 

@@ -249,7 +249,7 @@ private:
 
     constexpr static T max(T arg1, T arg2)
     {
-        return arg1 > arg2 ? arg1 : arg2;
+        return (arg1 > arg2) ? arg1 : arg2;
     }
 };
 

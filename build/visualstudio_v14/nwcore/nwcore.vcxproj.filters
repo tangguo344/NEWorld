@@ -9,21 +9,111 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
+    <Filter Include="源文件\api">
+      <UniqueIdentifier>{42e9c03f-7df2-4e4b-88c3-80664bb72cc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\common">
+      <UniqueIdentifier>{1b272ab1-4715-4752-885b-44eb0120d499}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\plugin">
+      <UniqueIdentifier>{865196c1-df40-4f7a-a4fc-7c8c6abcf8a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\world">
+      <UniqueIdentifier>{e690cf12-7561-4b96-b4b8-231648c4c549}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\extream">
+      <UniqueIdentifier>{6a88b440-5a10-4ddd-be9b-5a3e4f5d67a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\nwcore\nwexport.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\nwcore\nwsafety.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\nwcore\nwexception.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\src\nwcore\nwsafety.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="..\..\..\src\nwcore\api\nwpluginapi.cpp">
+      <Filter>源文件\api</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\nwcore\common\nwsafety.cpp">
+      <Filter>源文件\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\nwcore\plugin\plugin.cpp">
+      <Filter>源文件\plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\nwcore\plugin\pluginmanager.cpp">
+      <Filter>源文件\plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\nwcore\world\nwchunk.cpp">
+      <Filter>源文件\world</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\nwcore\world\world.cpp">
+      <Filter>源文件\world</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\nwcore\world\nwblock.cpp">
+      <Filter>源文件\world</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\nwcore\api\nwpluginapi.h">
+      <Filter>源文件\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\command.h">
+      <Filter>源文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\common.h">
+      <Filter>源文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\consolecolor.h">
+      <Filter>源文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\debug.h">
+      <Filter>源文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\filesys.h">
+      <Filter>源文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\json.hpp">
+      <Filter>源文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\jsonhelper.h">
+      <Filter>源文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\library.h">
+      <Filter>源文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\nwexception.hpp">
+      <Filter>源文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\nwexport.h">
+      <Filter>源文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\nwsafety.hpp">
+      <Filter>源文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\ratemeter.h">
+      <Filter>源文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\utils.h">
+      <Filter>源文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\vec3.h">
+      <Filter>源文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\aabb.h">
+      <Filter>源文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\plugin\plugin.h">
+      <Filter>源文件\plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\plugin\pluginmanager.h">
+      <Filter>源文件\plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\world\nwblock.h">
+      <Filter>源文件\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\world\nwchunk.h">
+      <Filter>源文件\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\world\world.h">
+      <Filter>源文件\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\extream\nwvector.hpp">
+      <Filter>头文件\extream</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

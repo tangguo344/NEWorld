@@ -71,7 +71,7 @@ Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
             return;
         }
         // Update chunk
-        memcpy(target->getBlocks(), chunk->getBlocks(), sizeof(BlockData) * Chunk::Size * Chunk::Size * Chunk::Size);
+        memcpy(target->getBlocks(), chunk->getBlocks(), sizeof(BlockData) * Chunk::Size() * Chunk::Size() * Chunk::Size());
         target->setUpdated(true);
         // Update neighboring chunks
         const std::array<Vec3i, 6> delta

@@ -20,9 +20,6 @@
     <Filter Include="Source\Game">
       <UniqueIdentifier>{cacc27af-bc70-4805-8a4d-aecd8addd92b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Plugin">
-      <UniqueIdentifier>{a54b74af-34a8-45cf-8b46-3c70dba3e24d}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\server\main.cpp">
@@ -40,13 +37,7 @@
     <ClCompile Include="..\..\..\src\server\networkmanager.cpp">
       <Filter>Source\Network</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\server\serverapi.cpp">
-      <Filter>Source\Plugin</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\server\worldserver.cpp">
-      <Filter>Source\World</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\server\chunkserver.cpp">
       <Filter>Source\World</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\server\connection.cpp">
@@ -69,13 +60,7 @@
     <ClInclude Include="..\..\..\src\server\playermanager.h">
       <Filter>Source\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\server\serverapi.h">
-      <Filter>Source\Plugin</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\server\worldserver.h">
-      <Filter>Source\World</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\server\chunkserver.h">
       <Filter>Source\World</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\server\worldmanager.h">

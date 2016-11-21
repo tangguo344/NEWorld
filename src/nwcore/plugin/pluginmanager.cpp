@@ -30,7 +30,7 @@ PluginManager::PluginManager(bool isClient)
 
 void PluginManager::loadPlugin(const std::string& filename)
 {
-    mPlugins.emplace_back(filename);
+    mPlugins.push_back(std::move(Plugin(filename)));
     Plugin& plugin = mPlugins[mPlugins.size() - 1];
     if (!plugin.isCompatible(mIsClient))
     {

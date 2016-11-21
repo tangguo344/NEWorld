@@ -20,8 +20,8 @@
 #ifndef SERVERAPI_H_
 #define SERVERAPI_H_
 
-#include <pluginapi.h>
-#include "world/nwchunk.h"
+#include "./../../shared/pluginapi.h"
+#include "../world/nwchunk.h"
 
 namespace PluginAPI
 {

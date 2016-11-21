@@ -25,13 +25,13 @@ extern "C"
 
     NWAPIEXPORT size_t NWAPICALL nwRegisterChunkGenerator(NWchunkgenerator* const generator)
     {
-        if (ChunkGeneratorLoaded)
+        if (Chunk::ChunkGeneratorLoaded)
         {
             warningstream << "Ignoring multiple chunk generators!";
             return 1;
         }
-        ChunkGeneratorLoaded = true;
-        ChunkGen = generator;
+        Chunk::ChunkGeneratorLoaded = true;
+        Chunk::ChunkGen = generator;
         debugstream << "Registered chunk generator";
         return 0;
     }

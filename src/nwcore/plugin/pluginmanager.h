@@ -35,6 +35,8 @@ public:
     {
         unloadPlugins();
     }
+	PluginManager(PluginManager&&) = delete;
+	PluginManager& operator = (PluginManager&&) = delete;
 
     // Load single plugin
     void loadPlugin(const std::string& filename);

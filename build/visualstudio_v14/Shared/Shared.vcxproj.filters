@@ -1,105 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\shared\vec3.h">
-      <Filter>Source\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\world.h">
-      <Filter>Source\World</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\common.h">
-      <Filter>Source\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\object.h">
-      <Filter>Source\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\logger.h">
-      <Filter>Source\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\plugin.h">
-      <Filter>Source\Plugin</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\pluginmanager.h">
-      <Filter>Source\Plugin</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\aabb.h">
-      <Filter>Source\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\utils.h">
-      <Filter>Source\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\pluginapi.h">
-      <Filter>Source\Plugin</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\consolecolor.h">
-      <Filter>Source\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\playerobject.h">
-      <Filter>Source\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\command.h">
-      <Filter>Source\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\ratemeter.h">
-      <Filter>Source\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\jsonhelper.h">
-      <Filter>Source\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\library.h">
-      <Filter>Source\DLL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\filesys.h">
-      <Filter>Source\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\debug.h">
-      <Filter>Source\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\nwblock.h">
-      <Filter>Source\World</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\shared\nwchunk.h">
-      <Filter>Source\World</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <Filter Include="Source">
       <UniqueIdentifier>{91c7e806-9f34-4685-b11f-8fda5466b258}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Common">
-      <UniqueIdentifier>{d8ff50ba-254a-4417-a46d-0bfbfa05819f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Object">
-      <UniqueIdentifier>{1b541d8d-7466-461f-98b9-194f998a9f7f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Plugin">
-      <UniqueIdentifier>{e761470c-5131-4ce2-9fb2-cbdf243d84f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\World">
-      <UniqueIdentifier>{9d424b71-c4b6-463f-b95b-cffeea273210}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\DLL">
-      <UniqueIdentifier>{31b713ac-f29d-48ee-86e6-473c8232ee3c}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\shared\world.cpp">
-      <Filter>Source\World</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\shared\plugin.cpp">
-      <Filter>Source\Plugin</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\shared\pluginmanager.cpp">
-      <Filter>Source\Plugin</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\shared\logger.cpp">
-      <Filter>Source\Common</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\shared\pluginapi.cpp">
-      <Filter>Source\Plugin</Filter>
+      <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\shared\nwblock.cpp">
-      <Filter>Source\World</Filter>
-    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\shared\pluginapi.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
