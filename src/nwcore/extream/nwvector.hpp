@@ -80,11 +80,11 @@ namespace nwstd
         void resize(size_type sz)
         {
             Assert(sz > mSize);
-			if (sz <= mMaxSize)
-			{
-				mSize = sz;
-				return;
-			}
+	    if (sz <= mMaxSize)
+            {
+                mSize = sz;
+                return;
+            }
             auto size = 1 << static_cast<difference_type>(ceil(log2(sz + 1)));
             auto ptr = static_cast<pointer>(realloc(mPtr, size * sizeof(value_type)));
 			if (ptr != nullptr)
@@ -125,18 +125,18 @@ namespace nwstd
         // modifiers
         template <class ...Args> iterator emplace_back(Args&& ...args)
         {
-            resize(mSize + 1);
-			back()->T(std::forward<Args>(args)...);
+            reserve(1);
+	    back()->T(std::forward<Args>(args)...);
             return back();
         }
         iterator push_back(const T& x)
         {
-            resize(mSize + 1);
+            reserve(1);
             return &(*back() = x);
         }
         iterator push_back(T&& x)
         {
-            resize(mSize + 1);
+            reserve(1);
             return &(*back() = std::move(x));
         }
         void pop_back() { (mPtr + (--mSize))->~T(); }
@@ -145,16 +145,16 @@ namespace nwstd
         {
             size_type pos = position - mPtr;
             Assert(pos < size());
-            resize(mSize + 1);
+            reserve(1);
             memmove((mPtr + pos + 1), mPtr + pos, (mSize - pos) * sizeof(value_type));
-			(mPtr + pos)->T(std::forward<Args>(args)...);
+	    (mPtr + pos)->T(std::forward<Args>(args)...);
             return (mPtr + pos);
         }
         iterator insert(const_iterator position, const T& x)
         {
             size_type pos = position - mPtr;
             Assert(pos < size());
-            resize(mSize + 1);
+            reserve(1);
             memmove((mPtr + pos + 1), mPtr + pos, (mSize - pos) * sizeof(value_type));
             return &(*(mPtr + pos) = x);
         }
@@ -162,7 +162,7 @@ namespace nwstd
         {
             size_type pos = position - mPtr;
             Assert(pos < size());
-            resize(mSize + 1);
+            reserve(1);
             memmove((mPtr + pos + 1), mPtr + pos, (mSize - pos) * sizeof(value_type));
             return &(*(mPtr + pos) = std::move(x));
         }
@@ -170,7 +170,7 @@ namespace nwstd
         {
             size_type pos = position - mPtr; 
             Assert(pos < size());
-            resize(mSize + n);
+            reserve(n);
             memmove(mPtr + pos + n, mPtr + pos, (mSize - pos) * sizeof(value_type));
             for (size_type i = 0; i < n; ++i) *(mPtr + pos + i) = x;
             return mPtr + pos;
@@ -178,10 +178,9 @@ namespace nwstd
         template <class InputIterator>
         iterator insert(const_iterator position, InputIterator first, InputIterator last)
         {
-            size_type pos = position - mPtr;
-            size_type n = last - first;
+            size_type pos = position - mPtr, n = last - first;
             Assert(pos < size());
-            resize(mSize + n);
+            reserve(n);
             memmove(mPtr + pos + n, mPtr + pos, (mSize - pos) * sizeof(value_type));
             std::copy(first, last, mPtr + pos);
             return mPtr + pos;
