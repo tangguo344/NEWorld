@@ -61,7 +61,7 @@ bool Connection::connect(const char *addr, unsigned short port)
     }
 
     // TODO: throw an exception
-    errorstream << "Failed to connect to" << addr << ":" << port << ". Error code: " << ret;
+    errorstream << "Failed to connect to " << addr << ":" << port << ". Error code: " << ret;
     return false;
 }
 
