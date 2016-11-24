@@ -24,7 +24,6 @@
 #include <vector>
 #include <memory>
 #include <common/vec3.h>
-#include <extream/nwvector.hpp>
 
 struct BlockTexCoord
 {

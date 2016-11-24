@@ -23,6 +23,8 @@
 #include <algorithm>
 #include <string>
 #include <cstdlib>
+#include <memory>
+#include <vector>
 #include "common/aabb.h"
 #include "nwchunk.h"
 #include "nwblock.h"
@@ -35,14 +37,7 @@ class NWCOREAPI World
 public:
     World(const World&) = delete;
     World& operator=(const World&) = delete;
-    virtual ~World()
-    {
-        if (mChunks != nullptr)
-        {
-            // TODO: Save and destroy chunks
-            free(mChunks);
-        }
-    }
+	virtual ~World() = default;
 
     // Get world name
     const std::string& getWorldName() const
@@ -59,20 +54,20 @@ public:
     // Get chunk count
     size_t getChunkCount() const
     {
-        return mChunkCount;
+        return mChunks.size();
     }
 
     // Get reserved chunk count
     size_t getReservedChunkCount() const
     {
-        return mChunkArraySize;
+        return mChunks.capacity();
     }
 
     // Get chunk pointer by index
     Chunk* getChunkPtr(size_t index) const
     {
-        Assert(index < mChunkCount);
-        return mChunks[index];
+        Assert(index < getChunkCount());
+        return mChunks[index].get();
     }
 
     // Get chunk pointer by chunk coordinates
@@ -92,9 +87,9 @@ public:
     {
         // TODO: Try chunk pointer array
         size_t index = getChunkIndex(chunkPos);
-        if (index >= mChunkCount || mChunks[index]->getPosition() != chunkPos)
+        if (index >= getChunkCount() || mChunks[index]->getPosition() != chunkPos)
             return nullptr;
-        return mChunks[index];
+        return mChunks[index].get();
     }
 
     bool isChunkLoaded(const Vec3i& chunkPos) const
@@ -189,14 +184,14 @@ public:
 
 protected:
     World(const std::string& name, const PluginManager& plugins, const BlockManager& blocks)
-        : mName(name), mID(0),mPlugins(plugins), mBlocks(blocks), mChunkCount(0), mChunkArraySize(1024), mDaylightBrightness(15)
+        : mName(name), mID(0),mPlugins(plugins), mBlocks(blocks), mDaylightBrightness(15)
     {
-        mChunks = static_cast<Chunk**>(malloc(mChunkArraySize * sizeof(Chunk*)));
+		mChunks.reserve(1024);
     }
 
     World(World&& rhs) noexcept
         : mName(std::move(rhs.mName)), mID(rhs.mID), mPlugins(rhs.mPlugins), mBlocks(rhs.mBlocks),
-          mChunkCount(rhs.mChunkCount), mChunkArraySize(rhs.mChunkArraySize), mDaylightBrightness(rhs.mDaylightBrightness)
+           mDaylightBrightness(rhs.mDaylightBrightness)
     {
         std::swap(mChunks, rhs.mChunks);
     }
@@ -210,40 +205,21 @@ protected:
     const PluginManager& mPlugins;
     // Loaded blocks
     const BlockManager& mBlocks;
-    // Loaded chunk count
-    size_t mChunkCount;
-    // Size() of chunk array
-    size_t mChunkArraySize;
     // All chunks (chunk array)
-    Chunk** mChunks;
+    std::vector<std::unique_ptr<Chunk>> mChunks;
 
     int mDaylightBrightness;
-
-    // Expand chunk array
-    void expandChunkArray(size_t expandCount);
-
-    // Reduce chunk array
-    void reduceChunkArray(size_t reduceCount)
-    {
-        Assert(mChunkCount >= reduceCount);
-        mChunkCount -= reduceCount;
-    }
 
     // New pointer at mChunks[index]
     void newChunkPtr(size_t index)
     {
-        expandChunkArray(1);
-        for (size_t i = mChunkCount - 1; i > index; i--)
-            mChunks[i] = mChunks[i - 1];
-        mChunks[index] = nullptr;
+		mChunks.insert(mChunks.begin() + index, nullptr);
     }
 
     // Erase pointer at mChunks[index]
     void eraseChunkPtr(size_t index)
     {
-        for (size_t i = index; i < mChunkCount - 1; i++)
-            mChunks[i] = mChunks[i + 1];
-        reduceChunkArray(1);
+		mChunks.erase(mChunks.begin() + index);
     }
 
     // Search chunk index, or the index the chunk should insert into

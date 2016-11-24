@@ -23,18 +23,15 @@
 Chunk* WorldClient::addChunk(const Vec3i& chunkPos)
 {
     size_t index = getChunkIndex(chunkPos);
-    if (index < mChunkCount && mChunks[index]->getPosition() == chunkPos)
+    if (index < getChunkCount() && mChunks[index]->getPosition() == chunkPos)
     {
         Assert(false);
         return nullptr;
     }
     newChunkPtr(index);
-    mChunks[index] = static_cast<Chunk*>(new ChunkClient(chunkPos,*this));
+    mChunks[index].reset(new ChunkClient(chunkPos,*this));
     Assert(mChunks[index] != nullptr);
-    // TODO: Update chunk pointer cache
-    // TODO: Update chunk pointer array
-    // Return pointer
-    return mChunks[index];
+    return mChunks[index].get();
 }
 
 void WorldClient::renderUpdate(const Vec3i& position)

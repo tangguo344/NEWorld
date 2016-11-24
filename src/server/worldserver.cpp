@@ -23,22 +23,20 @@
 Chunk* WorldServer::addChunk(const Vec3i& chunkPos)
 {
     size_t index = getChunkIndex(chunkPos);
-    if (index < mChunkCount && mChunks[index]->getPosition() == chunkPos)
+    if (index < getChunkCount() && mChunks[index]->getPosition() == chunkPos)
     {
         Assert(false);
         return nullptr;
     }
     newChunkPtr(index);
-    Chunk* c = mChunks[index] = new Chunk(chunkPos);
-    c->build(15);//getDaylightBrightness());
-    // TODO: Update chunk pointer cache
-    // NOTE: The load/save process should be implemented in the ctor/dtor of ChunkServer
-    return mChunks[index];
+    mChunks[index].reset(new Chunk(chunkPos));
+	mChunks[index]->build(15);//getDaylightBrightness());
+    return mChunks[index].get();
 }
 
 void WorldServer::updateChunkLoadStatus()
 {
-    for (size_t i = 0; i < mChunkCount; ++i)
+    for (size_t i = 0; i < getChunkCount(); ++i)
     {
         auto c = getChunkPtr(i);
         if (c)
