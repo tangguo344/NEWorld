@@ -118,12 +118,12 @@ template <template<typename>class prtT>
 class ChunkManager
 {
 public:
-	using data_t = prtT<Chunk>;
-	using array_t = std::vector<data_t>;
-	using iterator = array_t::iterator;
-    using const_iterator = array_t::const_iterator;
-    using reverse_iterator = array_t::reverse_iterator;
-    using const_reverse_iterator = array_t::const_reverse_iterator;
+	using data_t = typename prtT<Chunk>;
+	using array_t = typename std::vector<data_t>;
+	using iterator = typename array_t::iterator;
+    using const_iterator = typename array_t::const_iterator;
+    using reverse_iterator = typename array_t::reverse_iterator;
+    using const_reverse_iterator = typename array_t::const_reverse_iterator;
     using reference = Chunk&;
     using const_reference = const reference;
     ChunkManager() = default;
@@ -138,7 +138,7 @@ public:
     const_iterator begin() const noexcept { return mChunks.begin(); }
     iterator end() noexcept { return mChunks.end(); }
     const_iterator end() const noexcept { return mChunks.end(); }
-    reverse_iteratorr rbegin() noexcept { return mChunks.rbegin(); }
+    reverse_iterator rbegin() noexcept { return mChunks.rbegin(); }
     const_reverse_iterator rbegin() const noexcept { return mChunks.rbegin(); }
     reverse_iterator rend() noexcept { return mChunks.rend(); }
     const_reverse_iterator rend() const noexcept { return mChunks.rend(); }
