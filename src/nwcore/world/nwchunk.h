@@ -22,6 +22,8 @@
 
 #include <atomic>
 #include <chrono>
+#include <memory>
+#include <vector>
 #include "common/vec3.h"
 #include "common/debug.h"
 #include "common/nwexport.h"
@@ -110,6 +112,128 @@ private:
 	long long mReferenceCount;
 	std::chrono::steady_clock::time_point mLastRequestTime;
     std::atomic<int> mRefrenceCount{0}, mWeakRefrenceCount{0};
+};
+
+template <class prtT>
+class ChunkManager
+{
+public:
+    using data_t = prtT<Chunk>;
+    using array_t = std::vector<data_t>;
+    using iterator = array_t::iterator;
+    using const_iterator = array_t::const_iterator;
+    using reverse_iterator = array_t::reverse_iterator;
+    using const_reverse_iterator = array_t::const_reverse_iterator;
+    using reference = Chunk&;
+    using const_reference = const reference;
+    ChunkManager() = default;
+    ChunkManager(size_t size) { mChunks.reserve(size); }
+    ChunkManager(const ChunkManager&) = delete;
+    ChunkManager(ChunkManager&& rhs) : mChunks(std::move(rhs.mChunks)) {}
+    ~ChunkManager() = default;
+    // Access and modifiers
+    size_t size() const noexcept { return mChunks.size(); }
+    size_t capacity() const noexcept { return mChunks.capacity(); }
+    iterator begin() noexcept { return mChunks.begin(); }
+    const_iterator begin() const noexcept { return mChunks.begin(); }
+    iterator end() noexcept { return mChunks.end(); }
+    const_iterator end() const noexcept { return mChunks.end(); }
+    reverse_iteratorr rbegin() noexcept { return mChunks.rbegin(); }
+    const_reverse_iterator rbegin() const noexcept { return mChunks.rbegin(); }
+    reverse_iterator rend() noexcept { return mChunks.rend(); }
+    const_reverse_iterator rend() const noexcept { return mChunks.rend(); }
+    
+    const_iterator cbegin() const noexcept { return mChunks.cbegin(); }
+    const_iterator cend() const noexcept { return mChunks.cend(); }
+    const_reverse_iterator crbegin() const noexcept { return mChunks.crbegin(); }
+    const_reverse_iterator crend() const noexcept { return mChunks.crend(); }
+    
+    reference at(size_t index) { return *mChunks[index]; }
+    const_reference at(size_t index) const { return *mChunks[index]; }
+    reference at(const Vec3i& chunkPos) { return at(getIndex(chunkPos)); }
+    const_reference at(const Vec3i& chunkPos) const { return at(getIndex(chunkPos)); }
+    
+    reference operator[](size_t id) { return at(id); }
+    const_reference operator[](size_t id) const { return at(id); }
+    reference operator[](const Vec3i& chunkPos) { return at(chunkPos); }
+    const_reference operator[](const Vec3i& chunkPos) const { return at(chunkPos); }
+    
+    iterator insert(iterator it, data_t&& chunk) { return mChunks.insert(it, std::move(chunk)); }
+    iterator insert(size_t id, data_t&& chunk) { return insert(mChunks.begin() + id, std::move(chunk)); }
+    iterator insert(const Vec3i& chunkPos, data_t&& chunk) { return insert(getIndex(chunkPos), std::move(chunk)); }
+  
+    iterator erase(iterator it) { return mChunks.erase(it); }
+    iterator erase(size_t id) { return erase(mChunks.begin() + id); }
+    iterator erase(const Vec3i& chunkPos) { return erase(getIndex(chunkPos)); }
+    
+    // Chunk Only Functions
+    size_t getIndex(const Vec3i& chunkPos) const
+    {
+        int first = 0, last = static_cast<int>(size()) - 1;
+        while (first <= last)
+        {
+            int mid = (first + last) / 2;
+            if (mChunks[mid]->getPosition() < pos)
+                first = mid + 1;
+            else
+                last = mid - 1;
+        }
+        return first;
+    }
+    
+    bool isLoaded(const Vec3i& chunkPos) const
+    {
+        size_t index = getIndex(chunkPos);
+        return (index <= getCount() || mChunks[index]->getPosition() == chunkPos);
+    }
+    
+    // Convert world position to chunk coordinate (one axis)
+    static int getPos(int pos) noexcept
+    {
+#ifdef NEWORLD_COMPILER_RSHIFT_ARITH
+        return pos >> Chunk::SizeLog2();
+#else
+        return ((pos >= 0) ? pos : (pos - Chunk::Size() + 1)) / Chunk::Size();
+#endif
+    }
+
+    // Convert world position to chunk coordinate (all axes)
+    static Vec3i getPos(const Vec3i& pos) noexcept
+    {
+        return Vec3i(getPos(pos.x), getPos(pos.y), getPos(pos.z));
+    }
+
+    // Convert world position to block coordinate in chunk (one axis)
+    static int getBlockPos(int pos) noexcept
+    {
+        return pos & (Chunk::Size() - 1);
+    }
+
+    // Convert world position to block coordinate in chunk (all axes)
+    static Vec3i getBlockPos(const Vec3i& pos) noexcept
+    {
+        return Vec3i(getBlockPos(pos.x), getBlockPos(pos.y), getBlockPos(pos.z));
+    }
+
+    // Get block data
+    BlockData getBlock(const Vec3i& pos) const
+    {
+        return at(getPos(pos)).getBlock(getBlockPos(pos));
+    }
+
+    // Get block reference
+    BlockData& getBlock(const Vec3i& pos)
+    {
+        return at(getPos(pos)).getBlock(getBlockPos(pos));
+    }
+
+    // Set block data
+    void setBlock(const Vec3i& pos, BlockData block) const
+    {
+        at(getPos(pos)).setBlock(getBlockPos(pos), block);
+    }
+private:
+    array_t mChunks;
 };
 
 #endif // !CHUNK_H_
