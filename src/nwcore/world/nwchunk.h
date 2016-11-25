@@ -114,13 +114,13 @@ private:
     std::atomic<int> mRefrenceCount{0}, mWeakRefrenceCount{0};
 };
 
-template <class prtT>
+template <template<typename>class prtT>
 class ChunkManager
 {
 public:
-    using data_t = prtT<Chunk>;
-    using array_t = std::vector<data_t>;
-    using iterator = array_t::iterator;
+	using data_t = prtT<Chunk>;
+	using array_t = std::vector<data_t>;
+	using iterator = array_t::iterator;
     using const_iterator = array_t::const_iterator;
     using reverse_iterator = array_t::reverse_iterator;
     using const_reverse_iterator = array_t::const_reverse_iterator;
