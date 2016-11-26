@@ -25,7 +25,7 @@ void NWAPICALL DefaultChunkGen(const Vec3i*, BlockData* blocks, int32_t daylight
 {
     // This is the default terrain generator. Use this when no generators were loaded from plugins.
     for (int x = 0; x < Chunk::Size() * Chunk::Size() * Chunk::Size(); ++x)
-		blocks[x] = BlockData(0, daylightBrightness, 0);
+        blocks[x] = BlockData(0, daylightBrightness, 0);
 }
 
 bool Chunk::ChunkGeneratorLoaded = false;

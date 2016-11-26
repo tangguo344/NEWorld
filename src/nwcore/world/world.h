@@ -26,7 +26,7 @@
 #include <memory>
 #include <vector>
 #include "common/aabb.h"
-#include "nwchunk.h"
+#include "nwChunk.h"
 #include "nwblock.h"
 #include "common/nwexport.h"
 #include "common/nwconcepts.hpp"
@@ -39,60 +39,56 @@ public:
     template <class T>
     using ServerHDC = std::unique_ptr<T>;
 
-	virtual ~World() = default;
+    virtual ~World() = default;
 
-	////////////////////////////////////////
-	// World Properties
-	////////////////////////////////////////
+    ////////////////////////////////////////
+    // World Properties
+    ////////////////////////////////////////
     const std::string& getWorldName() const noexcept { return mName; }
     size_t getWorldID() const noexcept { return mID; }
-	int getDaylightBrightness() const noexcept { return mDaylightBrightness; }
+    int getDaylightBrightness() const noexcept { return mDaylightBrightness; }
 
-	////////////////////////////////////////
-	// Chunk Management
-	////////////////////////////////////////
-    using chunks_t = ChunkManager<ServerHDC>;
-	using chunkIterator = chunks_t::iterator;
-	using chunkReference = chunks_t::reference;
-	// Raw Access
-	chunks_t& getChunks() noexcept { return mChunks; }
-	const chunks_t& getChunks() const noexcept { return mChunks; }
-    // Alias declearations for chunk management
+    ////////////////////////////////////////
+    // Chunk Management
+    ////////////////////////////////////////
+    using ChunksT = ChunkManager<ServerHDC>;
+    using ChunkIterator = ChunksT::iterator;
+    using ChunkReference = ChunksT::reference;
+    // Raw Access
+    ChunksT& getChunks() noexcept { return mChunks; }
+    const ChunksT& getChunks() const noexcept { return mChunks; }
+    // Alias declearations for Chunk management
     size_t getChunkCount() const { return mChunks.size(); }
-	size_t getReservedChunkCount() const { return mChunks.capacity(); }
-	chunkReference getChunk(size_t index) { return mChunks[index]; }
-	chunkReference getChunk(const Vec3i& chunkPos) { return mChunks[chunkPos]; }
-    bool isChunkLoaded(const Vec3i& chunkPos) const noexcept { return mChunks.isLoaded(chunkPos); }
-	chunkIterator deleteChunk(size_t index) { return mChunks.erase(index); }
-	chunkIterator deleteChunk(const Vec3i& chunkPos) { return mChunks.erase(chunkPos); }
-    static int getChunkAxisPos(int pos) { return chunks_t::getAxisPos(pos); }
-    static Vec3i getChunkPos(const Vec3i& pos) { return chunks_t::getPos(pos); }
-    static int getBlockAxisPos(int pos) { return chunks_t::getBlockAxisPos(pos); }
-    static Vec3i getBlockPos(const Vec3i& pos) { return chunks_t::getBlockPos(pos); }
+    size_t getReservedChunkCount() const { return mChunks.capacity(); }
+    ChunkReference getChunk(size_t index) { return mChunks[index]; }
+    ChunkReference getChunk(const Vec3i& ChunkPos) { return mChunks[ChunkPos]; }
+    bool isChunkLoaded(const Vec3i& ChunkPos) const noexcept { return mChunks.isLoaded(ChunkPos); }
+    ChunkIterator deleteChunk(size_t index) { return mChunks.erase(index); }
+    ChunkIterator deleteChunk(const Vec3i& ChunkPos) { return mChunks.erase(ChunkPos); }
+    static int getChunkAxisPos(int pos) { return ChunksT::getAxisPos(pos); }
+    static Vec3i getChunkPos(const Vec3i& pos) { return ChunksT::getPos(pos); }
+    static int getBlockAxisPos(int pos) { return ChunksT::getBlockAxisPos(pos); }
+    static Vec3i getBlockPos(const Vec3i& pos) { return ChunksT::getBlockPos(pos); }
     BlockData getBlock(const Vec3i& pos) const { return mChunks.getBlock(pos); }
     BlockData& getBlock(const Vec3i& pos) { return mChunks.getBlock(pos); }
     void setBlock(const Vec3i& pos, BlockData block) const { mChunks.setBlock(pos, block); }
-    size_t getChunkIndex(const Vec3i& chunkPos) const { return mChunks.getIndex(chunkPos); }
-	auto insertChunk(size_t index, ServerHDC<Chunk>&& ptr) { return mChunks.insert(index, std::move(ptr)); }
-	auto insertChunk(const Vec3i& pos, ServerHDC<Chunk>&& ptr) { return mChunks.insert(pos, std::move(ptr)); }
+    size_t getChunkIndex(const Vec3i& ChunkPos) const { return mChunks.getIndex(ChunkPos); }
+    auto insertChunk(size_t index, ServerHDC<Chunk>&& ptr) { return mChunks.insert(index, std::move(ptr)); }
+    auto insertChunk(const Vec3i& pos, ServerHDC<Chunk>&& ptr) { return mChunks.insert(pos, std::move(ptr)); }
     template <typename... ArgType, typename Func>
-    void doIfChunkLoaded(const Vec3i& chunkPos, Func func, ArgType&&... args)
+    void doIfChunkLoaded(const Vec3i& ChunkPos, Func func, ArgType&&... args)
     {
-        mChunks.doIfLoaded(chunkPos, func, std::forward<ArgType>(args)...);
+        mChunks.doIfLoaded(ChunkPos, func, std::forward<ArgType>(args)...);
     };
 
-    // Add chunk
-    virtual Chunk* addChunk(const Vec3i& chunkPos) = 0;
+    // Add Chunk
+    virtual Chunk* addChunk(const Vec3i& ChunkPos) = 0;
 
-    const BlockManager& getBlockTypes() const
-    {
-        return mBlocks;
-    }
-
-    const BlockType& getType(int id) const
-    {
-        return mBlocks[id];
-    }
+    ////////////////////////////////////////
+    // BlockType Management
+    ////////////////////////////////////////
+    const BlockManager& getBlockTypes() const { return mBlocks; }
+    const BlockType& getType(int id) const { return mBlocks[id]; }
 
     std::vector<AABB> getHitboxes(const AABB& range) const;
 
@@ -120,8 +116,8 @@ protected:
     const PluginManager& mPlugins;
     // Loaded blocks
     const BlockManager& mBlocks;
-    // All chunks (chunk array)
-    chunks_t mChunks;
+    // All Chunks (Chunk array)
+    ChunksT mChunks;
 
     int mDaylightBrightness;
 };

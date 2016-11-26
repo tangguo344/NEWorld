@@ -86,9 +86,9 @@ private:
 
 inline Json& getSettings()
 {
-	static Json settings = readJsonFromFile(SettingsFilename + ".json");
-	static JsonSaveHelper helper(settings, SettingsFilename + ".json");
-	return settings;
+    static Json settings = readJsonFromFile(SettingsFilename + ".json");
+    static JsonSaveHelper helper(settings, SettingsFilename + ".json");
+    return settings;
 }
 
 #endif

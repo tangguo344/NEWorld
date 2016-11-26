@@ -25,9 +25,10 @@
 #include "common/library.h"
 #include "plugin.h"
 #include "common/nwexport.h"
+#include "common/nwconcepts.hpp"
 
 // Plugin system
-class NWCOREAPI PluginManager
+class NWCOREAPI PluginManager : public nwNonCopyable
 {
 public:
     PluginManager(bool isClient);
@@ -35,8 +36,6 @@ public:
     {
         unloadPlugins();
     }
-	PluginManager(PluginManager&&) = delete;
-	PluginManager& operator = (PluginManager&&) = delete;
 
     // Load single plugin
     void loadPlugin(const std::string& filename);

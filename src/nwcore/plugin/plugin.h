@@ -30,9 +30,10 @@
 
 #include "../../api/c/nwapi.h"
 #include "common/nwexport.h"
+#include "common/nwconcepts.hpp"
 
 // Single plugin
-class NWCOREAPI Plugin
+class NWCOREAPI Plugin : public nwNonCopyable
 {
 public:
     explicit Plugin(const std::string& filename) : mStatus(-1)
@@ -45,10 +46,6 @@ public:
         rhs.mData = nullptr;
         rhs.mStatus = -1;
     }
-
-    Plugin(const Plugin&) = delete;
-
-    Plugin& operator= (const Plugin&) = delete;
 
     ~Plugin()
     {

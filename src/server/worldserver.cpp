@@ -24,7 +24,7 @@ Chunk* WorldServer::addChunk(const Vec3i& chunkPos)
 {
     auto c = insertChunk(chunkPos, std::move(std::make_unique<Chunk>(chunkPos)));
     (*c)->build(15);
-	return c->get();
+    return c->get();
 }
 
 void WorldServer::updateChunkLoadStatus()

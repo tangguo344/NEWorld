@@ -21,7 +21,7 @@
 class nwNonCopyable
 {
 public:
-	nwNonCopyable() = default;
-	nwNonCopyable(const nwNonCopyable&) = delete;
-	nwNonCopyable& operator = (const nwNonCopyable&) = delete;
+    nwNonCopyable() = default;
+    nwNonCopyable(const nwNonCopyable&) = delete;
+    nwNonCopyable& operator = (const nwNonCopyable&) = delete;
 };

@@ -34,21 +34,21 @@ public:
     {
     }
 
-	constexpr Vec3(T x_, T y_, T z_) : x(x_), y(y_), z(z_)
+    constexpr Vec3(T x_, T y_, T z_) : x(x_), y(y_), z(z_)
     {
     }
 
-	constexpr Vec3(T value) : x(value), y(value), z(value)
+    constexpr Vec3(T value) : x(value), y(value), z(value)
     {
     }
 
     template <typename U, std::enable_if_t<std::is_convertible<T, U>::value, int> = 0>
-	constexpr Vec3(const Vec3<U>& rhs) : x(T(rhs.x)), y(T(rhs.y)), z(T(rhs.z))
+    constexpr Vec3(const Vec3<U>& rhs) : x(T(rhs.x)), y(T(rhs.y)), z(T(rhs.z))
     {
     }
 
     // Get the square of vector length
-	constexpr T lengthSqr() const
+    constexpr T lengthSqr() const
     {
         return x * x + y * y + z * z;
     }
@@ -86,7 +86,7 @@ public:
         z /= l;
     }
 
-	bool operator< (const Vec3& rhs) const
+    bool operator< (const Vec3& rhs) const
     {
         if (x != rhs.x)
             return x < rhs.x;
@@ -97,7 +97,7 @@ public:
         return false;
     }
 
-	constexpr bool operator== (const Vec3& rhs) const
+    constexpr bool operator== (const Vec3& rhs) const
     {
         return x == rhs.x && y == rhs.y && z == rhs.z;
     }
@@ -134,29 +134,29 @@ public:
         return *this;
     }
 
-	constexpr Vec3 operator* (T value) const
+    constexpr Vec3 operator* (T value) const
     {
         return Vec3(x * value, y * value, z * value);
     }
 
-	constexpr Vec3 operator/ (T value) const
+    constexpr Vec3 operator/ (T value) const
     {
         return Vec3(x / value, y / value, z / value);
     }
 
-	constexpr bool operator!= (const Vec3& rhs) const
+    constexpr bool operator!= (const Vec3& rhs) const
     {
         return !(rhs == *this);
     }
 
     constexpr Vec3 operator+ (const Vec3& rhs) const
     {
-		return Vec3(x + rhs.x, y + rhs.y, z + rhs.z);
+        return Vec3(x + rhs.x, y + rhs.y, z + rhs.z);
     };
 
     constexpr Vec3 operator- (const Vec3& rhs) const
     {
-		return Vec3(x - rhs.x, y - rhs.y, z - rhs.z);
+        return Vec3(x - rhs.x, y - rhs.y, z - rhs.z);
     };
 
     void swap(Vec3& rhs)

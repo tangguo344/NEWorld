@@ -32,8 +32,9 @@
 #include "common.h"
 #include "nwsafety.hpp"
 #include "debug.h"
+#include "common/nwconcepts.hpp"
 
-class Library
+class Library : public nwNonCopyable
 {
 public:
     Library() = default;
@@ -58,13 +59,9 @@ public:
 
     ~Library()
     {
-        if(isLoaded())
+        if (isLoaded())
             freeLibrary(mDllHandle);
     }
-
-    Library(const Library&) = delete;
-
-    Library& operator=(const Library&) = delete;
 
     template<class T> auto get(const std::string& name)
     {

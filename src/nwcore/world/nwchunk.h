@@ -27,19 +27,20 @@
 #include "common/vec3.h"
 #include "common/debug.h"
 #include "common/nwexport.h"
+#include "common/nwconcepts.hpp"
 #include "nwblock.h"
 
 using ChunkGenerator = void NWAPICALL(const Vec3i*, BlockData*, int);
 
 
-class NWCOREAPI Chunk
+class NWCOREAPI Chunk : public nwNonCopyable
 {
 public:
-	// Chunk size
+    // Chunk size
     static bool ChunkGeneratorLoaded;
     static ChunkGenerator *ChunkGen;
-	static constexpr int SizeLog2() { return 5; }
-	static constexpr int Size(){ return 0b100000; };
+    static constexpr int SizeLog2() { return 5; }
+    static constexpr int Size(){ return 0b100000; };
 
     explicit Chunk(const Vec3i& position) : mPosition(position) {}
     virtual ~Chunk() {}
@@ -108,19 +109,19 @@ private:
     Vec3i mPosition;
     BlockData mBlocks[0b1000000000000000];
     bool mUpdated = false;
-	// For Garbage Collection
-	long long mReferenceCount;
-	std::chrono::steady_clock::time_point mLastRequestTime;
+    // For Garbage Collection
+    long long mReferenceCount;
+    std::chrono::steady_clock::time_point mLastRequestTime;
     std::atomic<int> mRefrenceCount{0}, mWeakRefrenceCount{0};
 };
 
 template <template<typename>class prtT>
-class ChunkManager
+class ChunkManager: public nwNonCopyable
 {
 public:
-	using data_t = prtT<Chunk>;
-	using array_t = std::vector<data_t>;
-	using iterator = typename array_t::iterator;
+    using data_t = prtT<Chunk>;
+    using array_t = std::vector<data_t>;
+    using iterator = typename array_t::iterator;
     using const_iterator = typename array_t::const_iterator;
     using reverse_iterator = typename array_t::reverse_iterator;
     using const_reverse_iterator = typename array_t::const_reverse_iterator;
@@ -128,7 +129,6 @@ public:
     using const_reference = const reference;
     ChunkManager() = default;
     ChunkManager(size_t size) { mChunks.reserve(size); }
-    ChunkManager(const ChunkManager&) = delete;
     ChunkManager(ChunkManager&& rhs) : mChunks(std::move(rhs.mChunks)) {}
     ~ChunkManager() = default;
     // Access and modifiers

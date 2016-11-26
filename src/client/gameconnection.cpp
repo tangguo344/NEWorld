@@ -119,12 +119,12 @@ void LocalConnectionByNetWork::connect()
         }
     }
     mCallback(true);
-	MultiplayerConnection::connect();
+    MultiplayerConnection::connect();
 }
 
 void LocalConnectionByNetWork::disconnect()
 {
-	MultiplayerConnection::disconnect();
+    MultiplayerConnection::disconnect();
     if (mLocalServerThread.joinable())
     {
         debugstream << "Call nwStopServer";

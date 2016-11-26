@@ -20,16 +20,16 @@
 #include "nwblock.h"
 
 BlockManager::BlockManager()
-	:mBlocks{ BlockType("Air", false, false, false, 0, 0) }
+    :mBlocks{ BlockType("Air", false, false, false, 0, 0) }
 {
 }
 
 size_t BlockManager::registerBlock(const BlockType& block)
 {
-	mBlocks.push_back(block);
-	debugstream << "Registered block:";
-	showInfo(mBlocks.size() - 1);
-	return mBlocks.size() - 1;
+    mBlocks.push_back(block);
+    debugstream << "Registered block:";
+    showInfo(mBlocks.size() - 1);
+    return mBlocks.size() - 1;
 }
 
 void BlockManager::showInfo(size_t id) const
