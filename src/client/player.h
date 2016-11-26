@@ -21,7 +21,7 @@
 #define PLAYER_H_
 
 #include <world/world.h>
-#include <playerobject.h>
+#include <world/playerobject.h>
 #include "mat4.h"
 #include "renderer.h"
 
