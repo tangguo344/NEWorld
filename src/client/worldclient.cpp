@@ -22,9 +22,7 @@
 
 Chunk* WorldClient::addChunk(const Vec3i& chunkPos)
 {
-    size_t index = getChunkIndex(chunkPos);
-    newChunk(index, std::move(std::unique_ptr<Chunk>(new ChunkClient(chunkPos, *this))));
-    return &mChunks[index];
+    return insertChunk(chunkPos, std::move(std::make_unique<ChunkClient>(chunkPos, *this)))->get();
 }
 
 void WorldClient::renderUpdate(const Vec3i& position)

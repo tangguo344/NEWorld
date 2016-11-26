@@ -17,24 +17,11 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "worldserver.h"
-#include <world/nwchunk.h>
-
-Chunk* WorldServer::addChunk(const Vec3i& chunkPos)
+#pragma once
+class nwNonCopyable
 {
-    auto c = insertChunk(chunkPos, std::move(std::make_unique<Chunk>(chunkPos)));
-    (*c)->build(15);
-	return c->get();
-}
-
-void WorldServer::updateChunkLoadStatus()
-{
-    for (auto iter = mChunks.begin(); iter < mChunks.end();)
-    {
-        (*iter)->decreaseWeakRef();
-        if ((*iter)->checkReleaseable())
-            mChunks.erase(iter);
-        else
-            ++iter;
-    }
-}
+public:
+	nwNonCopyable() = default;
+	nwNonCopyable(const nwNonCopyable&) = delete;
+	nwNonCopyable& operator = (const nwNonCopyable&) = delete;
+};

@@ -105,5 +105,8 @@
     <ClInclude Include="..\..\..\src\nwcore\world\world.h">
       <Filter>源文件\world</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\nwconcepts.hpp">
+      <Filter>源文件\common</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
