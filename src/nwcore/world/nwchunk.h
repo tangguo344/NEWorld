@@ -106,7 +106,7 @@ public:
 
 private:
     Vec3i mPosition;
-    BlockData mBlocks[0b1'00000'00000'00000];
+    BlockData mBlocks[0b1000000000000000];
     bool mUpdated = false;
 	// For Garbage Collection
 	long long mReferenceCount;
@@ -118,8 +118,8 @@ template <template<typename>class prtT>
 class ChunkManager
 {
 public:
-	using data_t = typename prtT<Chunk>;
-	using array_t = typename std::vector<data_t>;
+	using data_t = prtT<Chunk>;
+	using array_t = std::vector<data_t>;
 	using iterator = typename array_t::iterator;
     using const_iterator = typename array_t::const_iterator;
     using reverse_iterator = typename array_t::reverse_iterator;
@@ -173,22 +173,30 @@ public:
         while (first <= last)
         {
             int mid = (first + last) / 2;
-            if (mChunks[mid]->getPosition() < pos)
+            if (mChunks[mid]->getPosition() < chunkPos)
                 first = mid + 1;
             else
                 last = mid - 1;
         }
         return first;
     }
-    
-    bool isLoaded(const Vec3i& chunkPos) const
+
+    template <typename... ArgType, typename Func>
+    void doIfLoaded(const Vec3i& chunkPos, Func func, ArgType&&... args)
     {
         size_t index = getIndex(chunkPos);
-        return (index <= getCount() || mChunks[index]->getPosition() == chunkPos);
+        if ((index < size()) && (mChunks[index]->getPosition() == chunkPos))
+            func(at(index), std::forward<ArgType>(args)...);
+    };
+
+    bool isLoaded(const Vec3i& chunkPos) const noexcept
+    {
+        size_t index = getIndex(chunkPos);
+        return (index < size()) && (chunkPos == mChunks[index]->getPosition());
     }
     
     // Convert world position to chunk coordinate (one axis)
-    static int getPos(int pos) noexcept
+    static int getAxisPos(int pos) noexcept
     {
 #ifdef NEWORLD_COMPILER_RSHIFT_ARITH
         return pos >> Chunk::SizeLog2();
@@ -200,11 +208,11 @@ public:
     // Convert world position to chunk coordinate (all axes)
     static Vec3i getPos(const Vec3i& pos) noexcept
     {
-        return Vec3i(getPos(pos.x), getPos(pos.y), getPos(pos.z));
+        return Vec3i(getAxisPos(pos.x), getAxisPos(pos.y), getAxisPos(pos.z));
     }
 
     // Convert world position to block coordinate in chunk (one axis)
-    static int getBlockPos(int pos) noexcept
+    static int getBlockAxisPos(int pos) noexcept
     {
         return pos & (Chunk::Size() - 1);
     }
@@ -212,7 +220,7 @@ public:
     // Convert world position to block coordinate in chunk (all axes)
     static Vec3i getBlockPos(const Vec3i& pos) noexcept
     {
-        return Vec3i(getBlockPos(pos.x), getBlockPos(pos.y), getBlockPos(pos.z));
+        return Vec3i(getBlockAxisPos(pos.x), getBlockAxisPos(pos.y), getBlockAxisPos(pos.z));
     }
 
     // Get block data

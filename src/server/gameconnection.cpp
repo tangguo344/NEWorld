@@ -63,10 +63,11 @@ void MultiplayerConnection::handleReceivedData(Identifier id, unsigned char* dat
         if(!c2s::VerifyRequestChunkBuffer(v)) break;
         auto req = c2s::GetRequestChunk(data);
         World *world = mWorlds.getWorld(0);// TODO:Current world of player.
-        Chunk *chunk = world->getChunkPtr({req->x(), req->y(), req->z()});
-        if (chunk == nullptr) chunk = world->addChunk({req->x(), req->y(), req->z()});
-        chunk->increaseWeakRef();
-        sendChunk(chunk);
+        if (!world->isChunkLoaded({req->x(), req->y(), req->z()}))
+            world->addChunk({req->x(), req->y(), req->z()});
+        auto& chunk = world->getChunk({req->x(), req->y(), req->z()});
+        chunk.increaseWeakRef();
+        sendChunk(&chunk);
         break;
     }
     default:

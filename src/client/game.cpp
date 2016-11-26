@@ -63,29 +63,25 @@ Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
     // Initialize connection
     mConnection->setChunkCallback([&](Chunk* chunk)
     {
-        std::lock_guard<std::mutex> lock(mMutex);
-        Chunk* target = mWorld.getChunkPtr(chunk->getPosition());
-        if (target == nullptr)
+        mWorld.doIfChunkLoaded(chunk->getPosition(), [&](Chunk& c)
         {
-            delete chunk;
-            return;
-        }
-        // Update chunk
-        memcpy(target->getBlocks(), chunk->getBlocks(), sizeof(BlockData) * Chunk::Size() * Chunk::Size() * Chunk::Size());
-        target->setUpdated(true);
-        // Update neighboring chunks
-        const std::array<Vec3i, 6> delta
-        {
-            Vec3i( 1, 0, 0), Vec3i(-1, 0, 0),
-            Vec3i( 0, 1, 0), Vec3i( 0,-1, 0),
-            Vec3i( 0, 0, 1), Vec3i( 0, 0,-1)
-        };
-        for (auto&& p : delta)
-        {
-            target = mWorld.getChunkPtr(chunk->getPosition() + p);
-            if (target != nullptr)
-                target->setUpdated(true);
-        }
+            std::lock_guard<std::mutex> lock(mMutex);
+            // Update chunk
+            memcpy(c.getBlocks(), chunk->getBlocks(), sizeof(BlockData) * Chunk::Size() * Chunk::Size() * Chunk::Size());
+            c.setUpdated(true);
+            // Update neighboring chunks
+            constexpr std::array<Vec3i, 6> delta
+            {
+                Vec3i( 1, 0, 0), Vec3i(-1, 0, 0),
+                Vec3i( 0, 1, 0), Vec3i( 0,-1, 0),
+                Vec3i( 0, 0, 1), Vec3i( 0, 0,-1)
+            };
+            for (auto&& p : delta)
+                mWorld.doIfChunkLoaded(c.getPosition() + p, [](Chunk& chk)
+                {
+                    chk.setUpdated(true);
+                });
+        });
         delete chunk;
     });
     mConnection->setWorld(&mWorld);

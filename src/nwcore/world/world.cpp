@@ -19,43 +19,8 @@
 
 #include "common/nwsafety.hpp"
 #include "world.h"
-#include "nwchunk.h"
 
 size_t World::IDCount = 0;
-
-size_t World::getChunkIndex(const Vec3i& pos) const
-{
-    // Binary search
-    int first = 0, last = static_cast<long long>(getChunkCount()) - 1;
-    while (first <= last)
-    {
-        int mid = (first + last) / 2;
-        if (mChunks[mid]->getPosition() < pos)
-            first = mid + 1;
-        else
-            last = mid - 1;
-    }
-    return first;
-}
-
-int World::deleteChunk(size_t index)
-{
-    Assert(index < getChunkCount());
-    eraseChunkPtr(index);
-    return 0;
-}
-
-int World::deleteChunk(const Vec3i& chunkPos)
-{
-    size_t index = getChunkIndex(chunkPos);
-    if (mChunks[index]->getPosition() != chunkPos)
-    {
-        Assert(false);
-        return 1;
-    }
-    deleteChunk(index);
-    return 0;
-}
 
 std::vector<AABB> World::getHitboxes(const AABB& range) const
 {

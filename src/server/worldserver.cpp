@@ -23,29 +23,19 @@
 Chunk* WorldServer::addChunk(const Vec3i& chunkPos)
 {
     size_t index = getChunkIndex(chunkPos);
-    if (index < getChunkCount() && mChunks[index]->getPosition() == chunkPos)
-    {
-        Assert(false);
-        return nullptr;
-    }
-    newChunkPtr(index);
-    mChunks[index].reset(new Chunk(chunkPos));
-	mChunks[index]->build(15);//getDaylightBrightness());
-    return mChunks[index].get();
+    auto c = newChunk(index, std::move(std::make_unique<Chunk>(chunkPos)));
+    (*c)->build(15);
+    return &mChunks[index];
 }
 
 void WorldServer::updateChunkLoadStatus()
 {
-    for (size_t i = 0; i < getChunkCount(); ++i)
+    for (auto iter = mChunks.begin(); iter < mChunks.end();)
     {
-        auto c = getChunkPtr(i);
-        if (c)
-        {
-            c->decreaseWeakRef();
-            if (c->checkReleaseable())
-                deleteChunk(i);
-            else
-                ++i;
-        }
+        (*iter)->decreaseWeakRef();
+        if ((*iter)->checkReleaseable())
+            mChunks.erase(iter);
+        else
+            ++iter;
     }
 }

@@ -23,15 +23,8 @@
 Chunk* WorldClient::addChunk(const Vec3i& chunkPos)
 {
     size_t index = getChunkIndex(chunkPos);
-    if (index < getChunkCount() && mChunks[index]->getPosition() == chunkPos)
-    {
-        Assert(false);
-        return nullptr;
-    }
-    newChunkPtr(index);
-    mChunks[index].reset(new ChunkClient(chunkPos,*this));
-    Assert(mChunks[index] != nullptr);
-    return mChunks[index].get();
+    newChunk(index, std::move(std::unique_ptr<Chunk>(new ChunkClient(chunkPos, *this))));
+    return &mChunks[index];
 }
 
 void WorldClient::renderUpdate(const Vec3i& position)
@@ -41,12 +34,12 @@ void WorldClient::renderUpdate(const Vec3i& position)
 
     for (size_t i = 0; i < getChunkCount(); i++)
     {
-        ChunkClient* p = static_cast<ChunkClient*>(getChunkPtr(i));
+        ChunkClient& p = static_cast<ChunkClient&>(getChunk(i));
 
         // In render range, pending to render
-        if (chunkpos.chebyshevDistance(p->getPosition()) <= mRenderDist)
+        if (chunkpos.chebyshevDistance(p.getPosition()) <= mRenderDist)
         {
-            if (!p->needRenderRebuilt()/* || p->isEmpty()*/)
+            if (!p.needRenderRebuilt()/* || p.isEmpty()*/)
                 continue;
             // Check neighbor chunks
             bool f = true;
@@ -54,7 +47,7 @@ void WorldClient::renderUpdate(const Vec3i& position)
             {
                 if (neighbor == Vec3i(0, 0, 0))
                     return;
-                if (!isChunkLoaded(p->getPosition() + neighbor))
+                if (!isChunkLoaded(p.getPosition() + neighbor))
                 {
                     // Neighbor chunk not loaded
                     f = false;
@@ -65,7 +58,7 @@ void WorldClient::renderUpdate(const Vec3i& position)
                 continue;
 
             // Get chunk center pos
-            Vec3i curPos = p->getPosition();
+            Vec3i curPos = p.getPosition();
             curPos.for_each([](int& x)
             {
                 x = x * Chunk::Size() + Chunk::Size() / 2 - 1;
@@ -94,7 +87,7 @@ void WorldClient::renderUpdate(const Vec3i& position)
                 mChunkRenderList[j] = mChunkRenderList[j - 1];
 
             // Insert into list
-            mChunkRenderList[first] = { p, distsqr };
+            mChunkRenderList[first] = { &p, distsqr };
 
             // Add counter
             if (pr < MaxChunkRenderCount)
@@ -102,10 +95,10 @@ void WorldClient::renderUpdate(const Vec3i& position)
         }
         else
         {
-            if (!p->isRenderBuilt())
+            if (!p.isRenderBuilt())
                 continue;
 
-            p->destroyVertexArray();
+            p.destroyVertexArray();
         }
     }
 
@@ -118,16 +111,16 @@ size_t WorldClient::render(const Vec3i& position) const
 {
     Vec3i chunkpos = getChunkPos(position);
     size_t renderedChunks = 0;
-    for (size_t i = 0; i < getChunkCount(); i++)
+    for (auto&& c : mChunks)
     {
-        ChunkClient* p = static_cast<ChunkClient*>(getChunkPtr(i));
-        if (!p->isRenderBuilt())
+        ChunkClient& p = static_cast<ChunkClient&>(*c);
+        if (!p.isRenderBuilt())
             continue;
-        if (chunkpos.chebyshevDistance(p->getPosition()) > mRenderDist)
+        if (chunkpos.chebyshevDistance(p.getPosition()) > mRenderDist)
             continue;
-        Renderer::translate(Vec3f(p->getPosition() * Chunk::Size()));
-        p->render();
-        Renderer::translate(Vec3f(-p->getPosition() * Chunk::Size()));
+        Renderer::translate(Vec3f(p.getPosition() * Chunk::Size()));
+        p.render();
+        Renderer::translate(Vec3f(-p.getPosition() * Chunk::Size()));
         renderedChunks++;
     }
     return renderedChunks;
@@ -144,7 +137,7 @@ void WorldClient::sortChunkLoadUnloadList(const Vec3i& centerPos)
 
     for (size_t ci = 0; ci < getChunkCount(); ci++)
     {
-        Vec3i curPos = getChunkPtr(ci)->getPosition();
+        Vec3i curPos = getChunk(ci).getPosition();
 
         // Out of load range, pending to unload
         if (centerCPos.chebyshevDistance(curPos) > mLoadRange)
@@ -179,7 +172,7 @@ void WorldClient::sortChunkLoadUnloadList(const Vec3i& centerPos)
                 mChunkUnloadList[j] = mChunkUnloadList[j - 1];
 
             // Insert into list
-            mChunkUnloadList[first] = { getChunkPtr(ci), distsqr };
+            mChunkUnloadList[first] = { &getChunk(ci), distsqr };
 
             // Add counter
             if (pl < MaxChunkUnloadCount)
