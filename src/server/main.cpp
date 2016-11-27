@@ -28,21 +28,24 @@ NWDECLEARLOGGER("server")
 extern "C"
 {
     NWAPIEXPORT int NWAPICALL main(int, char**);
-    NWAPIEXPORT bool NWAPICALL nwInitServer(int, char **);
+    NWAPIEXPORT bool NWAPICALL nwInitServer(void*);
     NWAPIEXPORT void NWAPICALL nwRunServer();
     NWAPIEXPORT void NWAPICALL nwStopServer();
+    NWAPIEXPORT World* NWAPICALL nwLocalServerGetWorld(size_t id);
+    NWAPIEXPORT void NWAPICALL nwLocalServerLogin(const char* username, const char* password);
+    NWAPIEXPORT Chunk* NWAPICALL nwLocalServerGetChunk(int32_t x, int32_t y, int32_t z);
 }
 
 Server* server = nullptr;
 
-NWAPIEXPORT int NWAPICALL main(int argc, char** argv)
+NWAPIEXPORT int NWAPICALL main(int, char**)
 {
-    nwInitServer(argc, argv);
+    nwInitServer(0);
     nwRunServer();
     nwStopServer();
 }
 
-NWAPIEXPORT bool NWAPICALL nwInitServer(int argc, char ** argv)
+NWAPIEXPORT bool NWAPICALL nwInitServer(void* mode)
 {
     getSettings();
     infostream << "\n----------------------------------------"
@@ -51,7 +54,10 @@ NWAPIEXPORT bool NWAPICALL nwInitServer(int argc, char ** argv)
     infostream << "NEWorld Server v" << NEWorldVersion;
     try
     {
-        server = new Server(std::vector<std::string>(argv + 1, argv + argc));
+        if (!mode) 
+            server = new Server();
+        else
+            server = new LocalTunnelServer(mode);
     }
     catch (std::exception& e)
     {
@@ -84,4 +90,19 @@ NWAPIEXPORT void NWAPICALL nwStopServer()
     {
         fatalstream << "Unhandled exception: " << e.what();
     }
+}
+
+NWAPIEXPORT World* NWAPICALL nwLocalServerGetWorld(size_t id)
+{
+    return reinterpret_cast<LocalTunnelServer*>(server)->getWorld(id);
+}
+
+NWAPIEXPORT void NWAPICALL nwLocalServerLogin(const char* username, const char* password)
+{
+    reinterpret_cast<LocalTunnelServer*>(server)->login(username, password);
+}
+
+NWAPIEXPORT Chunk* NWAPICALL nwLocalServerGetChunk(int32_t x, int32_t y, int32_t z)
+{
+    return reinterpret_cast<LocalTunnelServer*>(server)->getChunk(x, y, z);
 }

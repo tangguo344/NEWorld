@@ -34,7 +34,7 @@
 #include "debug.h"
 #include "common/nwconcepts.hpp"
 
-class Library : public nwNonCopyable
+class Library : public NonCopyable
 {
 public:
     Library() = default;

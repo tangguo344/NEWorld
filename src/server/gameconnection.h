@@ -49,4 +49,5 @@ private:
     Connection mConn;
     WorldManager& mWorlds;
 };
+
 #endif

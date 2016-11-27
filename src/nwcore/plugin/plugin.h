@@ -33,7 +33,7 @@
 #include "common/nwconcepts.hpp"
 
 // Single plugin
-class NWCOREAPI Plugin : public nwNonCopyable
+class NWCOREAPI Plugin : public NonCopyable
 {
 public:
     explicit Plugin(const std::string& filename) : mStatus(-1)

@@ -25,7 +25,6 @@ Window::Window(const std::string& title, int width, int height)
     : mTitle(title), mWidth(width), mHeight(height)
 {
     SDL_Init(SDL_INIT_VIDEO);
-    SDL_GL_SetSwapInterval(0);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
@@ -37,6 +36,7 @@ Window::Window(const std::string& title, int width, int height)
     Assert(mWindow != nullptr);
 
     mContext = SDL_GL_CreateContext(mWindow);
+    SDL_GL_SetSwapInterval(1);
     makeCurrentDraw();
 }
 

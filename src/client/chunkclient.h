@@ -37,7 +37,7 @@ namespace s2c
 class ChunkClient : public Chunk
 {
 public:
-    ChunkClient(const Vec3i& position, World& world) : Chunk(position), mWorld(world)
+    ChunkClient(const Vec3i& position, World& world) : Chunk(position, world)
     {
     }
 
@@ -82,8 +82,6 @@ public:
     void renderBlock(BlockTexCoord coord[], const Vec3i& pos);
 
 private:
-    // Target world
-    World& mWorld;
     // Vertex buffer object
     VertexBuffer mBuffer, mBufferTrans;
     // Render built
@@ -95,7 +93,7 @@ private:
 
     bool adjacentTest(BlockData a, BlockData b) const
     {
-        return a.getID() != 0 && !mWorld.getType(b.getID()).isOpaque() && !(a.getID() == b.getID());
+        return a.getID() != 0 && !mWorld->getType(b.getID()).isOpaque() && !(a.getID() == b.getID());
     }
 };
 

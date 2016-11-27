@@ -104,6 +104,7 @@ void NetworkManager::loop()
         }
         for (auto& w : mWorlds)
             w->updateChunkLoadStatus();
+        RakSleep(30);
     }
     debugstream << "Stop listening.";
 }

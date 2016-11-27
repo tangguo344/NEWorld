@@ -28,7 +28,7 @@
 #include "common/nwconcepts.hpp"
 
 // Plugin system
-class NWCOREAPI PluginManager : public nwNonCopyable
+class NWCOREAPI PluginManager : public NonCopyable
 {
 public:
     PluginManager(bool isClient);

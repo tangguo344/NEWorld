@@ -67,7 +67,8 @@ void MultiplayerConnection::handleReceivedData(Identifier id, unsigned char* dat
             world->addChunk({req->x(), req->y(), req->z()});
         auto& chunk = world->getChunk({req->x(), req->y(), req->z()});
         chunk.increaseWeakRef();
-        sendChunk(&chunk);
+        if (chunk.isModified()) 
+            sendChunk(&chunk);
         break;
     }
     default:

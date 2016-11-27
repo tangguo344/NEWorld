@@ -32,8 +32,7 @@
 
 using ChunkGenerator = void NWAPICALL(const Vec3i*, BlockData*, int);
 
-
-class NWCOREAPI Chunk : public nwNonCopyable
+class NWCOREAPI Chunk : public NonCopyable
 {
 public:
     // Chunk size
@@ -42,7 +41,7 @@ public:
     static constexpr int SizeLog2() { return 5; }
     static constexpr int Size(){ return 0b100000; };
 
-    explicit Chunk(const Vec3i& position) : mPosition(position) {}
+    explicit Chunk(const Vec3i& position, class World& world);
     virtual ~Chunk() {}
 
     // Get chunk position
@@ -55,6 +54,11 @@ public:
     bool isUpdated() const
     {
         return mUpdated;
+    }
+
+    bool isModified() const
+    {
+        return mModified;
     }
 
     // Set chunk updated flag
@@ -105,18 +109,49 @@ public:
     void decreaseStrongRef();
     bool checkReleaseable() const;
 
+    void resetWold(World* w) { mWorld = w; };
+protected:
+    class World* mWorld;
 private:
     Vec3i mPosition;
     BlockData mBlocks[0b1000000000000000];
-    bool mUpdated = false;
+    bool mUpdated = false, mModified = false;
     // For Garbage Collection
     long long mReferenceCount;
     std::chrono::steady_clock::time_point mLastRequestTime;
     std::atomic<int> mRefrenceCount{0}, mWeakRefrenceCount{0};
 };
 
+
+struct NWCOREAPI ChunkOnReleaseBehavior
+{
+    enum class Behavior : size_t
+    {
+        Release, DeReference
+    } status;
+    void operator()(Chunk* target)
+    {
+        switch (status)
+        {
+        case ChunkOnReleaseBehavior::Behavior::Release:
+            delete target;
+            break;
+        case ChunkOnReleaseBehavior::Behavior::DeReference:
+            target->decreaseStrongRef();
+            break;
+        default:
+            break;
+        }
+    }
+    ChunkOnReleaseBehavior(Behavior b) : status(b) {}
+};
+
+//I Dont Know Whats The Best Way...
+template <class T>
+using ChunkHDC = std::unique_ptr<T, ChunkOnReleaseBehavior>;
+
 template <template<typename>class prtT>
-class ChunkManager: public nwNonCopyable
+class ChunkManagerBase: public NonCopyable
 {
 public:
     using data_t = prtT<Chunk>;
@@ -127,10 +162,10 @@ public:
     using const_reverse_iterator = typename array_t::const_reverse_iterator;
     using reference = Chunk&;
     using const_reference = const reference;
-    ChunkManager() = default;
-    ChunkManager(size_t size) { mChunks.reserve(size); }
-    ChunkManager(ChunkManager&& rhs) : mChunks(std::move(rhs.mChunks)) {}
-    ~ChunkManager() = default;
+    ChunkManagerBase() = default;
+    ChunkManagerBase(size_t size) { mChunks.reserve(size); }
+    ChunkManagerBase(ChunkManagerBase&& rhs) : mChunks(std::move(rhs.mChunks)) {}
+    ~ChunkManagerBase() = default;
     // Access and modifiers
     size_t size() const noexcept { return mChunks.size(); }
     size_t capacity() const noexcept { return mChunks.capacity(); }
@@ -165,6 +200,10 @@ public:
     iterator erase(iterator it) { return mChunks.erase(it); }
     iterator erase(size_t id) { return erase(mChunks.begin() + id); }
     iterator erase(const Vec3i& chunkPos) { return erase(getIndex(chunkPos)); }
+
+    iterator reset(iterator it, Chunk* chunk) { it->reset(chunk); return it; }
+    iterator reset(size_t id, Chunk* chunk) { return reset(mChunks.begin() + id, chunk); }
+    iterator reset(const Vec3i& chunkPos, Chunk* chunk) { return reset(getIndex(chunkPos), chunk); }
     
     // Chunk Only Functions
     size_t getIndex(const Vec3i& chunkPos) const
@@ -240,8 +279,11 @@ public:
     {
         at(getPos(pos)).setBlock(getBlockPos(pos), block);
     }
+
 private:
     array_t mChunks;
 };
+
+using ChunkManager = ChunkManagerBase<ChunkHDC>;
 
 #endif // !CHUNK_H_

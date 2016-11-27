@@ -28,7 +28,7 @@
 #include <plugin/pluginmanager.h>
 #include <pluginapi.h>
 #include <common/ratemeter.h>
-#include "worldserver.h"
+#include <world/world.h>
 #include <unordered_map>
 #include <thread>
 #include "commandmanager.h"
@@ -39,17 +39,16 @@ constexpr int UpdateInterval = 1000 / 60, GlobalUpdateInterval = 1000 / 60; // u
 
 class Server
 {
+// Basic Network Server
 public:
-    Server(std::vector<std::string> args);
-    void run();
-    void stop();
+    Server();
+    virtual void run();
+    virtual void stop();
     ~Server();
-
-private:
+protected:
     void initBuiltinCommands();
 
     RateMeter mRateCounterScheduler{1};
-    std::vector<std::string> mArgs;
 
     // Component managers
     WorldManager mWorlds;
@@ -59,4 +58,16 @@ private:
     CommandManager mCommands;
 };
 
+class LocalTunnelServer : public Server
+{
+public:
+    LocalTunnelServer(void*);
+    void run() override;
+    void stop() override;
+    World* getWorld(size_t id);
+    Chunk* getChunk(int x, int y, int z);
+    void login(const char*, const char*);
+private:
+    std::atomic_bool mRuning{false};
+};
 #endif

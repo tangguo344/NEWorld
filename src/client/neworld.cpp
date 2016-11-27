@@ -38,9 +38,9 @@ NEWorld::NEWorld() : mPlugins(true)
 
     // Run
     Game game("TestWorld",
-              std::make_shared<LocalConnectionByNetWork>(
-                  getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1"),
-                  getJsonValue<unsigned short>(getSettings()["server"]["port"], 31111)),
+              std::make_shared<LocalConnectionByTunnel>(),
+                  //getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1"),
+                  //getJsonValue<unsigned short>(getSettings()["server"]["port"], 31111)),
               window, mPlugins, mBlocks);
     while(!window.shouldQuit())
     {

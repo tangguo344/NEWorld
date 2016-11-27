@@ -32,12 +32,12 @@ void ChunkClient::renderBlock(BlockTexCoord coord[], const Vec3i& pos)
     BlockData curr = getBlock(pos);
     BlockData neighbors[6] =
     {
-        pos.x == Size() - 1 ? mWorld.getBlock(Vec3i(worldpos.x + 1, worldpos.y, worldpos.z)) : getBlock(Vec3i(pos.x + 1, pos.y, pos.z)),
-        pos.x == 0 ? mWorld.getBlock(Vec3i(worldpos.x - 1, worldpos.y, worldpos.z)) : getBlock(Vec3i(pos.x - 1, pos.y, pos.z)),
-        pos.y == Size() - 1 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y + 1, worldpos.z)) : getBlock(Vec3i(pos.x, pos.y + 1, pos.z)),
-        pos.y == 0 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y - 1, worldpos.z)) : getBlock(Vec3i(pos.x, pos.y - 1, pos.z)),
-        pos.z == Size() - 1 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y, worldpos.z + 1)) : getBlock(Vec3i(pos.x, pos.y, pos.z + 1)),
-        pos.z == 0 ? mWorld.getBlock(Vec3i(worldpos.x, worldpos.y, worldpos.z - 1)) : getBlock(Vec3i(pos.x, pos.y, pos.z - 1)),
+        pos.x == Size() - 1 ? mWorld->getBlock(Vec3i(worldpos.x + 1, worldpos.y, worldpos.z)) : getBlock(Vec3i(pos.x + 1, pos.y, pos.z)),
+        pos.x == 0 ? mWorld->getBlock(Vec3i(worldpos.x - 1, worldpos.y, worldpos.z)) : getBlock(Vec3i(pos.x - 1, pos.y, pos.z)),
+        pos.y == Size() - 1 ? mWorld->getBlock(Vec3i(worldpos.x, worldpos.y + 1, worldpos.z)) : getBlock(Vec3i(pos.x, pos.y + 1, pos.z)),
+        pos.y == 0 ? mWorld->getBlock(Vec3i(worldpos.x, worldpos.y - 1, worldpos.z)) : getBlock(Vec3i(pos.x, pos.y - 1, pos.z)),
+        pos.z == Size() - 1 ? mWorld->getBlock(Vec3i(worldpos.x, worldpos.y, worldpos.z + 1)) : getBlock(Vec3i(pos.x, pos.y, pos.z + 1)),
+        pos.z == 0 ? mWorld->getBlock(Vec3i(worldpos.x, worldpos.y, worldpos.z - 1)) : getBlock(Vec3i(pos.x, pos.y, pos.z - 1)),
     };
 
     // Right
@@ -121,7 +121,7 @@ void ChunkClient::buildVertexArray()
         Vec3i::for_range(0, Size(), [&](const Vec3i& pos)
         {
             BlockData b = getBlock(pos);
-            target = (mWorld.getType(b.getID()).isTranslucent()) ? &va1 : &va0;
+            target = (mWorld->getType(b.getID()).isTranslucent()) ? &va1 : &va0;
             BlockRendererManager::render(b.getID(), this, pos);
         });
     }
@@ -134,9 +134,9 @@ void ChunkClient::buildVertexArray()
 Chunk* ChunkClient::getFromFlatbuffers(const s2c::Chunk * fbChunk, WorldClient& worlds)
 {
     // TODO: Optimize
-    Chunk* nwChunk = new ChunkClient({ fbChunk->pos()->x(), fbChunk->pos()->y(), fbChunk->pos()->z() }, worlds);
+    Chunk* nwchunk = new ChunkClient({ fbChunk->pos()->x(), fbChunk->pos()->y(), fbChunk->pos()->z() }, worlds);
     for (auto i = 0; i < Size()*Size()*Size(); i++)
-        nwChunk->getBlocks()[i] = BlockData(fbChunk->blocks()->Get(i));
-    return nwChunk;
+        nwchunk->getBlocks()[i] = BlockData(fbChunk->blocks()->Get(i));
+    return nwchunk;
 }
 

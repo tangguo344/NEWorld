@@ -22,7 +22,7 @@
 
 #include <vector>
 
-#include "worldserver.h"
+#include <world/world.h>
 #include <plugin/pluginmanager.h>
 #include <world/nwblock.h>
 
@@ -40,42 +40,54 @@ public:
         mWorlds.clear();
     }
 
-    WorldServer* addWorld(const std::string& name)
+    void clear()
     {
-        mWorlds.emplace_back(new WorldServer(name, mPlugins, mBlocks));
-        return mWorlds[mWorlds.size() - 1];
+        mWorlds.clear();
     }
 
-    std::vector<WorldServer*>::iterator begin()
+    World* addWorld(const std::string& name)
+    {
+        mWorlds.emplace_back(new World(name, mPlugins, mBlocks));
+        return mWorlds[mWorlds.size() - 1].get();
+    }
+
+    typedef World*(WorldCreator)(const char*, BlockManager*, PluginManager*);
+    World* addWorld(const std::string& name, void* w)
+    {
+        mWorlds.emplace_back(reinterpret_cast<WorldCreator*>(w)(name.c_str(), &mBlocks, &mPlugins));
+        return mWorlds[mWorlds.size() - 1].get();
+    }
+
+    std::vector<std::unique_ptr<World>>::iterator begin()
     {
         return mWorlds.begin();
     }
 
-    std::vector<WorldServer*>::iterator end()
+    std::vector<std::unique_ptr<World>>::iterator end()
     {
         return mWorlds.end();
     }
 
-    WorldServer* getWorld(const std::string& name)
+    World* getWorld(const std::string& name)
     {
-        for(WorldServer* world : *this)
+        for(auto&& world : *this)
         {
-            if (world->getWorldName() == name) return world;
+            if (world->getWorldName() == name) return world.get();
         }
         return nullptr;
     }
 
-    WorldServer* getWorld(size_t id)
+    World* getWorld(size_t id)
     {
-        for (WorldServer* world : *this)
+        for (auto&& world : *this)
         {
-            if (world->getWorldID() == id) return world;
+            if (world->getWorldID() == id) return world.get();
         }
         return nullptr;
     }
 
 private:
-    std::vector<WorldServer*> mWorlds;
+    std::vector<std::unique_ptr<World>> mWorlds;
     PluginManager& mPlugins;
     BlockManager& mBlocks;
 };

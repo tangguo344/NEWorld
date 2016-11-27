@@ -18,10 +18,10 @@
 */
 
 #pragma once
-class nwNonCopyable
+class NonCopyable
 {
 public:
-    nwNonCopyable() = default;
-    nwNonCopyable(const nwNonCopyable&) = delete;
-    nwNonCopyable& operator = (const nwNonCopyable&) = delete;
+    NonCopyable() = default;
+    NonCopyable(const NonCopyable&) = delete;
+    NonCopyable& operator = (const NonCopyable&) = delete;
 };

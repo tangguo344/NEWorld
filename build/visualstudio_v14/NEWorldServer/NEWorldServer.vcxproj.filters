@@ -37,9 +37,6 @@
     <ClCompile Include="..\..\..\src\server\networkmanager.cpp">
       <Filter>Source\Network</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\server\worldserver.cpp">
-      <Filter>Source\World</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\server\connection.cpp">
       <Filter>Source\Network</Filter>
     </ClCompile>
@@ -59,9 +56,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\server\playermanager.h">
       <Filter>Source\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\server\worldserver.h">
-      <Filter>Source\World</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\server\worldmanager.h">
       <Filter>Source\World</Filter>

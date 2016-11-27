@@ -30,7 +30,7 @@ Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
            const Window& window, PluginManager& pm, const BlockManager& bm):
     mWindow(window), mBlocks(bm), mPlugins(pm), mWorld(name, pm, bm), mPlayer(&mWorld), mConnection(connection)
 {
-    mWorld.setRenderDistance(6);
+    mWorld.setRenderDistance(2);
     mPlayer.setPosition(Vec3d(-16.0, 48.0, 32.0));
     mPlayer.setRotation(Vec3d(-45.0, -22.5, 0.0));
 
@@ -61,29 +61,6 @@ Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
     }));
 
     // Initialize connection
-    mConnection->setChunkCallback([&](Chunk* chunk)
-    {
-        mWorld.doIfChunkLoaded(chunk->getPosition(), [&](Chunk& c)
-        {
-            std::lock_guard<std::mutex> lock(mMutex);
-            // Update chunk
-            memcpy(c.getBlocks(), chunk->getBlocks(), sizeof(BlockData) * Chunk::Size() * Chunk::Size() * Chunk::Size());
-            c.setUpdated(true);
-            // Update neighboring chunks
-            constexpr std::array<Vec3i, 6> delta
-            {
-                Vec3i( 1, 0, 0), Vec3i(-1, 0, 0),
-                Vec3i( 0, 1, 0), Vec3i( 0,-1, 0),
-                Vec3i( 0, 0, 1), Vec3i( 0, 0,-1)
-            };
-            for (auto&& p : delta)
-                mWorld.doIfChunkLoaded(c.getPosition() + p, [](Chunk& chk)
-                {
-                    chk.setUpdated(true);
-                });
-        });
-        delete chunk;
-    });
     mConnection->setWorld(&mWorld);
     mConnection->connect();
     mConnection->waitForConnected();
@@ -172,7 +149,7 @@ void Game::render()
     Renderer::clear();
     Renderer::setViewport(0, 0, mWindow.getWidth(), mWindow.getHeight());
     Renderer::restoreProj();
-    Renderer::applyPerspective(70.0f, float(mWindow.getWidth()) / mWindow.getHeight(), 0.1f, 300.0f);
+    Renderer::applyPerspective(70.0f, float(mWindow.getWidth()) / mWindow.getHeight(), 0.1f, 3000.0f);
     Renderer::restoreScale();
     Renderer::rotate(float(-playerRenderedRotation.x), Vec3f(1.0f, 0.0f, 0.0f));
     Renderer::rotate(float(-playerRenderedRotation.y), Vec3f(0.0f, 1.0f, 0.0f));

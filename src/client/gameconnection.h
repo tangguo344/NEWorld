@@ -38,19 +38,14 @@ public:
     virtual void connect() = 0;
     virtual void disconnect() = 0;
     virtual void waitForConnected() = 0;
+    virtual void login(const char* username, const char* password) = 0;
 
     // Functions
-    virtual void login(const char* username, const char* password) = 0;
-    using ChunkCallback = std::function<void(Chunk*)>;
     virtual void getChunk(Vec3i pos) = 0;
     virtual World* getWorld(size_t id) = 0;
 
     // Callbacks
-    virtual void setChunkCallback(ChunkCallback callback) = 0;
-    void setWorld(WorldClient* w)
-    {
-        mWorld = w;
-    }
+    void setWorld(WorldClient* w){ mWorld = w; }
 
 protected:
     WorldClient* mWorld;
@@ -63,18 +58,12 @@ public:
     virtual ~MultiplayerConnection() = default;
     void connect() override;
     void disconnect() override;
-    World* getWorld(size_t id) override;
     void waitForConnected() override;
+    void login(const char* username, const char* password) override;
 
     // Functions
-    void login(const char* username, const char* password) override;
     void getChunk(Vec3i pos) override;
-
-    // Callbacks
-    void setChunkCallback(ChunkCallback callback) override
-    {
-        mChunkCallback = callback;
-    }
+    World* getWorld(size_t id) override;
 protected:
     Connection mConn;
 
@@ -82,7 +71,6 @@ private:
     std::string mHost;
     unsigned short mPort;
     flatbuffers::FlatBufferBuilder mFbb;
-    ChunkCallback mChunkCallback;
 };
 
 class LocalConnectionByNetWork : public MultiplayerConnection
@@ -103,6 +91,32 @@ private:
     int mTimeout;
     std::chrono::system_clock::time_point mStartTime;
     std::function<void(bool)> mCallback;
+};
+
+// Tunnel Connection : Client Side
+class LocalConnectionByTunnel : public GameConnection
+{
+public:
+    LocalConnectionByTunnel();
+    void connect() override;
+    void disconnect() override;
+    void waitForConnected() override;
+    void login(const char* username, const char* password) override;
+
+    // Functions
+    void getChunk(Vec3i pos) override;
+    World* getWorld(size_t id) override;
+private:
+    Library mLib;
+    std::string mPath;
+    std::thread mLocalServerThread;
+    std::atomic_bool mReady{ false };
+    int mTimeout;
+    std::chrono::system_clock::time_point mStartTime;
+    // sf = Server Function
+    std::function<World* NWAPICALL(size_t id)> sfGetWorld;
+    std::function<void NWAPICALL(const char*, const char*)> sfLogin;
+    std::function<Chunk* NWAPICALL(int32_t x, int32_t y, int32_t z)> sfGetChunk;
 };
 
 #endif

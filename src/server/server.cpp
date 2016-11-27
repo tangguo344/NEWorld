@@ -21,8 +21,8 @@
 #include <common/jsonhelper.h>
 #include "commandmanager.h"
 
-Server::Server(std::vector<std::string> args)
-    : mWorlds(mPlugins, mBlocks), mPlugins(false), mArgs(args), mNetwork(mWorlds)
+Server::Server()
+    : mWorlds(mPlugins, mBlocks), mPlugins(false), mNetwork(mWorlds)
 {
     using namespace std::chrono;
     auto startTime = steady_clock::now();
@@ -36,10 +36,6 @@ Server::Server(std::vector<std::string> args)
     // World
     mWorlds.addWorld("main_world");
 
-    // Network
-    mNetwork.start(getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1").c_str(),
-                   getJsonValue<unsigned short>(getSettings()["server"]["port"], 31111));
-
     // Builtin Commands
     initBuiltinCommands();
 
@@ -50,6 +46,9 @@ Server::Server(std::vector<std::string> args)
 
 void Server::run()
 {
+    // Network
+    mNetwork.start(getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1").c_str(),
+                   getJsonValue<unsigned short>(getSettings()["server"]["port"], 31111));
     mNetwork.loop();
 }
 
@@ -62,4 +61,52 @@ void Server::stop()
 Server::~Server()
 {
     // TODO: Terminate here
+}
+
+// Normally it does nothing, just collects garbage :)
+LocalTunnelServer::LocalTunnelServer(void* cc)
+{
+    mWorlds.clear();
+    mWorlds.addWorld("main_world", cc);
+}
+
+// TEMP CODE!
+// TODO : MultiPlayer
+void LocalTunnelServer::run()
+{
+    mRuning.store(true);
+    while (mRuning)
+    {
+        for (auto& w : mWorlds)
+            w->updateChunkLoadStatus();
+        std::this_thread::yield();
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
+}
+
+void LocalTunnelServer::stop()
+{
+    mRuning.store(false);
+    mCommands.setRunningStatus(false);
+}
+
+World * LocalTunnelServer::getWorld(size_t id)
+{
+    return mWorlds.getWorld(id);
+}
+
+Chunk * LocalTunnelServer::getChunk(int x, int y, int z)
+{
+    World *world = mWorlds.getWorld(0); // TODO:Current world of player.
+    Chunk* chunk;
+    if (!world->isChunkLoaded({ x, y, z }))
+        chunk = world->addChunk({ x, y, z });
+    else
+        chunk = &world->getChunk({ x, y, z });
+    Assert(chunk);
+    return chunk;
+}
+
+void LocalTunnelServer::login(const char *, const char *)
+{
 }

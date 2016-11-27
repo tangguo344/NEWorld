@@ -98,7 +98,7 @@ void Server::initBuiltinCommands()
     mCommands.registerCommand("chunks.count", { "internal","Show how many chunks are loaded" }, [this](Command cmd)->CommandExecuteStat
     {
         size_t sum = 0;
-        for (World* world : mWorlds)
+        for (auto&& world : mWorlds)
         {
             sum += world->getChunkCount();
         }

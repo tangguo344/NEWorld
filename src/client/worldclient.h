@@ -39,7 +39,7 @@ public:
     {
     }
 
-    Chunk* addChunk(const Vec3i& chunkPos) override;
+    Chunk* addChunk(const Vec3i& chunkPos, ChunkOnReleaseBehavior::Behavior behv = ChunkOnReleaseBehavior::Behavior::Release) override;
 
     void setRenderDistance(int x)
     {

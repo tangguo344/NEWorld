@@ -18,7 +18,7 @@
 */
 
 #include "common/nwsafety.hpp"
-#include "world.h"
+#include <world/world.h>
 
 size_t World::IDCount = 0;
 
@@ -43,4 +43,16 @@ std::vector<AABB> World::getHitboxes(const AABB& range) const
 
 void World::update()
 {
+}
+
+void World::updateChunkLoadStatus()
+{
+    for (auto iter = mChunks.begin(); iter < mChunks.end();)
+    {
+        (*iter)->decreaseWeakRef();
+        if ((*iter)->checkReleaseable())
+            iter = mChunks.erase(iter);
+        else
+            ++iter;
+    }
 }

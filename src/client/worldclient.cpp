@@ -20,9 +20,9 @@
 #include "worldclient.h"
 #include "gameconnection.h"
 
-Chunk* WorldClient::addChunk(const Vec3i& chunkPos)
+Chunk* WorldClient::addChunk(const Vec3i& chunkPos, ChunkOnReleaseBehavior::Behavior behv)
 {
-    return insertChunk(chunkPos, std::move(std::make_unique<ChunkClient>(chunkPos, *this)))->get();
+    return insertChunk(chunkPos, std::move(ChunkHDC<Chunk>(new ChunkClient(chunkPos, *this), ChunkOnReleaseBehavior(behv))))->get();
 }
 
 void WorldClient::renderUpdate(const Vec3i& position)
@@ -229,7 +229,6 @@ void WorldClient::tryLoadChunks(GameConnection& conn)
 {
     for (int i = 0; i < mChunkLoadCount; i++)
     {
-        addChunk(mChunkLoadList[i].first);
         conn.getChunk(mChunkLoadList[i].first);
     }
     for (int i = 0; i < mChunkUnloadCount; i++)
