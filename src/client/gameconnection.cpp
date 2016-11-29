@@ -169,7 +169,7 @@ void LocalConnectionByTunnel::connect()
 {
     mLocalServerThread = std::thread([this]()
     {
-        bool opened = mLib.get<bool NWAPICALL(void*)>("nwInitServer")(ClientWorldCreator);
+        bool opened = mLib.get<bool NWAPICALL(void*)>("nwInitServer")(reinterpret_cast<void*>(&ClientWorldCreator));
         if (opened)
         {
             mReady.store(true);
