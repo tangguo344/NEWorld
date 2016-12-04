@@ -36,7 +36,11 @@ MultiplayerConnection::MultiplayerConnection(const std::string& host, unsigned s
         if (s2c::VerifyChunkBuffer(v))
         {
             //std::lock_guard<std::mutex> lock(mMutex);
-            auto c = ChunkClient::getFromFlatbuffers(s2c::GetChunk(data), *mWorld);
+            const s2c::Chunk *fbChunk = s2c::GetChunk(data);// TODO: Optimize
+            Chunk* nwchunk = new ChunkClient({ fbChunk->pos()->x(), fbChunk->pos()->y(), fbChunk->pos()->z() }, *mWorld);
+            for (auto i = 0; i < Chunk::Size() * Chunk::Size() * Chunk::Size(); i++)
+                nwchunk->getBlocks()[i] = BlockData(fbChunk->blocks()->Get(i));
+            auto c = nwchunk;
             c->setUpdated(true);
             constexpr std::array<Vec3i, 6> delta
             {

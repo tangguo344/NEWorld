@@ -99,6 +99,7 @@ public:
 private:
     // Ranges
     int mRenderDist = 0, mLoadRange = 0;
+    // ChunkRenderers
     // Chunk load list [position, distance]
     OrderedList<int, Vec3i, MaxChunkLoadCount> mChunkLoadList;
     // Render build list

@@ -21,13 +21,13 @@
 #include "../protocol/gen/s2c/2-Chunk_generated.h"
 #include "worldclient.h"
 VertexArray* target;
-VertexArray ChunkClient::va0(262144, VertexFormat(2, 3, 0, 3));
-VertexArray ChunkClient::va1(262144, VertexFormat(2, 3, 0, 3));
-bool ChunkClient::mergeFace;
+VertexArray ChunkRenderer::va0(262144, VertexFormat(2, 3, 0, 3));
+VertexArray ChunkRenderer::va1(262144, VertexFormat(2, 3, 0, 3));
+bool ChunkRenderer::mergeFace;
 
-void ChunkClient::renderBlock(Chunk* chunk, BlockTexCoord coord[], const Vec3i& pos)
+void ChunkRenderer::renderBlock(Chunk* chunk, BlockTexCoord coord[], const Vec3i& pos)
 {
-    Vec3i worldpos = chunk->getPosition() * Size() + pos;
+    Vec3i worldpos = chunk->getPosition() * Chunk::Size() + pos;
 
     BlockData curr = chunk->getBlock(pos);
     BlockData neighbors[6] =
@@ -105,11 +105,8 @@ void ChunkClient::renderBlock(Chunk* chunk, BlockTexCoord coord[], const Vec3i& 
     });
 }
 
-void ChunkClient::buildVertexArray()
+ChunkRenderer::ChunkRenderer(Chunk *chunk) :mBuffer(), mBufferTrans()
 {
-    // Notice: the building process shall not fail
-    setUpdated(false);
-
     va0.clear();
     va1.clear();
     if (mergeFace)
@@ -118,25 +115,23 @@ void ChunkClient::buildVertexArray()
     }
     else
     {
-        Vec3i::for_range(0, Size(), [&](const Vec3i& pos)
+        Vec3i::for_range(0, Chunk::Size(), [chunk](const Vec3i& pos)
         {
-            BlockData b = getBlock(pos);
-            target = (mWorld->getType(b.getID()).isTranslucent()) ? &va1 : &va0;
-            BlockRendererManager::render(b.getID(), this, pos);
+            BlockData b = chunk->getBlock(pos);
+            target = (chunk->getWorld()->getType(b.getID()).isTranslucent()) ? &va1 : &va0;
+            BlockRendererManager::render(b.getID(), reinterpret_cast<ChunkClient*>(chunk), pos);
         });
     }
 
-    mBuffer.update(va0);
-    mBufferTrans.update(va1);
-    mRenderBuilt = true;
+    mBuffer = std::move(VertexBuffer(va0));
+    mBufferTrans = std::move(VertexBuffer(va1));
 }
 
-Chunk* ChunkClient::getFromFlatbuffers(const s2c::Chunk * fbChunk, WorldClient& worlds)
+void ChunkClient::buildVertexArray()
 {
-    // TODO: Optimize
-    Chunk* nwchunk = new ChunkClient({ fbChunk->pos()->x(), fbChunk->pos()->y(), fbChunk->pos()->z() }, worlds);
-    for (auto i = 0; i < Size()*Size()*Size(); i++)
-        nwchunk->getBlocks()[i] = BlockData(fbChunk->blocks()->Get(i));
-    return nwchunk;
+    // Notice: the building process shall not fail
+    setUpdated(false);
+    mRenderer = std::move(ChunkRenderer(this));
+    mRenderBuilt = true;
 }
 

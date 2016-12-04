@@ -34,6 +34,40 @@ namespace s2c
     struct Chunk;
 }
 
+class ChunkRenderer : public NonCopyable
+{
+public:
+    ChunkRenderer() = default;
+    ChunkRenderer(Chunk* chunk);
+    ChunkRenderer(ChunkRenderer&& rhs):
+            mBuffer(std::move(rhs.mBuffer)), mBufferTrans(std::move(rhs.mBufferTrans)) {}
+    ChunkRenderer& operator=(ChunkRenderer&& rhs)
+    {
+        mBuffer = std::move(rhs.mBuffer);
+        mBufferTrans = std::move(rhs.mBufferTrans);
+        return *this;
+    }
+
+    // Draw call
+    void render() const
+    {
+        mBuffer.render();
+        mBufferTrans.render();
+    }
+    // Render default block
+    static void renderBlock(Chunk* chunk, BlockTexCoord coord[], const Vec3i& pos);
+private:
+    // Vertex buffer object
+    VertexBuffer mBuffer, mBufferTrans;
+    friend class ChunkClient;
+    static bool mergeFace;
+    static VertexArray va0, va1;
+    static bool adjacentTest(BlockData a, BlockData b, World* world) noexcept
+    {
+        return a.getID() != 0 && !world->getType(b.getID()).isOpaque() && !(a.getID() == b.getID());
+    }
+};
+
 class ChunkClient : public Chunk
 {
 public:
@@ -41,11 +75,7 @@ public:
     {
     }
 
-    ~ChunkClient()
-    {
-        if (mRenderBuilt)
-            destroyVertexArray();
-    }
+    ~ChunkClient() = default;
 
     // Is render built
     bool isRenderBuilt() const
@@ -64,38 +94,20 @@ public:
     // Destroy VBO
     void destroyVertexArray()
     {
-        mBuffer.destroy();
-        mBufferTrans.destroy();
+        mRenderer = std::move(ChunkRenderer());
         mRenderBuilt = false;
     }
 
     // Draw call
     void render() const
     {
-        mBuffer.render();
-        mBufferTrans.render();
+        mRenderer.render();
     }
-
-    static Chunk* getFromFlatbuffers(const s2c::Chunk* fbChunk, WorldClient& worlds);
-
-    // Render default block
-    static void renderBlock(Chunk* chunk, BlockTexCoord coord[], const Vec3i& pos);
 
 private:
-    // Vertex buffer object
-    VertexBuffer mBuffer, mBufferTrans;
+    ChunkRenderer mRenderer;
     // Render built
     bool mRenderBuilt = false;
-    // Vertex array
-    static VertexArray va0, va1;
-    // Merge face rendering
-    static bool mergeFace;
-
-    static bool adjacentTest(BlockData a, BlockData b, World* world) noexcept
-    {
-        return a.getID() != 0 && !world->getType(b.getID()).isOpaque() && !(a.getID() == b.getID());
-    }
 };
-
 
 #endif // !CHUNKCLIENT_H_

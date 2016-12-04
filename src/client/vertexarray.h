@@ -22,9 +22,10 @@
 
 #include <cstring>
 #include <initializer_list>
-#include <common/common.h>
 #include "opengl.h"
 #include <common/debug.h>
+#include <common/common.h>
+#include <common/nwconcepts.hpp>
 
 class VertexFormat
 {
@@ -167,7 +168,7 @@ private:
     float* mVertexAttributes;
 };
 
-class VertexBuffer
+class VertexBuffer : public NonCopyable
 {
 public:
     VertexBuffer(): id(0), vertexes(0)
@@ -179,7 +180,28 @@ public:
     {
     }
 
+    VertexBuffer(VertexBuffer&& rhs) noexcept:
+            id(rhs.id), vertexes(rhs.vertexes), format(rhs.format)
+    {
+        rhs.vertexes = rhs.id = 0;
+        rhs.format = VertexFormat();
+    }
+
     explicit VertexBuffer(const VertexArray& va);
+
+    VertexBuffer& operator=(VertexBuffer&& rhs) noexcept
+    {
+
+        id = rhs.id; vertexes = rhs.vertexes; format = rhs.format;
+        rhs.vertexes = rhs.id = 0;
+        rhs.format = VertexFormat();
+        return *this;
+    }
+
+    ~VertexBuffer()
+    {
+        destroy();
+    }
 
     // upload new data
     void update(const VertexArray& va);
@@ -190,9 +212,12 @@ public:
     // Destroy vertex buffer
     void destroy()
     {
-        glDeleteBuffersARB(1, &id);
-        vertexes = id = 0;
-        format = VertexFormat();
+        if (id)
+        {
+            glDeleteBuffersARB(1, &id);
+            vertexes = id = 0;
+            format = VertexFormat();
+        }
     }
 
 private:
