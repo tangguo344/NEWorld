@@ -57,7 +57,7 @@ NWAPIEXPORT bool NWAPICALL nwInitServer(void* mode)
         if (!mode) 
             server = new Server();
         else
-            server = new LocalTunnelServer(mode);
+            server = new LocalTunnelServer();
     }
     catch (std::exception& e)
     {

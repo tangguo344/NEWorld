@@ -113,7 +113,6 @@ public:
     }
 
     World* getWorld() noexcept { return mWorld; }
-    void resetWold(World* w) { }//mWorld = w; };
 protected:
     class World* mWorld;
 private:

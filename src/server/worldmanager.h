@@ -51,13 +51,6 @@ public:
         return mWorlds[mWorlds.size() - 1].get();
     }
 
-    typedef World*(WorldCreator)(const char*, BlockManager*, PluginManager*);
-    World* addWorld(const std::string& name, void* w)
-    {
-        mWorlds.emplace_back(reinterpret_cast<WorldCreator*>(w)(name.c_str(), &mBlocks, &mPlugins));
-        return mWorlds[mWorlds.size() - 1].get();
-    }
-
     std::vector<std::unique_ptr<World>>::iterator begin()
     {
         return mWorlds.begin();

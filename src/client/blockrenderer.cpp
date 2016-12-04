@@ -27,7 +27,7 @@ size_t BlockTextureBuilder::mTexturePerLine = 8;
 std::vector<Texture::RawTexture> BlockTextureBuilder::mRawTexs;
 std::vector<std::shared_ptr<BlockRenderer>> BlockRendererManager::mBlockRenderers;
 
-void BlockRendererManager::render(size_t id, class ChunkClient* chunk, const Vec3i& pos)
+void BlockRendererManager::render(size_t id, Chunk* chunk, const Vec3i& pos)
 {
     if (mBlockRenderers[id]) mBlockRenderers[id]->render(chunk, pos);
 }
@@ -51,7 +51,7 @@ void DefaultBlockRenderer::flushTexture()
         BlockTextureBuilder::getTexturePos(tex[i].d, tex[i].pos);
 }
 
-void DefaultBlockRenderer::render(ChunkClient* chunk, const Vec3i& pos)
+void DefaultBlockRenderer::render(Chunk* chunk, const Vec3i& pos)
 {
     ChunkRenderer::renderBlock(chunk, tex, pos);
 }

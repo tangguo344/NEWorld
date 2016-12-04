@@ -59,7 +59,6 @@ public:
 private:
     // Vertex buffer object
     VertexBuffer mBuffer, mBufferTrans;
-    friend class ChunkClient;
     static bool mergeFace;
     static VertexArray va0, va1;
     static bool adjacentTest(BlockData a, BlockData b, World* world) noexcept
@@ -67,47 +66,4 @@ private:
         return a.getID() != 0 && !world->getType(b.getID()).isOpaque() && !(a.getID() == b.getID());
     }
 };
-
-class ChunkClient : public Chunk
-{
-public:
-    ChunkClient(const Vec3i& position, World& world) : Chunk(position, world)
-    {
-    }
-
-    ~ChunkClient() = default;
-
-    // Is render built
-    bool isRenderBuilt() const
-    {
-        return mRenderBuilt;
-    }
-
-    bool needRenderRebuilt() const
-    {
-        return (!isRenderBuilt()) || isUpdated();
-    }
-
-    // Build VBO
-    void buildVertexArray();
-
-    // Destroy VBO
-    void destroyVertexArray()
-    {
-        mRenderer = std::move(ChunkRenderer());
-        mRenderBuilt = false;
-    }
-
-    // Draw call
-    void render() const
-    {
-        mRenderer.render();
-    }
-
-private:
-    ChunkRenderer mRenderer;
-    // Render built
-    bool mRenderBuilt = false;
-};
-
 #endif // !CHUNKCLIENT_H_

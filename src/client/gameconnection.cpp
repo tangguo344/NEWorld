@@ -37,7 +37,7 @@ MultiplayerConnection::MultiplayerConnection(const std::string& host, unsigned s
         {
             //std::lock_guard<std::mutex> lock(mMutex);
             const s2c::Chunk *fbChunk = s2c::GetChunk(data);// TODO: Optimize
-            Chunk* nwchunk = new ChunkClient({ fbChunk->pos()->x(), fbChunk->pos()->y(), fbChunk->pos()->z() }, *mWorld);
+            Chunk* nwchunk = new Chunk({ fbChunk->pos()->x(), fbChunk->pos()->y(), fbChunk->pos()->z() }, *mWorld);
             for (auto i = 0; i < Chunk::Size() * Chunk::Size() * Chunk::Size(); i++)
                 nwchunk->getBlocks()[i] = BlockData(fbChunk->blocks()->Get(i));
             auto c = nwchunk;
@@ -164,16 +164,11 @@ LocalConnectionByTunnel::LocalConnectionByTunnel():
     sfGetChunk = mLib.get<Chunk* NWAPICALL(int32_t x, int32_t y, int32_t z)>("nwLocalServerGetChunk");
 }
 
-World* ClientWorldCreator (const char* a, BlockManager* c, PluginManager* b)
-{
-    return new WorldClient(std::string(a), *b, *c);
-}
-
 void LocalConnectionByTunnel::connect()
 {
     mLocalServerThread = std::thread([this]()
     {
-        bool opened = mLib.get<bool NWAPICALL(void*)>("nwInitServer")(reinterpret_cast<void*>(&ClientWorldCreator));
+        bool opened = mLib.get<bool NWAPICALL(void*)>("nwInitServer")((void*)1);
         if (opened)
         {
             mReady.store(true);
@@ -233,8 +228,6 @@ void LocalConnectionByTunnel::getChunk(Vec3i pos)
         mWorld->doIfChunkLoaded(c->getPosition() + p, [](Chunk& chk)
     { chk.setUpdated(true); });
     c->increaseRef();
-    // TODO : CHANGE IT!
-    c->resetWold(mWorld);
     mWorld->insertChunk(c->getPosition(), std::move(ChunkHDC<Chunk>(c, ChunkOnReleaseBehavior::Behavior::DeReference)));
 }
 

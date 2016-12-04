@@ -20,38 +20,37 @@
 #include "worldclient.h"
 #include "gameconnection.h"
 
-Chunk* WorldClient::addChunk(const Vec3i& chunkPos, ChunkOnReleaseBehavior::Behavior behv)
-{
-    return insertChunk(chunkPos, std::move(ChunkHDC<Chunk>(new ChunkClient(chunkPos, *this), ChunkOnReleaseBehavior(behv))))->get();
-}
-
 void WorldClient::renderUpdate(const Vec3i& position)
 {
     Vec3i chunkpos = getChunkPos(position);
-    for (size_t i = 0; i < getChunkCount(); i++)
+    for (auto&& chunk : mChunks)
     {
-        ChunkClient& p = static_cast<ChunkClient&>(getChunk(i));
-
         // In render range, pending to render
-        if (chunkpos.chebyshevDistance(p.getPosition()) <= mRenderDist)
+        if (chunkpos.chebyshevDistance(chunk->getPosition()) <= mRenderDist)
         {
-            if (p.needRenderRebuilt() && neighbourChunkLoadCheck(p.getPosition()))
+            if ((mChunkRenderers.find(chunk.get()) == mChunkRenderers.end()) &&
+                    neighbourChunkLoadCheck(chunk->getPosition()))
             {
                 // Get chunk center pos
-                Vec3i curPos = p.getPosition() * Chunk::Size() + middleOffset();
+                Vec3i curPos = chunk->getPosition() * Chunk::Size() + middleOffset();
                 // Distance from center pos
-                mChunkRenderList.insert((curPos - position).lengthSqr(), &p);
+                mChunkRenderList.insert((curPos - position).lengthSqr(), chunk.get());
             }
         }
         else
         {
-            if (p.isRenderBuilt())
-                p.destroyVertexArray();
+            auto iter = mChunkRenderers.find(chunk.get());
+            if (iter != mChunkRenderers.end())
+                mChunkRenderers.erase(iter);
         }
     }
 
     for (auto&& op : mChunkRenderList)
-        op.second->buildVertexArray();
+    {
+        op.second->setUpdated(false);
+        mChunkRenderers.insert(
+                std::pair<Chunk*, ChunkRenderer>(op.second, std::move(ChunkRenderer(op.second))));
+    }
     mChunkRenderList.clear();
 }
 
@@ -59,17 +58,15 @@ size_t WorldClient::render(const Vec3i& position) const
 {
     Vec3i chunkpos = getChunkPos(position);
     size_t renderedChunks = 0;
-    for (auto&& c : mChunks)
+    for (auto&& c : mChunkRenderers)
     {
-        ChunkClient& p = static_cast<ChunkClient&>(*c);
-        if (!p.isRenderBuilt())
-            continue;
-        if (chunkpos.chebyshevDistance(p.getPosition()) > mRenderDist)
-            continue;
-        Renderer::translate(Vec3f(p.getPosition() * Chunk::Size()));
-        p.render();
-        Renderer::translate(Vec3f(-p.getPosition() * Chunk::Size()));
-        renderedChunks++;
+        if (chunkpos.chebyshevDistance(c.first->getPosition()) <= mRenderDist)
+        {
+            Renderer::translate(Vec3f(c.first->getPosition() * Chunk::Size()));
+            c.second.render();
+            Renderer::translate(Vec3f(-c.first->getPosition() * Chunk::Size()));
+            ++renderedChunks;
+        }
     }
     return renderedChunks;
 }

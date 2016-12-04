@@ -64,10 +64,8 @@ Server::~Server()
 }
 
 // Normally it does nothing, just collects garbage :)
-LocalTunnelServer::LocalTunnelServer(void* cc)
+LocalTunnelServer::LocalTunnelServer()
 {
-    mWorlds.clear();
-    mWorlds.addWorld("main_world", cc);
 }
 
 // TEMP CODE!

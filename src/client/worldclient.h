@@ -21,8 +21,10 @@
 #define WORLDCLIENT_H_
 
 #include <array>
+#include <unordered_map>
 #include <world/world.h>
 #include "chunkclient.h"
+
 class GameConnection;
 
 const int MaxChunkRenderCount = 4;
@@ -79,8 +81,6 @@ public:
     {
     }
 
-    Chunk* addChunk(const Vec3i& chunkPos, ChunkOnReleaseBehavior::Behavior behv = ChunkOnReleaseBehavior::Behavior::Release) override;
-
     void setRenderDistance(int x)
     {
         mRenderDist = x;
@@ -99,11 +99,12 @@ public:
 private:
     // Ranges
     int mRenderDist = 0, mLoadRange = 0;
-    // ChunkRenderers
+    // Chunk Renderers
+    std::unordered_map<Chunk*, ChunkRenderer> mChunkRenderers;
     // Chunk load list [position, distance]
     OrderedList<int, Vec3i, MaxChunkLoadCount> mChunkLoadList;
     // Render build list
-    OrderedList<int, ChunkClient*, MaxChunkRenderCount> mChunkRenderList;
+    OrderedList<int, Chunk*, MaxChunkRenderCount> mChunkRenderList;
     // Chunk unload list [pointer, distance]
     OrderedList<int, Chunk*, MaxChunkUnloadCount, std::greater> mChunkUnloadList;
     bool neighbourChunkLoadCheck(const Vec3i& pos);

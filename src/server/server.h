@@ -61,7 +61,7 @@ protected:
 class LocalTunnelServer : public Server
 {
 public:
-    LocalTunnelServer(void*);
+    LocalTunnelServer();
     void run() override;
     void stop() override;
     World* getWorld(size_t id);

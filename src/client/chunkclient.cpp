@@ -119,7 +119,7 @@ ChunkRenderer::ChunkRenderer(Chunk *chunk) :mBuffer(), mBufferTrans()
         {
             BlockData b = chunk->getBlock(pos);
             target = (chunk->getWorld()->getType(b.getID()).isTranslucent()) ? &va1 : &va0;
-            BlockRendererManager::render(b.getID(), reinterpret_cast<ChunkClient*>(chunk), pos);
+            BlockRendererManager::render(b.getID(), chunk, pos);
         });
     }
 
@@ -127,11 +127,4 @@ ChunkRenderer::ChunkRenderer(Chunk *chunk) :mBuffer(), mBufferTrans()
     mBufferTrans = std::move(VertexBuffer(va1));
 }
 
-void ChunkClient::buildVertexArray()
-{
-    // Notice: the building process shall not fail
-    setUpdated(false);
-    mRenderer = std::move(ChunkRenderer(this));
-    mRenderBuilt = true;
-}
 
