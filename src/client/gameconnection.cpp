@@ -228,7 +228,7 @@ void LocalConnectionByTunnel::getChunk(Vec3i pos)
     for (auto&& p : delta)
         mWorld->doIfChunkLoaded(c->getPosition() + p, [](Chunk& chk)
     { chk.setUpdated(true); });
-    c->increaseStrongRef();
+    c->increaseRef();
     // TODO : CHANGE IT!
     c->resetWold(mWorld);
     mWorld->insertChunk(c->getPosition(), std::move(ChunkHDC<Chunk>(c, ChunkOnReleaseBehavior::Behavior::DeReference)));

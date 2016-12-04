@@ -49,7 +49,6 @@ void World::updateChunkLoadStatus()
 {
     for (auto iter = mChunks.begin(); iter < mChunks.end();)
     {
-        (*iter)->decreaseWeakRef();
         if ((*iter)->checkReleaseable())
             iter = mChunks.erase(iter);
         else

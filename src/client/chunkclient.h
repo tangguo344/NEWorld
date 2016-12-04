@@ -79,7 +79,7 @@ public:
     static Chunk* getFromFlatbuffers(const s2c::Chunk* fbChunk, WorldClient& worlds);
 
     // Render default block
-    void renderBlock(BlockTexCoord coord[], const Vec3i& pos);
+    static void renderBlock(Chunk* chunk, BlockTexCoord coord[], const Vec3i& pos);
 
 private:
     // Vertex buffer object
@@ -91,9 +91,9 @@ private:
     // Merge face rendering
     static bool mergeFace;
 
-    bool adjacentTest(BlockData a, BlockData b) const
+    static bool adjacentTest(BlockData a, BlockData b, World* world) noexcept
     {
-        return a.getID() != 0 && !mWorld->getType(b.getID()).isOpaque() && !(a.getID() == b.getID());
+        return a.getID() != 0 && !world->getType(b.getID()).isOpaque() && !(a.getID() == b.getID());
     }
 };
 

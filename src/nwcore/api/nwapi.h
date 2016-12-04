@@ -94,7 +94,13 @@ struct NWblocktype
     int32_t hardness;
 };
 
+typedef void* NWchunk;
+typedef void* NWworld;
+
 // NEWorld APIs
+NWAPIENTRY NWchunk NWAPICALL nwCreateChunk(NWworld, const NWvec3i*);
+NWAPIENTRY NWblockdata* NWAPICALL nwGetBlocksInChunk(NWchunk);
+NWAPIENTRY void NWAPICALL nwDeleteChunk(NWchunk);
 
 NWAPIENTRY NWblockdata NWAPICALL nwGetBlock(const NWvec3i* pos);
 NWAPIENTRY int NWAPICALL nwSetBlock(const NWvec3i* pos, NWblockdata block);

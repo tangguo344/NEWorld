@@ -98,6 +98,10 @@ class LocalConnectionByTunnel : public GameConnection
 {
 public:
     LocalConnectionByTunnel();
+    ~LocalConnectionByTunnel()
+    {
+        LocalConnectionByTunnel::disconnect();
+    }
     void connect() override;
     void disconnect() override;
     void waitForConnected() override;

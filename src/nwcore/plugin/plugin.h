@@ -28,7 +28,7 @@
 #include "world/nwblock.h"
 #include "common/library.h"
 
-#include "../../api/c/nwapi.h"
+#include "api/nwapi.h"
 #include "common/nwexport.h"
 #include "common/nwconcepts.hpp"
 

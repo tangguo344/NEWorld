@@ -51,28 +51,3 @@ void Chunk::build(int daylightBrightness)
     (*ChunkGen)(&getPosition(), getBlocks(), daylightBrightness);
     setUpdated(true);
 }
-
-void Chunk::increaseWeakRef()
-{
-    mWeakRefrenceCount.store(mWeakRefrenceCount + 150);
-}
-
-void Chunk::decreaseWeakRef()
-{
-    mWeakRefrenceCount.store(std::max(mWeakRefrenceCount - 1, 0));
-}
-
-void Chunk::increaseStrongRef()
-{
-    mRefrenceCount.store(mWeakRefrenceCount + 1);
-}
-
-void Chunk::decreaseStrongRef()
-{
-    mRefrenceCount.store(std::max(mWeakRefrenceCount - 1, 0));
-}
-
-bool Chunk::checkReleaseable() const
-{
-    return (mRefrenceCount + mWeakRefrenceCount) == 0;
-}

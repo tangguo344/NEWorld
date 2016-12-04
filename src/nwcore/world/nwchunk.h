@@ -103,13 +103,17 @@ public:
     void build(int daylightBrightness);
 
     // Reference Counting
-    void increaseWeakRef();
-    void decreaseWeakRef();
-    void increaseStrongRef();
-    void decreaseStrongRef();
-    bool checkReleaseable() const;
+    void markRequest() noexcept { mLastRequestTime = std::chrono::steady_clock::now(); }
+    void increaseRef() noexcept { mReferenceCount.store(mReferenceCount + 1); }
+    void decreaseRef() noexcept { mReferenceCount.store(std::max(mReferenceCount - 1, 0)); }
+    bool checkReleaseable() const noexcept
+    {
+        using namespace std::chrono;
+        return (((steady_clock::now() - mLastRequestTime) > 10s) && mReferenceCount == 0);
+    }
 
-    void resetWold(World* w) { mWorld = w; };
+    World* getWorld() noexcept { return mWorld; }
+    void resetWold(World* w) { }//mWorld = w; };
 protected:
     class World* mWorld;
 private:
@@ -117,9 +121,8 @@ private:
     BlockData mBlocks[0b1000000000000000];
     bool mUpdated = false, mModified = false;
     // For Garbage Collection
-    long long mReferenceCount;
+    std::atomic_int mReferenceCount{0};
     std::chrono::steady_clock::time_point mLastRequestTime;
-    std::atomic<int> mRefrenceCount{0}, mWeakRefrenceCount{0};
 };
 
 
@@ -137,9 +140,7 @@ struct NWCOREAPI ChunkOnReleaseBehavior
             delete target;
             break;
         case ChunkOnReleaseBehavior::Behavior::DeReference:
-            target->decreaseStrongRef();
-            break;
-        default:
+            target->decreaseRef();
             break;
         }
     }

@@ -53,7 +53,7 @@ void DefaultBlockRenderer::flushTexture()
 
 void DefaultBlockRenderer::render(ChunkClient* chunk, const Vec3i& pos)
 {
-    chunk->renderBlock(tex, pos);
+    ChunkClient::renderBlock(chunk, tex, pos);
 }
 
 DefaultBlockRenderer::DefaultBlockRenderer(size_t data[])
