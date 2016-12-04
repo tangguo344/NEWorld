@@ -77,7 +77,7 @@ public:
     static Vec3i getBlockPos(const Vec3i& pos) { return ChunkManager::getBlockPos(pos); }
     BlockData getBlock(const Vec3i& pos) const { return mChunks.getBlock(pos); }
     BlockData& getBlock(const Vec3i& pos) { return mChunks.getBlock(pos); }
-    void setBlock(const Vec3i& pos, BlockData block) const { mChunks.setBlock(pos, block); }
+    void setBlock(const Vec3i& pos, BlockData block) { mChunks.setBlock(pos, block); }
     size_t getChunkIndex(const Vec3i& ChunkPos) const { return mChunks.getIndex(ChunkPos); }
     auto insertChunk(size_t index, ChunkHDC<Chunk>&& ptr) { return mChunks.insert(index, std::move(ptr)); }
     auto insertChunk(const Vec3i& pos, ChunkHDC<Chunk>&& ptr) { return mChunks.insert(pos, std::move(ptr)); }

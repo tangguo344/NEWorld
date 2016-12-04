@@ -28,8 +28,6 @@ Chunk* WorldClient::addChunk(const Vec3i& chunkPos, ChunkOnReleaseBehavior::Beha
 void WorldClient::renderUpdate(const Vec3i& position)
 {
     Vec3i chunkpos = getChunkPos(position);
-    int pr = 0;
-
     for (size_t i = 0; i < getChunkCount(); i++)
     {
         ChunkClient& p = static_cast<ChunkClient&>(getChunk(i));
@@ -37,72 +35,24 @@ void WorldClient::renderUpdate(const Vec3i& position)
         // In render range, pending to render
         if (chunkpos.chebyshevDistance(p.getPosition()) <= mRenderDist)
         {
-            if (!p.needRenderRebuilt()/* || p.isEmpty()*/)
-                continue;
-            // Check neighbor chunks
-            bool f = true;
-            Vec3i::for_range(-1, 2, [&](Vec3i& neighbor)
+            if (p.needRenderRebuilt() && neighbourChunkLoadCheck(p.getPosition()))
             {
-                if (neighbor == Vec3i(0, 0, 0))
-                    return;
-                if (!isChunkLoaded(p.getPosition() + neighbor))
-                {
-                    // Neighbor chunk not loaded
-                    f = false;
-                    neighbor = Vec3i(2, 2, 2); // Exit for_range loop
-                }
-            });
-            if (!f)
-                continue;
-
-            // Get chunk center pos
-            Vec3i curPos = p.getPosition();
-            curPos.for_each([](int& x)
-            {
-                x = x * Chunk::Size() + Chunk::Size() / 2 - 1;
-            });
-
-            // Distance from center pos
-            int distsqr = (curPos - position).lengthSqr();
-
-            // Binary search in render list
-            int first = 0, last = pr - 1;
-            while (first <= last)
-            {
-                int middle = (first + last) / 2;
-                if (distsqr < mChunkRenderList[middle].second)
-                    last = middle - 1;
-                else
-                    first = middle + 1;
+                // Get chunk center pos
+                Vec3i curPos = p.getPosition() * Chunk::Size() + middleOffset();
+                // Distance from center pos
+                mChunkRenderList.insert((curPos - position).lengthSqr(), &p);
             }
-
-            // Not very near, don't render now
-            if (first > pr || first >= MaxChunkRenderCount)
-                continue;
-
-            // Move elements to make prace
-            for (int j = MaxChunkRenderCount - 1; j > first; j--)
-                mChunkRenderList[j] = mChunkRenderList[j - 1];
-
-            // Insert into list
-            mChunkRenderList[first] = { &p, distsqr };
-
-            // Add counter
-            if (pr < MaxChunkRenderCount)
-                pr++;
         }
         else
         {
-            if (!p.isRenderBuilt())
-                continue;
-
-            p.destroyVertexArray();
+            if (p.isRenderBuilt())
+                p.destroyVertexArray();
         }
     }
 
-    for (int i = 0; i < pr; i++)
-        mChunkRenderList[i].first->buildVertexArray();
-
+    for (auto&& op : mChunkRenderList)
+        op.second->buildVertexArray();
+    mChunkRenderList.clear();
 }
 
 size_t WorldClient::render(const Vec3i& position) const
@@ -126,113 +76,53 @@ size_t WorldClient::render(const Vec3i& position) const
 
 void WorldClient::sortChunkLoadUnloadList(const Vec3i& centerPos)
 {
-    Vec3i centerCPos;
-    int pl = 0, pu = 0;
-    int distsqr, first, middle, last;
-
     // centerPos to chunk coords
-    centerCPos = getChunkPos(centerPos);
+    Vec3i centerCPos = getChunkPos(centerPos);
 
     for (size_t ci = 0; ci < getChunkCount(); ci++)
     {
         Vec3i curPos = getChunk(ci).getPosition();
-
         // Out of load range, pending to unload
         if (centerCPos.chebyshevDistance(curPos) > mLoadRange)
         {
             // Get chunk center pos
-            curPos.for_each([](int& x)
-            {
-                x = x * Chunk::Size() + Chunk::Size() / 2 - 1;
-            });
-
-            // Distance from centerPos
-            distsqr = (curPos - centerPos).lengthSqr();
-
-            // Binary search in unload list
-            first = 0;
-            last = pl - 1;
-            while (first <= last)
-            {
-                middle = (first + last) / 2;
-                if (distsqr > mChunkUnloadList[middle].second)
-                    last = middle - 1;
-                else
-                    first = middle + 1;
-            }
-
-            // Not very far, don't unload now
-            if (first > pl || first >= MaxChunkUnloadCount)
-                continue;
-
-            // Move elements to make place
-            for (int j = MaxChunkUnloadCount - 1; j > first; j--)
-                mChunkUnloadList[j] = mChunkUnloadList[j - 1];
-
-            // Insert into list
-            mChunkUnloadList[first] = { &getChunk(ci), distsqr };
-
-            // Add counter
-            if (pl < MaxChunkUnloadCount)
-                pl++;
+            curPos = curPos * Chunk::Size() + middleOffset();
+            // Distance from center
+            mChunkUnloadList.insert((curPos - centerPos).lengthSqr(), &getChunk(ci));
         }
     }
-    mChunkUnloadCount = pl;
 
     for (int x = centerCPos.x - mLoadRange; x <= centerCPos.x + mLoadRange; x++)
         for (int y = centerCPos.y - mLoadRange; y <= centerCPos.y + mLoadRange; y++)
             for (int z = centerCPos.z - mLoadRange; z <= centerCPos.z + mLoadRange; z++)
                 // In load range, pending to load
-                if (!isChunkLoaded(Vec3i(x, y, z))) // if (mCpa.get(Vec3i(x, y, z)) == nullptr)
+                if (!isChunkLoaded(Vec3i(x, y, z)))
                 {
-                    Vec3i curPos(x, y, z);
-                    // Get chunk center pos
-                    curPos.for_each([](int& x)
-                    {
-                        x = x * Chunk::Size() + Chunk::Size() / 2 - 1;
-                    });
-
+                    Vec3i curPos = Vec3i(x, y, z) * Chunk::Size() + middleOffset();
                     // Distance from centerPos
-                    distsqr = (curPos - centerPos).lengthSqr();
-
-                    // Binary search in load list
-                    first = 0;
-                    last = pu - 1;
-                    while (first <= last)
-                    {
-                        middle = (first + last) >> 1;
-                        if (distsqr < mChunkLoadList[middle].second)
-                            last = middle - 1;
-                        else
-                            first = middle + 1;
-                    }
-
-                    // Not very near, don't load now
-                    if (first > pu || first >= MaxChunkLoadCount)
-                        continue;
-
-                    // Move elements to make place
-                    for (int j = MaxChunkLoadCount - 1; j > first; j--)
-                        mChunkLoadList[j] = mChunkLoadList[j - 1];
-
-                    // Insert into list
-                    mChunkLoadList[first] = { Vec3i(x, y, z), distsqr };
-
-                    // Add counter
-                    if (pu < MaxChunkLoadCount)
-                        pu++;
+                    mChunkLoadList.insert((curPos - centerPos).lengthSqr(), Vec3i(x, y, z));
                 }
-    mChunkLoadCount = pu;
 }
 
 void WorldClient::tryLoadChunks(GameConnection& conn)
 {
-    for (int i = 0; i < mChunkLoadCount; i++)
-    {
-        conn.getChunk(mChunkLoadList[i].first);
-    }
-    for (int i = 0; i < mChunkUnloadCount; i++)
-        deleteChunk(mChunkUnloadList[i].first->getPosition());
+    for (auto&& op : mChunkLoadList)
+        conn.getChunk(op.second);
+    for (auto&& op : mChunkUnloadList)
+        deleteChunk(op.second->getPosition());
+    mChunkLoadList.clear();
+    mChunkUnloadList.clear();
 }
 
-
+bool WorldClient::neighbourChunkLoadCheck(const Vec3i& pos)
+{
+    constexpr std::array<Vec3i, 6> delta
+    {
+            Vec3i(1, 0, 0), Vec3i(-1, 0, 0), Vec3i(0, 1, 0),
+            Vec3i(0,-1, 0), Vec3i(0, 0, 1), Vec3i(0, 0,-1)
+    };
+    for (auto&& p : delta)
+        if (!isChunkLoaded(pos + p))
+            return false;
+    return true;
+}

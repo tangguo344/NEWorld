@@ -78,7 +78,6 @@ public:
     static void render(size_t id, class ChunkClient* chunk, const Vec3i& pos); //RenderList
     static void setBlockRenderer(size_t pos, std::shared_ptr<BlockRenderer>&& blockRenderer);
     static void flushTextures();
-
 private:
     static std::vector<std::shared_ptr<BlockRenderer>> mBlockRenderers;
 };

@@ -161,7 +161,7 @@ public:
     using reverse_iterator = typename array_t::reverse_iterator;
     using const_reverse_iterator = typename array_t::const_reverse_iterator;
     using reference = Chunk&;
-    using const_reference = const reference;
+    using const_reference = const Chunk&;
     ChunkManagerBase() = default;
     ChunkManagerBase(size_t size) { mChunks.reserve(size); }
     ChunkManagerBase(ChunkManagerBase&& rhs) : mChunks(std::move(rhs.mChunks)) {}
@@ -275,7 +275,7 @@ public:
     }
 
     // Set block data
-    void setBlock(const Vec3i& pos, BlockData block) const
+    void setBlock(const Vec3i& pos, BlockData block)
     {
         at(getPos(pos)).setBlock(getBlockPos(pos), block);
     }
