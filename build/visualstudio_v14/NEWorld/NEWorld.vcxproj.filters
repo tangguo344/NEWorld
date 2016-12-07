@@ -103,6 +103,9 @@
     <ClInclude Include="..\..\..\src\client\blockrenderer.h">
       <Filter>Source\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\client\hogui\hogui.h">
+      <Filter>Source\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\client\renderer.cpp">
