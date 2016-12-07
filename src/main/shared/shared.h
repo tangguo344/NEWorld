@@ -20,7 +20,7 @@
 #ifndef SHARED_H_
 #define SHARED_H_
 
-#include "api/nwapi.h"
+#include "./../../nwcore/api/nwapi.h"
 
 // Block IDs
 extern int32_t GrassID, RockID, DirtID, SandID;
