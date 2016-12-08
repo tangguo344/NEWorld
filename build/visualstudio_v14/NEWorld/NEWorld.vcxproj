@@ -415,11 +415,6 @@
     <ClInclude Include="..\..\..\src\client\worldclient.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Shared\Shared.vcxproj">
-      <Project>{286102d2-39f0-4578-8328-fb6b3836393b}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="..\..\..\src\client\blockrenderer.cpp" />
     <ClCompile Include="..\..\..\src\client\chunkclient.cpp" />
     <ClCompile Include="..\..\..\src\client\clientapi.cpp" />

@@ -19,11 +19,12 @@
 
 #include <iostream>
 #include "worldgen.h"
-#include "../shared/shared.h"
 
 int WorldGen::seed = 3404;
 double WorldGen::NoiseScaleX = 64;
 double WorldGen::NoiseScaleZ = 64;
+
+extern int32_t GrassID, RockID, DirtID, SandID;
 
 // Chunk generator
 void NWAPICALL generator(const NWvec3i *pos, NWblockdata * blocks, int daylightBrightness)

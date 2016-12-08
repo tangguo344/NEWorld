@@ -17,6 +17,9 @@
     <Filter Include="源文件\world">
       <UniqueIdentifier>{e690cf12-7561-4b96-b4b8-231648c4c549}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\context">
+      <UniqueIdentifier>{29e5ad4d-0c50-4372-9fed-acd6cae57842}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\nwcore\api\nwpluginapi.cpp">
@@ -39,6 +42,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\nwcore\world\nwblock.cpp">
       <Filter>源文件\world</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\nwcore\context\nwcontext.cpp">
+      <Filter>源文件\context</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -107,6 +113,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\common\nwconcepts.hpp">
       <Filter>源文件\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\context\nwcontext.hpp">
+      <Filter>源文件\context</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

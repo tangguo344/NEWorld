@@ -26,7 +26,6 @@
 #include "worldmanager.h"
 #include <world/nwblock.h>
 #include <plugin/pluginmanager.h>
-#include <pluginapi.h>
 #include <common/ratemeter.h>
 #include <world/world.h>
 #include <unordered_map>

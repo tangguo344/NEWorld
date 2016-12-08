@@ -62,7 +62,7 @@ struct NWvec3i
     int32_t x, y, z;
 };
 
-enum
+enum NWplugintype
 {
     nwPluginTypeClientOnly,
     nwPluginTypeServerOnly,
@@ -102,8 +102,6 @@ NWAPIENTRY NWchunk NWAPICALL nwCreateChunk(NWworld, const NWvec3i*);
 NWAPIENTRY NWblockdata* NWAPICALL nwGetBlocksInChunk(NWchunk);
 NWAPIENTRY void NWAPICALL nwDeleteChunk(NWchunk);
 
-NWAPIENTRY NWblockdata NWAPICALL nwGetBlock(const NWvec3i* pos);
-NWAPIENTRY int NWAPICALL nwSetBlock(const NWvec3i* pos, NWblockdata block);
 NWAPIENTRY size_t NWAPICALL nwRegisterBlock(const NWblocktype*);
 NWAPIENTRY void NWAPICALL nwLog(char* str);
 #ifdef NEWORLD_PLUGIN_CLIENT_SIDE
@@ -123,18 +121,8 @@ NWAPIENTRY void NWAPICALL nwLog(char* str);
 
 #endif
 
-#ifdef NEWORLD_PLUGIN_SERVER_SIDE
-    // Server-only APIs
-
-    typedef void NWAPICALL NWchunkgenerator(const NWvec3i*, NWblockdata*, int32_t);
-    NWAPIENTRY size_t NWAPICALL nwRegisterChunkGenerator(NWchunkgenerator* const generator);
-
-#endif
-
-// Plugin exported functions
-NWAPIENTRY NWplugindata* NWAPICALL getInfo();
-NWAPIENTRY void NWAPICALL init();
-NWAPIENTRY void NWAPICALL unload();
+typedef void NWAPICALL NWchunkgenerator(const NWvec3i*, NWblockdata*, int32_t);
+NWAPIENTRY size_t NWAPICALL nwRegisterChunkGenerator(NWchunkgenerator* const generator);
 
 #ifdef __cplusplus
 }

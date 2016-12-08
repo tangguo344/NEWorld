@@ -20,13 +20,6 @@
 #ifndef SERVERAPI_H_
 #define SERVERAPI_H_
 
-#include "./../../shared/pluginapi.h"
-#include "../world/nwchunk.h"
 
-namespace PluginAPI
-{
-    using ChunkGenerator = void NWAPICALL(const Vec3i*, BlockData*, int);
-    using NWchunkgenerator = ChunkGenerator;
-}
 
 #endif

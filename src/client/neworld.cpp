@@ -19,12 +19,12 @@
 
 #include "neworld.h"
 #include "texture.h"
-#include <pluginapi.h>
 #include <common/jsonhelper.h>
+#include <context/nwcontext.hpp>
 #include "window.h"
 #include "game.h"
 NWDECLEARLOGGER("client")
-NEWorld::NEWorld() : mPlugins(true)
+NEWorld::NEWorld()
 {
     // Initialize
     getSettings();
@@ -32,9 +32,7 @@ NEWorld::NEWorld() : mPlugins(true)
     Window& window = Window::getInstance("NEWorld", 852, 480);
     Renderer::init();
     Texture::init();
-    PluginAPI::Blocks = &mBlocks;
-    PluginAPI::Plugins = &mPlugins;
-    mPlugins.loadPlugins();
+    context.plugins.initializePlugins(nwPluginTypeClientOnly);
 
     // Run
     Game game("TestWorld",
@@ -56,6 +54,5 @@ NEWorld::NEWorld() : mPlugins(true)
 
     // Terminate
     infostream << "Terminating...";
-    mPlugins.unloadPlugins();
     Texture::free();
 }

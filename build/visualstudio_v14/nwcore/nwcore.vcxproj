@@ -29,6 +29,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\src\nwcore\api\nwpluginapi.cpp" />
     <ClCompile Include="..\..\..\src\nwcore\common\nwsafety.cpp" />
+    <ClCompile Include="..\..\..\src\nwcore\context\nwcontext.cpp" />
     <ClCompile Include="..\..\..\src\nwcore\plugin\plugin.cpp" />
     <ClCompile Include="..\..\..\src\nwcore\plugin\pluginmanager.cpp" />
     <ClCompile Include="..\..\..\src\nwcore\world\nwblock.cpp" />
@@ -53,6 +54,7 @@
     <ClInclude Include="..\..\..\src\nwcore\common\ratemeter.h" />
     <ClInclude Include="..\..\..\src\nwcore\common\utils.h" />
     <ClInclude Include="..\..\..\src\nwcore\common\vec3.h" />
+    <ClInclude Include="..\..\..\src\nwcore\context\nwcontext.hpp" />
     <ClInclude Include="..\..\..\src\nwcore\plugin\plugin.h" />
     <ClInclude Include="..\..\..\src\nwcore\plugin\pluginmanager.h" />
     <ClInclude Include="..\..\..\src\nwcore\world\nwblock.h" />

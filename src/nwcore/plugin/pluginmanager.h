@@ -31,22 +31,16 @@
 class NWCOREAPI PluginManager : public NonCopyable
 {
 public:
-    PluginManager(bool isClient);
-    ~PluginManager()
-    {
-        unloadPlugins();
-    }
+    PluginManager();
+    ~PluginManager();
+
+    void initializePlugins(NWplugintype flag);
 
     // Load single plugin
     void loadPlugin(const std::string& filename);
-    // Load plugins
-    void loadPlugins();
-    // Unload plugins
-    void unloadPlugins();
 
 private:
     std::vector<Plugin> mPlugins;
-    bool mIsClient;
 };
 
 #endif // !PLUGINMANAGER_H_

@@ -27,7 +27,6 @@
 
 #include <world/world.h>
 #include <common/nwsafety.hpp>
-#include <pluginapi.h>
 #include <world/nwblock.h>
 #include <plugin/pluginmanager.h>
 #include "worldclient.h"
@@ -56,10 +55,6 @@ private:
     const Window& mWindow;
     // Texture test
     Texture mTexture;
-    // Blocks
-    const BlockManager& mBlocks;
-    // Loaded plugins
-    PluginManager& mPlugins;
     // World
     WorldClient mWorld;
     // Player

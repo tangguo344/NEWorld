@@ -23,36 +23,7 @@
 #include "common/nwsafety.hpp"
 #include <common/filesys.h>
 
-PluginManager::PluginManager(bool isClient)
-    : mIsClient(isClient)
-{
-}
-
-void PluginManager::loadPlugin(const std::string& filename)
-{
-    mPlugins.push_back(std::move(Plugin(filename)));
-    Plugin& plugin = mPlugins[mPlugins.size() - 1];
-    if (!plugin.isCompatible(mIsClient))
-    {
-        mPlugins.pop_back();
-        return;
-    }
-
-    plugin.init();
-
-    if (!plugin.isLoaded())
-    {
-        mPlugins.pop_back();
-        warningstream << "Failed to load plugin from \"" << filename << "\", skipping";
-        return;
-    }
-
-    infostream << "Loaded plugin \"" << plugin.getData().pluginName << "\"["
-               << plugin.getData().internalName
-               << "], authored by \"" << plugin.getData().authorName << "\"";
-}
-
-void PluginManager::loadPlugins()
+PluginManager::PluginManager()
 {
     using namespace FileSystem;
     std::string path = "./plugins/";
@@ -69,7 +40,34 @@ void PluginManager::loadPlugins()
     }
 }
 
-void PluginManager::unloadPlugins()
+PluginManager::~PluginManager()
 {
     mPlugins.clear();
+}
+
+void PluginManager::initializePlugins(NWplugintype flag)
+{
+    for (auto&& plugin : mPlugins)
+    {
+        if (plugin.isCompatible(flag))
+            plugin.init(flag);
+    }
+}
+
+void PluginManager::loadPlugin(const std::string& filename)
+{
+    mPlugins.push_back(std::move(Plugin(filename)));
+    Plugin& plugin = mPlugins[mPlugins.size() - 1];
+
+    if (!plugin.isLoaded())
+    {
+        mPlugins.pop_back();
+        warningstream << "Failed to load plugin from \"" << filename << "\", skipping";
+    }
+    else
+    {
+        infostream << "Loaded plugin \"" << plugin.getData().pluginName << "\"["
+            << plugin.getData().internalName
+            << "], authored by \"" << plugin.getData().authorName << "\"";
+    }
 }

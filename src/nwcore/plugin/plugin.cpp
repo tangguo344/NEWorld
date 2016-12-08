@@ -21,10 +21,10 @@
 #include "common/nwsafety.hpp"
 
 typedef NWplugindata* NWAPICALL GetInfoFunction();
-typedef void NWAPICALL InitFunction();
+typedef void NWAPICALL InitFunction(NWplugintype);
 typedef void NWAPICALL UnloadFunction();
 
-int Plugin::init()
+int Plugin::init(NWplugintype type)
 {
     InitFunction* init = nullptr;
     if (mLib.isLoaded())
@@ -33,7 +33,7 @@ int Plugin::init()
         {
             init = mLib.get<InitFunction>("init");
             if (init)
-                init();
+                init(type);
             else
             {
                 warningstream << "Lack of init func!";

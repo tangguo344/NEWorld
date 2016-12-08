@@ -52,7 +52,7 @@ public:
         unload();
     }
 
-    int init();
+    int init(NWplugintype type);
 
     // Get plugin data
     const NWplugindata& getData() const
@@ -77,12 +77,9 @@ public:
     // Unload plugin
     void unload();
 
-    bool isCompatible(bool isClient) const
+    bool isCompatible(NWplugintype type) const
     {
-        if (mData->pluginType == nwPluginTypeShared) return true;
-        if (isClient && mData->pluginType == nwPluginTypeClientOnly) return true;
-        if (!isClient && mData->pluginType == nwPluginTypeServerOnly) return true;
-        return false;
+        return ((mData->pluginType & type) > 0);
     }
 
 private:

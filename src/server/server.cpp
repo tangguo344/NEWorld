@@ -22,7 +22,7 @@
 #include "commandmanager.h"
 
 Server::Server()
-    : mWorlds(mPlugins, mBlocks), mPlugins(false), mNetwork(mWorlds)
+    : mWorlds(mPlugins, mBlocks), mPlugins(), mNetwork(mWorlds)
 {
     using namespace std::chrono;
     auto startTime = steady_clock::now();
@@ -31,7 +31,7 @@ Server::Server()
     PluginAPI::Blocks = &mBlocks;
 
     infostream << "Initializing plugins...";
-    mPlugins.loadPlugins();
+    mPlugins.initializePlugins(nwPluginTypeServerOnly);
 
     // World
     mWorlds.addWorld("main_world");

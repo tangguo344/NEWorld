@@ -27,14 +27,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\api\c\nwapi.h" />
     <ClInclude Include="..\..\..\src\main\server\worldgen.h" />
-    <ClInclude Include="..\..\..\src\main\shared\shared.h" />
+    <ClInclude Include="..\..\..\src\nwcore\api\nwapi.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\main\server\entry.cpp" />
     <ClCompile Include="..\..\..\src\main\server\worldgen.cpp" />
-    <ClCompile Include="..\..\..\src\main\shared\shared.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{8FD25F27-64E4-4F88-8B64-8449DD471651}</ProjectGuid>

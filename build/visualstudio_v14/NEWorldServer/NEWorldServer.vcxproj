@@ -27,11 +27,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Shared\Shared.vcxproj">
-      <Project>{286102d2-39f0-4578-8328-fb6b3836393b}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="..\..\..\src\server\builtincommands.cpp" />
     <ClCompile Include="..\..\..\src\server\commandmanager.cpp" />
     <ClCompile Include="..\..\..\src\server\connection.cpp" />
