@@ -89,6 +89,7 @@ private:
     const NWplugindata* mData;
     // Load status
     int mStatus = -1;
+    NWplugintype mLoadStat = nwPluginTypeNone;
 };
 
 #endif // !PLUGIN_H_

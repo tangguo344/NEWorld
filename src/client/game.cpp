@@ -25,10 +25,11 @@
 #include "window.h"
 #include <common/jsonhelper.h>
 #include "blockrenderer.h"
+#include <context/nwcontext.hpp>
 
 Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
-           const Window& window, PluginManager& pm, const BlockManager& bm):
-    mWindow(window), mWorld(name, pm, bm), mPlayer(&mWorld), mConnection(connection)
+           const Window& window):
+    mWindow(window), mWorld(name, context.plugins, context.blocks), mPlayer(&mWorld), mConnection(connection)
 {
     mWorld.setRenderDistance(2);
     mPlayer.setPosition(Vec3d(-16.0, 48.0, 32.0));

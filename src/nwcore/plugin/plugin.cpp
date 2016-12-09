@@ -32,12 +32,12 @@ int Plugin::init(NWplugintype type)
         try
         {
             init = mLib.get<InitFunction>("init");
+            auto mode = static_cast<NWplugintype>(type & (~mLoadStat));
             if (init)
-                init(type);
+                init(mode);
             else
             {
                 warningstream << "Lack of init func!";
-                return mStatus = 2;
             }
         }
         catch (std::exception& e)
@@ -47,6 +47,7 @@ int Plugin::init(NWplugintype type)
     }
     else
         return mStatus = 1;  // Failed: could not load
+    mLoadStat = static_cast<NWplugintype>(mLoadStat | type);
     return mStatus = 0;
 }
 

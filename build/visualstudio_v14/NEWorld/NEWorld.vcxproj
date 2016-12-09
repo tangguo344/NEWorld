@@ -175,7 +175,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>nwcore.lib;glew32.lib;opengl32.lib;freetype2.lib;SDL2.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;nwcore.lib;glew32.lib;opengl32.lib;freetype2.lib;SDL2.lib;SDL2_image.lib;RakNetLibStatic.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <Profile>false</Profile>
       <SubSystem>NotSet</SubSystem>
       <EntryPointSymbol>
@@ -208,7 +208,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>nwcore.lib;glew32.lib;opengl32.lib;freetype2.lib;SDL2.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;nwcore.lib;glew32.lib;opengl32.lib;freetype2.lib;SDL2.lib;SDL2_image.lib;RakNetLibStatic.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <Profile>false</Profile>
       <SubSystem>NotSet</SubSystem>
       <EntryPointSymbol>
@@ -250,7 +250,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>nwcore.lib;glew32.lib;opengl32.lib;freetype2.lib;SDL2.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;nwcore.lib;glew32.lib;opengl32.lib;freetype2.lib;SDL2.lib;SDL2_image.lib;RakNetLibStatic.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>NotSet</SubSystem>
       <EntryPointSymbol>
       </EntryPointSymbol>
@@ -292,7 +292,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>nwcore.lib;glew32.lib;opengl32.lib;freetype2.lib;SDL2.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;nwcore.lib;glew32.lib;opengl32.lib;freetype2.lib;SDL2.lib;SDL2_image.lib;RakNetLibStatic.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>NotSet</SubSystem>
       <EntryPointSymbol>
       </EntryPointSymbol>
@@ -334,7 +334,7 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>nwcore.lib;glew32.lib;opengl32.lib;freetype2.lib;SDL2.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;nwcore.lib;glew32.lib;opengl32.lib;freetype2.lib;SDL2.lib;SDL2_image.lib;RakNetLibStatic.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>NotSet</SubSystem>
       <EntryPointSymbol>
       </EntryPointSymbol>
@@ -376,7 +376,7 @@
       <GenerateDebugInformation>Debug</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>nwcore.lib;glew32.lib;opengl32.lib;freetype2.lib;SDL2.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ws2_32.lib;nwcore.lib;glew32.lib;opengl32.lib;freetype2.lib;SDL2.lib;SDL2_image.lib;RakNetLibStatic.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>NotSet</SubSystem>
       <EntryPointSymbol>
       </EntryPointSymbol>

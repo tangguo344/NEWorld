@@ -32,14 +32,14 @@ NEWorld::NEWorld()
     Window& window = Window::getInstance("NEWorld", 852, 480);
     Renderer::init();
     Texture::init();
-    context.plugins.initializePlugins(nwPluginTypeClientOnly);
+    context.plugins.initializePlugins(nwPluginTypeShared);
 
     // Run
     Game game("TestWorld",
               std::make_shared<LocalConnectionByTunnel>(),
                   //getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1"),
                   //getJsonValue<unsigned short>(getSettings()["server"]["port"], 31111)),
-              window, mPlugins, mBlocks);
+              window);
     while(!window.shouldQuit())
     {
         // Update

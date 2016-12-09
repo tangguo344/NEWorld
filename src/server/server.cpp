@@ -20,18 +20,16 @@
 #include "server.h"
 #include <common/jsonhelper.h>
 #include "commandmanager.h"
+#include <context/nwcontext.hpp>
 
 Server::Server()
-    : mWorlds(mPlugins, mBlocks), mPlugins(), mNetwork(mWorlds)
+    : mWorlds(context.plugins, context.blocks), mNetwork(mWorlds)
 {
     using namespace std::chrono;
     auto startTime = steady_clock::now();
 
-    // Plugin
-    PluginAPI::Blocks = &mBlocks;
-
     infostream << "Initializing plugins...";
-    mPlugins.initializePlugins(nwPluginTypeServerOnly);
+    context.plugins.initializePlugins(nwPluginTypeServerOnly);
 
     // World
     mWorlds.addWorld("main_world");

@@ -51,8 +51,6 @@ protected:
 
     // Component managers
     WorldManager mWorlds;
-    BlockManager mBlocks;
-    PluginManager mPlugins;
     NetworkManager mNetwork;
     CommandManager mCommands;
 };

@@ -27,10 +27,6 @@ class NEWorld
 {
 public:
     NEWorld();
-
-private:
-    PluginManager mPlugins;
-    BlockManager mBlocks;
 };
 
 

@@ -64,9 +64,10 @@ struct NWvec3i
 
 enum NWplugintype
 {
-    nwPluginTypeClientOnly,
-    nwPluginTypeServerOnly,
-    nwPluginTypeShared
+    nwPluginTypeNone = 0,
+    nwPluginTypeClientOnly = 1,
+    nwPluginTypeServerOnly = 2,
+    nwPluginTypeShared = 3
 };
 
 struct NWplugindata

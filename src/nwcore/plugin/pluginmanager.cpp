@@ -48,10 +48,7 @@ PluginManager::~PluginManager()
 void PluginManager::initializePlugins(NWplugintype flag)
 {
     for (auto&& plugin : mPlugins)
-    {
-        if (plugin.isCompatible(flag))
-            plugin.init(flag);
-    }
+        plugin.init(flag);
 }
 
 void PluginManager::loadPlugin(const std::string& filename)
