@@ -76,7 +76,6 @@ public:
     static int getBlockAxisPos(int pos) { return ChunkManager::getBlockAxisPos(pos); }
     static Vec3i getBlockPos(const Vec3i& pos) { return ChunkManager::getBlockPos(pos); }
     BlockData getBlock(const Vec3i& pos) const { return mChunks.getBlock(pos); }
-    BlockData& getBlock(const Vec3i& pos) { return mChunks.getBlock(pos); }
     void setBlock(const Vec3i& pos, BlockData block) { mChunks.setBlock(pos, block); }
     size_t getChunkIndex(const Vec3i& ChunkPos) const { return mChunks.getIndex(ChunkPos); }
     auto insertChunk(size_t index, ChunkHDC<Chunk>&& ptr) { return mChunks.insert(index, std::move(ptr)); }
@@ -110,9 +109,9 @@ public:
     NWCOREAPI void updateChunkLoadStatus();
 
 protected:
-
     // World name
     std::string mName;
+    std::mutex mMutex;
     // World ID
     size_t mID;
     static size_t IDCount;
@@ -122,7 +121,6 @@ protected:
     const BlockManager& mBlocks;
     // All Chunks (Chunk array)
     ChunkManager mChunks;
-
     int mDaylightBrightness;
 };
 

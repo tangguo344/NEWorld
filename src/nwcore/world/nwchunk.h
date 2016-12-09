@@ -20,6 +20,7 @@
 #ifndef CHUNK_H_
 #define CHUNK_H_
 
+#include <mutex>
 #include <atomic>
 #include <chrono>
 #include <memory>
@@ -45,7 +46,7 @@ public:
     virtual ~Chunk() {}
 
     // Get chunk position
-    const Vec3i& getPosition() const
+    const Vec3i& getPosition()
     {
         return mPosition;
     }
@@ -74,18 +75,12 @@ public:
         return mBlocks[pos.x * Size() * Size() + pos.y * Size() + pos.z];
     }
 
-    // Get block reference in this chunk
-    BlockData& getBlock(const Vec3i& pos)
-    {
-        Assert(pos.x >= 0 && pos.x < Size() && pos.y >= 0 && pos.y < Size() && pos.z >= 0 && pos.z < Size());
-        return mBlocks[pos.x * Size() * Size() + pos.y * Size() + pos.z];
-    }
-
     // Get block pointer
     BlockData* getBlocks()
     {
         return mBlocks;
     }
+
     const BlockData* getBlocks() const
     {
         return mBlocks;
@@ -103,13 +98,14 @@ public:
     void build(int daylightBrightness);
 
     // Reference Counting
-    void markRequest() noexcept { mLastRequestTime = std::chrono::steady_clock::now(); }
-    void increaseRef() noexcept { mReferenceCount.store(mReferenceCount + 1); }
-    void decreaseRef() noexcept { mReferenceCount.store(std::max(mReferenceCount - 1, 0)); }
-    bool checkReleaseable() const noexcept
+    void markRequest() noexcept { std::unique_lock<std::mutex> lock(mMutex); mLastRequestTime = std::chrono::steady_clock::now(); }
+    void increaseRef() noexcept { std::unique_lock<std::mutex> lock(mMutex); ++mReferenceCount; }
+    void decreaseRef() noexcept { std::unique_lock<std::mutex> lock(mMutex); --mReferenceCount; }
+    bool checkReleaseable() noexcept
     {
+        std::unique_lock<std::mutex> lock(mMutex);
         using namespace std::chrono;
-        return (((steady_clock::now() - mLastRequestTime) > 10s) && mReferenceCount == 0);
+        return (((steady_clock::now() - mLastRequestTime) > 10s) && mReferenceCount <= 0);
     }
 
     World* getWorld() noexcept { return mWorld; }
@@ -117,10 +113,11 @@ protected:
     class World* mWorld;
 private:
     Vec3i mPosition;
+    std::mutex mMutex;
     BlockData mBlocks[0b1000000000000000];
     bool mUpdated = false, mModified = false;
     // For Garbage Collection
-    std::atomic_int mReferenceCount{0};
+    int mReferenceCount{0};
     std::chrono::steady_clock::time_point mLastRequestTime;
 };
 
@@ -193,11 +190,11 @@ public:
     reference operator[](const Vec3i& chunkPos) { return at(chunkPos); }
     const_reference operator[](const Vec3i& chunkPos) const { return at(chunkPos); }
     
-    iterator insert(iterator it, data_t&& chunk) { return mChunks.insert(it, std::move(chunk)); }
+    iterator insert(iterator it, data_t&& chunk) { std::unique_lock<std::mutex> lock(mMutex); return mChunks.insert(it, std::move(chunk)); }
     iterator insert(size_t id, data_t&& chunk) { return insert(mChunks.begin() + id, std::move(chunk)); }
     iterator insert(const Vec3i& chunkPos, data_t&& chunk) { return insert(getIndex(chunkPos), std::move(chunk)); }
   
-    iterator erase(iterator it) { return mChunks.erase(it); }
+    iterator erase(iterator it) { std::unique_lock<std::mutex> lock(mMutex); return mChunks.erase(it); }
     iterator erase(size_t id) { return erase(mChunks.begin() + id); }
     iterator erase(const Vec3i& chunkPos) { return erase(getIndex(chunkPos)); }
 
@@ -268,12 +265,6 @@ public:
         return at(getPos(pos)).getBlock(getBlockPos(pos));
     }
 
-    // Get block reference
-    BlockData& getBlock(const Vec3i& pos)
-    {
-        return at(getPos(pos)).getBlock(getBlockPos(pos));
-    }
-
     // Set block data
     void setBlock(const Vec3i& pos, BlockData block)
     {
@@ -282,6 +273,7 @@ public:
 
 private:
     array_t mChunks;
+    std::mutex mMutex;
 };
 
 using ChunkManager = ChunkManagerBase<ChunkHDC>;

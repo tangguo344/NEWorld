@@ -32,6 +32,7 @@ ChunkGenerator *Chunk::ChunkGen = &DefaultChunkGen;
 
 Chunk::Chunk(const Vec3i& position, class World& world) : mPosition(position), mWorld(&world)
 {
+    std::unique_lock<std::mutex> lock(mMutex);
     build(mWorld->getDaylightBrightness());
     constexpr std::array<Vec3i, 6> delta
     {

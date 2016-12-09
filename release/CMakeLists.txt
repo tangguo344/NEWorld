@@ -31,15 +31,16 @@ add_definitions(-DNWCOREEXPORTS)
 aux_source_directory(${SOURCE_DIR}/client SRC_CLIENT)
 aux_source_directory(${SOURCE_DIR}/client/imgui SRC_CLIENT)
 aux_source_directory(${SOURCE_DIR}/server SRC_SERVER)
+
 aux_source_directory(${SOURCE_DIR}/nwcore SRC_CORE)
 aux_source_directory(${SOURCE_DIR}/nwcore/api SRC_CORE)
 aux_source_directory(${SOURCE_DIR}/nwcore/world SRC_CORE)
 aux_source_directory(${SOURCE_DIR}/nwcore/plugin SRC_CORE)
 aux_source_directory(${SOURCE_DIR}/nwcore/common SRC_CORE)
+aux_source_directory(${SOURCE_DIR}/nwcore/context SRC_CORE)
 
 add_library(nwserver SHARED ${SRC_SERVER})
 add_library(nwclient SHARED ${SRC_CLIENT})
-add_library(nwshared STATIC ${SRC_SHARED})
 add_library(nwcore SHARED ${SRC_CORE})
 
 target_include_directories(nwclient PUBLIC ${SOURCE_DIR}/shared PUBLIC)
@@ -49,8 +50,8 @@ target_include_directories(nwserver PUBLIC ${SOURCE_DIR}/nwcore PUBLIC)
 target_include_directories(nwcore PUBLIC ${SOURCE_DIR}/nwcore PUBLIC)
 target_include_directories(nwcore PUBLIC ${SOURCE_DIR}/shared PUBLIC)
 
-SET_TARGET_PROPERTIES(nwclient nwserver PROPERTIES PREFIX "")
-SET_TARGET_PROPERTIES(nwclient nwserver PROPERTIES SUFFIX "")
+SET_TARGET_PROPERTIES(nwclient nwserver nwcore PROPERTIES PREFIX "")
+SET_TARGET_PROPERTIES(nwclient nwserver nwcore PROPERTIES SUFFIX "")
 
 
 target_link_libraries(nwserver nwcore pthread RakNetDLL)

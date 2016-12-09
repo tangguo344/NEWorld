@@ -47,6 +47,7 @@ void World::update()
 
 void World::updateChunkLoadStatus()
 {
+    std::unique_lock<std::mutex> lock(mMutex);
     for (auto iter = mChunks.begin(); iter < mChunks.end();)
     {
         if ((*iter)->checkReleaseable())
