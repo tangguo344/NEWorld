@@ -31,7 +31,7 @@ Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
            const Window& window):
     mWindow(window), mWorld(name, context.plugins, context.blocks), mPlayer(&mWorld), mConnection(connection)
 {
-    mWorld.setRenderDistance(10);
+    mWorld.setRenderDistance(8);
     mPlayer.setPosition(Vec3d(-16.0, 48.0, 32.0));
     mPlayer.setRotation(Vec3d(-45.0, -22.5, 0.0));
 
@@ -58,7 +58,7 @@ Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
         ImGui::Text("FPS %d, UPS %d", mFpsLatest, mUpsLatest);
         ImGui::Text("Position: x %.1f y %.1f z %.1f", mPlayer.getPosition().x, mPlayer.getPosition().y, mPlayer.getPosition().z);
         ImGui::Text("GUI Widgets: %zu", mGUIWidgets.getSize());
-        ImGui::Text("Chunks Loaded: %zu/%zu", mWorld.getChunkCount(), mWorld.getReservedChunkCount());
+        ImGui::Text("Chunks Loaded: %zu", mWorld.getChunkCount());
     }));
 
     // Initialize connection

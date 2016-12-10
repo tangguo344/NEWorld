@@ -65,22 +65,16 @@ public:
     const ChunkManager& getChunks() const noexcept { return mChunks; }
     // Alias declearations for Chunk management
     size_t getChunkCount() const { return mChunks.size(); }
-    size_t getReservedChunkCount() const { return mChunks.capacity(); }
-    ChunkReference getChunk(size_t index) { return mChunks[index]; }
     ChunkReference getChunk(const Vec3i& ChunkPos) { return mChunks[ChunkPos]; }
     bool isChunkLoaded(const Vec3i& ChunkPos) const noexcept { return mChunks.isLoaded(ChunkPos); }
-    ChunkIterator deleteChunk(size_t index) { return mChunks.erase(index); }
-    ChunkIterator deleteChunk(const Vec3i& ChunkPos) { return mChunks.erase(ChunkPos); }
+    void deleteChunk(const Vec3i& ChunkPos) { mChunks.erase(ChunkPos); }
     static int getChunkAxisPos(int pos) { return ChunkManager::getAxisPos(pos); }
     static Vec3i getChunkPos(const Vec3i& pos) { return ChunkManager::getPos(pos); }
     static int getBlockAxisPos(int pos) { return ChunkManager::getBlockAxisPos(pos); }
     static Vec3i getBlockPos(const Vec3i& pos) { return ChunkManager::getBlockPos(pos); }
     BlockData getBlock(const Vec3i& pos) const { return mChunks.getBlock(pos); }
     void setBlock(const Vec3i& pos, BlockData block) { mChunks.setBlock(pos, block); }
-    size_t getChunkIndex(const Vec3i& ChunkPos) const { return mChunks.getIndex(ChunkPos); }
-    auto insertChunk(size_t index, ChunkHDC<Chunk>&& ptr) { return mChunks.insert(index, std::move(ptr)); }
     auto insertChunk(const Vec3i& pos, ChunkHDC<Chunk>&& ptr) { return mChunks.insert(pos, std::move(ptr)); }
-    auto resetChunk(size_t index, Chunk* ptr) { return mChunks.reset(index, ptr); }
     auto resetChunk(const Vec3i& pos, Chunk* ptr) { return mChunks.reset(pos, ptr); }
     template <typename... ArgType, typename Func>
     void doIfChunkLoaded(const Vec3i& ChunkPos, Func func, ArgType&&... args)
@@ -91,7 +85,7 @@ public:
     // Add Chunk
     virtual Chunk* addChunk(const Vec3i& chunkPos, ChunkOnReleaseBehavior::Behavior behv = ChunkOnReleaseBehavior::Behavior::Release) 
     {
-        return insertChunk(chunkPos, std::move(ChunkHDC<Chunk>(new Chunk(chunkPos, *this), ChunkOnReleaseBehavior(behv))))->get();
+        return insertChunk(chunkPos, std::move(ChunkHDC<Chunk>(new Chunk(chunkPos, *this), ChunkOnReleaseBehavior(behv))))->second.get();
     }
 
 

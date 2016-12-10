@@ -38,9 +38,9 @@ public:
     {
     }
 
-    constexpr Vec3(T value) : x(value), y(value), z(value)
-    {
-    }
+    //constexpr Vec3(T value) : x(value), y(value), z(value)
+    //{
+    //}
 
     template <typename U, std::enable_if_t<std::is_convertible<T, U>::value, int> = 0>
     constexpr Vec3(const Vec3<U>& rhs) : x(T(rhs.x)), y(T(rhs.y)), z(T(rhs.z))

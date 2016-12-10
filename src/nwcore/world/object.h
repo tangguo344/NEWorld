@@ -27,7 +27,7 @@
 class Object
 {
 public:
-    Object() : mWorld(nullptr), mScale(1.0)
+    Object() : mWorld(nullptr), mScale(1.0, 1.0, 1.0)
     {
     }
 

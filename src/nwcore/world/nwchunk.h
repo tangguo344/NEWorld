@@ -25,6 +25,7 @@
 #include <chrono>
 #include <memory>
 #include <vector>
+#include <unordered_map>
 #include "common/vec3.h"
 #include "common/debug.h"
 #include "common/nwexport.h"
@@ -122,6 +123,11 @@ private:
 };
 
 
+struct ChunkHasher
+{
+	constexpr size_t operator()(const Vec3i& t) const noexcept { return static_cast<size_t>(t.x * 23947293731 + t.z * 3296467037 + t.y * 1234577); }
+};
+
 struct NWCOREAPI ChunkOnReleaseBehavior
 {
     enum class Behavior : size_t
@@ -140,7 +146,8 @@ struct NWCOREAPI ChunkOnReleaseBehavior
             break;
         }
     }
-    ChunkOnReleaseBehavior(Behavior b) : status(b) {}
+	constexpr ChunkOnReleaseBehavior() :status(ChunkOnReleaseBehavior::Behavior::Release) {};
+    constexpr ChunkOnReleaseBehavior(Behavior b) : status(b) {}
 };
 
 //I Dont Know Whats The Best Way...
@@ -152,11 +159,10 @@ class ChunkManagerBase: public NonCopyable
 {
 public:
     using data_t = prtT<Chunk>;
-    using array_t = std::vector<data_t>;
+    //using array_t = std::vector<data_t>;
+	using array_t = typename std::unordered_map<Vec3i, data_t, ChunkHasher>;
     using iterator = typename array_t::iterator;
     using const_iterator = typename array_t::const_iterator;
-    using reverse_iterator = typename array_t::reverse_iterator;
-    using const_reverse_iterator = typename array_t::const_reverse_iterator;
     using reference = Chunk&;
     using const_reference = const Chunk&;
     ChunkManagerBase() = default;
@@ -165,70 +171,38 @@ public:
     ~ChunkManagerBase() = default;
     // Access and modifiers
     size_t size() const noexcept { return mChunks.size(); }
-    size_t capacity() const noexcept { return mChunks.capacity(); }
     iterator begin() noexcept { return mChunks.begin(); }
     const_iterator begin() const noexcept { return mChunks.begin(); }
     iterator end() noexcept { return mChunks.end(); }
-    const_iterator end() const noexcept { return mChunks.end(); }
-    reverse_iterator rbegin() noexcept { return mChunks.rbegin(); }
-    const_reverse_iterator rbegin() const noexcept { return mChunks.rbegin(); }
-    reverse_iterator rend() noexcept { return mChunks.rend(); }
-    const_reverse_iterator rend() const noexcept { return mChunks.rend(); }
     
     const_iterator cbegin() const noexcept { return mChunks.cbegin(); }
     const_iterator cend() const noexcept { return mChunks.cend(); }
-    const_reverse_iterator crbegin() const noexcept { return mChunks.crbegin(); }
-    const_reverse_iterator crend() const noexcept { return mChunks.crend(); }
     
-    reference at(size_t index) { return *mChunks[index]; }
-    const_reference at(size_t index) const { return *mChunks[index]; }
-    reference at(const Vec3i& chunkPos) { return at(getIndex(chunkPos)); }
-    const_reference at(const Vec3i& chunkPos) const { return at(getIndex(chunkPos)); }
+    reference at(const Vec3i& chunkPos) { return *(mChunks.at(chunkPos)); }
+    const_reference at(const Vec3i& chunkPos) const { return *(mChunks.at(chunkPos)); }
     
-    reference operator[](size_t id) { return at(id); }
-    const_reference operator[](size_t id) const { return at(id); }
     reference operator[](const Vec3i& chunkPos) { return at(chunkPos); }
     const_reference operator[](const Vec3i& chunkPos) const { return at(chunkPos); }
     
-    iterator insert(iterator it, data_t&& chunk) { std::unique_lock<std::mutex> lock(mMutex); return mChunks.insert(it, std::move(chunk)); }
-    iterator insert(size_t id, data_t&& chunk) { return insert(mChunks.begin() + id, std::move(chunk)); }
-    iterator insert(const Vec3i& chunkPos, data_t&& chunk) { return insert(getIndex(chunkPos), std::move(chunk)); }
+	iterator insert(const Vec3i& chunkPos, data_t&& chunk) { mChunks[chunkPos] = std::move(chunk);  return mChunks.find(chunkPos); }
   
-    iterator erase(iterator it) { std::unique_lock<std::mutex> lock(mMutex); return mChunks.erase(it); }
-    iterator erase(size_t id) { return erase(mChunks.begin() + id); }
-    iterator erase(const Vec3i& chunkPos) { return erase(getIndex(chunkPos)); }
+    iterator erase(iterator it) { return mChunks.erase(it); }
+    void erase(const Vec3i& chunkPos) { mChunks.erase(chunkPos); }
 
-    iterator reset(iterator it, Chunk* chunk) { it->reset(chunk); return it; }
-    iterator reset(size_t id, Chunk* chunk) { return reset(mChunks.begin() + id, chunk); }
-    iterator reset(const Vec3i& chunkPos, Chunk* chunk) { return reset(getIndex(chunkPos), chunk); }
+    iterator reset(iterator it, Chunk* chunk) { it->second.reset(chunk); return it; }
+    iterator reset(const Vec3i& chunkPos, Chunk* chunk) { return reset(mChunks.find(chunkPos), chunk); }
     
-    // Chunk Only Functions
-    size_t getIndex(const Vec3i& chunkPos) const
-    {
-        int first = 0, last = static_cast<int>(size()) - 1;
-        while (first <= last)
-        {
-            int mid = (first + last) / 2;
-            if (mChunks[mid]->getPosition() < chunkPos)
-                first = mid + 1;
-            else
-                last = mid - 1;
-        }
-        return first;
-    }
-
     template <typename... ArgType, typename Func>
     void doIfLoaded(const Vec3i& chunkPos, Func func, ArgType&&... args)
     {
-        size_t index = getIndex(chunkPos);
-        if ((index < size()) && (mChunks[index]->getPosition() == chunkPos))
-            func(at(index), std::forward<ArgType>(args)...);
+		auto iter = mChunks.find(chunkPos);
+		if (iter != mChunks.end())
+            func(*(iter->second), std::forward<ArgType>(args)...);
     };
 
     bool isLoaded(const Vec3i& chunkPos) const noexcept
     {
-        size_t index = getIndex(chunkPos);
-        return (index < size()) && (chunkPos == mChunks[index]->getPosition());
+        return mChunks.find(chunkPos) != mChunks.end();
     }
     
     // Convert world position to chunk coordinate (one axis)
@@ -273,7 +247,6 @@ public:
 
 private:
     array_t mChunks;
-    std::mutex mMutex;
 };
 
 using ChunkManager = ChunkManagerBase<ChunkHDC>;

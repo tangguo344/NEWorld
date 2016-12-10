@@ -26,20 +26,15 @@ void WorldClient::renderUpdate(const Vec3i& position)
     for (auto&& chunk : mChunks)
     {
         // In render range, pending to render
-        if (chunkpos.chebyshevDistance(chunk->getPosition()) <= mRenderDist)
+        if (chunkpos.chebyshevDistance(chunk.second->getPosition()) <= mRenderDist)
         {
-            if ((mChunkRenderers.find(chunk.get()) == mChunkRenderers.end()) &&
-                    neighbourChunkLoadCheck(chunk->getPosition()))
-            {
-                // Get chunk center pos
-                Vec3i curPos = chunk->getPosition() * Chunk::Size() + middleOffset();
-                // Distance from center pos
-                mChunkRenderList.insert((curPos - position).lengthSqr(), chunk.get());
-            }
+            if ((mChunkRenderers.find(chunk.second.get()) == mChunkRenderers.end()) &&
+                    neighbourChunkLoadCheck(chunk.second->getPosition()))
+                mChunkRenderList.insert((chunk.second->getPosition() * Chunk::Size() + middleOffset() - position).lengthSqr(), chunk.second.get());
         }
         else
         {
-            auto iter = mChunkRenderers.find(chunk.get());
+            auto iter = mChunkRenderers.find(chunk.second.get());
             if (iter != mChunkRenderers.end())
                 mChunkRenderers.erase(iter);
         }
@@ -48,8 +43,7 @@ void WorldClient::renderUpdate(const Vec3i& position)
     for (auto&& op : mChunkRenderList)
     {
         op.second->setUpdated(false);
-        mChunkRenderers.insert(
-                std::pair<Chunk*, ChunkRenderer>(op.second, std::move(ChunkRenderer(op.second))));
+        mChunkRenderers.insert(std::pair<Chunk*, ChunkRenderer>(op.second, std::move(ChunkRenderer(op.second))));
     }
     mChunkRenderList.clear();
 }
@@ -76,17 +70,12 @@ void WorldClient::sortChunkLoadUnloadList(const Vec3i& centerPos)
     // centerPos to chunk coords
     Vec3i centerCPos = getChunkPos(centerPos);
 
-    for (size_t ci = 0; ci < getChunkCount(); ci++)
+    for (auto&& chunk : mChunks)
     {
-        Vec3i curPos = getChunk(ci).getPosition();
+        Vec3i curPos = chunk.second->getPosition();
         // Out of load range, pending to unload
         if (centerCPos.chebyshevDistance(curPos) > mLoadRange)
-        {
-            // Get chunk center pos
-            curPos = curPos * Chunk::Size() + middleOffset();
-            // Distance from center
-            mChunkUnloadList.insert((curPos - centerPos).lengthSqr(), &getChunk(ci));
-        }
+            mChunkUnloadList.insert((curPos * Chunk::Size() + middleOffset() - centerPos).lengthSqr(), chunk.second.get());
     }
 
     for (int x = centerCPos.x - mLoadRange; x <= centerCPos.x + mLoadRange; x++)
@@ -94,11 +83,7 @@ void WorldClient::sortChunkLoadUnloadList(const Vec3i& centerPos)
             for (int z = centerCPos.z - mLoadRange; z <= centerCPos.z + mLoadRange; z++)
                 // In load range, pending to load
                 if (!isChunkLoaded(Vec3i(x, y, z)))
-                {
-                    Vec3i curPos = Vec3i(x, y, z) * Chunk::Size() + middleOffset();
-                    // Distance from centerPos
-                    mChunkLoadList.insert((curPos - centerPos).lengthSqr(), Vec3i(x, y, z));
-                }
+                    mChunkLoadList.insert((Vec3i(x, y, z) * Chunk::Size() + middleOffset() - centerPos).lengthSqr(), Vec3i(x, y, z));
 }
 
 void WorldClient::tryLoadChunks(GameConnection& conn)
