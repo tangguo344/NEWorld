@@ -51,8 +51,8 @@ public:
     // Draw call
     void render() const
     {
-        mBuffer.render();
-        mBufferTrans.render();
+        if (!mBuffer.isEmpty()) mBuffer.render();
+		if (!mBufferTrans.isEmpty()) mBufferTrans.render();
     }
     // Render default block
     static void renderBlock(Chunk* chunk, BlockTexCoord coord[], const Vec3i& pos);

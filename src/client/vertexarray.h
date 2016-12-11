@@ -220,6 +220,11 @@ public:
         }
     }
 
+	bool isEmpty() const noexcept
+	{
+		return (vertexes == 0);
+	}
+
 private:
     // Buffer ID
     VertexBufferID id;

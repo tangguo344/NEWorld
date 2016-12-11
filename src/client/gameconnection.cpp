@@ -99,62 +99,7 @@ void MultiplayerConnection::getChunk(Vec3i pos)
     mConn.send<c2s::RequestChunk>(FlatFactory::c2s::RequestChunk(pos), PacketPriority::MEDIUM_PRIORITY, PacketReliability::UNRELIABLE);
 }
 
-LocalConnectionByNetWork::LocalConnectionByNetWork(const std::string& host, unsigned short port)
-    :MultiplayerConnection(host, port),
-     mPath(getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver").c_str()),
-     mTimeout(getJsonValue<int>(getSettings()["client"]["server_start_timeout"], 30))
-{
-}
-
-void LocalConnectionByNetWork::connect()
-{
-    mCallback = [this](bool success)
-    {
-        if (success) MultiplayerConnection::connect();
-    };
-    mLib = std::move(Library(mPath));
-    mLocalServerThread = std::thread([this]()
-    {
-        bool opened = mLib.get<bool NWAPICALL(void*)>("nwInitServer")(nullptr);
-        if (opened)
-        {
-            mReady.store(true);
-            mLib.get<void NWAPICALL()>("nwRunServer")();
-        }
-        else
-            fatalstream << "Failed to start local server";
-    });
-
-    mStartTime = std::chrono::system_clock::now();
-
-    while (!mReady)
-    {
-        std::this_thread::yield();
-        if (mTimeout != -1 && std::chrono::system_clock::now() - mStartTime > std::chrono::seconds(mTimeout))
-        {
-            fatalstream << "Local server timeout!";
-            mLocalServerThread.detach();
-            mCallback(false);
-            return;
-        }
-    }
-    mCallback(true);
-}
-
-void LocalConnectionByNetWork::disconnect()
-{
-    MultiplayerConnection::disconnect();
-    if (mLocalServerThread.joinable())
-    {
-        debugstream << "Call nwStopServer";
-        mLib.get<void NWAPICALL()>("nwStopServer")();
-        debugstream << "Waiting for local server thread...";
-        mLocalServerThread.join();
-        debugstream << "Local server thread exited!";
-    }
-}
-
-LocalConnectionByTunnel::LocalConnectionByTunnel():
+LocalConnection::LocalConnection():
     mPath(getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver").c_str()),
     mTimeout(getJsonValue<int>(getSettings()["client"]["server_start_timeout"], 30))
 {
@@ -164,7 +109,7 @@ LocalConnectionByTunnel::LocalConnectionByTunnel():
     sfGetChunk = mLib.get<Chunk* NWAPICALL(int32_t x, int32_t y, int32_t z)>("nwLocalServerGetChunk");
 }
 
-void LocalConnectionByTunnel::connect()
+void LocalConnection::connect()
 {
     mLocalServerThread = std::thread([this]()
     {
@@ -192,7 +137,7 @@ void LocalConnectionByTunnel::connect()
     }
 }
 
-void LocalConnectionByTunnel::disconnect()
+void LocalConnection::disconnect()
 {
     if (mLocalServerThread.joinable())
     {
@@ -204,16 +149,16 @@ void LocalConnectionByTunnel::disconnect()
     }
 }
 
-void LocalConnectionByTunnel::waitForConnected()
+void LocalConnection::waitForConnected()
 {
 }
 
-void LocalConnectionByTunnel::login(const char * username, const char * password)
+void LocalConnection::login(const char * username, const char * password)
 {
     sfLogin(username, password);
 }
 
-void LocalConnectionByTunnel::getChunk(Vec3i pos)
+void LocalConnection::getChunk(Vec3i pos)
 {
     auto c = sfGetChunk(pos.x, pos.y, pos.z);
     Assert(c);
@@ -231,7 +176,7 @@ void LocalConnectionByTunnel::getChunk(Vec3i pos)
     mWorld->insertChunk(c->getPosition(), std::move(ChunkHDC<Chunk>(c, ChunkOnReleaseBehavior::Behavior::DeReference)));
 }
 
-World * LocalConnectionByTunnel::getWorld(size_t id)
+World * LocalConnection::getWorld(size_t id)
 {
     return sfGetWorld(id);
 }

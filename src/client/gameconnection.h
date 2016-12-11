@@ -73,34 +73,14 @@ private:
     flatbuffers::FlatBufferBuilder mFbb;
 };
 
-class LocalConnectionByNetWork : public MultiplayerConnection
-{
-public:
-    LocalConnectionByNetWork(const std::string& host, unsigned short port);
-    ~LocalConnectionByNetWork()
-    {
-        LocalConnectionByNetWork::disconnect();
-    }
-    void connect() override;
-    void disconnect() override;
-private:
-    Library mLib;
-    std::string mPath;
-    std::thread mLocalServerThread;
-    std::atomic_bool mReady{false};
-    int mTimeout;
-    std::chrono::system_clock::time_point mStartTime;
-    std::function<void(bool)> mCallback;
-};
-
 // Tunnel Connection : Client Side
-class LocalConnectionByTunnel : public GameConnection
+class LocalConnection : public GameConnection
 {
 public:
-    LocalConnectionByTunnel();
-    ~LocalConnectionByTunnel()
+    LocalConnection();
+    ~LocalConnection()
     {
-        LocalConnectionByTunnel::disconnect();
+        LocalConnection::disconnect();
     }
     void connect() override;
     void disconnect() override;
