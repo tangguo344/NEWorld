@@ -119,7 +119,7 @@ Texture BlockTextureBuilder::buildAndFlush()
     glBindTexture(GL_TEXTURE_2D, ret);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
-    Texture::build2DMipmaps(GL_RGBA, s->w, s->h, static_cast<int>(log2(s->w)), static_cast<const ubyte*>(s->pixels));
+    Texture::build2DMipmaps(GL_RGBA, s->w, s->h, static_cast<int>(log2(mPixelPerTexture)), static_cast<const ubyte*>(s->pixels));
     return Texture(ret);
 }
 
