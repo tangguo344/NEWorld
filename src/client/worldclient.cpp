@@ -55,13 +55,16 @@ size_t WorldClient::render(const Vec3i& position) const
     for (auto&& c : mChunkRenderers)
     {
         if (chunkpos.chebyshevDistance(c.first->getPosition()) <= mRenderDist)
-        {
-            Renderer::translate(Vec3f(c.first->getPosition() * Chunk::Size()));
-            c.second.render();
-            Renderer::translate(Vec3f(-c.first->getPosition() * Chunk::Size()));
-            ++renderedChunks;
-        }
+            c.second.render(c.first->getPosition());
     }
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	for (auto&& c : mChunkRenderers)
+	{
+		if (chunkpos.chebyshevDistance(c.first->getPosition()) <= mRenderDist)
+			c.second.renderTrans(c.first->getPosition());
+	}
+	glDisable(GL_BLEND);
     return renderedChunks;
 }
 

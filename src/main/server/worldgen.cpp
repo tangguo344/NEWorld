@@ -24,7 +24,7 @@ int WorldGen::seed = 3404;
 double WorldGen::NoiseScaleX = 64;
 double WorldGen::NoiseScaleZ = 64;
 
-extern int32_t GrassID, RockID, DirtID, SandID;
+extern int32_t GrassID, RockID, DirtID, SandID, WaterID;
 
 // Chunk generator
 void NWAPICALL generator(const NWvec3i *pos, NWblockdata * blocks, int daylightBrightness)
@@ -34,7 +34,7 @@ void NWAPICALL generator(const NWvec3i *pos, NWblockdata * blocks, int daylightB
         {
             int absHeight = WorldGen::getHeight(pos->x * NWChunkSize + x, pos->z * NWChunkSize + z);
             int height = absHeight - pos->y * NWChunkSize;
-            bool underWater = absHeight <= 0;
+			bool underWater = (absHeight) <= 0;
             for (int y = 0; y < NWChunkSize; y++)
             {
                 NWblockdata &block = blocks[x * NWChunkSize * NWChunkSize + y * NWChunkSize + z];
@@ -58,7 +58,7 @@ void NWAPICALL generator(const NWvec3i *pos, NWblockdata * blocks, int daylightB
                 }
                 else
                 {
-                    block.id = NWAirID;
+					block.id = ((pos->y * NWChunkSize + y <= 0) ? WaterID : NWAirID);
                     block.brightness = daylightBrightness;
                     block.state = 0;
                 }
