@@ -27,7 +27,7 @@
 #include "blockrenderer.h"
 #include <context/nwcontext.hpp>
 
-Game::Game(const std::string& name, std::shared_ptr<GameConnection> connection,
+Game::Game(const std::string& name, std::shared_ptr<ClientGameConnection> connection,
            const Window& window):
     mWindow(window), mWorld(name, context.plugins, context.blocks), mPlayer(&mWorld), mConnection(connection)
 {

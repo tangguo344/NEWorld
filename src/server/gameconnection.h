@@ -27,20 +27,20 @@
 class World;
 class Chunk;
 
-class GameConnection
+class ServerGameConnection
 {
 public:
-    virtual ~GameConnection() = default;
+    virtual ~ServerGameConnection() = default;
 
     // Functions
     virtual void sendChunk(Chunk* chunk) = 0;
     virtual void handleReceivedData(Identifier id, unsigned char* data, size_t len) = 0;
 };
 
-class MultiplayerConnection : public GameConnection
+class ServerMultiplayerConnection : public ServerGameConnection
 {
 public:
-    MultiplayerConnection(WorldManager& wm,NetworkManager &network, RakNet::RakPeerInterface *peer, RakNet::SystemAddress addr)
+	ServerMultiplayerConnection(WorldManager& wm,NetworkManager &network, RakNet::RakPeerInterface *peer, RakNet::SystemAddress addr)
         :mConn(network,peer,addr), mWorlds(wm) {}
 
     void sendChunk(Chunk* chunk) override;

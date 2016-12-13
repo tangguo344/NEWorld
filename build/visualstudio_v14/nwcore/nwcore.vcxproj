@@ -27,6 +27,24 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\src\client\blockrenderer.cpp" />
+    <ClCompile Include="..\..\..\src\client\chunkclient.cpp" />
+    <ClCompile Include="..\..\..\src\client\clientapi.cpp" />
+    <ClCompile Include="..\..\..\src\client\clientgameconnection.cpp" />
+    <ClCompile Include="..\..\..\src\client\game.cpp" />
+    <ClCompile Include="..\..\..\src\client\imguihelper.cpp" />
+    <ClCompile Include="..\..\..\src\client\imgui\imgui.cpp" />
+    <ClCompile Include="..\..\..\src\client\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\..\..\src\client\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\..\..\src\client\mainclient.cpp" />
+    <ClCompile Include="..\..\..\src\client\network.cpp" />
+    <ClCompile Include="..\..\..\src\client\neworld.cpp" />
+    <ClCompile Include="..\..\..\src\client\player.cpp" />
+    <ClCompile Include="..\..\..\src\client\renderer.cpp" />
+    <ClCompile Include="..\..\..\src\client\texture.cpp" />
+    <ClCompile Include="..\..\..\src\client\vertexarray.cpp" />
+    <ClCompile Include="..\..\..\src\client\window.cpp" />
+    <ClCompile Include="..\..\..\src\client\worldclient.cpp" />
     <ClCompile Include="..\..\..\src\nwcore\api\nwpluginapi.cpp" />
     <ClCompile Include="..\..\..\src\nwcore\common\nwsafety.cpp" />
     <ClCompile Include="..\..\..\src\nwcore\context\nwcontext.cpp" />
@@ -35,8 +53,39 @@
     <ClCompile Include="..\..\..\src\nwcore\world\nwblock.cpp" />
     <ClCompile Include="..\..\..\src\nwcore\world\nwchunk.cpp" />
     <ClCompile Include="..\..\..\src\nwcore\world\world.cpp" />
+    <ClCompile Include="..\..\..\src\server\builtincommands.cpp" />
+    <ClCompile Include="..\..\..\src\server\commandmanager.cpp" />
+    <ClCompile Include="..\..\..\src\server\connection.cpp" />
+    <ClCompile Include="..\..\..\src\server\gameconnection.cpp" />
+    <ClCompile Include="..\..\..\src\server\mainserver.cpp" />
+    <ClCompile Include="..\..\..\src\server\networkmanager.cpp" />
+    <ClCompile Include="..\..\..\src\server\server.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\src\client\blockrenderer.h" />
+    <ClInclude Include="..\..\..\src\client\chunkclient.h" />
+    <ClInclude Include="..\..\..\src\client\game.h" />
+    <ClInclude Include="..\..\..\src\client\gameconnection.h" />
+    <ClInclude Include="..\..\..\src\client\hogui\hogui.h" />
+    <ClInclude Include="..\..\..\src\client\imguihelper.h" />
+    <ClInclude Include="..\..\..\src\client\imgui\imconfig.h" />
+    <ClInclude Include="..\..\..\src\client\imgui\imgui.h" />
+    <ClInclude Include="..\..\..\src\client\imgui\imgui_internal.h" />
+    <ClInclude Include="..\..\..\src\client\imgui\stb_rect_pack.h" />
+    <ClInclude Include="..\..\..\src\client\imgui\stb_textedit.h" />
+    <ClInclude Include="..\..\..\src\client\imgui\stb_truetype.h" />
+    <ClInclude Include="..\..\..\src\client\mat4.h" />
+    <ClInclude Include="..\..\..\src\client\network.h" />
+    <ClInclude Include="..\..\..\src\client\neworld.h" />
+    <ClInclude Include="..\..\..\src\client\opengl.h" />
+    <ClInclude Include="..\..\..\src\client\player.h" />
+    <ClInclude Include="..\..\..\src\client\renderer.h" />
+    <ClInclude Include="..\..\..\src\client\texture.h" />
+    <ClInclude Include="..\..\..\src\client\vertexarray.h" />
+    <ClInclude Include="..\..\..\src\client\widget.h" />
+    <ClInclude Include="..\..\..\src\client\widgetmanager.h" />
+    <ClInclude Include="..\..\..\src\client\window.h" />
+    <ClInclude Include="..\..\..\src\client\worldclient.h" />
     <ClInclude Include="..\..\..\src\nwcore\api\nwpluginapi.h" />
     <ClInclude Include="..\..\..\src\nwcore\common\aabb.h" />
     <ClInclude Include="..\..\..\src\nwcore\common\command.h" />
@@ -60,12 +109,20 @@
     <ClInclude Include="..\..\..\src\nwcore\world\nwblock.h" />
     <ClInclude Include="..\..\..\src\nwcore\world\nwchunk.h" />
     <ClInclude Include="..\..\..\src\nwcore\world\world.h" />
+    <ClInclude Include="..\..\..\src\server\commandmanager.h" />
+    <ClInclude Include="..\..\..\src\server\connection.h" />
+    <ClInclude Include="..\..\..\src\server\gameconnection.h" />
+    <ClInclude Include="..\..\..\src\server\networkmanager.h" />
+    <ClInclude Include="..\..\..\src\server\playermanager.h" />
+    <ClInclude Include="..\..\..\src\server\server.h" />
+    <ClInclude Include="..\..\..\src\server\worldmanager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F282B14E-B2E5-4C63-840C-CC653C6F5FA3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nwcore</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>nwcore</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -181,6 +238,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ImportLibrary>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>ws2_32.lib;glew32.lib;opengl32.lib;freetype2.lib;SDL2.lib;SDL2_image.lib;RakNetLibStaticd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -196,6 +254,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ImportLibrary>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>ws2_32.lib;glew32.lib;opengl32.lib;freetype2.lib;SDL2.lib;SDL2_image.lib;RakNetLibStaticd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -219,6 +278,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ImportLibrary>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>ws2_32.lib;glew32.lib;opengl32.lib;freetype2.lib;SDL2.lib;SDL2_image.lib;RakNetLibStatic.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profiling|Win32'">
@@ -242,6 +302,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ImportLibrary>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>ws2_32.lib;glew32.lib;opengl32.lib;freetype2.lib;SDL2.lib;SDL2_image.lib;RakNetLibStatic.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -265,6 +326,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ImportLibrary>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>ws2_32.lib;glew32.lib;opengl32.lib;freetype2.lib;SDL2.lib;SDL2_image.lib;RakNetLibStatic.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profiling|x64'">
@@ -288,6 +350,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ImportLibrary>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>ws2_32.lib;glew32.lib;opengl32.lib;freetype2.lib;SDL2.lib;SDL2_image.lib;RakNetLibStatic.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

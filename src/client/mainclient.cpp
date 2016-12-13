@@ -20,9 +20,10 @@
 #include "neworld.h"
 #include <common/nwsafety.hpp>
 
-extern "C" NWAPIEXPORT int NWAPICALL main(int, char**);
+extern "C" NWAPIEXPORT int NWAPICALL cmain(int, char**);
 
-int NWAPICALL main(int, char**)
+int NWAPICALL cmain(int, char**)
 {
     NEWorld neworld;
+	return 0;
 }

@@ -23,7 +23,7 @@
 #include <raknet/BitStream.h>
 #include <common/debug.h>
 
-Connection::Connection(std::function<void(Identifier, unsigned char*, size_t)> userDataCallback)
+ClientConnection::ClientConnection(std::function<void(Identifier, unsigned char*, size_t)> userDataCallback)
     :mUserDataCallback(userDataCallback)
 {
     infostream << "Raknet initializating...";
@@ -31,12 +31,12 @@ Connection::Connection(std::function<void(Identifier, unsigned char*, size_t)> u
     infostream << "Raknet initialized.";
 }
 
-Connection::~Connection()
+ClientConnection::~ClientConnection()
 {
     Assert(mUserClosed);
 }
 
-bool Connection::connect(const char *addr, unsigned short port)
+bool ClientConnection::connect(const char *addr, unsigned short port)
 {
     RakNet::SocketDescriptor sd;
     sd.socketFamily = AF_INET; // IPv4
@@ -65,7 +65,7 @@ bool Connection::connect(const char *addr, unsigned short port)
     return false;
 }
 
-void Connection::loop()
+void ClientConnection::loop()
 {
     RakNet::Packet* p;
     while(mPeer->IsActive())
@@ -111,7 +111,7 @@ void Connection::loop()
 
     }
 }
-void Connection::sendRawData(Identifier id, const unsigned char *data, uint32_t len, PacketPriority priority, PacketReliability reliability)
+void ClientConnection::sendRawData(Identifier id, const unsigned char *data, uint32_t len, PacketPriority priority, PacketReliability reliability)
 {
     RakNet::BitStream bsOut;
     bsOut.Write(static_cast<RakNet::MessageID>(ID_USER_PACKET_ENUM));

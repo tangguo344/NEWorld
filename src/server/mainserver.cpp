@@ -23,29 +23,9 @@
 #include <thread>
 #include <common/jsonhelper.h>
 
-NWDECLEARLOGGER("server")
-
-extern "C"
-{
-    NWAPIEXPORT int NWAPICALL main(int, char**);
-    NWAPIEXPORT bool NWAPICALL nwInitServer(void*);
-    NWAPIEXPORT void NWAPICALL nwRunServer();
-    NWAPIEXPORT void NWAPICALL nwStopServer();
-    NWAPIEXPORT World* NWAPICALL nwLocalServerGetWorld(size_t id);
-    NWAPIEXPORT void NWAPICALL nwLocalServerLogin(const char* username, const char* password);
-    NWAPIEXPORT Chunk* NWAPICALL nwLocalServerGetChunk(int32_t x, int32_t y, int32_t z);
-}
-
 Server* server = nullptr;
 
-NWAPIEXPORT int NWAPICALL main(int, char**)
-{
-    nwInitServer(0);
-    nwRunServer();
-    nwStopServer();
-}
-
-NWAPIEXPORT bool NWAPICALL nwInitServer(void* mode)
+bool NWAPICALL nwInitServer(void* mode)
 {
     getSettings();
     infostream << "\n----------------------------------------"
@@ -66,7 +46,7 @@ NWAPIEXPORT bool NWAPICALL nwInitServer(void* mode)
     return true;
 }
 
-NWAPIEXPORT void NWAPICALL nwRunServer()
+void NWAPICALL nwRunServer()
 {
     try
     {
@@ -78,7 +58,7 @@ NWAPIEXPORT void NWAPICALL nwRunServer()
     }
 }
 
-NWAPIEXPORT void NWAPICALL nwStopServer()
+void NWAPICALL nwStopServer()
 {
     try
     {
@@ -92,17 +72,17 @@ NWAPIEXPORT void NWAPICALL nwStopServer()
     }
 }
 
-NWAPIEXPORT World* NWAPICALL nwLocalServerGetWorld(size_t id)
+World* NWAPICALL nwLocalServerGetWorld(size_t id)
 {
     return reinterpret_cast<LocalTunnelServer*>(server)->getWorld(id);
 }
 
-NWAPIEXPORT void NWAPICALL nwLocalServerLogin(const char* username, const char* password)
+void NWAPICALL nwLocalServerLogin(const char* username, const char* password)
 {
     reinterpret_cast<LocalTunnelServer*>(server)->login(username, password);
 }
 
-NWAPIEXPORT Chunk* NWAPICALL nwLocalServerGetChunk(int32_t x, int32_t y, int32_t z)
+Chunk* NWAPICALL nwLocalServerGetChunk(int32_t x, int32_t y, int32_t z)
 {
     return reinterpret_cast<LocalTunnelServer*>(server)->getChunk(x, y, z);
 }

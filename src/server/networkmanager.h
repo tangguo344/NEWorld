@@ -28,7 +28,7 @@
 #include <functional>
 #include <limits.h>
 #include "worldmanager.h"
-class GameConnection;
+class ServerGameConnection;
 
 class NetworkManager
 {
@@ -48,10 +48,10 @@ public:
         return mIsRunning;
     }
 private:
-    GameConnection* newConnection(RakNet::SystemAddress addr);
+    ServerGameConnection* newConnection(RakNet::SystemAddress addr);
     void deleteConnection(RakNet::SystemAddress addr);
     RakNet::RakPeerInterface *mPeer;
-    std::vector<GameConnection*> mConns;
+    std::vector<ServerGameConnection*> mConns;
     WorldManager& mWorlds;//TODO: maybe use event instead later.
     bool mIsRunning;
 };

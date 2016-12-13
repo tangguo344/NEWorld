@@ -28,9 +28,9 @@ project(NEWorld)
 add_definitions(-DSDL_MAIN_HANDLED)
 add_definitions(-DNWCOREEXPORTS)
 
-aux_source_directory(${SOURCE_DIR}/client SRC_CLIENT)
-aux_source_directory(${SOURCE_DIR}/client/imgui SRC_CLIENT)
-aux_source_directory(${SOURCE_DIR}/server SRC_SERVER)
+aux_source_directory(${SOURCE_DIR}/client SRC_CORE)
+aux_source_directory(${SOURCE_DIR}/client/imgui SRC_CORE)
+aux_source_directory(${SOURCE_DIR}/server SRC_CORE)
 
 aux_source_directory(${SOURCE_DIR}/nwcore SRC_CORE)
 aux_source_directory(${SOURCE_DIR}/nwcore/api SRC_CORE)
@@ -39,25 +39,18 @@ aux_source_directory(${SOURCE_DIR}/nwcore/plugin SRC_CORE)
 aux_source_directory(${SOURCE_DIR}/nwcore/common SRC_CORE)
 aux_source_directory(${SOURCE_DIR}/nwcore/context SRC_CORE)
 
-add_library(nwserver SHARED ${SRC_SERVER})
-add_library(nwclient SHARED ${SRC_CLIENT})
 add_library(nwcore SHARED ${SRC_CORE})
 
-target_include_directories(nwclient PUBLIC ${SOURCE_DIR}/shared PUBLIC)
-target_include_directories(nwclient PUBLIC ${SOURCE_DIR}/nwcore PUBLIC)
-target_include_directories(nwserver PUBLIC ${SOURCE_DIR}/shared)
-target_include_directories(nwserver PUBLIC ${SOURCE_DIR}/nwcore PUBLIC)
 target_include_directories(nwcore PUBLIC ${SOURCE_DIR}/nwcore PUBLIC)
 target_include_directories(nwcore PUBLIC ${SOURCE_DIR}/shared PUBLIC)
 
-SET_TARGET_PROPERTIES(nwclient nwserver nwcore PROPERTIES PREFIX "")
-SET_TARGET_PROPERTIES(nwclient nwserver nwcore PROPERTIES SUFFIX "")
+SET_TARGET_PROPERTIES(nwcore PROPERTIES PREFIX "")
+SET_TARGET_PROPERTIES(nwcore PROPERTIES SUFFIX "")
 
+target_link_libraries(nwcore pthread freetype RakNetDLL SDL2 SDL2_image GLEW)
 
-target_link_libraries(nwserver nwcore pthread RakNetDLL)
-target_link_libraries(nwclient nwcore pthread freetype RakNetDLL SDL2 SDL2_image GLEW)
 if(CMAKE_SYSTEM_NAME MATCHES Darwin)
-    target_link_libraries(nwclient "-framework OpenGL")
+    target_link_libraries(nwcore "-framework OpenGL")
 endif()
 
 project(Launcher)
@@ -65,9 +58,6 @@ aux_source_directory(${SOURCE_DIR}/launcher SRC_LAUNCHER)
 add_executable(launcher ${SRC_LAUNCHER})
 target_link_libraries(launcher nwcore)
 target_include_directories(launcher PUBLIC ${SOURCE_DIR}/shared)
-
-add_dependencies(launcher nwclient)
-add_dependencies(launcher nwserver)
 add_dependencies(launcher nwcore)
 
 add_subdirectory(./plugins)

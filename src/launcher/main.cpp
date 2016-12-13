@@ -50,11 +50,10 @@ int main(int argc, char** argv)
         in = argv[1];
     }
 
-    std::string clientFilename = getJsonValue<std::string>(getSettings()["client"]["file"], "nwclient");
-    std::string serverFilename = getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver");
+    std::string serverFilename = getJsonValue<std::string>(getSettings()["server"]["file"], "nwcore");
 
-    file = in == "server" ? serverFilename : clientFilename;
+    file = serverFilename;
 
     debugstream << "Load:" << file;
-    Library(file).get<MainFunction>("main")(argc, argv);
+    Library(file).get<MainFunction>(in == "server" ? "smain" : "cmain")(argc, argv);
 }

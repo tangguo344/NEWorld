@@ -25,7 +25,7 @@
 #include <world/world.h>
 #include "chunkclient.h"
 
-class GameConnection;
+class ClientGameConnection;
 
 const int MaxChunkRenderCount = 4;
 constexpr int MaxChunkLoadCount = 64, MaxChunkUnloadCount = 64;
@@ -94,7 +94,7 @@ public:
     // Find the nearest chunks in load range to load, fartherest chunks out of load range to unload
     void sortChunkLoadUnloadList(const Vec3i& centerPos);
 
-    void tryLoadChunks(GameConnection& conn);
+    void tryLoadChunks(ClientGameConnection& conn);
 
 private:
     // Ranges

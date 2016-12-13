@@ -109,9 +109,9 @@ void NetworkManager::loop()
     debugstream << "Stop listening.";
 }
 
-GameConnection* NetworkManager::newConnection(RakNet::SystemAddress addr)
+ServerGameConnection* NetworkManager::newConnection(RakNet::SystemAddress addr)
 {
-    GameConnection *c = new MultiplayerConnection(mWorlds,*this,mPeer,addr);
+    ServerGameConnection *c = new ServerMultiplayerConnection(mWorlds,*this,mPeer,addr);
     mConns.insert(mConns.begin()+mPeer->GetIndexFromSystemAddress(addr), c);
     return c;
 }

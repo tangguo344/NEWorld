@@ -44,7 +44,7 @@ public:
     // Game update frequency
     static constexpr int UpdateFrequency = 30;
 
-    Game(const std::string& name, std::shared_ptr<GameConnection> connection,
+    Game(const std::string& name, std::shared_ptr<ClientGameConnection> connection,
          const Window& window);
     ~Game();
 
@@ -67,7 +67,7 @@ private:
     int mFpsCounter, mUpsCounter, mFpsLatest, mUpsLatest;
     RateMeter mRateCounterScheduler{1};
     // Game connection
-    std::shared_ptr<GameConnection> mConnection;
+    std::shared_ptr<ClientGameConnection> mConnection;
 
     std::mutex mMutex;
 };

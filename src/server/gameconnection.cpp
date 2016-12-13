@@ -23,7 +23,7 @@
 #include <common/vec3.h>
 #include <flatfactory.h>
 
-void MultiplayerConnection::sendChunk(Chunk* chunk)
+void ServerMultiplayerConnection::sendChunk(Chunk* chunk)
 {
     auto pos = chunk->getPosition().conv<s2c::Vec3>();
     // Be careful!
@@ -33,7 +33,7 @@ void MultiplayerConnection::sendChunk(Chunk* chunk)
     mConn.send<s2c::Chunk>(FlatFactory::s2c::Chunk(pos,blocks), PacketPriority::MEDIUM_PRIORITY, PacketReliability::RELIABLE);
 }
 
-void MultiplayerConnection::handleReceivedData(Identifier id, unsigned char* data, size_t len)
+void ServerMultiplayerConnection::handleReceivedData(Identifier id, unsigned char* data, size_t len)
 {
     flatbuffers::Verifier v(data,len);
     switch (id)

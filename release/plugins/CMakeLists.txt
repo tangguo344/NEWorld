@@ -9,6 +9,6 @@ project(MainPlugin)
 aux_source_directory(${SOURCE_DIR}/main/server SRC_MAINPLUGIN)
 aux_source_directory(${SOURCE_DIR}/main/shared SRC_MAINPLUGIN)
 add_library(main SHARED ${SRC_MAINPLUGIN})
-target_link_libraries(main nwclient nwcore)
+target_link_libraries(main nwcore)
 
 SET_TARGET_PROPERTIES(main PROPERTIES PREFIX "")

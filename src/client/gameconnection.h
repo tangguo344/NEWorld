@@ -31,10 +31,10 @@
 class World;
 class Chunk;
 
-class GameConnection
+class ClientGameConnection
 {
 public:
-    virtual ~GameConnection() = default;
+    virtual ~ClientGameConnection() = default;
     virtual void connect() = 0;
     virtual void disconnect() = 0;
     virtual void waitForConnected() = 0;
@@ -51,7 +51,7 @@ protected:
     WorldClient* mWorld;
 };
 
-class MultiplayerConnection : public GameConnection
+class MultiplayerConnection : public ClientGameConnection
 {
 public:
     MultiplayerConnection(const std::string& host, unsigned short port);
@@ -65,7 +65,7 @@ public:
     void getChunk(Vec3i pos) override;
     World* getWorld(size_t id) override;
 protected:
-    Connection mConn;
+    ClientConnection mConn;
 
 private:
     std::string mHost;
@@ -74,7 +74,7 @@ private:
 };
 
 // Tunnel Connection : Client Side
-class LocalConnection : public GameConnection
+class LocalConnection : public ClientGameConnection
 {
 public:
     LocalConnection();
@@ -91,16 +91,10 @@ public:
     void getChunk(Vec3i pos) override;
     World* getWorld(size_t id) override;
 private:
-    Library mLib;
-    std::string mPath;
     std::thread mLocalServerThread;
     std::atomic_bool mReady{ false };
     int mTimeout;
     std::chrono::system_clock::time_point mStartTime;
-    // sf = Server Function
-    std::function<World* NWAPICALL(size_t id)> sfGetWorld;
-    std::function<void NWAPICALL(const char*, const char*)> sfLogin;
-    std::function<Chunk* NWAPICALL(int32_t x, int32_t y, int32_t z)> sfGetChunk;
 };
 
 #endif

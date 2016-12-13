@@ -25,6 +25,13 @@
 #include <common/jsonhelper.h>
 #include <flatfactory.h>
 
+bool NWAPICALL nwInitServer(void*);
+void NWAPICALL nwRunServer();
+void NWAPICALL nwStopServer();
+World* NWAPICALL nwLocalServerGetWorld(size_t id);
+void NWAPICALL nwLocalServerLogin(const char* username, const char* password);
+Chunk* NWAPICALL nwLocalServerGetChunk(int32_t x, int32_t y, int32_t z);
+
 MultiplayerConnection::MultiplayerConnection(const std::string& host, unsigned short port)
     :mConn([this](Identifier id, unsigned char* data, size_t len)
 {
@@ -100,24 +107,19 @@ void MultiplayerConnection::getChunk(Vec3i pos)
 }
 
 LocalConnection::LocalConnection():
-    mPath(getJsonValue<std::string>(getSettings()["server"]["file"], "nwserver").c_str()),
     mTimeout(getJsonValue<int>(getSettings()["client"]["server_start_timeout"], 30))
 {
-    mLib = std::move(Library(mPath));
-    sfGetWorld = mLib.get<World* NWAPICALL(size_t id)>("nwLocalServerGetWorld");
-    sfLogin = mLib.get<void NWAPICALL(const char*, const char*)>("nwLocalServerLogin");
-    sfGetChunk = mLib.get<Chunk* NWAPICALL(int32_t x, int32_t y, int32_t z)>("nwLocalServerGetChunk");
 }
 
 void LocalConnection::connect()
 {
     mLocalServerThread = std::thread([this]()
     {
-        bool opened = mLib.get<bool NWAPICALL(void*)>("nwInitServer")((void*)1);
+        bool opened = nwInitServer((void*)1);
         if (opened)
         {
             mReady.store(true);
-            mLib.get<void NWAPICALL()>("nwRunServer")();
+            nwRunServer();
         }
         else
             fatalstream << "Failed to start local server";
@@ -142,7 +144,7 @@ void LocalConnection::disconnect()
     if (mLocalServerThread.joinable())
     {
         debugstream << "Call nwStopServer";
-        mLib.get<void NWAPICALL()>("nwStopServer")();
+        nwStopServer();
         debugstream << "Waiting for local server thread...";
         mLocalServerThread.join();
         debugstream << "Local server thread exited!";
@@ -155,12 +157,12 @@ void LocalConnection::waitForConnected()
 
 void LocalConnection::login(const char * username, const char * password)
 {
-    sfLogin(username, password);
+    nwLocalServerLogin(username, password);
 }
 
 void LocalConnection::getChunk(Vec3i pos)
 {
-    auto c = sfGetChunk(pos.x, pos.y, pos.z);
+    auto c = nwLocalServerGetChunk(pos.x, pos.y, pos.z);
     Assert(c);
     c->setUpdated(true);
     constexpr std::array<Vec3i, 6> delta
@@ -178,5 +180,5 @@ void LocalConnection::getChunk(Vec3i pos)
 
 World * LocalConnection::getWorld(size_t id)
 {
-    return sfGetWorld(id);
+    return nwLocalServerGetWorld(id);
 }

@@ -27,11 +27,11 @@
 #include <climits>
 #include <common/nwsafety.hpp>
 
-class Connection
+class ClientConnection
 {
 public:
-    Connection(std::function<void(Identifier, unsigned char*, size_t)> userDataCallback);
-    ~Connection();
+    ClientConnection(std::function<void(Identifier, unsigned char*, size_t)> userDataCallback);
+    ~ClientConnection();
     bool connect(const char *addr,unsigned short port);
     template<class ProtocolType>
     void send(const flatbuffers::FlatBufferBuilder& fbb, PacketPriority priority, PacketReliability reliability)

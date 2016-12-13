@@ -1,121 +1,337 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="源文件">
+    <Filter Include="SourceCore">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="源文件\api">
+    <Filter Include="SourceCore\api">
       <UniqueIdentifier>{42e9c03f-7df2-4e4b-88c3-80664bb72cc9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\common">
+    <Filter Include="SourceCore\common">
       <UniqueIdentifier>{1b272ab1-4715-4752-885b-44eb0120d499}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\plugin">
+    <Filter Include="SourceCore\plugin">
       <UniqueIdentifier>{865196c1-df40-4f7a-a4fc-7c8c6abcf8a1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\world">
+    <Filter Include="SourceCore\world">
       <UniqueIdentifier>{e690cf12-7561-4b96-b4b8-231648c4c549}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\context">
+    <Filter Include="SourceCore\context">
       <UniqueIdentifier>{29e5ad4d-0c50-4372-9fed-acd6cae57842}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceClient">
+      <UniqueIdentifier>{0b4c2b5f-a491-4fe7-8d4e-a5626f165bcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceClient\Renderer">
+      <UniqueIdentifier>{7deb4dea-6deb-4b74-95be-3450c500f68f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceClient\Network">
+      <UniqueIdentifier>{35670af4-485f-466e-9616-51b03c757055}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceClient\Main">
+      <UniqueIdentifier>{e52f68a4-1e59-444b-9f68-b56ce4037d4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceClient\Player">
+      <UniqueIdentifier>{920b09a3-2f8a-4953-b4c1-ad7bd155a7b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceClient\World">
+      <UniqueIdentifier>{3b1b8131-a30f-4ae8-a8f1-132a27ad6992}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceClient\Multimedia">
+      <UniqueIdentifier>{309f299f-2bc8-41de-a971-8cf143578a1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceClient\GUI">
+      <UniqueIdentifier>{2ce2a166-2f8d-45fd-b41e-2b6584ea9d82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceClient\GUI\imgui">
+      <UniqueIdentifier>{9111ec47-e2b0-4c99-a394-636006930dcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceClient\Plugin">
+      <UniqueIdentifier>{651bd7ce-1617-43b4-b63e-7281d75619db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceServer">
+      <UniqueIdentifier>{463faa5e-ecb1-444c-9d37-0c0f2a81c4c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceServer\Network">
+      <UniqueIdentifier>{d784bc03-927d-4e93-b32e-813df6cfeec7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceServer\World">
+      <UniqueIdentifier>{de50beab-47b8-405c-a848-063514362785}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceServer\Command">
+      <UniqueIdentifier>{8951b8e4-95c3-4a65-8e41-137bc4b4f196}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceServer\Main">
+      <UniqueIdentifier>{2a039465-052b-42d8-b29e-f27d9f81b0d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceServer\Game">
+      <UniqueIdentifier>{bc46793c-110a-4069-9dbf-65f0d1321f87}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\nwcore\api\nwpluginapi.cpp">
-      <Filter>源文件\api</Filter>
+      <Filter>SourceCore\api</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\nwcore\common\nwsafety.cpp">
-      <Filter>源文件\common</Filter>
+      <Filter>SourceCore\common</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\nwcore\plugin\plugin.cpp">
-      <Filter>源文件\plugin</Filter>
+      <Filter>SourceCore\plugin</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\nwcore\plugin\pluginmanager.cpp">
-      <Filter>源文件\plugin</Filter>
+      <Filter>SourceCore\plugin</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\nwcore\world\nwchunk.cpp">
-      <Filter>源文件\world</Filter>
+      <Filter>SourceCore\world</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\nwcore\world\world.cpp">
-      <Filter>源文件\world</Filter>
+      <Filter>SourceCore\world</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\nwcore\world\nwblock.cpp">
-      <Filter>源文件\world</Filter>
+      <Filter>SourceCore\world</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\nwcore\context\nwcontext.cpp">
-      <Filter>源文件\context</Filter>
+      <Filter>SourceCore\context</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\mainclient.cpp">
+      <Filter>SourceClient</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\blockrenderer.cpp">
+      <Filter>SourceClient\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\texture.cpp">
+      <Filter>SourceClient\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\vertexarray.cpp">
+      <Filter>SourceClient\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\renderer.cpp">
+      <Filter>SourceClient\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\clientgameconnection.cpp">
+      <Filter>SourceClient\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\network.cpp">
+      <Filter>SourceClient\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\neworld.cpp">
+      <Filter>SourceClient\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\game.cpp">
+      <Filter>SourceClient\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\player.cpp">
+      <Filter>SourceClient\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\chunkclient.cpp">
+      <Filter>SourceClient\World</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\worldclient.cpp">
+      <Filter>SourceClient\World</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\window.cpp">
+      <Filter>SourceClient\Multimedia</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\imguihelper.cpp">
+      <Filter>SourceClient\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\imgui\imgui.cpp">
+      <Filter>SourceClient\GUI\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\imgui\imgui_demo.cpp">
+      <Filter>SourceClient\GUI\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\imgui\imgui_draw.cpp">
+      <Filter>SourceClient\GUI\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\clientapi.cpp">
+      <Filter>SourceClient\Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\server\mainserver.cpp">
+      <Filter>SourceServer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\server\connection.cpp">
+      <Filter>SourceServer\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\server\gameconnection.cpp">
+      <Filter>SourceServer\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\server\networkmanager.cpp">
+      <Filter>SourceServer\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\server\builtincommands.cpp">
+      <Filter>SourceServer\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\server\commandmanager.cpp">
+      <Filter>SourceServer\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\server\server.cpp">
+      <Filter>SourceServer\Main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\nwcore\api\nwpluginapi.h">
-      <Filter>源文件\api</Filter>
+      <Filter>SourceCore\api</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\common\command.h">
-      <Filter>源文件\common</Filter>
+      <Filter>SourceCore\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\common\common.h">
-      <Filter>源文件\common</Filter>
+      <Filter>SourceCore\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\common\consolecolor.h">
-      <Filter>源文件\common</Filter>
+      <Filter>SourceCore\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\common\debug.h">
-      <Filter>源文件\common</Filter>
+      <Filter>SourceCore\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\common\filesys.h">
-      <Filter>源文件\common</Filter>
+      <Filter>SourceCore\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\common\json.hpp">
-      <Filter>源文件\common</Filter>
+      <Filter>SourceCore\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\common\jsonhelper.h">
-      <Filter>源文件\common</Filter>
+      <Filter>SourceCore\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\common\library.h">
-      <Filter>源文件\common</Filter>
+      <Filter>SourceCore\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\common\nwexception.hpp">
-      <Filter>源文件\common</Filter>
+      <Filter>SourceCore\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\common\nwexport.h">
-      <Filter>源文件\common</Filter>
+      <Filter>SourceCore\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\common\nwsafety.hpp">
-      <Filter>源文件\common</Filter>
+      <Filter>SourceCore\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\common\ratemeter.h">
-      <Filter>源文件\common</Filter>
+      <Filter>SourceCore\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\common\utils.h">
-      <Filter>源文件\common</Filter>
+      <Filter>SourceCore\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\common\vec3.h">
-      <Filter>源文件\common</Filter>
+      <Filter>SourceCore\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\common\aabb.h">
-      <Filter>源文件\common</Filter>
+      <Filter>SourceCore\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\plugin\plugin.h">
-      <Filter>源文件\plugin</Filter>
+      <Filter>SourceCore\plugin</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\plugin\pluginmanager.h">
-      <Filter>源文件\plugin</Filter>
+      <Filter>SourceCore\plugin</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\world\nwblock.h">
-      <Filter>源文件\world</Filter>
+      <Filter>SourceCore\world</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\world\nwchunk.h">
-      <Filter>源文件\world</Filter>
+      <Filter>SourceCore\world</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\world\world.h">
-      <Filter>源文件\world</Filter>
+      <Filter>SourceCore\world</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\common\nwconcepts.hpp">
-      <Filter>源文件\common</Filter>
+      <Filter>SourceCore\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\context\nwcontext.hpp">
-      <Filter>源文件\context</Filter>
+      <Filter>SourceCore\context</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\blockrenderer.h">
+      <Filter>SourceClient\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\mat4.h">
+      <Filter>SourceClient\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\opengl.h">
+      <Filter>SourceClient\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\renderer.h">
+      <Filter>SourceClient\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\texture.h">
+      <Filter>SourceClient\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\vertexarray.h">
+      <Filter>SourceClient\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\gameconnection.h">
+      <Filter>SourceClient\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\network.h">
+      <Filter>SourceClient\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\neworld.h">
+      <Filter>SourceClient\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\game.h">
+      <Filter>SourceClient\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\player.h">
+      <Filter>SourceClient\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\chunkclient.h">
+      <Filter>SourceClient\World</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\worldclient.h">
+      <Filter>SourceClient\World</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\window.h">
+      <Filter>SourceClient\Multimedia</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\hogui\hogui.h">
+      <Filter>SourceClient\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\imguihelper.h">
+      <Filter>SourceClient\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\widget.h">
+      <Filter>SourceClient\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\widgetmanager.h">
+      <Filter>SourceClient\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\imgui\imconfig.h">
+      <Filter>SourceClient\GUI\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\imgui\imgui.h">
+      <Filter>SourceClient\GUI\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\imgui\imgui_internal.h">
+      <Filter>SourceClient\GUI\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\imgui\stb_rect_pack.h">
+      <Filter>SourceClient\GUI\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\imgui\stb_textedit.h">
+      <Filter>SourceClient\GUI\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\imgui\stb_truetype.h">
+      <Filter>SourceClient\GUI\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\server\connection.h">
+      <Filter>SourceServer\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\server\gameconnection.h">
+      <Filter>SourceServer\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\server\networkmanager.h">
+      <Filter>SourceServer\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\server\worldmanager.h">
+      <Filter>SourceServer\World</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\server\commandmanager.h">
+      <Filter>SourceServer\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\server\server.h">
+      <Filter>SourceServer\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\server\playermanager.h">
+      <Filter>SourceServer\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

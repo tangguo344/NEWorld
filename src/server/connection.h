@@ -27,7 +27,7 @@
 class Connection
 {
 public:
-    friend class MultiplayerConnection;
+    friend class ServerMultiplayerConnection;
     template<class ProtocolType>
     void send(const flatbuffers::FlatBufferBuilder& fbb, PacketPriority priority, PacketReliability reliability)
     {

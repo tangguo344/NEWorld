@@ -89,7 +89,7 @@ void WorldClient::sortChunkLoadUnloadList(const Vec3i& centerPos)
                     mChunkLoadList.insert((Vec3i(x, y, z) * Chunk::Size() + middleOffset() - centerPos).lengthSqr(), Vec3i(x, y, z));
 }
 
-void WorldClient::tryLoadChunks(GameConnection& conn)
+void WorldClient::tryLoadChunks(ClientGameConnection& conn)
 {
     for (auto&& op : mChunkLoadList)
         conn.getChunk(op.second);

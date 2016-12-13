@@ -23,7 +23,6 @@
 #include <context/nwcontext.hpp>
 #include "window.h"
 #include "game.h"
-NWDECLEARLOGGER("client")
 NEWorld::NEWorld()
 {
     // Initialize

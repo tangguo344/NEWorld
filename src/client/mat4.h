@@ -25,6 +25,11 @@
 #include <common/vec3.h>
 #include <common/debug.h>
 
+#ifndef M_PI
+#define M_PI 3.141592653589793
+#endif // !M_PI
+
+
 #ifdef NEWORLD_DEBUG
 
 // Mat4Row for range checking when debugging is enabled
