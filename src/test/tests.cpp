@@ -32,12 +32,6 @@ TEST(Vec3, Length)
     Vec3<int> v(3, 6, 6);
     EXPECT_EQ(v.length(), 9);
 }
-TEST(Vec3, for_each)
-{
-    Vec3<int> v(3, 6, 6);
-    v.for_each([](int& x,int y) { x+=y; }, 1);
-    EXPECT_EQ(v.lengthSqr(), 114);
-}
 
 int main(int argc, char* argv[])
 {

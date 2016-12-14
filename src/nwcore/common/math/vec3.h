@@ -166,22 +166,6 @@ public:
         std::swap(z, rhs.z);
     }
 
-    template <typename... ArgType, typename Func>
-    void for_each(Func func, ArgType&&... args) const
-    {
-        func(x, std::forward<ArgType>(args)...);
-        func(y, std::forward<ArgType>(args)...);
-        func(z, std::forward<ArgType>(args)...);
-    }
-
-    template <typename... ArgType, typename Func>
-    void for_each(Func func, ArgType&&... args)
-    {
-        func(x, std::forward<ArgType>(args)...);
-        func(y, std::forward<ArgType>(args)...);
-        func(z, std::forward<ArgType>(args)...);
-    }
-
     //TODO: fix it. And tell if "for_each" will change the value of "this".
     template <typename Func>
     Vec3 transform(Func func) const
