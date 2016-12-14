@@ -21,7 +21,7 @@
 #define RENDERER_H_
 
 #include "opengl.h"
-#include <common/vec3.h>
+#include <common/nwmath.hpp>
 #include "mat4.h"
 #include "vertexarray.h"
 

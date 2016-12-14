@@ -78,6 +78,8 @@ void Game::update()
 
     mUpsCounter++;
 
+	constexpr double speed = 0.05;
+
     // TODO: Read keys from the configuration file
     auto state = Window::getKeyBoardState();
     if (state[SDL_SCANCODE_UP])
@@ -89,21 +91,21 @@ void Game::update()
     if (state[SDL_SCANCODE_LEFT])
         mPlayer.accelerateRotation(Vec3d(0.0, 1, 0.0));
     if (state[SDL_SCANCODE_W])
-        mPlayer.accelerate(Vec3d(0.0, 0.0, -0.05));
+        mPlayer.accelerate(Vec3d(0.0, 0.0, -speed));
     if (state[SDL_SCANCODE_S])
-        mPlayer.accelerate(Vec3d(0.0, 0.0, 0.05));
+        mPlayer.accelerate(Vec3d(0.0, 0.0, speed));
     if (state[SDL_SCANCODE_A])
-        mPlayer.accelerate(Vec3d(-0.05, 0.0, 0.0));
+        mPlayer.accelerate(Vec3d(-speed, 0.0, 0.0));
     if (state[SDL_SCANCODE_D])
-        mPlayer.accelerate(Vec3d(0.05, 0.0, 0.0));
+        mPlayer.accelerate(Vec3d(speed, 0.0, 0.0));
     if (state[SDL_SCANCODE_SPACE])
-        mPlayer.accelerate(Vec3d(0.0, 0.1, 0.0));
+        mPlayer.accelerate(Vec3d(0.0, 2 * speed, 0.0));
 #ifdef NEWORLD_TARGET_MACOSX
     if (state[SDL_SCANCODE_LGUI] || state[SDL_SCANCODE_RGUI])
 #else
     if (state[SDL_SCANCODE_LCTRL] || state[SDL_SCANCODE_RCTRL])
 #endif
-        mPlayer.accelerate(Vec3d(0.0, -0.1, 0.0));
+        mPlayer.accelerate(Vec3d(0.0, -2 * speed, 0.0));
 
     mPlayer.update();
     mWorld.sortChunkLoadUnloadList(Vec3i(mPlayer.getPosition()));

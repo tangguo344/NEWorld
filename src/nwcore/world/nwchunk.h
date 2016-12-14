@@ -26,10 +26,10 @@
 #include <memory>
 #include <vector>
 #include <unordered_map>
-#include "common/vec3.h"
-#include "common/debug.h"
-#include "common/nwexport.h"
-#include "common/nwconcepts.hpp"
+#include <common/nwmath.hpp>
+#include <common/debug.h>
+#include <common/common.h>
+#include <common/nwconcepts.hpp>
 #include "nwblock.h"
 
 using ChunkGenerator = void NWAPICALL(const Vec3i*, BlockData*, int);
@@ -150,25 +150,19 @@ struct NWCOREAPI ChunkOnReleaseBehavior
     constexpr ChunkOnReleaseBehavior(Behavior b) : status(b) {}
 };
 
-//I Dont Know Whats The Best Way...
-template <class T>
-using ChunkHDC = std::unique_ptr<T, ChunkOnReleaseBehavior>;
-
-template <template<typename>class prtT>
-class ChunkManagerBase: public NonCopyable
+class ChunkManager: public NonCopyable
 {
 public:
-    using data_t = prtT<Chunk>;
-    //using array_t = std::vector<data_t>;
+    using data_t = std::unique_ptr<Chunk, ChunkOnReleaseBehavior>;
 	using array_t = typename std::unordered_map<Vec3i, data_t, ChunkHasher>;
     using iterator = typename array_t::iterator;
     using const_iterator = typename array_t::const_iterator;
     using reference = Chunk&;
     using const_reference = const Chunk&;
-    ChunkManagerBase() = default;
-    ChunkManagerBase(size_t size) { mChunks.reserve(size); }
-    ChunkManagerBase(ChunkManagerBase&& rhs) : mChunks(std::move(rhs.mChunks)) {}
-    ~ChunkManagerBase() = default;
+    ChunkManager() = default;
+    ChunkManager(size_t size) { mChunks.reserve(size); }
+    ChunkManager(ChunkManager&& rhs) : mChunks(std::move(rhs.mChunks)) {}
+    ~ChunkManager() = default;
     // Access and modifiers
     size_t size() const noexcept { return mChunks.size(); }
     iterator begin() noexcept { return mChunks.begin(); }
@@ -248,7 +242,5 @@ public:
 private:
     array_t mChunks;
 };
-
-using ChunkManager = ChunkManagerBase<ChunkHDC>;
 
 #endif // !CHUNK_H_

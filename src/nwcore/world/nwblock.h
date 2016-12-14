@@ -24,7 +24,7 @@
 #include <vector>
 #include <string>
 #include "common/nwsafety.hpp"
-#include "common/nwexport.h"
+#include "common/common.h"
 
 class BlockData
 {

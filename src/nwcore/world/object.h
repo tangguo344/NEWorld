@@ -21,7 +21,6 @@
 #define OBJECT_H_
 
 #include "common/aabb.h"
-#include "common/vec3.h"
 #include "world/world.h"
 
 class Object

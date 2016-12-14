@@ -17,30 +17,9 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PLUGINMANAGER_H_
-#define PLUGINMANAGER_H_
+#ifndef NWMATH_HPP_
+#define NWMATH_HPP_
 
-#include <string>
-#include <vector>
-#include "common/library.h"
-#include "plugin.h"
-#include "common/common.h"
-#include "common/nwconcepts.hpp"
+#include "./math/vec3.h"
 
-// Plugin system
-class NWCOREAPI PluginManager : public NonCopyable
-{
-public:
-    PluginManager();
-    ~PluginManager();
-
-    void initializePlugins(NWplugintype flag);
-
-    // Load single plugin
-    void loadPlugin(const std::string& filename);
-
-private:
-    std::vector<Plugin> mPlugins;
-};
-
-#endif // !PLUGINMANAGER_H_
+#endif // !NWMATH_HPP_

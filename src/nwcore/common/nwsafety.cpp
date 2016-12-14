@@ -18,7 +18,7 @@
 */
 
 #include "filesys.h"
-#include "consolecolor.h"
+#include "nwconsole.hpp"
 #include <map>
 #include <ctime>
 #include <fstream>

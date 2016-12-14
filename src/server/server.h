@@ -21,17 +21,12 @@
 #define SERVER_H_
 
 #include <memory>
-#include <vector>
-#include <common/nwsafety.hpp>
-#include "worldmanager.h"
-#include <world/nwblock.h>
-#include <plugin/pluginmanager.h>
-#include <common/ratemeter.h>
-#include <world/world.h>
-#include <unordered_map>
 #include <thread>
-#include "commandmanager.h"
-#include "networkmanager.h"
+#include <world/world.h>
+#include <common/nwconsole.hpp>
+#include <common/ratemeter.h>
+#include <common/nwsafety.hpp>
+#include <plugin/pluginmanager.h>
 #include "networkmanager.h"
 
 constexpr int UpdateInterval = 1000 / 60, GlobalUpdateInterval = 1000 / 60; // unit: ms

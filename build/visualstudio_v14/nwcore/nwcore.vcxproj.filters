@@ -56,17 +56,11 @@
     <Filter Include="SourceServer\Network">
       <UniqueIdentifier>{d784bc03-927d-4e93-b32e-813df6cfeec7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SourceServer\World">
-      <UniqueIdentifier>{de50beab-47b8-405c-a848-063514362785}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SourceServer\Command">
-      <UniqueIdentifier>{8951b8e4-95c3-4a65-8e41-137bc4b4f196}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SourceServer\Main">
       <UniqueIdentifier>{2a039465-052b-42d8-b29e-f27d9f81b0d1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SourceServer\Game">
-      <UniqueIdentifier>{bc46793c-110a-4069-9dbf-65f0d1321f87}</UniqueIdentifier>
+    <Filter Include="SourceCore\common\math">
+      <UniqueIdentifier>{290f30bf-0f47-4ec6-bb14-4ca6a2f6d362}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -160,12 +154,6 @@
     <ClCompile Include="..\..\..\src\server\networkmanager.cpp">
       <Filter>SourceServer\Network</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\server\builtincommands.cpp">
-      <Filter>SourceServer\Command</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\server\commandmanager.cpp">
-      <Filter>SourceServer\Command</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\server\server.cpp">
       <Filter>SourceServer\Main</Filter>
     </ClCompile>
@@ -174,13 +162,7 @@
     <ClInclude Include="..\..\..\src\nwcore\api\nwpluginapi.h">
       <Filter>SourceCore\api</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\nwcore\common\command.h">
-      <Filter>SourceCore\common</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\common\common.h">
-      <Filter>SourceCore\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\nwcore\common\consolecolor.h">
       <Filter>SourceCore\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\common\debug.h">
@@ -211,9 +193,6 @@
       <Filter>SourceCore\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\common\utils.h">
-      <Filter>SourceCore\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\nwcore\common\vec3.h">
       <Filter>SourceCore\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\common\aabb.h">
@@ -321,17 +300,23 @@
     <ClInclude Include="..\..\..\src\server\networkmanager.h">
       <Filter>SourceServer\Network</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\server\worldmanager.h">
-      <Filter>SourceServer\World</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\server\commandmanager.h">
-      <Filter>SourceServer\Command</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\server\server.h">
       <Filter>SourceServer\Main</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\server\playermanager.h">
-      <Filter>SourceServer\Game</Filter>
+    <ClInclude Include="..\..\..\src\nwcore\common\math\vec3.h">
+      <Filter>SourceCore\common\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\nwmath.hpp">
+      <Filter>SourceCore\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\nwconsole.hpp">
+      <Filter>SourceCore\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\world\nwplayer.hpp">
+      <Filter>SourceCore\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\world\object.h">
+      <Filter>SourceCore\world</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

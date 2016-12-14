@@ -20,7 +20,7 @@
 #include <world/nwchunk.h>
 #include <common/common.h>
 #include <common/nwsafety.hpp>
-#include <common/vec3.h>
+#include <common/nwmath.hpp>
 #include <world/nwblock.h>
 #include <world/world.h>
 #include "./../context/nwcontext.hpp"

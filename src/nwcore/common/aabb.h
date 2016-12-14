@@ -21,7 +21,7 @@
 #define AABB_H_
 
 #include <algorithm>
-#include "vec3.h"
+#include <common/nwmath.hpp>
 
 // Axis aligned bounding box
 class AABB

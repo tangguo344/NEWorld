@@ -22,7 +22,7 @@
 
 #include <cmath>
 #include <cstring>
-#include <common/vec3.h>
+#include <common/nwmath.hpp>
 #include <common/debug.h>
 
 #ifndef M_PI

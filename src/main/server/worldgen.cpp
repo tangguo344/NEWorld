@@ -20,7 +20,7 @@
 #include <iostream>
 #include "worldgen.h"
 
-int WorldGen::seed = 3404;
+int WorldGen::seed = 1025;
 double WorldGen::NoiseScaleX = 64;
 double WorldGen::NoiseScaleZ = 64;
 
@@ -43,18 +43,16 @@ void NWAPICALL generator(const NWvec3i *pos, NWblockdata * blocks, int daylightB
                     if (y == height)
                     {
                         block.id = ((underWater) ? SandID : GrassID);
-                        block.brightness = block.state = 0;
                     }
                     else if (y >= height - 3)
                     {
                         block.id = ((underWater) ? SandID : DirtID);
-                        block.brightness = block.state = 0;
                     }
                     else
                     {
                         block.id = RockID;
-                        block.brightness = block.state = 0;
                     }
+                    block.brightness = block.state = 0;
                 }
                 else
                 {

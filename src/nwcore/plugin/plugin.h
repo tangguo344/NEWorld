@@ -24,12 +24,12 @@
 #include <utility>
 
 #include "common/common.h"
-#include "common/vec3.h"
+#include "common/nwmath.hpp"
 #include "world/nwblock.h"
 #include "common/library.h"
 
 #include "api/nwapi.h"
-#include "common/nwexport.h"
+#include "common/common.h"
 #include "common/nwconcepts.hpp"
 
 // Single plugin

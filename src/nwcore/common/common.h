@@ -65,11 +65,14 @@
 // NWAPIEXPORT
 #ifdef NEWORLD_TARGET_WINDOWS
     #ifdef NEWORLD_COMPILER_MSVC
+        #define NWAPIENTRY __declspec(dllimport)
         #define NWAPIEXPORT __declspec(dllexport)
     #else
+        #define NWAPIENTRY __attribute__((dllimport))
         #define NWAPIEXPORT __attribute__((dllexport))
     #endif
 #else
+    #define NWAPIENTRY __attribute__((visibility("default")))
     #define NWAPIEXPORT __attribute__((visibility("default")))
 #endif
 
@@ -88,6 +91,12 @@ For details see "LICENSE".
     constexpr const char* LibSuffix = "dylib";
 #elif defined(NEWORLD_TARGET_LINUX)
     constexpr const char* LibSuffix = "so";
+#endif
+
+#ifdef NWCOREEXPORTS
+#define NWCOREAPI NWAPIEXPORT
+#else
+#define NWCOREAPI NWAPIENTRY
 #endif
 
 #endif // !COMMON_H_

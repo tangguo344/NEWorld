@@ -22,10 +22,7 @@
 
 #include "networkmanager.h"
 #include "connection.h"
-#include "worldmanager.h"
-
-class World;
-class Chunk;
+#include <world/world.h>
 
 class ServerGameConnection
 {

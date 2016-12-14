@@ -19,15 +19,16 @@
 #ifndef NETWORKMANAGER_H_
 #define NETWORKMANAGER_H_
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
-#include <stdexcept>
 #include <thread>
+#include <climits>
+#include <stdexcept>
+#include <functional>
+#include <world/world.h>
+#include <raknet/BitStream.h>
 #include <raknet/RakPeerInterface.h>
 #include <raknet/MessageIdentifiers.h>
-#include <raknet/BitStream.h>
 #include "../protocol/gen/protocol.h"
-#include <functional>
-#include <limits.h>
-#include "worldmanager.h"
+
 class ServerGameConnection;
 
 class NetworkManager

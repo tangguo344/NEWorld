@@ -19,7 +19,7 @@
 
 #include "chunkclient.h"
 #include "gameconnection.h"
-#include <common/vec3.h>
+#include <common/nwmath.hpp>
 #include <common/nwsafety.hpp>
 #include <common/library.h>
 #include <common/jsonhelper.h>
@@ -175,7 +175,7 @@ void LocalConnection::getChunk(Vec3i pos)
         mWorld->doIfChunkLoaded(c->getPosition() + p, [](Chunk& chk)
     { chk.setUpdated(true); });
     c->increaseRef();
-    mWorld->insertChunk(c->getPosition(), std::move(ChunkHDC<Chunk>(c, ChunkOnReleaseBehavior::Behavior::DeReference)));
+    mWorld->insertChunk(c->getPosition(), std::move(ChunkManager::data_t(c, ChunkOnReleaseBehavior::Behavior::DeReference)));
 }
 
 World * LocalConnection::getWorld(size_t id)

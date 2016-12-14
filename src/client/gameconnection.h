@@ -24,7 +24,7 @@
 #include <functional>
 #include "network.h"
 #include "worldclient.h"
-#include <common/vec3.h>
+#include <common/nwmath.hpp>
 #include <common/common.h>
 #include <common/library.h>
 

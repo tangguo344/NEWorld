@@ -20,10 +20,9 @@
 #ifndef PLAYER_MANAGER_H_
 #define PLAYER_MANAGER_H_
 
-#include <common/vec3.h>
 #include <common/aabb.h>
+#include <common/nwmath.hpp>
 #include <common/nwsafety.hpp>
-
 #include <unordered_map>
 #include <string>
 

@@ -19,7 +19,7 @@
 
 #ifndef NWSAFETY_HPP_
 #define NWSAFETY_HPP_
-#include "nwexport.h"
+#include "common.h"
 #include <iostream>
 #include <vector>
 #include <sstream>

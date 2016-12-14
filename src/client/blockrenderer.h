@@ -23,7 +23,7 @@
 #include "texture.h"
 #include <vector>
 #include <memory>
-#include <common/vec3.h>
+#include <common/nwmath.hpp>
 
 struct BlockTexCoord
 {

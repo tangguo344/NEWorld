@@ -20,7 +20,7 @@
 #include "gameconnection.h"
 #include "world/nwchunk.h"
 #include <common/nwsafety.hpp>
-#include <common/vec3.h>
+#include <common/nwmath.hpp>
 #include <flatfactory.h>
 
 void ServerMultiplayerConnection::sendChunk(Chunk* chunk)

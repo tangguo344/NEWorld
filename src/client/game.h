@@ -22,7 +22,7 @@
 
 #include <thread>
 #include <mutex>
-#include "common/vec3.h"
+#include "common/nwmath.hpp"
 #include "renderer.h"
 
 #include <world/world.h>

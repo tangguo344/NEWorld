@@ -150,16 +150,16 @@ try :
     }
 
     // Get current vertex count
-    int getVertexCount() const
+    size_t getVertexCount() const
     {
         return mVertexes;
     }
 
 private:
     // Max vertex count
-    const int mMaxVertexes;
+    const size_t mMaxVertexes;
     // Vertex count
-    int mVertexes;
+    size_t mVertexes;
     // Vertex array format
     VertexFormat mFormat;
     // Vertex array
