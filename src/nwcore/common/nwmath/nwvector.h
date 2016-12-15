@@ -17,12 +17,11 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef VEC3_H_
-#define VEC3_H_
+#pragma once
 
 #include <cmath>
-#include <type_traits>
 #include <utility>
+#include <type_traits>
 
 template <typename T>
 class Vec3
@@ -240,5 +239,3 @@ private:
 using Vec3i = Vec3<int>;
 using Vec3f = Vec3<float>;
 using Vec3d = Vec3<double>;
-
-#endif // !VEC3_H_

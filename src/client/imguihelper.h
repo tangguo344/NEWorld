@@ -21,7 +21,7 @@
 #define IMGUI_HELPER_H
 
 #include <SDL2/SDL.h>
-#include <common/debug.h>
+#include <common/common.h>
 #include "./imgui/imgui.h"
 
 namespace imguiHelper

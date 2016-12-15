@@ -18,7 +18,7 @@
 */
 
 #include "neworld.h"
-#include <common/nwsafety.hpp>
+#include <common/common.h>
 
 extern "C" NWAPIEXPORT int NWAPICALL cmain(int, char**);
 

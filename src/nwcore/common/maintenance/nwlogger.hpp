@@ -17,15 +17,14 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NWSAFETY_HPP_
-#define NWSAFETY_HPP_
-#include "common.h"
+#pragma once
+
 #include <iostream>
 #include <vector>
 #include <sstream>
 #include <array>
 #include <mutex>
-#include "common.h"
+#include <common/nwstdlib/nwstddef.h>
 
 class LoggerManager;
 
@@ -98,5 +97,3 @@ namespace NWCOREINTERNAL {namespace _LOGGER { extern LoggerManager gManager; }}
 #define fatalstream loggerstream(fatal)
 
 #endif
-
-#endif // !LOGGER_H_

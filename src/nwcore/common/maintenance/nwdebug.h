@@ -17,11 +17,11 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef DEBUG_H_
-#define DEBUG_H_
+#pragma once
 
-#include "nwsafety.hpp"
+#include "nwlogger.hpp"
 #include <stdexcept>
+
 #define NEWORLD_DEBUG
 // Assertion uses C++ exception
 inline void AssertFunc(bool expr, const char* file, const char* fname, int line)
@@ -44,4 +44,3 @@ inline void AssertFunc(bool expr, const char* file, const char* fname, int line)
 #undef assert
 #define assert(expr) static_assert(false, "Do not #include <cassert> or #include <assert.h>! Use Assert(expression) instead."); (void)(expr);
 
-#endif

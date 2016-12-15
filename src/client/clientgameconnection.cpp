@@ -19,10 +19,7 @@
 
 #include "chunkclient.h"
 #include "gameconnection.h"
-#include <common/nwmath.hpp>
-#include <common/nwsafety.hpp>
-#include <common/library.h>
-#include <common/jsonhelper.h>
+#include <common/common.h>
 #include <flatfactory.h>
 
 bool NWAPICALL nwInitServer(void*);

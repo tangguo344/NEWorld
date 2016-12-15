@@ -17,8 +17,8 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef EXCEPTION_H_
-#define EXCEPTION_H_
+#pragma once
+
 #include <string>
 #include <chrono>
 
@@ -132,5 +132,3 @@ namespace Exception
 
 #define nw_throw(ExceptionClass, ...) do { throw ExceptionClass{ __FUNCTION__, __FILE__, __LINE__, __VA_ARGS__ }; } while (false)
 #define nw_throwwithnested(ExceptionClass, ...) do { throw ExceptionClass{ std::current_exception(), __FUNCTION__, __FILE__, __LINE__, __VA_ARGS__ }; } while (false)
-
-#endif // !EXCEPTION_H_

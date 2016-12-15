@@ -26,10 +26,6 @@
 #include <memory>
 #include <vector>
 #include <unordered_map>
-#include <common/nwmath.hpp>
-#include <common/debug.h>
-#include <common/common.h>
-#include <common/nwconcepts.hpp>
 #include "nwblock.h"
 
 using ChunkGenerator = void NWAPICALL(const Vec3i*, BlockData*, int);

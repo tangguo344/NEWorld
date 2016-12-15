@@ -17,8 +17,7 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef UTILS_H_
-#define UTILS_H_
+#pragma once
 
 #include <vector>
 #include <string>
@@ -52,5 +51,3 @@ inline void strtolower(std::string& s)
     transform(s.begin(), s.end(), s.begin(), tolower);
 }
 
-
-#endif // !UTILS_H_

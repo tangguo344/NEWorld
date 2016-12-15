@@ -17,12 +17,12 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "filesys.h"
-#include "nwconsole.hpp"
 #include <map>
 #include <ctime>
 #include <fstream>
-#include "nwsafety.hpp"
+#include "nwlogger.hpp"
+#include <common/nwstdlib/nwfilesys.h>
+#include <common/nwstdlib/nwconsole.hpp>
 
 std::mutex Logger::mutex;
 std::vector<std::ofstream> Logger::fsink;

@@ -16,13 +16,10 @@
 * You should have received a copy of the GNU Lesser General Public License
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "common/nwsafety.hpp"
 #include <iostream>
 #include <string>
 #include <climits>
 #include <common/common.h>
-#include <common/library.h>
-#include <common/jsonhelper.h>
 
 NWDECLEARLOGGER("launcher")
 

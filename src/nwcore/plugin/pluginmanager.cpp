@@ -17,11 +17,8 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "common/common.h"
-#include "common/utils.h"
+#include <common/common.h>
 #include "pluginmanager.h"
-#include "common/nwsafety.hpp"
-#include <common/filesys.h>
 
 PluginManager::PluginManager()
 {

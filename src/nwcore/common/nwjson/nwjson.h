@@ -17,13 +17,13 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef JSONHELPER_H_
-#define JSONHELPER_H_
+#ifndef NWJSON_H_
+#define NWJSON_H_
 
 #include <string>
 #include <fstream>
+#include <common/maintenance/nwlogger.hpp>
 #include "json.hpp"
-#include "nwsafety.hpp"
 
 using Json = nlohmann::json;
 

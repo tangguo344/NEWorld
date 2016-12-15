@@ -20,9 +20,7 @@
 #ifndef PLAYER_MANAGER_H_
 #define PLAYER_MANAGER_H_
 
-#include <common/aabb.h>
-#include <common/nwmath.hpp>
-#include <common/nwsafety.hpp>
+#include <common/common.h>
 #include <unordered_map>
 #include <string>
 

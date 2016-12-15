@@ -17,12 +17,11 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef RATEMETER_H_
-#define RATEMETER_H_
+#pragma once
 
 #include <chrono>
 #include <thread>
-#include "common.h"
+#include "nwstddef.h"
 
 class RateMeter
 {
@@ -114,5 +113,3 @@ private:
     int mLimit;
     bool mValid = false;
 };
-
-#endif // !RATEMETER_H_

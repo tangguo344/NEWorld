@@ -22,18 +22,11 @@
 
 #include <string>
 #include <utility>
-
-#include "common/common.h"
-#include "common/nwmath.hpp"
-#include "world/nwblock.h"
-#include "common/library.h"
-
+#include <common/common.h>
 #include "api/nwapi.h"
-#include "common/common.h"
-#include "common/nwconcepts.hpp"
 
 // Single plugin
-class NWCOREAPI Plugin : public NonCopyable
+class Plugin : public NonCopyable
 {
 public:
     explicit Plugin(const std::string& filename) : mStatus(-1)

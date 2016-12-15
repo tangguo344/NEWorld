@@ -17,10 +17,7 @@
 * You should have received a copy of the GNU Lesser General Public License
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
-
-#ifndef LIBRARY_H_
-#define LIBRARY_H_
-
+#pragma once
 #include <common/common.h>
 #include <string>
 #include <functional>
@@ -28,11 +25,6 @@
 #ifndef NEWORLD_TARGET_WINDOWS
     #include <dlfcn.h>
 #endif
-
-#include "common.h"
-#include "nwsafety.hpp"
-#include "debug.h"
-#include "common/nwconcepts.hpp"
 
 class Library : public NonCopyable
 {
@@ -146,5 +138,3 @@ private:
     HandleType mDllHandle;
     bool mLoaded = false;
 };
-
-#endif

@@ -3,7 +3,6 @@
 
 #include "../protocol/gen/protocol.h"
 #include <common/common.h>
-#include <common/nwmath.hpp>
 
 namespace FlatFactory
 {

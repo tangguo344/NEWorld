@@ -18,7 +18,6 @@
 */
 
 #include "server.h"
-#include <common/jsonhelper.h>
 #include <context/nwcontext.hpp>
 
 Server::Server()

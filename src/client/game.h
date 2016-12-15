@@ -22,11 +22,8 @@
 
 #include <thread>
 #include <mutex>
-#include "common/nwmath.hpp"
 #include "renderer.h"
-
 #include <world/world.h>
-#include <common/nwsafety.hpp>
 #include <world/nwblock.h>
 #include <plugin/pluginmanager.h>
 #include "worldclient.h"
@@ -34,7 +31,7 @@
 #include "player.h"
 #include "network.h"
 #include "widgetmanager.h"
-#include <common/ratemeter.h>
+#include <common/common.h>
 #include "gameconnection.h"
 #include "window.h"
 

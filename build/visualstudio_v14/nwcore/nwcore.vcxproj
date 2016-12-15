@@ -46,7 +46,7 @@
     <ClCompile Include="..\..\..\src\client\window.cpp" />
     <ClCompile Include="..\..\..\src\client\worldclient.cpp" />
     <ClCompile Include="..\..\..\src\nwcore\api\nwpluginapi.cpp" />
-    <ClCompile Include="..\..\..\src\nwcore\common\nwsafety.cpp" />
+    <ClCompile Include="..\..\..\src\nwcore\common\maintenance\nwlogger.cpp" />
     <ClCompile Include="..\..\..\src\nwcore\context\nwcontext.cpp" />
     <ClCompile Include="..\..\..\src\nwcore\plugin\plugin.cpp" />
     <ClCompile Include="..\..\..\src\nwcore\plugin\pluginmanager.cpp" />
@@ -85,22 +85,21 @@
     <ClInclude Include="..\..\..\src\client\window.h" />
     <ClInclude Include="..\..\..\src\client\worldclient.h" />
     <ClInclude Include="..\..\..\src\nwcore\api\nwpluginapi.h" />
-    <ClInclude Include="..\..\..\src\nwcore\common\aabb.h" />
     <ClInclude Include="..\..\..\src\nwcore\common\common.h" />
-    <ClInclude Include="..\..\..\src\nwcore\common\nwconsole.hpp" />
-    <ClInclude Include="..\..\..\src\nwcore\common\debug.h" />
-    <ClInclude Include="..\..\..\src\nwcore\common\filesys.h" />
-    <ClInclude Include="..\..\..\src\nwcore\common\json.hpp" />
-    <ClInclude Include="..\..\..\src\nwcore\common\jsonhelper.h" />
-    <ClInclude Include="..\..\..\src\nwcore\common\library.h" />
-    <ClInclude Include="..\..\..\src\nwcore\common\math\vec3.h" />
-    <ClInclude Include="..\..\..\src\nwcore\common\nwconcepts.hpp" />
-    <ClInclude Include="..\..\..\src\nwcore\common\nwexception.hpp" />
-    <ClInclude Include="..\..\..\src\nwcore\common\nwexport.h" />
-    <ClInclude Include="..\..\..\src\nwcore\common\nwmath.hpp" />
-    <ClInclude Include="..\..\..\src\nwcore\common\nwsafety.hpp" />
-    <ClInclude Include="..\..\..\src\nwcore\common\ratemeter.h" />
-    <ClInclude Include="..\..\..\src\nwcore\common\utils.h" />
+    <ClInclude Include="..\..\..\src\nwcore\common\maintenance\nwdebug.h" />
+    <ClInclude Include="..\..\..\src\nwcore\common\maintenance\nwexception.hpp" />
+    <ClInclude Include="..\..\..\src\nwcore\common\maintenance\nwlogger.hpp" />
+    <ClInclude Include="..\..\..\src\nwcore\common\nwjson\json.hpp" />
+    <ClInclude Include="..\..\..\src\nwcore\common\nwjson\nwjson.h" />
+    <ClInclude Include="..\..\..\src\nwcore\common\nwmath\nwvector.h" />
+    <ClInclude Include="..\..\..\src\nwcore\common\nwphysics\nwaabb.h" />
+    <ClInclude Include="..\..\..\src\nwcore\common\nwstdlib\nwconcepts.hpp" />
+    <ClInclude Include="..\..\..\src\nwcore\common\nwstdlib\nwconsole.hpp" />
+    <ClInclude Include="..\..\..\src\nwcore\common\nwstdlib\nwfilesys.h" />
+    <ClInclude Include="..\..\..\src\nwcore\common\nwstdlib\nwlibrary.h" />
+    <ClInclude Include="..\..\..\src\nwcore\common\nwstdlib\nwratemeter.h" />
+    <ClInclude Include="..\..\..\src\nwcore\common\nwstdlib\nwstddef.h" />
+    <ClInclude Include="..\..\..\src\nwcore\common\nwstdlib\nwstrings.h" />
     <ClInclude Include="..\..\..\src\nwcore\context\nwcontext.hpp" />
     <ClInclude Include="..\..\..\src\nwcore\plugin\plugin.h" />
     <ClInclude Include="..\..\..\src\nwcore\plugin\pluginmanager.h" />
@@ -230,6 +229,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>NOMINMAX;NWCOREEXPORTS;WIN32;_DEBUG;_WINDOWS;_USRDLL;NWCORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -246,6 +246,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>NOMINMAX;NWCOREEXPORTS;_DEBUG;_WINDOWS;_USRDLL;NWCORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -268,6 +269,7 @@
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -292,6 +294,7 @@
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -316,6 +319,7 @@
       <OmitFramePointers>true</OmitFramePointers>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -340,6 +344,7 @@
       <OmitFramePointers>true</OmitFramePointers>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

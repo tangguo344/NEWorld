@@ -19,7 +19,6 @@
 
 #include "texture.h"
 #include <SDL2/SDL_image.h>
-#include <common/nwsafety.hpp>
 #include <memory>
 #include <sstream>
 #include <iomanip>

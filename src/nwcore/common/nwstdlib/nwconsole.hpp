@@ -17,8 +17,7 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NWCONSOLE_HPP_
-#define NWCONSOLE_HPP_
+#pragma once
 
 #include <string>
 #include <vector>
@@ -28,9 +27,7 @@
 #include <iostream>
 #include <functional>
 #include <unordered_map>
-#include <common/nwsafety.hpp>
-#include "utils.h"
-#include "common.h"
+#include "nwstrings.h"
 
 namespace LColorFunc
 {
@@ -320,5 +317,3 @@ private:
 	std::atomic_bool mWaitingForInput{ false };
 	CommandMap mCommandMap;
 };
-
-#endif

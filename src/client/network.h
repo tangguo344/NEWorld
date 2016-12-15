@@ -25,7 +25,7 @@
 #include "../protocol/gen/protocol.h"
 #include <future>
 #include <climits>
-#include <common/nwsafety.hpp>
+#include <common/common.h>
 
 class ClientConnection
 {

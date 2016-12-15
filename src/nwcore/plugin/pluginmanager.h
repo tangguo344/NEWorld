@@ -22,13 +22,10 @@
 
 #include <string>
 #include <vector>
-#include "common/library.h"
 #include "plugin.h"
-#include "common/common.h"
-#include "common/nwconcepts.hpp"
 
 // Plugin system
-class NWCOREAPI PluginManager : public NonCopyable
+class PluginManager : public NonCopyable
 {
 public:
     PluginManager();

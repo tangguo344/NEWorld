@@ -17,7 +17,7 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "common/nwsafety.hpp"
+#include "common/common.h"
 #include "networkmanager.h"
 #include <raknet/MessageIdentifiers.h>
 #include <raknet/BitStream.h>

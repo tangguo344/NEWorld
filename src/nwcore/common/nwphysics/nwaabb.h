@@ -17,11 +17,10 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef AABB_H_
-#define AABB_H_
+#pragma once
 
 #include <algorithm>
-#include <common/nwmath.hpp>
+#include <common/nwmath/nwvector.h>
 
 // Axis aligned bounding box
 class AABB
@@ -138,5 +137,3 @@ public:
         max += arg;
     }
 };
-
-#endif // !AABB_H_

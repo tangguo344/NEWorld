@@ -17,7 +17,6 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "common/nwsafety.hpp"
 #include <world/world.h>
 
 size_t World::IDCount = 0;

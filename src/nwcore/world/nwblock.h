@@ -20,11 +20,10 @@
 #ifndef BLOCKDATA_H_
 #define BLOCKDATA_H_
 
-#include <stdint.h>
 #include <vector>
 #include <string>
-#include "common/nwsafety.hpp"
-#include "common/common.h"
+#include <cstdint>
+#include <common/common.h>
 
 class BlockData
 {

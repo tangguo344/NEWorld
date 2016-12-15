@@ -19,7 +19,7 @@
 
 #include "neworld.h"
 #include "texture.h"
-#include <common/jsonhelper.h>
+#include <common/common.h>
 #include <context/nwcontext.hpp>
 #include "window.h"
 #include "game.h"

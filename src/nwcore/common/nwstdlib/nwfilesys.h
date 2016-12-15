@@ -17,12 +17,11 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef FILESYS_H_
-#define FILESYS_H_
+#pragma once
 
-#include "common.h"
 #include <string>
 #include <functional>
+#include "nwstddef.h"
 
 #ifdef NEWORLD_TARGET_WINDOWS
     #include <io.h>
@@ -77,5 +76,3 @@ namespace FileSystem
 #endif
     }
 }
-
-#endif

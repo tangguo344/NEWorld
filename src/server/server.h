@@ -23,9 +23,7 @@
 #include <memory>
 #include <thread>
 #include <world/world.h>
-#include <common/nwconsole.hpp>
-#include <common/ratemeter.h>
-#include <common/nwsafety.hpp>
+#include <common/common.h>
 #include <plugin/pluginmanager.h>
 #include "networkmanager.h"
 

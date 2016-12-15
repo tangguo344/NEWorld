@@ -8,9 +8,6 @@
     <Filter Include="SourceCore\api">
       <UniqueIdentifier>{42e9c03f-7df2-4e4b-88c3-80664bb72cc9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SourceCore\common">
-      <UniqueIdentifier>{1b272ab1-4715-4752-885b-44eb0120d499}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SourceCore\plugin">
       <UniqueIdentifier>{865196c1-df40-4f7a-a4fc-7c8c6abcf8a1}</UniqueIdentifier>
     </Filter>
@@ -59,16 +56,28 @@
     <Filter Include="SourceServer\Main">
       <UniqueIdentifier>{2a039465-052b-42d8-b29e-f27d9f81b0d1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SourceCore\common\math">
-      <UniqueIdentifier>{290f30bf-0f47-4ec6-bb14-4ca6a2f6d362}</UniqueIdentifier>
+    <Filter Include="SourceCore\common">
+      <UniqueIdentifier>{349061fe-9dc1-4643-9984-8734621a544f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCore\common\maintenance">
+      <UniqueIdentifier>{2b2bd3f2-d30a-4d9e-8770-2cb4298ccefc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCore\common\nwjson">
+      <UniqueIdentifier>{12a09c82-1c86-44f6-845c-fe4b84b20a14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCore\common\nwmath">
+      <UniqueIdentifier>{d2af2014-d74f-4399-b95e-6e25b61bcfe3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCore\common\nwphysics">
+      <UniqueIdentifier>{79c88b64-1d9c-4b80-8330-37a008eb368a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceCore\common\nwstdlib">
+      <UniqueIdentifier>{71d5a55c-eb8f-4006-84a5-3e8dfb007730}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\nwcore\api\nwpluginapi.cpp">
       <Filter>SourceCore\api</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\nwcore\common\nwsafety.cpp">
-      <Filter>SourceCore\common</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\nwcore\plugin\plugin.cpp">
       <Filter>SourceCore\plugin</Filter>
@@ -157,46 +166,13 @@
     <ClCompile Include="..\..\..\src\server\server.cpp">
       <Filter>SourceServer\Main</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\nwcore\common\maintenance\nwlogger.cpp">
+      <Filter>SourceCore\common\maintenance</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\nwcore\api\nwpluginapi.h">
       <Filter>SourceCore\api</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\nwcore\common\common.h">
-      <Filter>SourceCore\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\nwcore\common\debug.h">
-      <Filter>SourceCore\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\nwcore\common\filesys.h">
-      <Filter>SourceCore\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\nwcore\common\json.hpp">
-      <Filter>SourceCore\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\nwcore\common\jsonhelper.h">
-      <Filter>SourceCore\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\nwcore\common\library.h">
-      <Filter>SourceCore\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\nwcore\common\nwexception.hpp">
-      <Filter>SourceCore\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\nwcore\common\nwexport.h">
-      <Filter>SourceCore\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\nwcore\common\nwsafety.hpp">
-      <Filter>SourceCore\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\nwcore\common\ratemeter.h">
-      <Filter>SourceCore\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\nwcore\common\utils.h">
-      <Filter>SourceCore\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\nwcore\common\aabb.h">
-      <Filter>SourceCore\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\plugin\plugin.h">
       <Filter>SourceCore\plugin</Filter>
@@ -212,9 +188,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\world\world.h">
       <Filter>SourceCore\world</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\nwcore\common\nwconcepts.hpp">
-      <Filter>SourceCore\common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\context\nwcontext.hpp">
       <Filter>SourceCore\context</Filter>
@@ -303,20 +276,56 @@
     <ClInclude Include="..\..\..\src\server\server.h">
       <Filter>SourceServer\Main</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\nwcore\common\math\vec3.h">
-      <Filter>SourceCore\common\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\nwcore\common\nwmath.hpp">
-      <Filter>SourceCore\common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\nwcore\common\nwconsole.hpp">
-      <Filter>SourceCore\common</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\world\nwplayer.hpp">
       <Filter>SourceCore\world</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\world\object.h">
       <Filter>SourceCore\world</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\common.h">
+      <Filter>SourceCore\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\maintenance\nwexception.hpp">
+      <Filter>SourceCore\common\maintenance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\maintenance\nwlogger.hpp">
+      <Filter>SourceCore\common\maintenance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\maintenance\nwdebug.h">
+      <Filter>SourceCore\common\maintenance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\nwjson\json.hpp">
+      <Filter>SourceCore\common\nwjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\nwjson\nwjson.h">
+      <Filter>SourceCore\common\nwjson</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\nwmath\nwvector.h">
+      <Filter>SourceCore\common\nwmath</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\nwphysics\nwaabb.h">
+      <Filter>SourceCore\common\nwphysics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\nwstdlib\nwconcepts.hpp">
+      <Filter>SourceCore\common\nwstdlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\nwstdlib\nwconsole.hpp">
+      <Filter>SourceCore\common\nwstdlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\nwstdlib\nwfilesys.h">
+      <Filter>SourceCore\common\nwstdlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\nwstdlib\nwlibrary.h">
+      <Filter>SourceCore\common\nwstdlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\nwstdlib\nwratemeter.h">
+      <Filter>SourceCore\common\nwstdlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\nwstdlib\nwstddef.h">
+      <Filter>SourceCore\common\nwstdlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\nwstdlib\nwstrings.h">
+      <Filter>SourceCore\common\nwstdlib</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

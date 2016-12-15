@@ -23,9 +23,7 @@
 #include <cstring>
 #include <initializer_list>
 #include "opengl.h"
-#include <common/debug.h>
 #include <common/common.h>
-#include <common/nwconcepts.hpp>
 
 class VertexFormat
 {
