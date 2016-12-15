@@ -16,9 +16,7 @@
 * You should have received a copy of the GNU Lesser General Public License
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
-
 #pragma once
-
 #include <algorithm>
 #include <common/nwmath/nwvector.h>
 

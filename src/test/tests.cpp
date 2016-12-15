@@ -20,7 +20,7 @@
 
 //***********Vec3***********//
 
-#include "./../nwcore/common/nwmath.hpp"
+#include "./../nwcore/common/common.h"
 
 TEST(Vec3, Basic)
 {

@@ -37,10 +37,6 @@ public:
     {
     }
 
-    //constexpr Vec3(T value) : x(value), y(value), z(value)
-    //{
-    //}
-
     template <typename U, std::enable_if_t<std::is_convertible<T, U>::value, int> = 0>
     constexpr Vec3(const Vec3<U>& rhs) : x(T(rhs.x)), y(T(rhs.y)), z(T(rhs.z))
     {
@@ -158,26 +154,6 @@ public:
         return Vec3(x - rhs.x, y - rhs.y, z - rhs.z);
     };
 
-    void swap(Vec3& rhs)
-    {
-        std::swap(x, rhs.x);
-        std::swap(y, rhs.y);
-        std::swap(z, rhs.z);
-    }
-
-    //TODO: fix it. And tell if "for_each" will change the value of "this".
-    template <typename Func>
-    Vec3 transform(Func func) const
-    {
-        return Vec3(func(x), func(y), func(z));
-    }
-
-    template <typename Func>
-    Vec3 transform(Func func)
-    {
-        return Vec3(func(x), func(y), func(z));
-    }
-
     template <typename Func>
     static void for_range(T begin, T end, Func func)
     {
@@ -196,20 +172,6 @@ public:
             for (tmp.y = begin.y; tmp.y < end.y; ++tmp.y)
                 for (tmp.z = begin.z; tmp.z < end.z; ++tmp.z)
                     func(tmp);
-    }
-
-    template <typename U, U base>
-    U encode()
-    {
-        return (x * base + y) * base + z;
-    }
-
-    template <typename U, U base>
-    static Vec3<U> decode(T arg)
-    {
-        U z = arg % base;
-        arg /= base;
-        return Vec3<U>(arg / base, arg % base, z);
     }
 
     friend Vec3<T> operator- (const Vec3<T>& vec)

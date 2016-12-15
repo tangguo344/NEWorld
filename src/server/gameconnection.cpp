@@ -24,7 +24,7 @@
 
 void ServerMultiplayerConnection::sendChunk(Chunk* chunk)
 {
-    auto pos = chunk->getPosition().conv<s2c::Vec3>();
+    auto pos = s2c::Vec3(chunk->getPosition().conv<s2c::Vec3>());
     // Be careful!
     Assert(sizeof(BlockData) == sizeof(uint32_t));
     std::vector<int> blocks(reinterpret_cast<uint32_t*>(chunk->getBlocks()),
