@@ -19,185 +19,483 @@
 
 #pragma once
 
-#include <cmath>
-#include <utility>
-#include <type_traits>
+template <typename T>
+constexpr T abs(T arg) noexcept
+{
+	return arg >= 0 ? arg : -arg;
+}
 
 template <typename T>
-class Vec3
+constexpr T max(T arg1, T arg2) noexcept
 {
-public:
-    T x, y, z;
+	return (arg1 > arg2) ? arg1 : arg2;
+}
 
-    constexpr Vec3() : x(), y(), z()
-    {
-    }
+#pragma pack(push, 1)
+    
+template <size_t d, class T> union Vec;
 
-    constexpr Vec3(T x_, T y_, T z_) : x(x_), y(y_), z(z_)
-    {
-    }
-
-    template <typename U, std::enable_if_t<std::is_convertible<T, U>::value, int> = 0>
-    constexpr Vec3(const Vec3<U>& rhs) : x(T(rhs.x)), y(T(rhs.y)), z(T(rhs.z))
-    {
-    }
-
-    // Get the square of vector length
-    constexpr T lengthSqr() const
-    {
-        return x * x + y * y + z * z;
-    }
-
-    // Get vector length
-    double length() const
-    {
-        return sqrt(double(lengthSqr()));
-    }
-
-    // Get the Euclidean Distance between vectors
-    double euclideanDistance(const Vec3& rhs) const
-    {
-        return (*this - rhs).length();
-    }
-
-    // Get the Chebyshev Distance between vectors
-    constexpr T chebyshevDistance(const Vec3& rhs) const
-    {
-        return max(max(abs(x - rhs.x), abs(y - rhs.y)), abs(z - rhs.z));
-    }
-
-    // Get the Manhattan Distance between vectors
-    constexpr T manhattanDistance(const Vec3& rhs) const
-    {
-        return abs(x - rhs.x) + abs(y - rhs.y) + abs(z - rhs.z);
-    }
-
-    // Normalize vector
-    void normalize()
-    {
-        double l = length();
-        x /= l;
-        y /= l;
-        z /= l;
-    }
-
-    bool operator< (const Vec3& rhs) const
-    {
-        if (x != rhs.x)
-            return x < rhs.x;
-        if (y != rhs.y)
-            return y < rhs.y;
-        if (z != rhs.z)
-            return z < rhs.z;
-        return false;
-    }
-
-    constexpr bool operator== (const Vec3& rhs) const
-    {
-        return x == rhs.x && y == rhs.y && z == rhs.z;
-    }
-
-    Vec3& operator+= (const Vec3& rhs)
-    {
-        x += rhs.x;
-        y += rhs.y;
-        z += rhs.z;
-        return *this;
-    }
-
-    Vec3& operator-= (const Vec3& rhs)
-    {
-        x -= rhs.x;
-        y -= rhs.y;
-        z -= rhs.z;
-        return *this;
-    }
-
-    Vec3<T>& operator*= (T value)
-    {
-        x *= value;
-        y *= value;
-        z *= value;
-        return *this;
-    }
-
-    Vec3<T>& operator/= (T value)
-    {
-        x /= value;
-        y /= value;
-        z /= value;
-        return *this;
-    }
-
-    constexpr Vec3 operator* (T value) const
-    {
-        return Vec3(x * value, y * value, z * value);
-    }
-
-    constexpr Vec3 operator/ (T value) const
-    {
-        return Vec3(x / value, y / value, z / value);
-    }
-
-    constexpr bool operator!= (const Vec3& rhs) const
-    {
-        return !(rhs == *this);
-    }
-
-    constexpr Vec3 operator+ (const Vec3& rhs) const
-    {
-        return Vec3(x + rhs.x, y + rhs.y, z + rhs.z);
-    };
-
-    constexpr Vec3 operator- (const Vec3& rhs) const
-    {
-        return Vec3(x - rhs.x, y - rhs.y, z - rhs.z);
-    };
-
-    template <typename Func>
-    static void for_range(T begin, T end, Func func)
-    {
-        Vec3<T> tmp;
-        for (tmp.x = begin; tmp.x < end; ++tmp.x)
-            for (tmp.y = begin; tmp.y < end; ++tmp.y)
-                for (tmp.z = begin; tmp.z < end; ++tmp.z)
-                    func(tmp);
-    }
-
-    template <typename Func>
-    static void for_range(const Vec3<T>& begin, const Vec3<T>& end, Func func)
-    {
-        Vec3<T> tmp;
-        for (tmp.x = begin.x; tmp.x < end.x; ++tmp.x)
-            for (tmp.y = begin.y; tmp.y < end.y; ++tmp.y)
-                for (tmp.z = begin.z; tmp.z < end.z; ++tmp.z)
-                    func(tmp);
-    }
-
-    friend Vec3<T> operator- (const Vec3<T>& vec)
-    {
-        return Vec3<T>(-vec.x, -vec.y, -vec.z);
-    }
-
-    template<class Vec3Type>
-    Vec3Type conv() const
-    {
-        return Vec3Type(x, y, z);
-    }
-
-private:
-    // to solve problems about `abs`, we need this.
-    constexpr static T abs(T arg)
-    {
-        return arg >= 0 ? arg : -arg;
-    }
-
-    constexpr static T max(T arg1, T arg2)
-    {
-        return (arg1 > arg2) ? arg1 : arg2;
-    }
+template <class T>
+union Vec<2, T> final
+{
+	T data[2];
+	struct { T x, y; };
+	// used as color
+	struct { T l, a; };
+	struct { T r, g; };
+	struct { T less, last; };
+	Vec() = default;
+	constexpr Vec(T _x, T _y) noexcept :x(_x), y(_y) {}
+	template <typename U, std::enable_if_t<std::is_convertible<T, U>::value, int> = 0>
+	constexpr Vec(const Vec<2, U>& rhs) noexcept : x(T(rhs.x)), y(T(rhs.y)){}
+	constexpr Vec operator + (const Vec& r) const noexcept
+	{
+		return Vec(x + r.x, y + r.y);
+	}
+	constexpr Vec operator - (const Vec& r) const noexcept
+	{
+		return Vec(x - r.x, y - r.y);
+	}
+	constexpr Vec operator - () const noexcept
+	{
+		return Vec(-x, -y);
+	}
+	template <class T2>
+	constexpr Vec operator * (T2&& r) const noexcept
+	{
+		return Vec(x * std::forward<T2>(r), y  * std::forward<T2>(r));
+	}
+	template <class T2>
+	constexpr Vec operator / (T2&& r) const noexcept
+	{
+		return Vec(x / std::forward<T2>(r), y / std::forward<T2>(r));
+	}
+	Vec& operator += (const Vec& r) noexcept
+	{
+		x += r.x; y += r.y; return *this;
+	}
+	Vec& operator -= (const Vec& r) noexcept
+	{
+		x -= r.x; y -= r.y; return *this;
+	}
+	template <class T2>
+	Vec& operator *= (T2&& r) noexcept
+	{
+		x *= std::forward<T2>(r); y *= std::forward<T2>(r); return *this;
+	}
+	template <class T2>
+	Vec& operator /= (T2&& r) noexcept
+	{
+		x /= std::forward<T2>(r); y /= std::forward<T2>(r); return *this;
+	}
+	constexpr T lengthSqr() const noexcept
+	{
+		return x * x + y * y;
+	}
+	constexpr bool operator == (const Vec& r) const noexcept
+	{
+		return (x == r.x) && (y == r.y);
+	}
+	constexpr bool operator < (const Vec& r) const noexcept
+	{
+		return lengthSqr() < r.lengthSqr();
+	}
+	constexpr bool operator > (const Vec& r) const noexcept
+	{
+		return lengthSqr() > r.lengthSqr();
+	}
+	constexpr bool operator <= (const Vec& r) const noexcept
+	{
+		return lengthSqr() <= r.lengthSqr();
+	}
+	constexpr bool operator >= (const Vec& r) const noexcept
+	{
+		return lengthSqr() >= r.lengthSqr();
+	}
+	constexpr T dot(const Vec& r) const noexcept
+	{
+		return x * r.x + y * r.y;
+	}
+	void normalize() noexcept
+	{
+		(*this) /= length()
+	}
+	T length() noexcept
+	{
+		return sqrt(lengthSqr());
+	}
+	double euclideanDistance(const Vec& rhs) const noexcept
+	{
+		return (*this - rhs).length();
+	}
+	constexpr T chebyshevDistance(const Vec& rhs) const noexcept
+	{
+		return max(abs(x - rhs.x), abs(y - rhs.y));
+	}
+	constexpr T manhattanDistance(const Vec& rhs) const noexcept
+	{
+		return abs(x - rhs.x) + abs(y - rhs.y);
+	}
 };
 
-using Vec3i = Vec3<int>;
-using Vec3f = Vec3<float>;
-using Vec3d = Vec3<double>;
+template <class T>
+union Vec<3, T> final
+{
+	T data[3];
+	struct { T x, y, z; };
+	// used as color
+	struct { T r, g, b; };
+	struct { Vec<2, T> less; T last; };
+	Vec<2, T> xy;
+	Vec<2, T> rg;
+	Vec() = default;
+	constexpr Vec(T _x, T _y, T _z) noexcept : x(_x), y(_y), z(_z) {}
+	constexpr Vec(const Vec<2, T>& ls, T arg) noexcept : less(ls), last(arg) {}
+	template <typename U, std::enable_if_t<std::is_convertible<T, U>::value, int> = 0>
+	constexpr Vec(const Vec<3, U>& rhs) noexcept : x(T(rhs.x)), y(T(rhs.y)), z(T(rhs.z))
+	{
+	}
+	constexpr Vec operator + (const Vec& r) const noexcept
+	{
+		return Vec(x + r.x, y + r.y, z + r.z);
+	}
+	constexpr Vec operator - (const Vec& r) const noexcept
+	{
+		return Vec(x - r.x, y - r.y, z - r.z);
+	}
+	constexpr Vec operator - () const noexcept
+	{
+		return Vec(-x, -y, -z);
+	}
+	template <class T2>
+	constexpr Vec operator * (T2&& r) const noexcept
+	{
+		return Vec(x * std::forward<T2>(r), y * std::forward<T2>(r), z * std::forward<T2>(r));
+	}
+	//cross product
+	constexpr Vec operator * (const Vec& r) const noexcept
+	{
+		return Vec(y * r.z - z * r.y, z * r.x - x * r.z, x * r.y - y * r.x);
+	}
+	template <class T2>
+	constexpr Vec operator / (T2&& r) const noexcept
+	{
+		return Vec(x / std::forward<T2>(r), y / std::forward<T2>(r), z / std::forward<T2>(r));
+	}
+	Vec& operator += (const Vec& r) noexcept
+	{
+		x += r.x; y += r.y; z += r.z; return *this;
+	}
+	Vec& operator -= (const Vec& r) noexcept
+	{
+		x -= r.x; y -= r.y; z -= r.z; return *this;
+	}
+	template <class T2>
+	Vec& operator *= (T2&& r) noexcept
+	{
+		x *= std::forward<T2>(r); y *= std::forward<T2>(r); z *= std::forward<T2>(r); return *this;
+	}
+	//cross product
+	Vec& operator *= (const Vec& r) const noexcept
+	{
+		*this = Vec(y * r.z - z * r.y, z * r.x - x * r.z, x * r.y - y * r.x); return *this;
+	}
+	template <class T2>
+	Vec& operator /= (T2&& r) noexcept
+	{
+		x /= std::forward<T2>(r); y /= std::forward<T2>(r); z /= std::forward<T2>(r); return *this;
+	}
+	constexpr T lengthSqr() const noexcept
+	{
+		return x * x + y * y + z * z;
+	}
+	constexpr bool operator == (const Vec& r) const noexcept
+	{
+		return (x == r.x) && (y == r.y) && (z == r.z);
+	}
+	constexpr bool operator < (const Vec& r) const noexcept
+	{
+		return lengthSqr() < r.lengthSqr();
+	}
+	constexpr bool operator > (const Vec& r) const noexcept
+	{
+		return lengthSqr() > r.lengthSqr();
+	}
+	constexpr bool operator <= (const Vec& r) const noexcept
+	{
+		return lengthSqr() <= r.lengthSqr();
+	}
+	constexpr bool operator >= (const Vec& r) const noexcept
+	{
+		return lengthSqr() >= r.lengthSqr();
+	}
+	constexpr T dot(const Vec& r) const noexcept
+	{
+		return x * r.x + y * r.y + z * r.z;
+	}
+	T length() noexcept
+	{
+		return sqrt(lengthSqr());
+	}
+	void normalize() noexcept
+	{
+		(*this) /= length();
+	}
+	template<class Vec3Type>
+	Vec3Type conv() const noexcept
+	{
+		return Vec3Type(x, y, z);
+	}
+	double euclideanDistance(const Vec& rhs) const noexcept
+	{
+		return (*this - rhs).length();
+	}
+	constexpr T chebyshevDistance(const Vec& rhs) const noexcept
+	{
+		return max(max(abs(x - rhs.x), abs(y - rhs.y)), abs(z - rhs.z));
+	}
+	constexpr T manhattanDistance(const Vec& rhs) const noexcept
+	{
+		return abs(x - rhs.x) + abs(y - rhs.y) + abs(z - rhs.z);
+	}
+};
+
+template <class T>
+union Vec<4, T> final
+{
+	T data[4];
+	struct { T x, y, z, t; };
+	// used as color
+	struct { T r, g, b, a; };
+	struct { T C, M, Y, K; };
+	struct { Vec<3, T> less; T last; };
+	Vec<2, T> xy;
+	Vec<2, T> rg;
+	Vec<3, T> xyz;
+	Vec<3, T> rgb;
+	Vec() = default;
+	constexpr Vec(T _x, T _y, T _z, T _t) noexcept : x(_x), y(_y), z(_z), t(_t) {}
+	template <typename U, std::enable_if_t<std::is_convertible<T, U>::value, int> = 0>
+	constexpr Vec(const Vec<3, U>& rhs) noexcept : x(T(rhs.x)), y(T(rhs.y)), z(T(rhs.z)), t(T(rhs.t))
+	{
+	}
+	constexpr Vec(const Vec<3, T>& ls, T arg) noexcept : less(ls), last(arg) {}
+	constexpr Vec(const Vec<2, T>& ls, T arg, T arg0) noexcept : less(ls, arg), last(arg0) {}
+	constexpr Vec operator + (const Vec& r) const noexcept
+	{
+		return Vec(x + r.x, y + r.y, z + r.z, t + r.t);
+	}
+	constexpr Vec operator - (const Vec& r) const noexcept
+	{
+		return Vec(x - r.x, y - r.y, z - r.z, t - r.t);
+	}
+	constexpr Vec operator - () const noexcept
+	{
+		return Vec(-x, -y, -z, t);
+	}
+	template <class T2>
+	constexpr Vec operator * (T2&& r) const noexcept
+	{
+		return Vec(x * std::forward<T2>(r), y * std::forward<T2>(r), z * std::forward<T2>(r), t * std::forward<T2>(r));
+	}
+	template <class T2>
+	constexpr Vec operator / (T2&& r) const noexcept
+	{
+		return Vec(x / std::forward<T2>(r), y / std::forward<T2>(r), z / std::forward<T2>(r), t / std::forward<T2>(r));
+	}
+	Vec& operator += (const Vec& r) noexcept
+	{
+		x += r.x; y += r.y; z += r.z; t += r.t; return *this;
+	}
+	Vec& operator -= (const Vec& r) noexcept
+	{
+		x -= r.x; y -= r.y; z -= r.z; t -= r.t; return *this;
+	}
+	template <class T2>
+	Vec& operator *= (T2&& r) noexcept
+	{
+		x *= std::forward<T2>(r); y *= std::forward<T2>(r); z *= std::forward<T2>(r); t *= std::forward<T2>(r); return *this;
+	}
+	template <class T2>
+	Vec& operator /= (T2&& r) noexcept
+	{
+		x /= std::forward<T2>(r); y /= std::forward<T2>(r); z /= std::forward<T2>(r); t *= std::forward<T2>(r); return *this;
+	}
+	constexpr T lengthSqr() const noexcept
+	{
+		return x * x + y * y + z * z + t * t;
+	}
+	constexpr bool operator == (const Vec& r) const noexcept
+	{
+		return (x == r.x) && (y == r.y) && (z == r.z) && (t == r.t);
+	}
+	constexpr bool operator < (const Vec& r) const noexcept
+	{
+		return lengthSqr() < r.lengthSqr();
+	}
+	constexpr bool operator > (const Vec& r) const noexcept
+	{
+		return lengthSqr() > r.lengthSqr();
+	}
+	constexpr bool operator <= (const Vec& r) const noexcept
+	{
+		return lengthSqr() <= r.lengthSqr();
+	}
+	constexpr bool operator >= (const Vec& r) const noexcept
+	{
+		return lengthSqr() >= r.lengthSqr();
+	}
+	constexpr T dot(const Vec& r) const noexcept
+	{
+		return x * r.x + y * r.y + z * r.z + t * r.t;
+	}
+	void normalize() noexcept
+	{
+		(*this) /= length()
+	}
+	T length() noexcept
+	{
+		return sqrt(lengthSqr());
+	}
+	double euclideanDistance(const Vec& rhs) const noexcept
+	{
+		return (*this - rhs).length();
+	}
+	constexpr T chebyshevDistance(const Vec& rhs) const noexcept
+	{
+		return max(max(max(abs(x - rhs.x), abs(y - rhs.y)), abs(z - rhs.z)), abs(t - rhs.t));
+	}
+	constexpr T manhattanDistance(const Vec& rhs) const noexcept
+	{
+		return abs(x - rhs.x) + abs(y - rhs.y) + abs(z - rhs.z) + abs(t - rhs.t);
+	}
+};
+using Vec2i = Vec<2, int>;
+using Vec2f = Vec<2, float>;
+using Vec2d = Vec<2, double>;
+template <class T>
+using Vec2 = Vec<2, T>;
+using Vec3i = Vec<3, int>;
+using Vec3f = Vec<3, float>;
+using Vec3d = Vec<3, double>;
+template <class T>
+using Vec3 = Vec<3, T>;
+using Vec4i = Vec<4, int>;
+using Vec4f = Vec<4, float>;
+using Vec4d = Vec<4, double>;
+template <class T>
+using Vec4 = Vec<4, T>;
+
+template <size_t d, class T>
+union Vec final
+{
+	T data[d];
+	struct
+	{
+		Vec<d - 1, T> less;
+		T last;
+	};
+	Vec() = default;
+	template <class ...T2>
+	constexpr Vec(const T& a1, T2&&... args) noexcept :
+		data{ a1, std::forward<T2>(args)... } {}
+	constexpr Vec(const Vec<d - 1, T>& _less, const T& _last) noexcept :
+		less(_less), last(_last) {}
+	template <typename U, std::enable_if_t<std::is_convertible<T, U>::value, int> = 0>
+	constexpr Vec(const Vec<d, U>& rhs) noexcept : less(Vec(rhs.less)), last(T(rhs.last))
+	{
+	}
+	template <size_t d2, class ...T2>
+	constexpr Vec(const Vec<d2, T>& ptr, const T& arg, const T& arg2, T2&&...args) noexcept :
+		Vec(Vec<d2 + 1, T>(ptr, arg), arg2, std::forward<T2>(args)...) {}
+	constexpr Vec operator + (const Vec& r) const noexcept
+	{
+		return Vec(less + r.less, last + r.last);
+	}
+	constexpr Vec operator - (const Vec& r) const noexcept
+	{
+		return Vec(less - r.less, last - r.last);
+	}
+	constexpr Vec operator - () const noexcept
+	{
+		return Vec(-less, -last);
+	}
+	template <class T2>
+	constexpr Vec operator * (T2&& r) const noexcept
+	{
+		return Vec(less * std::forward<T2>(r), last * std::forward<T2>(r));
+	}
+	template <class T2>
+	constexpr Vec operator / (T2&& r) const noexcept
+	{
+		return Vec(less / std::forward<T2>(r), last / std::forward<T2>(r));
+	}
+	Vec& operator += (const Vec& r) noexcept
+	{
+		less += r.less; last += r.last; return *this;
+	}
+	Vec& operator -= (const Vec& r) noexcept
+	{
+		less -= r.less; last -= r.last; return *this;
+	}
+	template <class T2>
+	Vec& operator *= (T2&& r) noexcept
+	{
+		less *= std::forward<T2>(r); last *= std::forward<T2>(r); return *this;
+	}
+	template <class T2>
+	Vec& operator /= (T2&& r) noexcept
+	{
+		less /= std::forward<T2>(r); last /= std::forward<T2>(r); return *this;
+	}
+	constexpr T lengthSqr() const noexcept
+	{
+		return less.lengthSqr() + last * last;
+	}
+	constexpr bool operator == (const Vec& r) const noexcept
+	{
+		return (less == r.less) && (last == r.last);
+	}
+	constexpr bool operator < (const Vec& r) const noexcept
+	{
+		return lengthSqr() < r.lengthSqr();
+	}
+	constexpr bool operator > (const Vec& r) const noexcept
+	{
+		return lengthSqr() > r.lengthSqr();
+	}
+	constexpr bool operator <= (const Vec& r) const noexcept
+	{
+		return lengthSqr() <= r.lengthSqr();
+	}
+	constexpr bool operator >= (const Vec& r) const noexcept
+	{
+		return lengthSqr() >= r.lengthSqr();
+	}
+	constexpr T dot(const Vec& r) const noexcept
+	{
+		return less.dot(r.less) + last * r.last;
+	}
+	void normalize() noexcept
+	{
+		(*this) /= length()
+	}
+	T length()
+	{
+		return sqrt(lengthSqr());
+	}
+	double euclideanDistance(const Vec& rhs) const noexcept
+	{
+		return (*this - rhs).length();
+	}
+	constexpr T chebyshevDistance(const Vec& rhs) const noexcept
+	{
+		return max(less.chebyshevDistance(rhs.less), abs(last - rhs.last));
+	}
+	constexpr T manhattanDistance(const Vec& rhs) const noexcept
+	{
+		return less.manhattanDistance(rhs.less) + abs(last - rhs.last);
+	}
+};
+
+#pragma pack(pop)

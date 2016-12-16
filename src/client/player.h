@@ -22,7 +22,6 @@
 
 #include <world/world.h>
 #include <world/playerobject.h>
-#include "mat4.h"
 #include "renderer.h"
 
 class Player : public PlayerObject

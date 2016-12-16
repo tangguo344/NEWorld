@@ -115,16 +115,19 @@ ChunkRenderer::ChunkRenderer(Chunk *chunk) :mBuffer(), mBufferTrans()
     }
     else
     {
-        Vec3i::for_range(0, Chunk::Size(), [chunk](const Vec3i& pos)
-        {
-            BlockData b = chunk->getBlock(pos);
-            target = (chunk->getWorld()->getType(b.getID()).isTranslucent()) ? &va1 : &va0;
-            BlockRendererManager::render(b.getID(), chunk, pos);
-        });
+		Vec3i tmp;
+		for (tmp.x = 0; tmp.x < Chunk::Size(); ++tmp.x)
+			for (tmp.y = 0; tmp.y < Chunk::Size(); ++tmp.y)
+				for (tmp.z = 0; tmp.z < Chunk::Size(); ++tmp.z)
+				{
+					BlockData b = chunk->getBlock(tmp);
+					target = (chunk->getWorld()->getType(b.getID()).isTranslucent()) ? &va1 : &va0;
+					BlockRendererManager::render(b.getID(), chunk, tmp);
+				}
     }
 
-    mBuffer = std::move(VertexBuffer(va0));
-    mBufferTrans = std::move(VertexBuffer(va1));
+    mBuffer.update(va0);
+    mBufferTrans.update(va1);
 }
 
 

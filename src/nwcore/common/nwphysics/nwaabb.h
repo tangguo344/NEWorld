@@ -17,8 +17,6 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 #pragma once
-#include <algorithm>
-#include <common/nwmath/nwvector.h>
 
 // Axis aligned bounding box
 class AABB

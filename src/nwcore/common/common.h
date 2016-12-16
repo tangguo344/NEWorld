@@ -19,8 +19,18 @@
 
 // This is the NEWorld Common Library
 #pragma once
+// STL include
+
+#include <cmath>
+#include <string>
+#include <fstream>
+#include <cstring>
+#include <utility>
+#include <algorithm>
+#include <type_traits>
 // Math Library
 #include "nwmath/nwvector.h"
+#include "nwmath/nwmatrix.h"
 // Physics Library
 #include "nwphysics/nwaabb.h"
 // Maintenance Library

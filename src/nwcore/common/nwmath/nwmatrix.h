@@ -17,39 +17,12 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef MAT4_H_
-#define MAT4_H_
-
-#include <cmath>
-#include <cstring>
-#include <common/common.h>
+#pragma once
 
 #ifndef M_PI
 #define M_PI 3.141592653589793
 #endif // !M_PI
 
-
-#ifdef NEWORLD_DEBUG
-
-// Mat4Row for range checking when debugging is enabled
-template <typename T>
-class Mat4Row
-{
-public:
-    T* ptr;
-
-    explicit Mat4Row(T* p) : ptr(p)
-    {
-    }
-
-    T& operator[](size_t index)
-    {
-        Assert(index < 4);
-        return ptr[index];
-    }
-};
-
-#endif
 
 template <typename T>
 class Mat4
@@ -78,22 +51,10 @@ public:
         memcpy(data, src, sizeof(data));
     }
 
-#ifdef NEWORLD_DEBUG
-
-    Mat4Row<T> operator[](size_t index)
-    {
-        Assert(index < 4);
-        return Mat4Row<T>(data + index * 4);
-    }
-
-#else
-
     T* operator[](size_t index)
     {
         return data + index * 4;
     }
-
-#endif
 
     Mat4 operator*(const Mat4& rhs) const
     {
@@ -219,5 +180,3 @@ public:
 using Mat4f = Mat4<float>;
 // If you are doing rendering, it's recommended to use Mat4f instead of Mat4d
 using Mat4d = Mat4<double>;
-
-#endif // !MAT4_H_

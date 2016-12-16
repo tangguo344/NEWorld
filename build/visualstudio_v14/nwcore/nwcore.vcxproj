@@ -72,7 +72,6 @@
     <ClInclude Include="..\..\..\src\client\imgui\stb_rect_pack.h" />
     <ClInclude Include="..\..\..\src\client\imgui\stb_textedit.h" />
     <ClInclude Include="..\..\..\src\client\imgui\stb_truetype.h" />
-    <ClInclude Include="..\..\..\src\client\mat4.h" />
     <ClInclude Include="..\..\..\src\client\network.h" />
     <ClInclude Include="..\..\..\src\client\neworld.h" />
     <ClInclude Include="..\..\..\src\client\opengl.h" />
@@ -91,6 +90,7 @@
     <ClInclude Include="..\..\..\src\nwcore\common\maintenance\nwlogger.hpp" />
     <ClInclude Include="..\..\..\src\nwcore\common\nwjson\json.hpp" />
     <ClInclude Include="..\..\..\src\nwcore\common\nwjson\nwjson.h" />
+    <ClInclude Include="..\..\..\src\nwcore\common\nwmath\nwmatrix.h" />
     <ClInclude Include="..\..\..\src\nwcore\common\nwmath\nwvector.h" />
     <ClInclude Include="..\..\..\src\nwcore\common\nwphysics\nwaabb.h" />
     <ClInclude Include="..\..\..\src\nwcore\common\nwstdlib\nwconcepts.hpp" />

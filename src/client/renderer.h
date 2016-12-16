@@ -21,8 +21,8 @@
 #define RENDERER_H_
 
 #include "opengl.h"
-#include "mat4.h"
 #include "vertexarray.h"
+#include <common/common.h>
 
 class Renderer
 {

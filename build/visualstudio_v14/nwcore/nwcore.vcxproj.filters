@@ -195,9 +195,6 @@
     <ClInclude Include="..\..\..\src\client\blockrenderer.h">
       <Filter>SourceClient\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\client\mat4.h">
-      <Filter>SourceClient\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\client\opengl.h">
       <Filter>SourceClient\Renderer</Filter>
     </ClInclude>
@@ -326,6 +323,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\common\nwstdlib\nwstrings.h">
       <Filter>SourceCore\common\nwstdlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\common\nwmath\nwmatrix.h">
+      <Filter>SourceCore\common\nwmath</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
