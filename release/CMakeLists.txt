@@ -36,7 +36,7 @@ aux_source_directory(${SOURCE_DIR}/nwcore SRC_CORE)
 aux_source_directory(${SOURCE_DIR}/nwcore/api SRC_CORE)
 aux_source_directory(${SOURCE_DIR}/nwcore/world SRC_CORE)
 aux_source_directory(${SOURCE_DIR}/nwcore/plugin SRC_CORE)
-aux_source_directory(${SOURCE_DIR}/nwcore/common SRC_CORE)
+aux_source_directory(${SOURCE_DIR}/nwcore/common/maintenance SRC_CORE)
 aux_source_directory(${SOURCE_DIR}/nwcore/context SRC_CORE)
 
 add_library(nwcore SHARED ${SRC_CORE})
