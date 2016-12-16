@@ -19,10 +19,6 @@
 
 #pragma once
 
-#include <string>
-#include <functional>
-#include "nwstddef.h"
-
 #ifdef NEWORLD_TARGET_WINDOWS
     #include <io.h>
     #include <direct.h>

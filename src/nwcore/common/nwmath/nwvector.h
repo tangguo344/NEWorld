@@ -118,7 +118,7 @@ union Vec<2, T> final
 	}
 	void normalize() noexcept
 	{
-		(*this) /= length()
+		(*this) /= length();
 	}
 	T length() noexcept
 	{
@@ -351,7 +351,7 @@ union Vec<4, T> final
 	}
 	void normalize() noexcept
 	{
-		(*this) /= length()
+		(*this) /= length();
 	}
 	T length() noexcept
 	{
@@ -478,7 +478,7 @@ union Vec final
 	}
 	void normalize() noexcept
 	{
-		(*this) /= length()
+		(*this) /= length();
 	}
 	T length()
 	{

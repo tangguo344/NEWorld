@@ -42,8 +42,6 @@ aux_source_directory(${SOURCE_DIR}/nwcore/context SRC_CORE)
 add_library(nwcore SHARED ${SRC_CORE})
 
 target_include_directories(nwcore PUBLIC ${SOURCE_DIR}/nwcore PUBLIC)
-target_include_directories(nwcore PUBLIC ${SOURCE_DIR}/shared PUBLIC)
-
 SET_TARGET_PROPERTIES(nwcore PROPERTIES PREFIX "")
 SET_TARGET_PROPERTIES(nwcore PROPERTIES SUFFIX "")
 
@@ -57,7 +55,6 @@ project(Launcher)
 aux_source_directory(${SOURCE_DIR}/launcher SRC_LAUNCHER)
 add_executable(launcher ${SRC_LAUNCHER})
 target_link_libraries(launcher nwcore)
-target_include_directories(launcher PUBLIC ${SOURCE_DIR}/shared)
 add_dependencies(launcher nwcore)
 
 add_subdirectory(./plugins)

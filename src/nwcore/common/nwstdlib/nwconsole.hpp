@@ -19,16 +19,6 @@
 
 #pragma once
 
-#include <string>
-#include <vector>
-#include <thread>
-#include <atomic>
-#include <future>
-#include <iostream>
-#include <functional>
-#include <unordered_map>
-#include "nwstrings.h"
-
 namespace LColorFunc
 {
     typedef std::ostream&(*colorfunc)(std::ostream& s);

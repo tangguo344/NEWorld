@@ -19,10 +19,6 @@
 
 #pragma once
 
-#include <chrono>
-#include <thread>
-#include "nwstddef.h"
-
 class RateMeter
 {
 public:

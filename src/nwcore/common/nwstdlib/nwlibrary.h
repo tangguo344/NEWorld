@@ -18,9 +18,6 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 #pragma once
-#include <common/common.h>
-#include <string>
-#include <functional>
 
 #ifndef NEWORLD_TARGET_WINDOWS
     #include <dlfcn.h>

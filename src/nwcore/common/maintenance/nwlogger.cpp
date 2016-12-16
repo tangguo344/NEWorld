@@ -20,9 +20,7 @@
 #include <map>
 #include <ctime>
 #include <fstream>
-#include "nwlogger.hpp"
-#include <common/nwstdlib/nwfilesys.h>
-#include <common/nwstdlib/nwconsole.hpp>
+#include <common/common.h>
 
 std::mutex Logger::mutex;
 std::vector<std::ofstream> Logger::fsink;
