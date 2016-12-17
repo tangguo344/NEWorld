@@ -150,9 +150,9 @@ class ChunkManager: public NonCopyable
 {
 public:
     using data_t = std::unique_ptr<Chunk, ChunkOnReleaseBehavior>;
-	using array_t = typename std::unordered_map<Vec3i, data_t, ChunkHasher>;
-    using iterator = typename array_t::iterator;
-    using const_iterator = typename array_t::const_iterator;
+	using array_t = std::unordered_map<Vec3i, data_t, ChunkHasher>;
+    using iterator = array_t::iterator;
+    using const_iterator = array_t::const_iterator;
     using reference = Chunk&;
     using const_reference = const Chunk&;
     ChunkManager() = default;
