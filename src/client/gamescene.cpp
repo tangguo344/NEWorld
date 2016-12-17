@@ -21,13 +21,13 @@
 #include <array>
 #include <atomic>
 #include <chrono>
-#include "game.h"
+#include "gamescene.h"
 #include "window.h"
 #include <common/common.h>
-#include "blockrenderer.h"
+#include "renderer/blockrenderer.h"
 #include <context/nwcontext.hpp>
 
-Game::Game(const std::string& name, std::shared_ptr<ClientGameConnection> connection,
+GameScene::GameScene(const std::string& name, std::shared_ptr<ClientGameConnection> connection,
            const Window& window):
     mWindow(window), mWorld(name, context.plugins, context.blocks), mPlayer(&mWorld), mConnection(connection)
 {
@@ -68,11 +68,11 @@ Game::Game(const std::string& name, std::shared_ptr<ClientGameConnection> connec
     mConnection->login("test", "123456");
 }
 
-Game::~Game()
+GameScene::~GameScene()
 {
 }
 
-void Game::update()
+void GameScene::update()
 {
     std::lock_guard<std::mutex> lock(mMutex);
 
@@ -115,7 +115,7 @@ void Game::update()
     mGUIWidgets.update();
 }
 
-void Game::multiUpdate()
+void GameScene::multiUpdate()
 {
     const long long updateTimeout = 4000;
     mUpdateScheduler.refresh();
@@ -131,7 +131,7 @@ void Game::multiUpdate()
     }
 }
 
-void Game::render()
+void GameScene::render()
 {
     std::lock_guard<std::mutex> lock(mMutex);
 

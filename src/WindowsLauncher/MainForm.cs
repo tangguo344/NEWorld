@@ -29,7 +29,7 @@ namespace NEWorldLauncher
         private void refreshGameList()
         {
             gameListBox.Items.Clear();
-            string[] games = Game.GetGameNames();
+            string[] games = GameScene.GetGameNames();
             if (games.Length == 0)
                 MessageBox.Show("找不到任何游戏文件夹！请把游戏文件夹放到NEWorld文件夹中或下载游戏！", "NEWorldLauncher");
             else
@@ -89,7 +89,7 @@ namespace NEWorldLauncher
             int index = gameListBox.SelectedIndex;
             if (index != -1)
             {
-                var game = new Game(gameListBox.Items[index].ToString());
+                var game = new GameScene(gameListBox.Items[index].ToString());
                 game.Launch(debugCheckBox.Checked, commandTextBox.Text);
                 if (debugCheckBox.Checked)
                     new DebugForm(game).Show();

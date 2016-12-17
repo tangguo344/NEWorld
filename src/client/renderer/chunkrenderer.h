@@ -24,7 +24,7 @@
 #include <memory>
 #include <world/nwchunk.h>
 #include <world/world.h>
-#include "renderer.h"
+#include "../renderer.h"
 #include "blockrenderer.h"
 
 class WorldClient;

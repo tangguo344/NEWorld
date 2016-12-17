@@ -23,7 +23,7 @@
 #include <array>
 #include <unordered_map>
 #include <world/world.h>
-#include "chunkclient.h"
+#include "renderer/chunkrenderer.h"
 
 class ClientGameConnection;
 

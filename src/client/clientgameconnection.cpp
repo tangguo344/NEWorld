@@ -17,7 +17,7 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "chunkclient.h"
+#include "renderer/chunkrenderer.h"
 #include "gameconnection.h"
 #include <common/common.h>
 #include <flatfactory.h>

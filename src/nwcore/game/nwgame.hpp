@@ -17,29 +17,12 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#define NEWORLD_PLUGIN_CLIENT_SIDE
+#pragma once
 
-#include <memory>
-#include <string>
-#include "renderer/blockrenderer.h"
-#include "api/nwapi.h"
-
-extern "C"
+namespace Game
 {
-    NWAPIEXPORT void NWAPICALL nwSetBlockRenderFunc(size_t, NWblockrenderfunc)
+    class GameBase
     {
 
-    }
-
-    NWAPIEXPORT void NWAPICALL nwUseDefaultBlockRenderFunc(size_t id, void *data)
-    {
-        NWblocktexture* ptr = reinterpret_cast<NWblocktexture*>(data);
-        size_t array[] = { ptr->right, ptr->left, ptr->top, ptr->bottom, ptr->front, ptr->back };
-        BlockRendererManager::setBlockRenderer(id, std::make_shared<DefaultBlockRenderer>(array));
-    }
-
-    NWAPIEXPORT NWtextureid NWAPICALL nwRegisterTexture(const char* filename)
-    {
-        return BlockTextureBuilder::addTexture(filename);
-    }
+    };
 }

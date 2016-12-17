@@ -30,6 +30,7 @@ add_definitions(-DNWCOREEXPORTS)
 
 aux_source_directory(${SOURCE_DIR}/client SRC_CORE)
 aux_source_directory(${SOURCE_DIR}/client/imgui SRC_CORE)
+aux_source_directory(${SOURCE_DIR}/client/renderer SRC_CORE)
 aux_source_directory(${SOURCE_DIR}/server SRC_CORE)
 
 aux_source_directory(${SOURCE_DIR}/nwcore SRC_CORE)
@@ -39,7 +40,7 @@ aux_source_directory(${SOURCE_DIR}/nwcore/plugin SRC_CORE)
 aux_source_directory(${SOURCE_DIR}/nwcore/common/maintenance SRC_CORE)
 aux_source_directory(${SOURCE_DIR}/nwcore/context SRC_CORE)
 
-add_library(nwcore SHARED ${SRC_CORE})
+add_library(nwcore SHARED ${SRC_CORE} ../src/nwcore/game/nwgame.cpp ../src/nwcore/game/nwgame.hpp)
 
 target_include_directories(nwcore PUBLIC ${SOURCE_DIR}/nwcore PUBLIC)
 SET_TARGET_PROPERTIES(nwcore PROPERTIES PREFIX "")

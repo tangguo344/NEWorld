@@ -4,12 +4,12 @@ using System.IO;
 
 namespace NEWorldLauncher
 {
-    public class Game
+    public class GameScene
     {
         public string Name { get; set; }
         public Process Process { get; set; }
 
-        public Game(string name)
+        public GameScene(string name)
         {
             Name = name;
             var gamePath = Path.GetFullPath(Path.Combine(Def.gamesPath, Name));

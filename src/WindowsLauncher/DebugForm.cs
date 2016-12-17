@@ -8,7 +8,7 @@ namespace NEWorldLauncher
     {
         Process process;
 
-        public DebugForm(Game game)
+        public DebugForm(GameScene game)
         {
             InitializeComponent();
             process = game.Process;

@@ -18,7 +18,7 @@
 */
 
 #include "blockrenderer.h"
-#include "chunkclient.h"
+#include "chunkrenderer.h"
 #include <cmath>
 #include <SDL2/SDL.h>
 

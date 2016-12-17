@@ -35,15 +35,15 @@
 #include "gameconnection.h"
 #include "window.h"
 
-class Game
+class GameScene
 {
 public:
-    // Game update frequency
+    // GameScene update frequency
     static constexpr int UpdateFrequency = 30;
 
-    Game(const std::string& name, std::shared_ptr<ClientGameConnection> connection,
+    GameScene(const std::string& name, std::shared_ptr<ClientGameConnection> connection,
          const Window& window);
-    ~Game();
+    ~GameScene();
 
     void update();
     void multiUpdate();
@@ -63,7 +63,7 @@ private:
     // Rate counters
     int mFpsCounter, mUpsCounter, mFpsLatest, mUpsLatest;
     RateMeter mRateCounterScheduler{1};
-    // Game connection
+    // GameScene connection
     std::shared_ptr<ClientGameConnection> mConnection;
 
     std::mutex mMutex;

@@ -22,7 +22,7 @@
 #include <common/common.h>
 #include <context/nwcontext.hpp>
 #include "window.h"
-#include "game.h"
+#include "gamescene.h"
 NEWorld::NEWorld()
 {
     // Initialize
@@ -37,7 +37,7 @@ NEWorld::NEWorld()
 		//getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1"),
 		//getJsonValue<unsigned short>(getSettings()["server"]["port"], 31111)),
     // Run
-	Game game("TestWorld", conn, window);
+	GameScene game("TestWorld", conn, window);
     while(!window.shouldQuit())
     {
         // Update

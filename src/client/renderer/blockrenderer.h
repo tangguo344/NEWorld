@@ -20,7 +20,7 @@
 #ifndef BLOCKRENDERER_H_
 #define BLOCKRENDERER_H_
 
-#include "texture.h"
+#include "../texture.h"
 #include <vector>
 #include <memory>
 #include <common/common.h>
