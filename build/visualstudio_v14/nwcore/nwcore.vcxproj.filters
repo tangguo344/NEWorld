@@ -100,9 +100,6 @@
     <ClCompile Include="..\..\..\src\client\mainclient.cpp">
       <Filter>SourceClient</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\client\blockrenderer.cpp">
-      <Filter>SourceClient\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\client\texture.cpp">
       <Filter>SourceClient\Renderer</Filter>
     </ClCompile>
@@ -121,14 +118,8 @@
     <ClCompile Include="..\..\..\src\client\neworld.cpp">
       <Filter>SourceClient\Main</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\client\game.cpp">
-      <Filter>SourceClient\Main</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\client\player.cpp">
       <Filter>SourceClient\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\client\chunkclient.cpp">
-      <Filter>SourceClient\World</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\client\worldclient.cpp">
       <Filter>SourceClient\World</Filter>
@@ -169,6 +160,15 @@
     <ClCompile Include="..\..\..\src\nwcore\common\maintenance\nwlogger.cpp">
       <Filter>SourceCore\common\maintenance</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\client\gamescene.cpp">
+      <Filter>SourceClient\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\renderer\blockrenderer.cpp">
+      <Filter>SourceClient\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\client\renderer\chunkrenderer.cpp">
+      <Filter>SourceClient\Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\nwcore\api\nwpluginapi.h">
@@ -192,9 +192,6 @@
     <ClInclude Include="..\..\..\src\nwcore\context\nwcontext.hpp">
       <Filter>SourceCore\context</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\client\blockrenderer.h">
-      <Filter>SourceClient\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\client\opengl.h">
       <Filter>SourceClient\Renderer</Filter>
     </ClInclude>
@@ -216,14 +213,8 @@
     <ClInclude Include="..\..\..\src\client\neworld.h">
       <Filter>SourceClient\Main</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\client\game.h">
-      <Filter>SourceClient\Main</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\client\player.h">
       <Filter>SourceClient\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\client\chunkclient.h">
-      <Filter>SourceClient\World</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\client\worldclient.h">
       <Filter>SourceClient\World</Filter>
@@ -326,6 +317,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\common\nwmath\nwmatrix.h">
       <Filter>SourceCore\common\nwmath</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\gamescene.h">
+      <Filter>SourceClient\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\renderer\blockrenderer.h">
+      <Filter>SourceClient\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\client\renderer\chunkrenderer.h">
+      <Filter>SourceClient\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
