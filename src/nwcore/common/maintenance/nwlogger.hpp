@@ -19,13 +19,6 @@
 
 #pragma once
 
-#include <iostream>
-#include <vector>
-#include <sstream>
-#include <array>
-#include <mutex>
-#include <common/nwstdlib/nwstddef.h>
-
 class LoggerManager;
 
 class NWCOREAPI Logger
