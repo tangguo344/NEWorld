@@ -29,7 +29,7 @@ public:
         verbose, debug, info, warning, error, fatal
     };
 
-    Logger(const char* fileName, const char* funcName, int lineNumber, Level level, LoggerManager* mgr);
+    Logger(const char* fileName, const char* funcName, int lineNumber, Level level, const char* mgr);
     ~Logger();
 
     template <typename T>
@@ -45,37 +45,22 @@ private:
     int mLineNumber;
     const char *mFileName;
     const char *mFuncName;
-    LoggerManager* mManager;
+    bool fileOnly{ false };
     std::stringstream mContent;
     std::lock_guard<std::mutex> mLock;
 
+	static Logger::Level coutLevel;
+	static Logger::Level cerrLevel;
+	static Logger::Level fileLevel;
+	static Logger::Level lineLevel;
     static std::mutex mutex;
     static std::vector<std::ofstream> fsink;
+    static std::array<const char*, 6> levelTags;
 
     void writeOstream(std::ostream& ostream, bool noColor = false) const;
 };
 
-class NWCOREAPI LoggerManager
-{
-public:
-    LoggerManager() = default;
-    LoggerManager(const std::string& prefix);
-    Logger::Level coutLevel = Logger::Level::verbose;
-    Logger::Level cerrLevel = Logger::Level::fatal;
-    Logger::Level fileLevel = Logger::Level::info;
-    Logger::Level lineLevel = Logger::Level::error;
-    bool fileOnly{ false };
-    std::array<std::string, 6> LevelTags;
-};
-
-#ifndef NWNOLOGGER
-
-#define NWDECLEARLOGGER(prefix) \
-    namespace NWCOREINTERNAL {namespace _LOGGER { LoggerManager gManager(prefix); }}
-
-namespace NWCOREINTERNAL {namespace _LOGGER { extern LoggerManager gManager; }}
-
-#define loggerstream(level) Logger(__FILE__, __FUNCTION__, __LINE__, Logger::Level::level, &NWCOREINTERNAL::_LOGGER::gManager)
+#define loggerstream(level) Logger(__FILE__, __FUNCTION__, __LINE__, Logger::Level::level, NWCompartmentLoggerPrefix)
 // Information for tracing
 #define verbosestream loggerstream(verbose)
 // Information for developers
@@ -88,5 +73,3 @@ namespace NWCOREINTERNAL {namespace _LOGGER { extern LoggerManager gManager; }}
 #define errorstream loggerstream(error)
 // Unrecoverable error and program termination is required
 #define fatalstream loggerstream(fatal)
-
-#endif

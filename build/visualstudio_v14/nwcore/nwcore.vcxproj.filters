@@ -74,6 +74,9 @@
     <Filter Include="SourceCore\common\nwstdlib">
       <UniqueIdentifier>{71d5a55c-eb8f-4006-84a5-3e8dfb007730}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SourceCore\game">
+      <UniqueIdentifier>{21dcc649-9668-4a40-a01e-d035b5377121}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\nwcore\api\nwpluginapi.cpp">
@@ -168,6 +171,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\client\renderer\chunkrenderer.cpp">
       <Filter>SourceClient\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\nwcore\game\nwgame.cpp">
+      <Filter>SourceCore\game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -326,6 +332,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\client\renderer\chunkrenderer.h">
       <Filter>SourceClient\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\nwcore\game\nwgame.hpp">
+      <Filter>SourceCore\game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

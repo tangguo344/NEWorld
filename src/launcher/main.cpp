@@ -21,8 +21,6 @@
 #include <climits>
 #include <common/common.h>
 
-NWDECLEARLOGGER("launcher")
-
 typedef void NWAPICALL MainFunction(int, char**);
 
 int main(int argc, char** argv)

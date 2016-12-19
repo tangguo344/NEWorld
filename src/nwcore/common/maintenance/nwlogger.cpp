@@ -24,8 +24,14 @@
 
 std::mutex Logger::mutex;
 std::vector<std::ofstream> Logger::fsink;
-
-NWDECLEARLOGGER("nwcore")
+std::array<const char*, 6> Logger::levelTags
+{
+	"[verbose]", "[debug]", "[info]", "[warning]", "[error]", "[fatal]"
+};
+Logger::Level Logger::coutLevel = Logger::Level::verbose;
+Logger::Level Logger::cerrLevel = Logger::Level::fatal;
+Logger::Level Logger::fileLevel = Logger::Level::info;
+Logger::Level Logger::lineLevel = Logger::Level::error;
 
 template <size_t length>
 static std::string convert(int arg)
@@ -60,16 +66,41 @@ void Logger::addFileSink(const std::string& path, const std::string& prefix)
     fsink.emplace_back(path + prefix + "_" + getTimeString('-', '_', '-') + ".log");
 }
 
-Logger::Logger(const char* fileName, const char *funcName, int lineNumber, Level level, LoggerManager* mgr)
-    : mLevel(level), mLock(mutex), mManager(mgr)
+Logger::Logger(const char* fileName, const char *funcName, int lineNumber, Level level, const char* mgr)
+    : mLevel(level), mLock(mutex)
 {
-    if (mLevel >= mManager->lineLevel)
+    if (mLevel >= lineLevel)
     {
         mFileName = fileName;
         mFuncName = funcName;
         mLineNumber = lineNumber;
     }
-    mContent << LColor::white << getTimeString('-', ' ', ':') << mManager->LevelTags[static_cast<size_t>(level)];
+	mContent << LColor::white << getTimeString('-', ' ', ':')
+		<< '[' << mgr << ']';
+	switch (level)
+	{
+	case Logger::Level::verbose:
+		mContent << LColor::white;
+		break;
+	case Logger::Level::debug:
+		mContent << LColor::white;
+		break;
+	case Logger::Level::info:
+		mContent << LColor::lwhite;
+		break;
+	case Logger::Level::warning:
+		mContent << LColor::lyellow;
+		break;
+	case Logger::Level::error:
+		mContent << LColor::lred;
+		break;
+	case Logger::Level::fatal:
+		mContent << LColor::red;
+		break;
+	default:
+		break;
+	}
+	mContent << levelTags[static_cast<size_t>(level)];
 }
 
 void Logger::writeOstream(std::ostream& ostream, bool noColor) const
@@ -121,7 +152,7 @@ void Logger::writeOstream(std::ostream& ostream, bool noColor) const
 
 Logger::~Logger()
 {
-    if (mLevel >= mManager->lineLevel)
+    if (mLevel >= lineLevel)
     {
         mContent << std::endl
                  << "\tSource :\t" << mFileName << std::endl
@@ -130,52 +161,20 @@ Logger::~Logger()
                  ;
     }
     mContent << std::endl;
-    if (!mManager->fileOnly)
+    if (!fileOnly)
     {
-        if (mLevel >= mManager->cerrLevel)
+        if (mLevel >= cerrLevel)
             writeOstream(std::cerr);
-        else if (mLevel >= mManager->coutLevel)
+        else if (mLevel >= coutLevel)
             writeOstream(std::cout);
     }
-    if (mLevel >= mManager->fileLevel)
+    if (mLevel >= fileLevel)
     {
         for (auto& it : fsink)
         {
             writeOstream(it, true);
-            if (mLevel >= mManager->cerrLevel)
+            if (mLevel >= cerrLevel)
                 it.flush();
         }
     }
-}
-
-LoggerManager::LoggerManager(const std::string & prefix)
-{
-    std::stringstream ss;
-
-    int c = 0;
-    std::string str_prefix = "[" + prefix + "]";
-
-    ss.str("");
-    ss << str_prefix << LColor::white << '[' << "verbose" << ']';
-    LevelTags[c++] = ss.str();
-
-    ss.str("");
-    ss << str_prefix << LColor::white << '[' << "debug" << ']';
-    LevelTags[c++] = ss.str();
-
-    ss.str("");
-    ss << str_prefix << LColor::lwhite << '[' << "info" << ']';
-    LevelTags[c++] = ss.str();
-
-    ss.str("");
-    ss << str_prefix << LColor::lyellow << '[' << "warning" << ']';
-    LevelTags[c++] = ss.str();
-
-    ss.str("");
-    ss << str_prefix << LColor::lred << '[' << "error" << ']';
-    LevelTags[c++] = ss.str();
-
-    ss.str("");
-    ss << str_prefix << LColor::red << '[' << "fatal" << ']';
-    LevelTags[c] = ss.str();
 }
