@@ -27,6 +27,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\src\backends\sdlgl\sdlgl.cpp" />
     <ClCompile Include="..\..\..\src\client\clientapi.cpp" />
     <ClCompile Include="..\..\..\src\client\clientgameconnection.cpp" />
     <ClCompile Include="..\..\..\src\client\gamescene.cpp" />
@@ -61,6 +62,7 @@
     <ClCompile Include="..\..\..\src\server\server.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\src\backends\sdlgl\sdlgl.hpp" />
     <ClInclude Include="..\..\..\src\client\gameconnection.h" />
     <ClInclude Include="..\..\..\src\client\gamescene.h" />
     <ClInclude Include="..\..\..\src\client\hogui\hogui.h" />

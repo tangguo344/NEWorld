@@ -77,6 +77,12 @@
     <Filter Include="SourceCore\game">
       <UniqueIdentifier>{21dcc649-9668-4a40-a01e-d035b5377121}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SourceBackend">
+      <UniqueIdentifier>{b9043b37-8249-4ed4-b369-7c13619c48b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceBackend\SDLGL">
+      <UniqueIdentifier>{721c8f8f-9940-46ef-9680-4fb5894884fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\nwcore\api\nwpluginapi.cpp">
@@ -174,6 +180,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\nwcore\game\nwgame.cpp">
       <Filter>SourceCore\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\backends\sdlgl\sdlgl.cpp">
+      <Filter>SourceBackend\SDLGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -335,6 +344,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\nwcore\game\nwgame.hpp">
       <Filter>SourceCore\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\backends\sdlgl\sdlgl.hpp">
+      <Filter>SourceBackend\SDLGL</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

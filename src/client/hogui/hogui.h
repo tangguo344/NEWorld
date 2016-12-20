@@ -23,6 +23,7 @@
 #include <string>
 #include <functional>
 #include <GL/glew.h>
+#include <./../backends/sdlgl/sdlgl.hpp>
 #include <common/common.h>
 
 class Visual
@@ -43,34 +44,13 @@ public:
 protected:
     virtual void updateThis() { glClearColor(1.0, 1.0, 1.0, 1.0); };
 private:
-    static GLuint gFBO = 0;
-    static void initializeFBO(GLuint target, int w, int h)
-    {
-        if (gFBO == 0)
-        {
-            glGenFramebuffers(1, &gFBO);
-        }
-        glBindFramebuffer(GL_FRAMEBUFFER, gFBO);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, target, 0);
-        if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-        {
-            errorstream << "FrameBuffer Creation Failure";
-            Assert(false);
-        }
-        glViewport(0, 0, w, h);
-        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-    }
-    static void finalizeFBO()
-    {
-        glBindFramebuffer(0);
-    }
     void doUpdate()
     {
-        initializeFBO(mTexBuffer, mSize.x, mSize.y);
+		bkBeginRenderToTexture(reinterpret_cast<void*>(mTexBuffer), mSize.x, mSize.y);
         this->updateThis();
         for (auto&& iter : *this)
             iter->render();
-        finalizeFBO();
+		bkStopRenderToTexture();
     }
     std::pair<iterator, iterator> mRange;
     std::string mName;
@@ -80,7 +60,7 @@ private:
     GLuint mTexBuffer;
 };
 
-class VisualRoot : public VisualNode
+class VisualRoot : public Visual
 {
 public:
 
