@@ -47,6 +47,7 @@
     <ClCompile Include="..\..\..\src\client\window.cpp" />
     <ClCompile Include="..\..\..\src\client\worldclient.cpp" />
     <ClCompile Include="..\..\..\src\nwcore\api\nwpluginapi.cpp" />
+    <ClCompile Include="..\..\..\src\nwcore\common\concurrency\nwconcurrency.cpp" />
     <ClCompile Include="..\..\..\src\nwcore\common\maintenance\nwlogger.cpp" />
     <ClCompile Include="..\..\..\src\nwcore\context\nwcontext.cpp" />
     <ClCompile Include="..\..\..\src\nwcore\game\nwgame.cpp" />
@@ -88,6 +89,7 @@
     <ClInclude Include="..\..\..\src\client\worldclient.h" />
     <ClInclude Include="..\..\..\src\nwcore\api\nwpluginapi.h" />
     <ClInclude Include="..\..\..\src\nwcore\common\common.h" />
+    <ClInclude Include="..\..\..\src\nwcore\common\concurrency\nwconcurrency.hpp" />
     <ClInclude Include="..\..\..\src\nwcore\common\maintenance\nwdebug.h" />
     <ClInclude Include="..\..\..\src\nwcore\common\maintenance\nwexception.hpp" />
     <ClInclude Include="..\..\..\src\nwcore\common\maintenance\nwlogger.hpp" />
