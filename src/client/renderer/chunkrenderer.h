@@ -51,23 +51,23 @@ public:
     // Draw call
     void render(const Vec3i& c) const
     {
-		if (!mBuffer.isEmpty())
-		{
-			Renderer::translate(Vec3f(c * Chunk::Size()));
-			mBuffer.render();
-			Renderer::translate(Vec3f(-c * Chunk::Size()));
-		}
+        if (!mBuffer.isEmpty())
+        {
+            Renderer::translate(Vec3f(c * Chunk::Size()));
+            mBuffer.render();
+            Renderer::translate(Vec3f(-c * Chunk::Size()));
+        }
     }
 
-	void renderTrans(const Vec3i& c) const
-	{
-		if (!mBufferTrans.isEmpty())
-		{
-			Renderer::translate(Vec3f(c * Chunk::Size()));
-			mBufferTrans.render();
-			Renderer::translate(Vec3f(-c * Chunk::Size()));
-		}
-	}
+    void renderTrans(const Vec3i& c) const
+    {
+        if (!mBufferTrans.isEmpty())
+        {
+            Renderer::translate(Vec3f(c * Chunk::Size()));
+            mBufferTrans.render();
+            Renderer::translate(Vec3f(-c * Chunk::Size()));
+        }
+    }
 
     // Render default block
     static void renderBlock(Chunk* chunk, BlockTexCoord coord[], const Vec3i& pos);

@@ -57,14 +57,14 @@ size_t WorldClient::render(const Vec3i& position) const
         if (chunkpos.chebyshevDistance(c.first->getPosition()) <= mRenderDist)
             c.second.render(c.first->getPosition());
     }
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	for (auto&& c : mChunkRenderers)
-	{
-		if (chunkpos.chebyshevDistance(c.first->getPosition()) <= mRenderDist)
-			c.second.renderTrans(c.first->getPosition());
-	}
-	glDisable(GL_BLEND);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    for (auto&& c : mChunkRenderers)
+    {
+        if (chunkpos.chebyshevDistance(c.first->getPosition()) <= mRenderDist)
+            c.second.renderTrans(c.first->getPosition());
+    }
+    glDisable(GL_BLEND);
     return renderedChunks;
 }
 

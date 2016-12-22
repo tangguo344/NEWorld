@@ -34,7 +34,7 @@ void NWAPICALL generator(const NWvec3i *pos, NWblockdata * blocks, int daylightB
         {
             int absHeight = WorldGen::getHeight(pos->x * NWChunkSize + x, pos->z * NWChunkSize + z);
             int height = absHeight - pos->y * NWChunkSize;
-			bool underWater = (absHeight) <= 0;
+            bool underWater = (absHeight) <= 0;
             for (int y = 0; y < NWChunkSize; y++)
             {
                 NWblockdata &block = blocks[x * NWChunkSize * NWChunkSize + y * NWChunkSize + z];
@@ -56,7 +56,7 @@ void NWAPICALL generator(const NWvec3i *pos, NWblockdata * blocks, int daylightB
                 }
                 else
                 {
-					block.id = ((pos->y * NWChunkSize + y <= 0) ? WaterID : NWAirID);
+                    block.id = ((pos->y * NWChunkSize + y <= 0) ? WaterID : NWAirID);
                     block.brightness = daylightBrightness;
                     block.state = 0;
                 }

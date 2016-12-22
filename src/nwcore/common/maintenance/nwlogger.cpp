@@ -26,7 +26,7 @@ std::mutex Logger::mutex;
 std::vector<std::ofstream> Logger::fsink;
 std::array<const char*, 6> Logger::levelTags
 {
-	"[verbose]", "[debug]", "[info]", "[warning]", "[error]", "[fatal]"
+    "[verbose]", "[debug]", "[info]", "[warning]", "[error]", "[fatal]"
 };
 Logger::Level Logger::coutLevel = Logger::Level::verbose;
 Logger::Level Logger::cerrLevel = Logger::Level::fatal;
@@ -75,32 +75,32 @@ Logger::Logger(const char* fileName, const char *funcName, int lineNumber, Level
         mFuncName = funcName;
         mLineNumber = lineNumber;
     }
-	mContent << LColor::white << getTimeString('-', ' ', ':')
-		<< '[' << mgr << ']';
-	switch (level)
-	{
-	case Logger::Level::verbose:
-		mContent << LColor::white;
-		break;
-	case Logger::Level::debug:
-		mContent << LColor::white;
-		break;
-	case Logger::Level::info:
-		mContent << LColor::lwhite;
-		break;
-	case Logger::Level::warning:
-		mContent << LColor::lyellow;
-		break;
-	case Logger::Level::error:
-		mContent << LColor::lred;
-		break;
-	case Logger::Level::fatal:
-		mContent << LColor::red;
-		break;
-	default:
-		break;
-	}
-	mContent << levelTags[static_cast<size_t>(level)];
+    mContent << LColor::white << getTimeString('-', ' ', ':')
+        << '[' << mgr << ']';
+    switch (level)
+    {
+    case Logger::Level::verbose:
+        mContent << LColor::white;
+        break;
+    case Logger::Level::debug:
+        mContent << LColor::white;
+        break;
+    case Logger::Level::info:
+        mContent << LColor::lwhite;
+        break;
+    case Logger::Level::warning:
+        mContent << LColor::lyellow;
+        break;
+    case Logger::Level::error:
+        mContent << LColor::lred;
+        break;
+    case Logger::Level::fatal:
+        mContent << LColor::red;
+        break;
+    default:
+        break;
+    }
+    mContent << levelTags[static_cast<size_t>(level)];
 }
 
 void Logger::writeOstream(std::ostream& ostream, bool noColor) const

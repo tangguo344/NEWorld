@@ -23,23 +23,23 @@ void VertexBuffer::update(const VertexArray& va)
 {
     vertexes = va.getVertexCount();
     format = va.getFormat();
-	if (vertexes == 0)
-		destroy();
-	else
-	{
-		if (id == 0)
-			glGenBuffersARB(1, &id);
-		glBindBufferARB(GL_ARRAY_BUFFER_ARB, id);
-		glBufferDataARB(GL_ARRAY_BUFFER_ARB, va.getVertexCount() * sizeof(float) *
-			format.vertexAttributeCount,
-			va.getData(), GL_STATIC_DRAW_ARB);
-	}
+    if (vertexes == 0)
+        destroy();
+    else
+    {
+        if (id == 0)
+            glGenBuffersARB(1, &id);
+        glBindBufferARB(GL_ARRAY_BUFFER_ARB, id);
+        glBufferDataARB(GL_ARRAY_BUFFER_ARB, va.getVertexCount() * sizeof(float) *
+            format.vertexAttributeCount,
+            va.getData(), GL_STATIC_DRAW_ARB);
+    }
 }
 
 VertexBuffer::VertexBuffer(const VertexArray& va)
-	:VertexBuffer()
+    :VertexBuffer()
 {
-	update(va);
+    update(va);
 }
 
 void VertexBuffer::render() const

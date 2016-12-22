@@ -21,12 +21,12 @@
 #include <world/world.h>
 namespace Game
 {
-	using WorldID = uint32_t;
-	using UID = uint32_t;
+    using WorldID = uint32_t;
+    using UID = uint32_t;
     class GameBase
     {
-	public:
-		virtual WorldID getWorldID(const char* name) = 0;
-		virtual Chunk* getChunk(WorldID id, int32_t x, int32_t y, int32_t z) = 0;
+    public:
+        virtual WorldID getWorldID(const char* name) = 0;
+        virtual Chunk* getChunk(WorldID id, int32_t x, int32_t y, int32_t z) = 0;
     }; 
 }

@@ -46,11 +46,11 @@ protected:
 private:
     void doUpdate()
     {
-		bkBeginRenderToTexture(reinterpret_cast<void*>(mTexBuffer), mSize.x, mSize.y);
+        bkBeginRenderToTexture(reinterpret_cast<void*>(mTexBuffer), mSize.x, mSize.y);
         this->updateThis();
         for (auto&& iter : *this)
             iter->render();
-		bkStopRenderToTexture();
+        bkStopRenderToTexture();
     }
     std::pair<iterator, iterator> mRange;
     std::string mName;

@@ -33,11 +33,11 @@ NEWorld::NEWorld()
     Texture::init();
     context.plugins.initializePlugins(nwPluginTypeShared);
 
-	auto conn = std::make_shared<LocalConnection>();
-		//getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1"),
-		//getJsonValue<unsigned short>(getSettings()["server"]["port"], 31111)),
+    auto conn = std::make_shared<LocalConnection>();
+        //getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1"),
+        //getJsonValue<unsigned short>(getSettings()["server"]["port"], 31111)),
     // Run
-	GameScene game("TestWorld", conn, window);
+    GameScene game("TestWorld", conn, window);
     while(!window.shouldQuit())
     {
         // Update

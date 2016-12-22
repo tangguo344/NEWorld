@@ -37,7 +37,7 @@ public:
 class ServerMultiplayerConnection : public ServerGameConnection
 {
 public:
-	ServerMultiplayerConnection(WorldManager& wm,NetworkManager &network, RakNet::RakPeerInterface *peer, RakNet::SystemAddress addr)
+    ServerMultiplayerConnection(WorldManager& wm,NetworkManager &network, RakNet::RakPeerInterface *peer, RakNet::SystemAddress addr)
         :mConn(network,peer,addr), mWorlds(wm) {}
 
     void sendChunk(Chunk* chunk) override;

@@ -49,10 +49,10 @@ private:
     std::stringstream mContent;
     std::lock_guard<std::mutex> mLock;
 
-	static Logger::Level coutLevel;
-	static Logger::Level cerrLevel;
-	static Logger::Level fileLevel;
-	static Logger::Level lineLevel;
+    static Logger::Level coutLevel;
+    static Logger::Level cerrLevel;
+    static Logger::Level fileLevel;
+    static Logger::Level lineLevel;
     static std::mutex mutex;
     static std::vector<std::ofstream> fsink;
     static std::array<const char*, 6> levelTags;

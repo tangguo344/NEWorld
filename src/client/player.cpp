@@ -42,7 +42,7 @@ void Player::move()
     moveHitbox(Vec3d(0.0, mPositionDelta.y, 0.0));
     if (mPositionDelta.y != originalDelta.y) mSpeed.y = 0.0;
 
-	mPosition += mPositionDelta;
+    mPosition += mPositionDelta;
 
     mSpeed *= 0.8;
     //mSpeed += Vec3d(0.0, -0.05, 0.0);

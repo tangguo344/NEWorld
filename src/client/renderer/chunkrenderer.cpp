@@ -115,15 +115,15 @@ ChunkRenderer::ChunkRenderer(Chunk *chunk) :mBuffer(), mBufferTrans()
     }
     else
     {
-		Vec3i tmp;
-		for (tmp.x = 0; tmp.x < Chunk::Size(); ++tmp.x)
-			for (tmp.y = 0; tmp.y < Chunk::Size(); ++tmp.y)
-				for (tmp.z = 0; tmp.z < Chunk::Size(); ++tmp.z)
-				{
-					BlockData b = chunk->getBlock(tmp);
-					target = (chunk->getWorld()->getType(b.getID()).isTranslucent()) ? &va1 : &va0;
-					BlockRendererManager::render(b.getID(), chunk, tmp);
-				}
+        Vec3i tmp;
+        for (tmp.x = 0; tmp.x < Chunk::Size(); ++tmp.x)
+            for (tmp.y = 0; tmp.y < Chunk::Size(); ++tmp.y)
+                for (tmp.z = 0; tmp.z < Chunk::Size(); ++tmp.z)
+                {
+                    BlockData b = chunk->getBlock(tmp);
+                    target = (chunk->getWorld()->getType(b.getID()).isTranslucent()) ? &va1 : &va0;
+                    BlockRendererManager::render(b.getID(), chunk, tmp);
+                }
     }
 
     mBuffer.update(va0);

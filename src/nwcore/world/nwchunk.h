@@ -121,7 +121,7 @@ private:
 
 struct ChunkHasher
 {
-	constexpr size_t operator()(const Vec3i& t) const noexcept { return static_cast<size_t>(t.x * 23947293731 + t.z * 3296467037 + t.y * 1234577); }
+    constexpr size_t operator()(const Vec3i& t) const noexcept { return static_cast<size_t>(t.x * 23947293731 + t.z * 3296467037 + t.y * 1234577); }
 };
 
 struct NWCOREAPI ChunkOnReleaseBehavior
@@ -142,7 +142,7 @@ struct NWCOREAPI ChunkOnReleaseBehavior
             break;
         }
     }
-	constexpr ChunkOnReleaseBehavior() :status(ChunkOnReleaseBehavior::Behavior::Release) {};
+    constexpr ChunkOnReleaseBehavior() :status(ChunkOnReleaseBehavior::Behavior::Release) {};
     constexpr ChunkOnReleaseBehavior(Behavior b) : status(b) {}
 };
 
@@ -150,7 +150,7 @@ class ChunkManager: public NonCopyable
 {
 public:
     using data_t = std::unique_ptr<Chunk, ChunkOnReleaseBehavior>;
-	using array_t = std::unordered_map<Vec3i, data_t, ChunkHasher>;
+    using array_t = std::unordered_map<Vec3i, data_t, ChunkHasher>;
     using iterator = array_t::iterator;
     using const_iterator = array_t::const_iterator;
     using reference = Chunk&;
@@ -174,7 +174,7 @@ public:
     reference operator[](const Vec3i& chunkPos) { return at(chunkPos); }
     const_reference operator[](const Vec3i& chunkPos) const { return at(chunkPos); }
     
-	iterator insert(const Vec3i& chunkPos, data_t&& chunk) { mChunks[chunkPos] = std::move(chunk);  return mChunks.find(chunkPos); }
+    iterator insert(const Vec3i& chunkPos, data_t&& chunk) { mChunks[chunkPos] = std::move(chunk);  return mChunks.find(chunkPos); }
   
     iterator erase(iterator it) { return mChunks.erase(it); }
     void erase(const Vec3i& chunkPos) { mChunks.erase(chunkPos); }
@@ -185,8 +185,8 @@ public:
     template <typename... ArgType, typename Func>
     void doIfLoaded(const Vec3i& chunkPos, Func func, ArgType&&... args)
     {
-		auto iter = mChunks.find(chunkPos);
-		if (iter != mChunks.end())
+        auto iter = mChunks.find(chunkPos);
+        if (iter != mChunks.end())
             func(*(iter->second), std::forward<ArgType>(args)...);
     };
 

@@ -78,7 +78,7 @@ void GameScene::update()
 
     mUpsCounter++;
 
-	constexpr double speed = 0.05;
+    constexpr double speed = 0.05;
 
     // TODO: Read keys from the configuration file
     auto state = Window::getKeyBoardState();

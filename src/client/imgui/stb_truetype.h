@@ -1492,7 +1492,7 @@ STBTT_DEF void stbtt_GetGlyphBitmapBoxSubpixel(const stbtt_fontinfo *font, int g
     else
     {
         // move to integral bboxes (treating pixels as little squares, what pixels get touched)?
-		if (ix0) *ix0 = static_cast<int>(floor( x0 * scale_x + shift_x));;
+        if (ix0) *ix0 = static_cast<int>(floor( x0 * scale_x + shift_x));;
         if (iy0) *iy0 = static_cast<int>(floor(-y1 * scale_y + shift_y));
         if (ix1) *ix1 = static_cast<int>(ceil ( x1 * scale_x + shift_x));
         if (iy1) *iy1 = static_cast<int>(ceil (-y0 * scale_y + shift_y));

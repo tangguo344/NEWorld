@@ -118,59 +118,59 @@ protected:
 class WorldManager
 {
 public:
-	WorldManager(PluginManager& plugins, BlockManager& blocks) :
-		mPlugins(plugins), mBlocks(blocks)
-	{
-	}
+    WorldManager(PluginManager& plugins, BlockManager& blocks) :
+        mPlugins(plugins), mBlocks(blocks)
+    {
+    }
 
-	~WorldManager()
-	{
-		mWorlds.clear();
-	}
+    ~WorldManager()
+    {
+        mWorlds.clear();
+    }
 
-	void clear()
-	{
-		mWorlds.clear();
-	}
+    void clear()
+    {
+        mWorlds.clear();
+    }
 
-	World* addWorld(const std::string& name)
-	{
-		mWorlds.emplace_back(new World(name, mPlugins, mBlocks));
-		return mWorlds[mWorlds.size() - 1].get();
-	}
+    World* addWorld(const std::string& name)
+    {
+        mWorlds.emplace_back(new World(name, mPlugins, mBlocks));
+        return mWorlds[mWorlds.size() - 1].get();
+    }
 
-	std::vector<std::unique_ptr<World>>::iterator begin()
-	{
-		return mWorlds.begin();
-	}
+    std::vector<std::unique_ptr<World>>::iterator begin()
+    {
+        return mWorlds.begin();
+    }
 
-	std::vector<std::unique_ptr<World>>::iterator end()
-	{
-		return mWorlds.end();
-	}
+    std::vector<std::unique_ptr<World>>::iterator end()
+    {
+        return mWorlds.end();
+    }
 
-	World* getWorld(const std::string& name)
-	{
-		for (auto&& world : *this)
-		{
-			if (world->getWorldName() == name) return world.get();
-		}
-		return nullptr;
-	}
+    World* getWorld(const std::string& name)
+    {
+        for (auto&& world : *this)
+        {
+            if (world->getWorldName() == name) return world.get();
+        }
+        return nullptr;
+    }
 
-	World* getWorld(size_t id)
-	{
-		for (auto&& world : *this)
-		{
-			if (world->getWorldID() == id) return world.get();
-		}
-		return nullptr;
-	}
+    World* getWorld(size_t id)
+    {
+        for (auto&& world : *this)
+        {
+            if (world->getWorldID() == id) return world.get();
+        }
+        return nullptr;
+    }
 
 private:
-	std::vector<std::unique_ptr<World>> mWorlds;
-	PluginManager& mPlugins;
-	BlockManager& mBlocks;
+    std::vector<std::unique_ptr<World>> mWorlds;
+    PluginManager& mPlugins;
+    BlockManager& mBlocks;
 };
 
 #endif // !WORLD_H_
