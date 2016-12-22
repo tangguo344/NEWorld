@@ -105,7 +105,7 @@ struct ImVec4
 };
 
 // ImGui end-user API
-// In a namespace so that user can add extra functions in a separate file (e.g. Value() helpers for your vector or common types)
+// In a namespace so that user can add extra functions in a separate file (e.g. Value() helpers for your vector or engine types)
 namespace ImGui
 {
     // Main
@@ -185,7 +185,7 @@ namespace ImGui
     IMGUI_API ImU32         GetColorU32(const ImVec4& col);                                     // retrieve given color with style alpha applied
 
     // Parameters stacks (current window)
-    IMGUI_API void          PushItemWidth(float item_width);                                    // width of items for the common item+label case, pixels. 0.0f = default to ~2/3 of windows width, >0.0f: width in pixels, <0.0f align xx pixels to the right of window (so -1.0f always align width to the right side)
+    IMGUI_API void          PushItemWidth(float item_width);                                    // width of items for the engine item+label case, pixels. 0.0f = default to ~2/3 of windows width, >0.0f: width in pixels, <0.0f align xx pixels to the right of window (so -1.0f always align width to the right side)
     IMGUI_API void          PopItemWidth();
     IMGUI_API float         CalcItemWidth();                                                    // width of item given pushed settings and current cursor position
     IMGUI_API void          PushTextWrapPos(float wrap_pos_x = 0.0f);                           // word-wrapping for Text*() commands. < 0.0f: no wrapping; 0.0f: wrap to end of window (or column); > 0.0f: wrap at 'wrap_pos_x' position in window local space
@@ -1312,7 +1312,7 @@ struct ImFontAtlas
     IMGUI_API void              GetTexDataAsRGBA32(unsigned char** out_pixels, int* out_width, int* out_height, int* out_bytes_per_pixel = NULL);  // 4 bytes-per-pixel
     void                        SetTexID(void* id)  { TexID = id; }
 
-    // Helpers to retrieve list of common Unicode ranges (2 value per range, values are inclusive, zero-terminated list)
+    // Helpers to retrieve list of engine Unicode ranges (2 value per range, values are inclusive, zero-terminated list)
     // NB: Make sure that your string are UTF-8 and NOT in your local code page. See FAQ for details.
     IMGUI_API const ImWchar*    GetGlyphRangesDefault();    // Basic Latin, Extended Latin
     IMGUI_API const ImWchar*    GetGlyphRangesKorean();     // Default + Korean characters

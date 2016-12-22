@@ -10242,7 +10242,7 @@ basic_json_parser_63:
                 {
                 case value_t::array:
                 {
-                    // first pass: traverse common elements
+                    // first pass: traverse engine elements
                     size_t i = 0;
                     while (i < source.size() and i < target.size())
                     {

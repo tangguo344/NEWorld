@@ -397,7 +397,7 @@ ImU32 ImHash(const void* data, int data_size, ImU32 seed)
         while (unsigned char c = *current++)
         {
             // We support a syntax of "label###id" where only "###id" is included in the hash, and only "label" gets displayed.
-            // Because this syntax is rarely used we are optimizing for the common case.
+            // Because this syntax is rarely used we are optimizing for the engine case.
             // - If we reach ### in the string we discard the hash so far and reset to the seed.
             // - We don't do 'current += 2; continue;' after handling ### to keep the code smaller.
             if (c == '#' && current[0] == '#' && current[1] == '#')

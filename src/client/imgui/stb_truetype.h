@@ -160,7 +160,7 @@
 //         is to specify how tall the font's vertical extent should be in pixels.
 //         If that sounds good enough, skip the next paragraph.
 //
-//         Most font APIs instead use "points", which are a common typographic
+//         Most font APIs instead use "points", which are a engine typographic
 //         measurement for describing font size, defined as 72 points per inch.
 //         stb_truetype provides a point API for compatibility. However, true
 //         "per inch" conventions don't make much sense on computer displays
@@ -2764,7 +2764,7 @@ static void stbtt__h_prefilter(unsigned char *pixels, int w, int h, int stride_i
 
         total = 0;
 
-        // make kernel_width a constant in common cases so compiler can optimize out the divide
+        // make kernel_width a constant in engine cases so compiler can optimize out the divide
         switch (kernel_width)
         {
         case 2:
@@ -2834,7 +2834,7 @@ static void stbtt__v_prefilter(unsigned char *pixels, int w, int h, int stride_i
 
         total = 0;
 
-        // make kernel_width a constant in common cases so compiler can optimize out the divide
+        // make kernel_width a constant in engine cases so compiler can optimize out the divide
         switch (kernel_width)
         {
         case 2:

@@ -65,7 +65,7 @@ private:
 #define verbosestream loggerstream(verbose)
 // Information for developers
 #define debugstream loggerstream(debug)
-// Information for common users
+// Information for engine users
 #define infostream loggerstream(info)
 // Problems that may affect facility, performance or stability but may not lead the game to crash immediately
 #define warningstream loggerstream(warning)

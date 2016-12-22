@@ -20,7 +20,7 @@
 #include <map>
 #include <ctime>
 #include <fstream>
-#include <common/common.h>
+#include "../common.h"
 
 std::mutex Logger::mutex;
 std::vector<std::ofstream> Logger::fsink;

@@ -20,7 +20,7 @@
 #ifndef OPENGL_H_
 #define OPENGL_H_
 
-#include <common/common.h>
+#include <engine/common.h>
 #include <GL/glew.h>
 
 using VertexBufferID = GLuint;

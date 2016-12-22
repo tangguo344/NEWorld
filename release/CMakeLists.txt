@@ -38,11 +38,12 @@ aux_source_directory(${SOURCE_DIR}/nwcore SRC_CORE)
 aux_source_directory(${SOURCE_DIR}/nwcore/api SRC_CORE)
 aux_source_directory(${SOURCE_DIR}/nwcore/world SRC_CORE)
 aux_source_directory(${SOURCE_DIR}/nwcore/plugin SRC_CORE)
-aux_source_directory(${SOURCE_DIR}/nwcore/common/maintenance SRC_CORE)
+aux_source_directory(${SOURCE_DIR}/engine/maintenance SRC_CORE)
 aux_source_directory(${SOURCE_DIR}/nwcore/context SRC_CORE)
 
 add_library(nwcore SHARED ${SRC_CORE} ../src/nwcore/game/nwgame.cpp ../src/nwcore/game/nwgame.hpp)
 
+target_include_directories(nwcore PUBLIC ${SOURCE_DIR} PUBLIC)
 target_include_directories(nwcore PUBLIC ${SOURCE_DIR}/nwcore PUBLIC)
 SET_TARGET_PROPERTIES(nwcore PROPERTIES PREFIX "")
 SET_TARGET_PROPERTIES(nwcore PROPERTIES SUFFIX "")

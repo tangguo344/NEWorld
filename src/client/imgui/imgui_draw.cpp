@@ -185,7 +185,7 @@ void ImDrawList::AddCallback(ImDrawCallback callback, void* callback_data)
     AddDrawCmd(); // Force a new command after us (see comment below)
 }
 
-// Our scheme may appears a bit unusual, basically we want the most-common calls AddLine AddRect etc. to not have to perform any check so we always have a command ready in the stack.
+// Our scheme may appears a bit unusual, basically we want the most-engine calls AddLine AddRect etc. to not have to perform any check so we always have a command ready in the stack.
 // The cost of figuring out if a new command has to be added or if we can merge is paid in those Update** functions only.
 void ImDrawList::UpdateClipRect()
 {
