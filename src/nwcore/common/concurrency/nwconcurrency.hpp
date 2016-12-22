@@ -10,10 +10,16 @@ public:
     {
         return mLastCall + mDuration - tp;
     }
-    void call()
+    void call(std::chrono::steady_clock::time_point tp)
     {
-        mLastCall = std::chrono::steady_clock::now();
+        mExecuting.store(true);
+        std::this_thread::sleep_for(remainingTime(tp));
         this->execute();
+        mExecuting.store(false);
+    }
+    bool isExectuing()
+    {
+        return mExecuting;
     }
     virtual ~Task() = default;
     virtual void execute() = 0;
@@ -21,6 +27,7 @@ private:
     std::chrono::steady_clock::duration mDuration;
     std::chrono::steady_clock::time_point mLastCall;
     Priority mPriority;
+    std::atomic_bool mExecuting;
 };
 
 class FunctionTask : public Task
@@ -43,10 +50,10 @@ public:
         auto time = std::chrono::steady_clock::now();
         auto next = mTasks.front().get();
         for (auto&& x : mTasks)
-            if (next->remainingTime(time) > x->remainingTime(time))
-                next = x.get();
-        std::this_thread::sleep_for(next->remainingTime(time));
-        next->call();
+            if (!(x->isExectuing()))
+                if (next->remainingTime(time) > x->remainingTime(time))
+                    next = x.get();
+        next->call(time);
     }
     void addTask(TaskPointer&& tsk)
     {
@@ -54,6 +61,7 @@ public:
     }
     void start()
     {
+        mRunning.store(true);
         while (mRunning)
             callNext();
     }
