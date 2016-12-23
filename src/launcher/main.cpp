@@ -45,9 +45,9 @@ int main(int argc, char** argv)
         in = argv[1];
     }
 
-    std::string serverFilename = getJsonValue<std::string>(getSettings()["server"]["file"], "nwcore");
+    std::string serverFilename = getJsonValue<std::string>(getSettings()["version"], "41");
 
-    file = serverFilename;
+    file = "v" + serverFilename;
 
     debugstream << "Load:" << file;
     Library(file).get<MainFunction>(in == "server" ? "smain" : "cmain")(argc, argv);
