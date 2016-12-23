@@ -23,9 +23,9 @@
 #include <memory>
 #include <thread>
 #include <world/world.h>
-#include <common/common.h>
+#include <engine/common.h>
 #include <plugin/pluginmanager.h>
-#include "networkmanager.h"
+#include <network/networkmanager.h>
 
 constexpr int UpdateInterval = 1000 / 60, GlobalUpdateInterval = 1000 / 60; // unit: ms
 

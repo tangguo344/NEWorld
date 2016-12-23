@@ -22,7 +22,7 @@
 
 #include <string>
 #include <utility>
-#include <common/common.h>
+#include <engine/common.h>
 #include "api/nwapi.h"
 
 // Single plugin

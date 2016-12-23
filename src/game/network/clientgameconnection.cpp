@@ -17,9 +17,9 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "renderer/chunkrenderer.h"
-#include "gameconnection.h"
-#include <common/common.h>
+#include <renderer/chunkrenderer.h>
+#include <network/clientgameconnection.h>
+#include <engine/common.h>
 #include <flatfactory.h>
 
 bool NWAPICALL nwInitServer(void*);

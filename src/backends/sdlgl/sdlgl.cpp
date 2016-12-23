@@ -1,6 +1,6 @@
 #include "sdlgl.hpp"
 #include <GL/glew.h>
-#include <common/common.h>
+#include <engine/common.h>
 namespace Org { namespace Infinideas { namespace NEWorld{
     namespace Backends
     {

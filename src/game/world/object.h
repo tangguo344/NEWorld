@@ -20,7 +20,7 @@
 #ifndef OBJECT_H_
 #define OBJECT_H_
 
-#include <common/common.h>
+#include <engine/common.h>
 #include "world/world.h"
 
 class Object

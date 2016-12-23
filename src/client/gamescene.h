@@ -22,17 +22,17 @@
 
 #include <thread>
 #include <mutex>
-#include "renderer.h"
+#include "player.h"
+#include "widgetmanager.h"
 #include <world/world.h>
 #include <world/nwblock.h>
+#include <world/worldclient.h>
+#include <engine/common.h>
+#include <renderer/texture.h>
+#include <renderer/renderer.h>
 #include <plugin/pluginmanager.h>
-#include "worldclient.h"
-#include "texture.h"
-#include "player.h"
-#include "network.h"
-#include "widgetmanager.h"
-#include <common/common.h>
-#include "gameconnection.h"
+#include <network/network.h>
+#include <network/clientgameconnection.h>
 #include "window.h"
 
 class GameScene

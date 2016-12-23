@@ -25,7 +25,7 @@
 #include "../protocol/gen/protocol.h"
 #include <future>
 #include <climits>
-#include <common/common.h>
+#include <engine/common.h>
 
 class ClientConnection
 {

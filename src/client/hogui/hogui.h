@@ -24,7 +24,7 @@
 #include <functional>
 #include <GL/glew.h>
 #include <./../backends/sdlgl/sdlgl.hpp>
-#include <common/common.h>
+#include <engine/common.h>
 
 class Visual
 {

@@ -22,7 +22,7 @@
 
 #include "opengl.h"
 #include "vertexarray.h"
-#include <common/common.h>
+#include <engine/common.h>
 
 class Renderer
 {

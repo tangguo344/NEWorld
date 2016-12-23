@@ -26,7 +26,7 @@
 #include <cstdlib>
 #include <algorithm>
 #include <world/nwchunk.h>
-#include <common/common.h>
+#include <engine/common.h>
 
 class PluginManager;
 

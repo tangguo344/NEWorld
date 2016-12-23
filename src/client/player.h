@@ -22,7 +22,7 @@
 
 #include <world/world.h>
 #include <world/playerobject.h>
-#include "renderer.h"
+#include <renderer/renderer.h>
 
 class Player : public PlayerObject
 {

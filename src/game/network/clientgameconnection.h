@@ -23,8 +23,8 @@
 #include <string>
 #include <functional>
 #include "network.h"
-#include "worldclient.h"
-#include <common/common.h>
+#include <engine/common.h>
+#include <world/worldclient.h>
 
 class World;
 class Chunk;

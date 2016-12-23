@@ -22,7 +22,7 @@
 #include <memory>
 #include <string>
 #include "renderer/blockrenderer.h"
-#include "api/nwapi.h"
+#include <api/nwapi.h>
 
 extern "C"
 {

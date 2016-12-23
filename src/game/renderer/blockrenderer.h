@@ -20,10 +20,10 @@
 #ifndef BLOCKRENDERER_H_
 #define BLOCKRENDERER_H_
 
-#include "../texture.h"
+#include <renderer/texture.h>
 #include <vector>
 #include <memory>
-#include <common/common.h>
+#include <engine/common.h>
 
 struct BlockTexCoord
 {

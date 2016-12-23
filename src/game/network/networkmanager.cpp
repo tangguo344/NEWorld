@@ -17,8 +17,8 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "common/common.h"
 #include "networkmanager.h"
+#include <engine/common.h>
 #include <raknet/MessageIdentifiers.h>
 #include <raknet/BitStream.h>
 #include <raknet/RakSleep.h>

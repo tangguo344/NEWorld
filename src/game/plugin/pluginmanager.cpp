@@ -17,7 +17,7 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <common/common.h>
+#include <engine/common.h>
 #include "pluginmanager.h"
 
 PluginManager::PluginManager()

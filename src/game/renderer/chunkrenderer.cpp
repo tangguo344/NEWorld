@@ -19,7 +19,7 @@
 
 #include "chunkrenderer.h"
 #include "../../protocol/gen/s2c/2-Chunk_generated.h"
-#include "../worldclient.h"
+#include <world/worldclient.h>
 VertexArray* target;
 VertexArray ChunkRenderer::va0(262144, VertexFormat(2, 3, 0, 3));
 VertexArray ChunkRenderer::va1(262144, VertexFormat(2, 3, 0, 3));

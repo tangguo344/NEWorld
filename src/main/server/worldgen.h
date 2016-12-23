@@ -20,7 +20,7 @@
 #ifndef WORLDGEN_H_
 #define WORLDGEN_H_
 
-#include "./../../nwcore/api/nwapi.h"
+#include "./../../game/api/nwapi.h"
 #include <cmath>
 
 // Perlin Noise 2D

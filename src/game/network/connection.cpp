@@ -18,7 +18,7 @@
 */
 
 #include "connection.h"
-#include <common/common.h>
+#include <engine/common.h>
 
 Connection::Connection(NetworkManager &network, RakNet::RakPeerInterface *peer, RakNet::SystemAddress addr)
     :mNetwork(network), mPeer(peer), mAddr(addr)

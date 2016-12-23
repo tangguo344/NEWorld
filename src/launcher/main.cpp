@@ -19,7 +19,7 @@
 #include <iostream>
 #include <string>
 #include <climits>
-#include <common/common.h>
+#include <engine/common.h>
 
 typedef void NWAPICALL MainFunction(int, char**);
 

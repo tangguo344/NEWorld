@@ -18,8 +18,8 @@
 */
 
 #include "neworld.h"
-#include "texture.h"
-#include <common/common.h>
+#include <engine/common.h>
+#include <renderer/texture.h>
 #include <context/nwcontext.hpp>
 #include "window.h"
 #include "gamescene.h"
