@@ -36,7 +36,10 @@ NEWorld::NEWorld()
     auto conn = std::make_shared<LocalConnection>();
         //getJsonValue<std::string>(getSettings()["server"]["ip"], "127.0.0.1"),
         //getJsonValue<unsigned short>(getSettings()["server"]["port"], 31111)),
+    
     // Run
+    constexpr const static int fps = 60;// TODO: read from settings
+    constexpr const static double delayPerFrame = (1000/fps)-0.5;
     GameScene game("TestWorld", conn, window);
     while(!window.shouldQuit())
     {
@@ -48,6 +51,7 @@ NEWorld::NEWorld()
         game.render();
         Renderer::checkError();
         window.swapBuffers();
+        SDL_Delay(delayPerFrame);
     }
 
     // Terminate

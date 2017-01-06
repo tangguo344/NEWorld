@@ -34,7 +34,7 @@ Window::Window(const std::string& title, int width, int height)
     Assert(mWindow != nullptr);
 
     mContext = SDL_GL_CreateContext(mWindow);
-    SDL_GL_SetSwapInterval(1);
+    SDL_GL_SetSwapInterval(0); // VSync
     makeCurrentDraw();
 }
 
