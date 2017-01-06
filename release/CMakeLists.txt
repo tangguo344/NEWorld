@@ -50,7 +50,7 @@ target_compile_definitions(v41 PRIVATE -DSDL_MAIN_HANDLED PRIVATE -DNWCOREEXPORT
 target_link_libraries(v41 pthread freetype RakNetDLL SDL2 SDL2_image GLEW)
 
 if(CMAKE_SYSTEM_NAME MATCHES Darwin)
-    target_link_libraries(nwcore "-framework OpenGL")
+    target_link_libraries(v41 "-framework OpenGL")
 endif()
 
 project(Launcher)
