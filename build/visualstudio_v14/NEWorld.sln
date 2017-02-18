@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26020.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NEWorld", "NEWorld\NEWorld.vcxproj", "{9401A960-F56F-4186-AD7D-2F9A6F541190}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -73,9 +73,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MainServer", "MainServer\Ma
 	EndProjectSection
 EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
@@ -210,5 +207,8 @@ Global
 		{6480A82A-7B34-4E93-9DF4-E1E91CC46D83} = {A2C14EA2-941B-4E0B-B439-22438A377C96}
 		{27404DB6-A447-47DE-A9E5-367D0D7B315D} = {7C5DD502-5BFC-4684-8478-80B8196E7AF5}
 		{8FD25F27-64E4-4F88-8B64-8449DD471651} = {7C5DD502-5BFC-4684-8478-80B8196E7AF5}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal
