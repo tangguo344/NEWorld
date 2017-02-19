@@ -14,10 +14,10 @@
 build/visualstudio_v14/**/[Dd]ebug/
 build/visualstudio_v14/**/[Rr]elease/
 build/visualstudio_v14/**/[Pp]rofile/
-x64/
-x86/
-[Bb]in/
-[Oo]bj/
+build/visualstudio_v14/**/x64/
+build/visualstudio_v14/**/x86/
+build/visualstudio_v14/[Bb]in/
+build/visualstudio_v14/[Oo]bj/
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -235,7 +235,7 @@ settings.json
 [Ss]creen[Ss]hots/
 [Cc]onfigs/
 [Pp]lugins/
-res/fonts/
+[Rr]es/[Ff]onts/
 
 # Eclipse
 *.project

@@ -32,28 +32,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\server\builtincommands.cpp" />
-    <ClCompile Include="..\..\..\src\server\commandmanager.cpp" />
-    <ClCompile Include="..\..\..\src\server\chunkserver.cpp" />
-    <ClCompile Include="..\..\..\src\server\connection.cpp" />
     <ClCompile Include="..\..\..\src\server\main.cpp" />
-    <ClCompile Include="..\..\..\src\server\multiplayerconnection.cpp" />
-    <ClCompile Include="..\..\..\src\server\networkmanager.cpp" />
-    <ClCompile Include="..\..\..\src\server\server.cpp" />
-    <ClCompile Include="..\..\..\src\server\serverapi.cpp" />
-    <ClCompile Include="..\..\..\src\server\worldserver.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\src\server\commandmanager.h" />
-    <ClInclude Include="..\..\..\src\server\connection.h" />
-    <ClInclude Include="..\..\..\src\server\gameconnection.h" />
-    <ClInclude Include="..\..\..\src\server\networkmanager.h" />
-    <ClInclude Include="..\..\..\src\server\playermanager.h" />
-    <ClInclude Include="..\..\..\src\server\chunkserver.h" />
-    <ClInclude Include="..\..\..\src\server\server.h" />
-    <ClInclude Include="..\..\..\src\server\serverapi.h" />
-    <ClInclude Include="..\..\..\src\server\worldmanager.h" />
-    <ClInclude Include="..\..\..\src\server\worldserver.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{ABBA7A56-1D26-4C66-AED9-67C8F7CC3AE7}</ProjectGuid>
