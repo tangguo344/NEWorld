@@ -22,6 +22,7 @@
 
 #include <vector>
 #include <string>
+
 #define FUNCTION_ALIAS(A,B) template <typename... Args> auto B(Args&&... args) -> decltype(A(std::forward<Args>(args)...)){return A(std::forward<Args>(args)...);}
 
 std::vector<std::string> split(const std::string& s, char delim);

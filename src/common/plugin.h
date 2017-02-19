@@ -33,40 +33,23 @@
 // Single plugin
 class Plugin {
 public:
-    explicit Plugin(const std::string& filename) : mStatus(-1) {
-        loadFrom(filename);
-    }
-
+    explicit Plugin(const std::string& filename) : mStatus(-1) { loadFrom(filename); }
     Plugin(Plugin&& rhs) noexcept : mLib(std::move(rhs.mLib)), mData(rhs.mData), mStatus(rhs.mStatus) {
         rhs.mData = nullptr;
         rhs.mStatus = -1;
     }
-
     Plugin(const Plugin&) = delete;
-
     Plugin& operator= (const Plugin&) = delete;
-
-    ~Plugin() {
-        unload();
-    }
+    ~Plugin() { unload(); }
 
     int init();
 
     // Get plugin data
-    const NWplugindata& getData() const {
-        return *mData;
-    }
-
+    const NWplugindata& getData() const { return *mData; }
     // Get load status
-    int getStatus() const {
-        return mStatus;
-    }
-
+    int getStatus() const { return mStatus; }
     // Is loaded
-    bool isLoaded() const {
-        return mStatus == 0;
-    }
-
+    bool isLoaded() const { return mStatus == 0; }
     // Load plugin, return 0 for success
     int loadFrom(const std::string& filename);
     // Unload plugin

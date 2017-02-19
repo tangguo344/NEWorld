@@ -17,16 +17,16 @@
 * along with NEWorld.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef RATEMETER_H_
-#define RATEMETER_H_
+#ifndef SCHEDULER_H_
+#define SCHEDULER_H_
 
 #include <chrono>
 #include <thread>
 #include "common.h"
 
-class RateMeter {
+class Scheduler {
 public:
-    explicit RateMeter(int limit = 0) : mOnlineTimer(getTimeNow()), mOfflineTimer(getTimeNow()), mLimit(limit) {
+    explicit Scheduler(int limit = 0): mOnlineTimer(getTimeNow()), mOfflineTimer(getTimeNow()), mLimit(limit) {
 #ifdef NEWORLD_USE_WINAPI
         LARGE_INTEGER num;
         QueryPerformanceFrequency(&num);
@@ -90,12 +90,12 @@ private:
         return std::chrono::steady_clock::now();
     }
 #else
-    __int64 mOnlineTimer;
-    __int64 mOfflineTimer;
-    __int64 mFrequency;
-    __int64 mDeltaTime = 0ll;
+    long long mOnlineTimer;
+	long long mOfflineTimer;
+	long long mFrequency;
+	long long mDeltaTime = 0ll;
 
-    static __int64 getTimeNow() {
+    static long long getTimeNow() {
         LARGE_INTEGER num;
         QueryPerformanceCounter(&num);
         return num.QuadPart;

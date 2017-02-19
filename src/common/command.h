@@ -26,10 +26,9 @@
 #include <unordered_map>
 #include "utils.h"
 
-class CommandExecuteStat {
+class CommandExecutionResult {
 public:
-    CommandExecuteStat(bool s, std::string i) : success(s), info(i) {
-    }
+    CommandExecutionResult(bool s, std::string i): success(s), info(i) {}
 
     bool success;
     std::string info;
@@ -49,14 +48,13 @@ public:
 
 class CommandInfo {
 public:
-    CommandInfo(std::string a, std::string h) : author(a), help(h) {
-    }
+    CommandInfo(std::string a, std::string h): author(a), help(h) {}
 
     std::string author;
     std::string help;
 };
 
-using CommandHandleFunction = std::function<CommandExecuteStat(Command)>;
+using CommandHandleFunction = std::function<CommandExecutionResult(Command)>;
 using CommandMap = std::unordered_map<std::string, std::pair<CommandInfo, CommandHandleFunction>>;
 
 #endif // !COMMAND_H_

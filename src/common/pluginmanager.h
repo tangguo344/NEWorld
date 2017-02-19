@@ -28,10 +28,8 @@
 // Plugin system
 class PluginManager {
 public:
-    PluginManager(bool isClient);
-    ~PluginManager() {
-        unloadPlugins();
-    }
+    PluginManager(bool isClient = true);
+    ~PluginManager() { unloadPlugins(); }
 
     // Load single plugin
     void loadPlugin(const std::string& filename);

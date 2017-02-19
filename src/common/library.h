@@ -36,52 +36,33 @@
 class Library {
 public:
     Library() = default;
-
     Library(const std::string& filename) : Library {} {
         load(filename);
     }
-
-    Library(Library&& library) noexcept : Library {}
-    {
-        std::swap(library.mDllHandle, mDllHandle);
+    Library(Library&& library) noexcept : Library {} {
+        std::swap(library.mHandle, mHandle);
         std::swap(library.mLoaded, mLoaded);
     }
-
     Library&& operator=(Library&& library) noexcept {
-        std::swap(library.mDllHandle, mDllHandle);
+        std::swap(library.mHandle, mHandle);
         std::swap(library.mLoaded, mLoaded);
         return std::move(*this);
     }
-
-    ~Library() {
-        if (isLoaded())
-            freeLibrary(mDllHandle);
-    }
-
+    ~Library() { if (isLoaded()) freeLibrary(mHandle); }
     Library(const Library&) = delete;
-
     Library& operator=(const Library&) = delete;
 
-    template<class T> auto get(const std::string& name) {
-        return getFunc<T>(mDllHandle, name);
-    }
-
-    operator bool() const {
-        return isLoaded();
-    }
-
-    bool isLoaded() const {
-        return mLoaded;
-    }
+    template<class T> auto get(const std::string& name) { return getFunc<T>(mHandle, name); }
+    operator bool() const { return isLoaded(); }
+    bool isLoaded() const { return mLoaded; }
 
     void load(const std::string& filename) {
-        if (isLoaded())
-            unload();
-        mDllHandle = loadLibrary(filename, mLoaded);
+        if (isLoaded()) unload();
+        mHandle = loadLibrary(filename, mLoaded);
     }
 
     void unload() {
-        freeLibrary(mDllHandle);
+        freeLibrary(mHandle);
         mLoaded = false;
     }
 
@@ -94,8 +75,7 @@ private:
     static HandleType loadLibrary(const std::string& filename, bool& success) {
         HandleType handle = LoadLibraryA(filename.c_str());
         success = handle != nullptr;
-        if (!success)
-            warningstream << "Failed to load " << filename << ". Error code:" << GetLastError();
+        if (!success) warningstream << "Failed to load " << filename << ". Error code:" << GetLastError();
         return handle;
     }
 
@@ -104,9 +84,7 @@ private:
         return reinterpret_cast<std::decay_t<T>>(GetProcAddress(handle, name.c_str()));
     }
 
-    static void freeLibrary(HandleType handle) {
-        FreeLibrary(handle);
-    }
+    static void freeLibrary(HandleType handle) { FreeLibrary(handle); }
 
 #else
 
@@ -114,8 +92,7 @@ private:
 
     static HandleType loadLibrary(const std::string& filename, bool& success) {
         HandleType handle = dlopen(filename.c_str(), RTLD_LAZY);
-        if (handle == nullptr)
-            fatalstream << dlerror();
+        if (handle == nullptr) warningstream << dlerror();
         success = handle != nullptr;
         return handle;
     }
@@ -125,13 +102,11 @@ private:
         return reinterpret_cast<std::decay_t<T>>(dlsym(handle, name.c_str()));
     }
 
-    static void freeLibrary(HandleType handle) {
-        dlclose(handle);
-    }
+    static void freeLibrary(HandleType handle) { dlclose(handle); }
 
 #endif
 
-    HandleType mDllHandle;
+    HandleType mHandle;
     bool mLoaded = false;
 };
 

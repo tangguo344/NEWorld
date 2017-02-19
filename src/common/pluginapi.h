@@ -26,21 +26,12 @@
 #include "blockdata.h"
 #include "blocktype.h"
 #include "blockmanager.h"
-#include "world.h"
+
+class PluginManager;
 
 namespace PluginAPI {
-    /*
-        [1]
-        这里用了几个指针，请不要介意，因为理论上Plugin API是可以直接控制NEWorld和Server的，
-        包括他们中的很多东西比如World、BlockManager啦，然后我就给了个指针让他操作。。。如果
-        不这么弄其实也可以，只是结构会比较奇怪，NEWorld或Server类要组合到Plugin API里。。。
-        这个结构找个时间确定一下，我先暂时这么写吧。。。
-        -- qiaozhanrong
-    */
-
     extern BlockManager* Blocks;
     extern PluginManager* Plugins;
-    extern World* CurrWorld;
 
     // Structures for plugin interface
     // Aliases cannot be used when structure definitions in NEWorld and in Plugin API are different
@@ -68,7 +59,6 @@ namespace PluginAPI {
     BlockData convertBlockData(const NWblockdata& src);
     NWblockdata convertBlockData(const BlockData& src);
     BlockType convertBlockType(const NWblocktype& src);
-
 }
 
 #endif

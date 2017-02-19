@@ -20,10 +20,8 @@
 #include "pluginapi.h"
 
 namespace PluginAPI {
-    // See [1] in pluginapi.h
     BlockManager* Blocks;
     PluginManager* Plugins;
-    World* CurrWorld;
 
     BlockData convertBlockData(const NWblockdata& src) {
         return BlockData(src.id, src.brightness, src.state);
@@ -38,7 +36,7 @@ namespace PluginAPI {
     }
 
     BlockType convertBlockType(const NWblocktype& src) {
-        return BlockType(src.blockname, src.solid, src.translucent, src.opaque, src.explodePower, src.hardness);
+        return BlockType(src.blockname, src.solid, src.translucent, src.opaque, src.hardness);
     }
 }
 
@@ -49,20 +47,11 @@ extern "C"
     // Please don't put `using namespace` in header files (This is a source file 2333)
     using namespace PluginAPI;
 
-    NWAPIEXPORT NWblockdata NWAPICALL nwGetBlock(const NWvec3i* pos) {
-        return convertBlockData(CurrWorld->getBlock(*pos));
-    }
-
-    NWAPIEXPORT size_t NWAPICALL nwSetBlock(const NWvec3i* pos, NWblockdata block) {
-        CurrWorld->setBlock(*pos, convertBlockData(block));
-        return 0;
-    }
-
     NWAPIEXPORT size_t NWAPICALL nwRegisterBlock(const NWblocktype* block) {
         return Blocks->registerBlock(convertBlockType(*block));
     }
 
-    NWAPIEXPORT void NWAPICALL nwLog(char* str, Logger::Level level) {
+    NWAPIEXPORT void NWAPICALL nwLog(const char* str, Logger::Level level) {
         Logger("", "", 0, level) << str;
     }
 }

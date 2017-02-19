@@ -26,10 +26,19 @@
     <ClInclude Include="..\..\..\src\common\consolecolor.h" />
     <ClInclude Include="..\..\..\src\common\filesystem.h" />
     <ClInclude Include="..\..\..\src\common\logger.h" />
+    <ClInclude Include="..\..\..\src\common\plugin.h" />
+    <ClInclude Include="..\..\..\src\common\pluginapi.h" />
+    <ClInclude Include="..\..\..\src\common\pluginmanager.h" />
+    <ClInclude Include="..\..\..\src\common\scheduler.h" />
+    <ClInclude Include="..\..\..\src\common\utils.h" />
     <ClInclude Include="..\..\..\src\common\vec3.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\common\logger.cpp" />
+    <ClCompile Include="..\..\..\src\common\plugin.cpp" />
+    <ClCompile Include="..\..\..\src\common\pluginapi.cpp" />
+    <ClCompile Include="..\..\..\src\common\pluginmanager.cpp" />
+    <ClCompile Include="..\..\..\src\common\utils.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

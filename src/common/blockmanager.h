@@ -28,7 +28,7 @@
 class BlockManager {
 public:
     BlockManager() {
-        mBlocks.push_back(BlockType("Air", false, false, false, 0, 0));
+        mBlocks.push_back(BlockType("Air", false, false, false, 0));
     }
 
     size_t registerBlock(const BlockType& block) {

@@ -23,9 +23,7 @@
 #include "logger.h"
 #include <filesystem.h>
 
-PluginManager::PluginManager(bool isClient)
-    : mIsClient(isClient) {
-}
+PluginManager::PluginManager(bool isClient): mIsClient(isClient) {}
 
 void PluginManager::loadPlugin(const std::string& filename) {
     mPlugins.emplace_back(filename);
@@ -49,7 +47,7 @@ void PluginManager::loadPlugin(const std::string& filename) {
 }
 
 void PluginManager::loadPlugins() {
-    using namespace FileSystem;
+    using namespace Filesystem;
     std::string path = "./plugins/";
     if (exists(path)) {
         forInDirectory(path, [this](std::string filename) {
