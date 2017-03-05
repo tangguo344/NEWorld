@@ -11,15 +11,17 @@
 *.userprefs
 
 # Build results
-build/visualstudio_v14/Debug/
-build/visualstudio_v14/Release/
-build/visualstudio_v14/Profile/
-build/visualstudio_v14/Win32Debug/
-build/visualstudio_v14/Win32Release/
-build/visualstudio_v14/Win32Profile/
-build/visualstudio_v14/x64Debug/
-build/visualstudio_v14/x64Release/
-build/visualstudio_v14/x64Profile/
+build/../[Bb]in/
+build/../[Oo]bj/
+build/../Debug/
+build/../Release/
+build/../Profile/
+build/../Win32Debug/
+build/../Win32Release/
+build/../Win32Profile/
+build/../x64Debug/
+build/../x64Release/
+build/../x64Profile/
 
 # Visual Studio 2015 cache/options directory
 .vs/
