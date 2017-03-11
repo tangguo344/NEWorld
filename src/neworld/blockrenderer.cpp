@@ -20,7 +20,7 @@
 #include "blockrenderer.h"
 #include "chunkclient.h"
 #include <cmath>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 size_t BlockTextureBuilder::mPixelPerTexture = 32;
 size_t BlockTextureBuilder::mTexturePerLine = 8;

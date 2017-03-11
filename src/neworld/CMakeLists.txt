@@ -1,19 +1,26 @@
-project(Client)
-add_definitions(-DSDL_MAIN_HANDLED)
+cmake_minimum_required(VERSION 3.1)
+set(CMAKE_CXX_STANDARD 14)
+
 add_definitions(-DNEWORLD_CLIENT)
+# Link OpenGL & GLEW
+find_package(GLEW REQUIRED)
+find_package(OpenGL REQUIRED)
+# Link SDL2
+find_package(SDL2 REQUIRED)
+find_package(SDL2_image REQUIRED)
+# Link Freetype
+find_package(Freetype REQUIRED)
 
-aux_source_directory(${SOURCE_DIR}/client SRC_CLIENT)
-aux_source_directory(${SOURCE_DIR}/client/imgui SRC_CLIENT)
+set(DEPEND_LIBS_INC ${DEPEND_LIBS_INC} ${GLEW_INCLUDE_DIRS} ${OPENGL_INCLUDE_DIR}
+    ${SDL2_INCLUDE_DIR} ${SDL2_IMAGE_INCLUDE_DIR} ${FREETYPE_INCLUDE_DIRS})
+set(DEPEND_LIBS ${DEPEND_LIBS} ${GLEW_LIBRARIES} ${OPENGL_gl_LIBRARY}
+    ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${FREETYPE_LIBRARIES})
 
-if(EXECUTABLE)
-    add_executable(nwclient ${SRC_CLIENT})
-else()
-    add_library(nwclient SHARED ${SRC_CLIENT})
-endif()
-target_link_libraries(nwclient pthread nwshared freetype RakNetDLL SDL2 SDL2_image GLEW)
+aux_source_directory(. SRC_CLIENT)
+aux_source_directory(imgui SRC_CLIENT)
 
-if(CMAKE_SYSTEM_NAME MATCHES Darwin)
-    target_link_libraries(nwclient "-framework OpenGL")
-endif()
+# Set Dependency Include Dirs
+include_directories(PUBLIC . ${DEPEND_LIBS_INC})
 
-target_include_directories(nwclient PUBLIC ${SOURCE_DIR}/shared PUBLIC)
+add_library(nwclient SHARED ${SRC_CLIENT})
+target_link_libraries(nwclient pthread nwshared RakNetDLL ${DEPEND_LIBS})

@@ -25,7 +25,6 @@ void BlockManager::showInfo(size_t id) const {
                 << "Solid: " << block.isSolid()
                 << ", Translucent: " << block.isTranslucent()
                 << ", Opaque: " << block.isOpaque()
-                << ", Explode power: " << block.getExplodePower()
                 << ", Hardness: " << block.getHardness()
                 << "}";
 }

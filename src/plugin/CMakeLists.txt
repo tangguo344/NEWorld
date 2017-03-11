@@ -1,13 +1,13 @@
 cmake_minimum_required(VERSION 3.1)
 
-project(MainPlugin)
+aux_source_directory(client SRC_MAINPLUGIN)
+aux_source_directory(shared SRC_MAINPLUGIN)
+aux_source_directory(server SRC_MAINSERVERPLUGIN)
+aux_source_directory(shared SRC_MAINSERVERPLUGIN)
 
-aux_source_directory(${SOURCE_DIR}/main/client SRC_MAINPLUGIN)
-aux_source_directory(${SOURCE_DIR}/main/shared SRC_MAINPLUGIN)
-aux_source_directory(${SOURCE_DIR}/main/server SRC_MAINSERVERPLUGIN)
-aux_source_directory(${SOURCE_DIR}/main/shared SRC_MAINSERVERPLUGIN)
 add_library(main SHARED ${SRC_MAINPLUGIN})
 add_library(mainserver SHARED ${SRC_MAINSERVERPLUGIN})
+
 target_link_libraries(main nwclient)
 target_link_libraries(mainserver nwserver)
 
