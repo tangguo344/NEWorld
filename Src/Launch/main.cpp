@@ -19,22 +19,22 @@
 #include <iostream>
 #include <string>
 #include <climits>
-#include <engine/common.h>
+//#include <engine/common.h>
 
-typedef void NWAPICALL MainFunction(int, char**);
+//typedef void NWAPICALL MainFunction(int, char**);
 
 int main(int argc, char** argv)
 {
-    getSettings();
-    Logger::addFileSink("./log/", "launcher");
+    //getSettings();
+    //Logger::addFileSink("./log/", "launcher");
     std::string file;
 
     std::string in;
     if (argc == 1)
     {
-        infostream << "NEWorld Minimal Launcher";
-        infostream << "Enter 'client' to run client";
-        infostream << "Enter 'server' to run server";
+        std::cout << "NEWorld Minimal Launcher" << std::endl;
+        std::cout << "Enter 'client' to run client" << std::endl;
+        std::cout << "Enter 'server' to run server" << std::endl;
         std::cin >> in;
 
         // Clear cin buffer
@@ -45,10 +45,10 @@ int main(int argc, char** argv)
         in = argv[1];
     }
 
-    std::string serverFilename = getJsonValue<std::string>(getSettings()["version"], "41");
+    /*std::string serverFilename = getJsonValue<std::string>(getSettings()["version"], "41");
 
     file = "v" + serverFilename;
 
-    debugstream << "Load:" << file;
-    Library(file).get<MainFunction>(in == "server" ? "smain" : "cmain")(argc, argv);
+    debugstream << "Load:" << file << std::endl;
+    Library(file).get<MainFunction>(in == "server" ? "smain" : "cmain")(argc, argv);*/
 }
