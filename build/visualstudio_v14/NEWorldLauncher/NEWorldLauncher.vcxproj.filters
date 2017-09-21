@@ -7,13 +7,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\launcher\main.cpp">
+    <ClCompile Include="..\..\..\Src\Launch\main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\src\shared\jsonhelper.h">
-      <Filter>Source</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

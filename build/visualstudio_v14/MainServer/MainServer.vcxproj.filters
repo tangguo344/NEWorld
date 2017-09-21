@@ -10,18 +10,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\main\server\worldgen.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\nwcore\api\nwapi.h">
+    <ClInclude Include="..\..\..\Src\Old Code\game\api\nwapi.h">
       <Filter>Source\Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Src\Old Code\main\server\worldgen.h">
+      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\main\server\entry.cpp">
+    <ClCompile Include="..\..\..\Src\Old Code\main\server\entry.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\main\server\worldgen.cpp">
+    <ClCompile Include="..\..\..\Src\Old Code\main\server\worldgen.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

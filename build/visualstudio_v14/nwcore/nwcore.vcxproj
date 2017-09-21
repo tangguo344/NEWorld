@@ -27,104 +27,101 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\src\backends\sdlgl\sdlgl.cpp" />
-    <ClCompile Include="..\..\..\src\client\clientapi.cpp" />
-    <ClCompile Include="..\..\..\src\client\gamescene.cpp" />
-    <ClCompile Include="..\..\..\src\client\imguihelper.cpp" />
-    <ClCompile Include="..\..\..\src\client\imgui\imgui.cpp" />
-    <ClCompile Include="..\..\..\src\client\imgui\imgui_demo.cpp" />
-    <ClCompile Include="..\..\..\src\client\imgui\imgui_draw.cpp" />
-    <ClCompile Include="..\..\..\src\client\mainclient.cpp" />
-    <ClCompile Include="..\..\..\src\client\neworld.cpp" />
-    <ClCompile Include="..\..\..\src\client\player.cpp" />
-    <ClCompile Include="..\..\..\src\client\window.cpp" />
-    <ClCompile Include="..\..\..\src\engine\concurrency\nwconcurrency.cpp" />
-    <ClCompile Include="..\..\..\src\engine\maintenance\nwlogger.cpp" />
-    <ClCompile Include="..\..\..\src\game\api\nwpluginapi.cpp" />
-    <ClCompile Include="..\..\..\src\game\context\nwcontext.cpp" />
-    <ClCompile Include="..\..\..\src\game\network\clientgameconnection.cpp" />
-    <ClCompile Include="..\..\..\src\game\network\connection.cpp" />
-    <ClCompile Include="..\..\..\src\game\network\gameconnection.cpp" />
-    <ClCompile Include="..\..\..\src\game\network\mainserver.cpp" />
-    <ClCompile Include="..\..\..\src\game\network\network.cpp" />
-    <ClCompile Include="..\..\..\src\game\network\networkmanager.cpp" />
-    <ClCompile Include="..\..\..\src\game\plugin\plugin.cpp" />
-    <ClCompile Include="..\..\..\src\game\plugin\pluginmanager.cpp" />
-    <ClCompile Include="..\..\..\src\game\renderer\blockrenderer.cpp" />
-    <ClCompile Include="..\..\..\src\game\renderer\chunkrenderer.cpp" />
-    <ClCompile Include="..\..\..\src\game\renderer\renderer.cpp" />
-    <ClCompile Include="..\..\..\src\game\renderer\texture.cpp" />
-    <ClCompile Include="..\..\..\src\game\renderer\vertexarray.cpp" />
-    <ClCompile Include="..\..\..\src\game\server.cpp" />
-    <ClCompile Include="..\..\..\src\game\world\nwblock.cpp" />
-    <ClCompile Include="..\..\..\src\game\world\nwchunk.cpp" />
-    <ClCompile Include="..\..\..\src\game\world\world.cpp" />
-    <ClCompile Include="..\..\..\src\game\world\worldclient.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\client\clientapi.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\client\gamescene.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\client\imguihelper.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\client\imgui\imgui.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\client\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\client\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\client\mainclient.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\client\neworld.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\client\player.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\client\window.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\engine\concurrency\nwconcurrency.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\engine\maintenance\nwlogger.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\game\api\nwpluginapi.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\game\context\nwcontext.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\game\network\clientgameconnection.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\game\network\connection.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\game\network\gameconnection.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\game\network\mainserver.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\game\network\network.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\game\network\networkmanager.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\game\plugin\plugin.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\game\plugin\pluginmanager.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\game\renderer\blockrenderer.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\game\renderer\chunkrenderer.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\game\renderer\renderer.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\game\renderer\texture.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\game\renderer\vertexarray.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\game\server.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\game\world\nwblock.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\game\world\nwchunk.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\game\world\world.cpp" />
+    <ClCompile Include="..\..\..\Src\Old Code\game\world\worldclient.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\backends\sdlgl\sdlgl.hpp" />
-    <ClInclude Include="..\..\..\src\client\gamescene.h" />
-    <ClInclude Include="..\..\..\src\client\hogui\hogui.h" />
-    <ClInclude Include="..\..\..\src\client\imguihelper.h" />
-    <ClInclude Include="..\..\..\src\client\imgui\imconfig.h" />
-    <ClInclude Include="..\..\..\src\client\imgui\imgui.h" />
-    <ClInclude Include="..\..\..\src\client\imgui\imgui_internal.h" />
-    <ClInclude Include="..\..\..\src\client\imgui\stb_rect_pack.h" />
-    <ClInclude Include="..\..\..\src\client\imgui\stb_textedit.h" />
-    <ClInclude Include="..\..\..\src\client\imgui\stb_truetype.h" />
-    <ClInclude Include="..\..\..\src\client\neworld.h" />
-    <ClInclude Include="..\..\..\src\client\player.h" />
-    <ClInclude Include="..\..\..\src\client\widget.h" />
-    <ClInclude Include="..\..\..\src\client\widgetmanager.h" />
-    <ClInclude Include="..\..\..\src\client\window.h" />
-    <ClInclude Include="..\..\..\src\engine\common.h" />
-    <ClInclude Include="..\..\..\src\engine\concurrency\nwconcurrency.hpp" />
-    <ClInclude Include="..\..\..\src\engine\maintenance\nwdebug.h" />
-    <ClInclude Include="..\..\..\src\engine\maintenance\nwexception.hpp" />
-    <ClInclude Include="..\..\..\src\engine\maintenance\nwlogger.hpp" />
-    <ClInclude Include="..\..\..\src\engine\nwjson\json.hpp" />
-    <ClInclude Include="..\..\..\src\engine\nwjson\nwjson.h" />
-    <ClInclude Include="..\..\..\src\engine\nwmath\nwmatrix.h" />
-    <ClInclude Include="..\..\..\src\engine\nwmath\nwvector.h" />
-    <ClInclude Include="..\..\..\src\engine\nwphysics\nwaabb.h" />
-    <ClInclude Include="..\..\..\src\engine\nwstdlib\nwconcepts.hpp" />
-    <ClInclude Include="..\..\..\src\engine\nwstdlib\nwconsole.hpp" />
-    <ClInclude Include="..\..\..\src\engine\nwstdlib\nwfilesys.h" />
-    <ClInclude Include="..\..\..\src\engine\nwstdlib\nwlibrary.h" />
-    <ClInclude Include="..\..\..\src\engine\nwstdlib\nwratemeter.h" />
-    <ClInclude Include="..\..\..\src\engine\nwstdlib\nwstddef.h" />
-    <ClInclude Include="..\..\..\src\engine\nwstdlib\nwstrings.h" />
-    <ClInclude Include="..\..\..\src\game\api\nwapi.h" />
-    <ClInclude Include="..\..\..\src\game\api\nwpluginapi.h" />
-    <ClInclude Include="..\..\..\src\game\context\nwcontext.hpp" />
-    <ClInclude Include="..\..\..\src\game\flatfactory.h" />
-    <ClInclude Include="..\..\..\src\game\network\clientgameconnection.h" />
-    <ClInclude Include="..\..\..\src\game\network\connection.h" />
-    <ClInclude Include="..\..\..\src\game\network\gameconnection.h" />
-    <ClInclude Include="..\..\..\src\game\network\network.h" />
-    <ClInclude Include="..\..\..\src\game\network\networkmanager.h" />
-    <ClInclude Include="..\..\..\src\game\plugin\plugin.h" />
-    <ClInclude Include="..\..\..\src\game\plugin\pluginmanager.h" />
-    <ClInclude Include="..\..\..\src\game\renderer\blockrenderer.h" />
-    <ClInclude Include="..\..\..\src\game\renderer\chunkrenderer.h" />
-    <ClInclude Include="..\..\..\src\game\renderer\opengl.h" />
-    <ClInclude Include="..\..\..\src\game\renderer\renderer.h" />
-    <ClInclude Include="..\..\..\src\game\renderer\texture.h" />
-    <ClInclude Include="..\..\..\src\game\renderer\vertexarray.h" />
-    <ClInclude Include="..\..\..\src\game\server.h" />
-    <ClInclude Include="..\..\..\src\game\world\nwblock.h" />
-    <ClInclude Include="..\..\..\src\game\world\nwchunk.h" />
-    <ClInclude Include="..\..\..\src\game\world\nwplayer.hpp" />
-    <ClInclude Include="..\..\..\src\game\world\object.h" />
-    <ClInclude Include="..\..\..\src\game\world\playerobject.h" />
-    <ClInclude Include="..\..\..\src\game\world\world.h" />
-    <ClInclude Include="..\..\..\src\game\world\worldclient.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\client\gamescene.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\client\imguihelper.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\client\imgui\imconfig.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\client\imgui\imgui.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\client\imgui\imgui_internal.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\client\imgui\stb_rect_pack.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\client\imgui\stb_textedit.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\client\imgui\stb_truetype.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\client\neworld.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\client\player.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\client\widget.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\client\widgetmanager.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\client\window.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\engine\common.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\engine\concurrency\nwconcurrency.hpp" />
+    <ClInclude Include="..\..\..\Src\Old Code\engine\maintenance\nwdebug.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\engine\maintenance\nwexception.hpp" />
+    <ClInclude Include="..\..\..\Src\Old Code\engine\maintenance\nwlogger.hpp" />
+    <ClInclude Include="..\..\..\Src\Old Code\engine\nwjson\json.hpp" />
+    <ClInclude Include="..\..\..\Src\Old Code\engine\nwjson\nwjson.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\engine\nwmath\nwmatrix.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\engine\nwmath\nwvector.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\engine\nwphysics\nwaabb.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\engine\nwstdlib\nwconcepts.hpp" />
+    <ClInclude Include="..\..\..\Src\Old Code\engine\nwstdlib\nwconsole.hpp" />
+    <ClInclude Include="..\..\..\Src\Old Code\engine\nwstdlib\nwfilesys.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\engine\nwstdlib\nwlibrary.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\engine\nwstdlib\nwratemeter.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\engine\nwstdlib\nwstddef.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\engine\nwstdlib\nwstrings.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\game\api\nwapi.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\game\api\nwpluginapi.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\game\context\nwcontext.hpp" />
+    <ClInclude Include="..\..\..\Src\Old Code\game\flatfactory.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\game\network\clientgameconnection.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\game\network\connection.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\game\network\gameconnection.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\game\network\network.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\game\network\networkmanager.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\game\plugin\plugin.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\game\plugin\pluginmanager.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\game\renderer\blockrenderer.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\game\renderer\chunkrenderer.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\game\renderer\opengl.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\game\renderer\renderer.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\game\renderer\texture.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\game\renderer\vertexarray.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\game\server.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\game\world\nwblock.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\game\world\nwchunk.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\game\world\nwplayer.hpp" />
+    <ClInclude Include="..\..\..\Src\Old Code\game\world\object.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\game\world\playerobject.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\game\world\world.h" />
+    <ClInclude Include="..\..\..\Src\Old Code\game\world\worldclient.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F282B14E-B2E5-4C63-840C-CC653C6F5FA3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nwcore</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.10240.0</WindowsTargetPlatformVersion>
     <ProjectName>nwcore</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -151,7 +148,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -204,8 +201,8 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)..\..\release\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <IncludePath>$(ProjectDir)..\..\..\dependencies\include;$(ProjectDir)..\..\..\src\;$(ProjectDir)..\..\..\src\game;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)..\..\..\dependencies\lib_x64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <IncludePath>$(ProjectDir)..\..\..\Build\dependencies\include;$(ProjectDir)..\..\..\src\;$(ProjectDir)..\..\..\Src\Old Code\game;$(ProjectDir)..\..\..\src\;$(ProjectDir)..\..\..\Src\Old Code;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)..\..\..\Build\dependencies\lib_x64;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -259,20 +256,22 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>NOMINMAX;NWCOREEXPORTS;NWCompartmentLoggerPrefix="nwcore";_DEBUG;_WINDOWS;_USRDLL;NWCORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;NWCOREEXPORTS;NWCompartmentLoggerPrefix="nwcore";_DEBUG;_WINDOWS;_USRDLL;NWCORE_EXPORTS;%(PreprocessorDefinitions);_AFXEXT</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ImportLibrary>$(SolutionDir)bin\$(Platform)\$(Configuration)\$(TargetName).lib</ImportLibrary>
       <AdditionalDependencies>ws2_32.lib;glew32.lib;opengl32.lib;freetype2.lib;SDL2.lib;SDL2_image.lib;RakNetLibStaticd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
