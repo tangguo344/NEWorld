@@ -22,7 +22,7 @@
 #include <raknet/RakPeerInterface.h>
 #include <thread>
 #include <mutex>
-#include "../protocol/gen/protocol.h"
+#include "../../protocol/gen/protocol.h"
 #include <future>
 #include <climits>
 #include <engine/common.h>

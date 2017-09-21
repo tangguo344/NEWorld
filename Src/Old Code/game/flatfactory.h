@@ -1,7 +1,7 @@
 #ifndef FLATFACTORY_H
 #define FLATFACTORY_H
 
-#include "../protocol/gen/protocol.h"
+#include "../../protocol/gen/protocol.h"
 #include <engine/common.h>
 
 namespace FlatFactory

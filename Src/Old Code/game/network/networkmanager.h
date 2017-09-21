@@ -27,7 +27,7 @@
 #include <raknet/BitStream.h>
 #include <raknet/RakPeerInterface.h>
 #include <raknet/MessageIdentifiers.h>
-#include "../protocol/gen/protocol.h"
+#include "../../protocol/gen/protocol.h"
 
 class ServerGameConnection;
 
