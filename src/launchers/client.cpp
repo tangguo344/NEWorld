@@ -27,24 +27,7 @@ int main(int argc, char** argv)
 {
     getSettings();
     Logger::addFileSink("./log/", "launcher");
-    std::string file;
-
-    std::string in;
-    if (argc == 1)
-    {
-        infostream << "NEWorld Minimal Launcher";
-        infostream << "Enter 'client' to run client";
-        infostream << "Enter 'server' to run server";
-        std::cin >> in;
-
-        // Clear cin buffer
-        std::cin.ignore(INT_MAX, '\n');
-    }
-    else
-    {
-        in = argv[1];
-    }
-
+    std::string file = argc == 1 ? "nwcore.dll" : argv[1];
     debugstream << "Load:" << file;
-    Library("nwcore.dll").get<MainFunction>(in == "server" ? "smain" : "cmain")(argc, argv);
+    Library(file).get<MainFunction>("cmain")(argc, argv);
 }
